@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace ESFA.DC.LARS.API
+namespace ESFA.DC.LARS.Web
 {
     public class Program
     {
