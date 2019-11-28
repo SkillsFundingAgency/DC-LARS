@@ -67,7 +67,7 @@ steps:
   inputs:
     command: 'test'
     projects: |
-         **\*Test*.dll
+        **\*Test*.dll
         !**\*Smoke*.dll
         !**\*TestAdapter.dll
         !**\obj\**
