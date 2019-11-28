@@ -16,9 +16,9 @@
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
-    <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="RestSharp" Version="106.6.10" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,7 +27,13 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\assets\minified\govuk\" />
+    <Folder Include="wwwroot\assets\dist\govuk\js\" />
+    <Folder Include="wwwroot\assets\dist\minified\govuk\" />
   </ItemGroup>
+
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="xcopy /Y /S &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\assets\*.*&quot; &quot;$(ProjectDir)wwwroot\assets\dist\govuk\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\all.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\govuk\js\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\html5shiv\dist\html5shiv.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;" />
+  </Target>
 
 </Project>

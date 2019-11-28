@@ -2,6 +2,81 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="app-masthead">
+            <span class="govuk-heading-l white-text">Search for a qualification</span>
+            <p class="govuk-body white-text">Search by <strong>name, reference number</strong> or <strong>awarding body</strong></p>
+            <form id="changeUrl" class="govuk-form-group" action="all-results-func">
+                <div id="tt-overlay" class="autocomplete-wrapper">
+                    <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                        <div aria-atomic="true" aria-live="polite" role="status" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
+                            No search results.<span>,,</span>
+                        </div>
+                        <input aria-owns="autocomplete-overlay__listbox" autocomplete="off" class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="input-autocomplete" placeholder="e.g maths or 40010740" type="text" role="textbox">
+                        <ul class="autocomplete__menu autocomplete__menu--overlay autocomplete__menu--hidden" id="autocomplete-overlay__listbox" role="listbox"></ul>
+                    </div>
+                </div>
+                <button id="searchProviders" type="search" class="govuk-button">
+                    <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
+                </button>
+            </form>
+
+            <div class="flex space-between">
+                <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-1">
+                    <label class="govuk-label white-text" for="width-10">
+                        Awarding body
+                    </label>
+                    <input class="govuk-input govuk-input--width-10" id="width-10" name="width-10" type="text">
+
+                </div>
+
+                <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-1">
+                    <label class="govuk-label white-text" for="sort">
+                        Level
+                    </label>
+                    <select class="govuk-select" id="sort" name="sort">
+
+                        <option value="updated" selected>Level 1</option>
+                        <option value="updated">Level 1/2</option>
+                        <option value="updated">Level 2</option>
+                        <option value="updated">Level 3</option>
+                        <option value="updated">Level 4</option>
+                        <option value="updated">Level 5</option>
+                        <option value="updated">Level 6</option>
+                        <option value="updated">Level 7</option>
+                        <option value="updated">Level 8</option>
+                        <option value="updated">Entry level</option>
+                        <option value="updated">Higher level</option>
+                        <option value="updated">Mixed level</option>
+                        <option value="updated">Not known</option>
+                        <option value="updated">Level 2</option>
+
+
+                    </select>
+                </div>
+
+                <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-1">
+                    <label class="govuk-label white-text" for="sort">
+                        Teaching year
+                    </label>
+                    <select class="govuk-select" id="sort" name="sort">
+
+                        <option value="updated" selected>View all</option>
+                        <option value="updated">Valid for current year</option>
+                        <option value="updated">All 2019 to 2020</option>
+                        <option value="updated">2018 to 2019</option>
+                        <option value="updated">2017 to 2018</option>
+                        <option value="updated">2016 to 2017</option>
+
+
+
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+    </div>
 </div>
