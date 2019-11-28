@@ -31,9 +31,8 @@
     }
   },
   {
-    "outputFileName": "wwwroot/assets/dist/minified/site.min.js",
+    "outputFileName": "wwwroot/assets/dist/minified/site-all.min.js",
     "inputFiles": [
-      "wwwroot/assets/js/ie.js",
       "wwwroot/assets/js/site.js"
     ],
     "minify": {
