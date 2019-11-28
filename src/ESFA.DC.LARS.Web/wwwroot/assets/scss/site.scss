@@ -1,7 +1,7 @@
 ﻿@import "node_modules/govuk-frontend/govuk/all.scss";
 
 .white-text {
-    color: go;
+    color: govuk-colour("white");
 }
 
 #resultList {
