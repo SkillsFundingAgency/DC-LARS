@@ -1,0 +1,82 @@
+name: $(GitVersion_NuGetVersion)
+
+resources:
+- repo: self
+  fetchDepth: 30
+
+variables:
+  BuildConfiguration: 'Release'
+  BuildPlatform: 'Any CPU'
+
+steps:
+- task: gittools.gitversion.gitversion-task.GitVersion@4
+  displayName: GitVersion
+  inputs:
+    updateAssemblyInfo: true
+    preferBundledVersion: false
+
+- task: DotNetCoreInstaller@2
+  displayName: 'Use .NET Core sdk 2.2.7 (VS2019 = 2.2.207)'
+  inputs:
+    version: 2.2.207
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'src\ESFA.DC.LARS.Web'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
+    vstsFeed: 'dct-pkg'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    configuration: $(BuildConfiguration) 
+    arguments: '-p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Package Api Artifact Folder'
+  inputs:
+    command: publish
+    configuration: $(BuildConfiguration) 
+    publishWebProjects: false
+    zipAfterPublish: true
+    nobuild: true
+    projects: '**/ESFA.DC.Job.WebApi.csproj'
+    arguments: '--output "$(build.artifactstagingdirectory)\Web\API"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
+    vstsFeed: 'dct-pkg'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Package UI Artifact Folder'
+  inputs:
+    command: publish
+    configuration: $(BuildConfiguration) 
+    publishWebProjects: false
+    zipAfterPublish: true
+    nobuild: true
+    projects: '**/ESFA.DC.Job.WebApi.csproj'
+    arguments: '--output "$(build.artifactstagingdirectory)\Web\UI"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
+    vstsFeed: 'dct-pkg'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: |
+         **\*Test*.dll
+        !**\*Smoke*.dll
+        !**\*TestAdapter.dll
+        !**\obj\**
+        !**\*AcceptanceTests.dll
+    testRunTitle: '--collect "Code coverage"'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: Web'
+  enabled: true
+  inputs:
+    ArtifactName: Web
+    PathtoPublish: '$(build.artifactstagingdirectory)\Web'
