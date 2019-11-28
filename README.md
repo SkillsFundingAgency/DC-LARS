@@ -1,22 +1,8 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+##Prerequisits
+Install latest version of nodejs from https://nodejs.org/en/download/
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+##Download npm version 
+Need to run npm install from command prompt in web project folder (eg src/ESFA.DC.LARS.Web), making sure that package.json and package-lock.json are in this folder, to get govuk node module for default styles and scripts
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
-
-Need to run npm install command to get govuk node module for default styles and scripts
+The currently installed version of GDS can be found in src/ESFA.DC.LARS.Web/package.json

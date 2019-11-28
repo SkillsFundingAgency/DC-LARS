@@ -1,1 +1,32 @@
-﻿
+﻿@import "node_modules/govuk-frontend/govuk/all.scss";
+
+.white-text {
+    color: go;
+}
+
+#resultList {
+
+    li {
+        margin-bottom: 50px;
+    }
+
+    .no-underline {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.colour-black {
+    color: black;
+}

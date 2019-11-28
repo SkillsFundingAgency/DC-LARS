@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.LARS.API.Tests", "E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.LARS.API", "ESFA.DC.LARS.API\ESFA.DC.LARS.API.csproj", "{4AE8578F-3C7E-48CF-9753-FEDB115D932C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.LARS.Web", "ESFA.DC.LARS.Web\ESFA.DC.LARS.Web.csproj", "{C09C6970-1922-45AC-B039-3C073B981C2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.LARS.Web", "ESFA.DC.LARS.Web\ESFA.DC.LARS.Web.csproj", "{C09C6970-1922-45AC-B039-3C073B981C2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C3662F2-E8D1-48C2-AFFB-4D64BA0F8092}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.gitignore = ..\..\.gitignore
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
