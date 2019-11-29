@@ -10,15 +10,22 @@ variables:
 
 steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@4
-  displayName: GitVersion
   inputs:
     updateAssemblyInfo: true
     preferBundledVersion: false
+  displayName: GitVersion
 
 - task: DotNetCoreInstaller@2
-  displayName: 'Use .NET Core sdk 2.2.7 (VS2019 = 2.2.207)'
   inputs:
     version: 2.2.207
+  displayName: 'Use .NET Core sdk 2.2.7 (VS2019 = 2.2.207)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install --tool-path . dotnet-reportgenerator-globaltool
+  displayName: Install ReportGenerator tool
 
 - task: Npm@1
   displayName: 'NPM Install'
@@ -67,7 +74,7 @@ steps:
     vstsFeed: 'dct-pkg'
 
 - task: DotNetCoreCLI@2
-  enabled: true
+  enabled: false
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
@@ -75,6 +82,17 @@ steps:
     projects: |
         **/*Tests/*.csproj
         !**/*AcceptanceTests/*.csproj
+
+- task: DotNetCoreCLI@2
+  enabled: false
+  displayName: 'Run xUnit Test'
+  inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+    projects: |
+        **/*Tests/*.csproj
+        !**/*AcceptanceTests/*.csproj
+
 
 - script: dotnet reportgenerator "-reports:$(Build.SourcesDirectory)/TestResults/Coverage/coverage.cobertura.xml" "-targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports" -tag:$(Build.BuildNumber) -reportTypes:htmlInline
   workingDirectory: $(Build.SourcesDirectory)
