@@ -64,10 +64,11 @@ steps:
     vstsFeed: 'dct-pkg'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
     projects: |
-        **\*Test*.dll
+        **\*Tests.dll
         !**\*Smoke*.dll
         !**\*TestAdapter.dll
         !**\obj\**
