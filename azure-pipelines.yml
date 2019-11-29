@@ -71,7 +71,7 @@ steps:
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
-    arguments: '--configuration $(buildConfiguration) --logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/'
+    arguments: '--configuration $(buildConfiguration) --logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
     projects: |
         **/*Tests/*.csproj
         !**/*AcceptanceTests/*.csproj
@@ -81,9 +81,16 @@ steps:
   displayName: 'Generate Code Coverage Report'
   
 - task: PublishTestResults@2
+  displayName: 'Publish test results'
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml  
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Web'
