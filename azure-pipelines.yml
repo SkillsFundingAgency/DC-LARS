@@ -71,11 +71,15 @@ steps:
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
     projects: |
-        **\*Tests.csproj
-        !**\*TestAdapter.csproj
-        !**\*AcceptanceTests.csproj
-    testRunTitle: '--collect "Code coverage"'
+        **/*Tests/*.csproj
+        !**/*AcceptanceTests/*.csproj
+        
+- task: PublishTestResults@2
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Web'
