@@ -20,11 +20,6 @@ steps:
   inputs:
     version: 2.2.207
 
-- task: VisualStudioTestPlatformInstaller@1
-  displayName: 'Visual Studio Test Platform Installer'
-  inputs:
-    versionSelector: latestStable
-    
 - task: Npm@1
   inputs:
     command: 'install'
@@ -68,31 +63,15 @@ steps:
     arguments: '--output "$(build.artifactstagingdirectory)\Web\UI"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
     vstsFeed: 'dct-pkg'
 
-- task: VSTest@2
-  enabled: true
-  displayName: 'Run xUnit Tests - .net Framework'
-  inputs:
-    testSelector: 'testAssemblies'
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'    
-    codeCoverageEnabled: true # Optional
-    testAssemblyVer2: |
-     **\*Tests.dll
-     !**\*TestAdapter.dll
-     !**\obj\**
-    filter: (FullyQualifiedName!~Database)
-
 - task: DotNetCoreCLI@2
-  enabled: false
+  enabled: true
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
     projects: |
-        **\*Tests.dll
-        !**\*Smoke*.dll
-        !**\*TestAdapter.dll
-        !**\obj\**
-        !**\*AcceptanceTests.dll
+        **\*Tests.csproj
+        !**\*TestAdapter.csproj
+        !**\*AcceptanceTests.csproj
     testRunTitle: '--collect "Code coverage"'
 
 - task: PublishBuildArtifacts@1
