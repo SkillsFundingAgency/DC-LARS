@@ -71,7 +71,7 @@ steps:
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
-    arguments: '--configuration $(buildConfiguration)  --collect "Code coverage" --logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/'
+    arguments: '--configuration $(buildConfiguration) --logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
     projects: |
         **/*Tests/*.csproj
         !**/*AcceptanceTests/*.csproj
