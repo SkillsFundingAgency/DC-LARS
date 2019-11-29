@@ -20,13 +20,6 @@ steps:
     version: 2.2.207
   displayName: 'Use .NET Core sdk 2.2.7 (VS2019 = 2.2.207)'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: custom
-    custom: tool
-    arguments: install --tool-path . dotnet-reportgenerator-globaltool
-  displayName: Install ReportGenerator tool
-
 - task: Npm@1
   displayName: 'NPM Install'
   inputs:
@@ -78,24 +71,13 @@ steps:
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
-    arguments: '--configuration $(buildConfiguration) --logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: '--configuration $(buildConfiguration)  --collect "Code coverage" --logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/'
     projects: |
         **/*Tests/*.csproj
         !**/*AcceptanceTests/*.csproj
-
-- task: DotNetCoreCLI@2
-  enabled: false
-  displayName: 'Run xUnit Test'
-  inputs:
-    command: 'test'
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
-    projects: |
-        **/*Tests/*.csproj
-        !**/*AcceptanceTests/*.csproj
-
-
+        
 - script: dotnet reportgenerator "-reports:$(Build.SourcesDirectory)/TestResults/Coverage/coverage.cobertura.xml" "-targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports" -tag:$(Build.BuildNumber) -reportTypes:htmlInline
-  workingDirectory: $(Build.SourcesDirectory)
+  workingDirectory: $(Build.SourcesDirectory)/Web.Tests
   displayName: 'Generate Code Coverage Report'
   
 - task: PublishTestResults@2
@@ -105,10 +87,11 @@ steps:
     testResultsFiles: '**/*.trx'
 
 - task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage'
   inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: $(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml  
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: $(Build.SourcesDirectory)/TestResults/Coverage/**/coverage.cobertura.xml
+    reportDirectory: $(Build.SourcesDirectory)/TestResults/Coverage/Reports
+    failIfCoverageEmpty: false 
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Web'
