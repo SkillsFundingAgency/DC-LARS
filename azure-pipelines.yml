@@ -50,9 +50,8 @@ steps:
     command: test
     arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
     nobuild: true
-     projects: |
-        **/*Tests/*.csproj
-        !**/*AcceptanceTests/*.csproj
+    projects: '**/*.csproj'
+
 
 ## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
 # First install the tool on the machine, then run it
