@@ -71,11 +71,15 @@ steps:
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+    arguments: '--configuration $(buildConfiguration) -logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/'
     projects: |
         **/*Tests/*.csproj
         !**/*AcceptanceTests/*.csproj
-        
+
+- script: dotnet reportgenerator "-reports:$(Build.SourcesDirectory)/TestResults/Coverage/coverage.cobertura.xml" "-targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports" -tag:$(Build.BuildNumber) -reportTypes:htmlInline
+  workingDirectory: $(Build.SourcesDirectory)
+  displayName: 'Generate Code Coverage Report'
+  
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
