@@ -67,7 +67,7 @@ steps:
     vstsFeed: 'dct-pkg'
 
 - task: DotNetCoreCLI@2
-  enabled: false
+  enabled: true
   displayName: 'Run xUnit Test'
   inputs:
     command: 'test'
