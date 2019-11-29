@@ -21,11 +21,13 @@ steps:
     version: 2.2.207
 
 - task: Npm@1
+  displayName: 'NPM Install'
   inputs:
     command: 'install'
     workingDir: 'src\ESFA.DC.LARS.Web'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore Nuget packages'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
@@ -33,6 +35,7 @@ steps:
     vstsFeed: 'dct-pkg'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Build Solution'
   inputs:
     command: 'build'
     projects: '**/*.csproj'
