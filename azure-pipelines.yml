@@ -49,79 +49,12 @@ steps:
   inputs:
     command: test
     arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    projects: 'tests/**/*.csproj'
     nobuild: true
-
-- task: DotNetCoreCLI@2
-  enabled: false
-  displayName: 'Run xUnit Test'
-  inputs:
-    command: 'test'
-    arguments: '--configuration $(buildConfiguration) --logger "trx;LogFileName=testresults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    projects: |
+     projects: |
         **/*Tests/*.csproj
         !**/*AcceptanceTests/*.csproj
 
- 
-Computing code coverage for a .NET Core project with Azure DevOps and Coverlet
- 02/18/2019 Gérald Barré .NETTools
-Creating automated tests is important to be sure your application behaves as it should. The more tests you write, the more use cases are covered. Sometimes it can be hard to know which parts of the application are well tested, and which ones are not. That's why code coverage is interesting. It can be a useful measure to detect potential risk areas in the application (i.e. the most complex methods with the least coverage). Let's see how you can do that easily with .NET Core and Azure DevOps.
-
-First, you need to compute the code coverage when you run the tests. There are multiple solutions, some are free such as coverlet, some are paid such as dotCover. In this post, I'll use coverlet. First, you need to install the NuGet package coverlet.msbuild. This package integrated directly with dotnet test as we'll see later.
-
-<Project Sdk="Microsoft.NET.Sdk">
-
-  ...
-
-  <ItemGroup>
-    <PackageReference Include="coverlet.msbuild" Version="2.5.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  ...
-
-</Project>
-You can test that everything works great by running the command dotnet test /p:CollectCoverage=true. After the test run, a json file should be created next to the csproj file. Azure DevOps doesn't support this file, but coverlet can output the result file in many standard formats. So, you can use the cobertura format which is supported by Azure DevOps.
-
-dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
-After running the command for each test project, you get one code coverage file per project. These files are not very convenient to read. Let's generate a cool UI using ReportGenerator. This free tool allows you to generate a website to navigate into the files and see the lines actually covered by the tests. You can install as a .NET global tool:
-
-dotnet tool install -g dotnet-reportgenerator-globaltool
-reportgenerator -reports:tests/**/coverage.cobertura.xml -targetdir:Report -reporttypes:HtmlInline_AzurePipelines;Cobertura
-You now have a website that displays the code coverage in a convenient way. Note that there are multiple output formats. Here I use HtmlInline_AzurePipelines because at the end we would like to view this web site directly in Azure Pipelines, so it seems to be the best output for that.
-
-Now let's integrate the tests and the code coverage on the build system (Azure Pipeline). Here's the yaml file that describes the build steps:
-
-variables:
-  buildConfiguration: Release
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-
-steps:
-# Install the latest version of the dotnet sdk
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 2.2.103'
-  inputs:
-    version: 2.2.103
-
-# build all projects
-- task: DotNetCoreCLI@2
-  displayName: dotnet build
-  inputs:
-    projects: 'src/**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-
-# Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
-- task: DotNetCoreCLI@2
-  displayName: dotnet test
-  inputs:
-    command: test
-    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    projects: 'tests/**/*.csproj'
-    nobuild: true
-
-# Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
 # First install the tool on the machine, then run it
 - script: |
     dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -138,8 +71,6 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
-
-
 
 - task: DotNetCoreCLI@2
   displayName: 'Package Api Artifact Folder'
