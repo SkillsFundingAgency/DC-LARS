@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>69b81145-2c51-49b4-bd4b-900e7b1c2da7</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/12f72527-6622-45d3-90a4-0a5d3644c45c/resourcegroups/XX-JC-ServiceBus-WEU/providers/microsoft.insights/components/ESFA.DC.LARS.Web</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -17,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
@@ -32,6 +35,11 @@
     <Folder Include="wwwroot\assets\dist\govuk\js\" />
     <Folder Include="wwwroot\assets\dist\minified\govuk\" />
     <Folder Include="wwwroot\assets\dist\css\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 
