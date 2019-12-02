@@ -11,4 +11,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Modules\ESFA.DC.LARS.API.Modules.csproj" />
+  </ItemGroup>
+
 </Project>
