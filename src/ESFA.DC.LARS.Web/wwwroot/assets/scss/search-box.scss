@@ -1,8 +1,10 @@
-﻿.app-masthead {
+﻿@import "node_modules/govuk-frontend/govuk/all.scss";
+
+.app-masthead {
     padding: 20px;
     // padding-top: 40px;
-    color: white;
-    background-color: #1d70b8;
+    color: govuk-colour("white");
+    background-color: govuk-colour("blue");
     margin-bottom: 30px;
 
     .govuk-input {
@@ -13,11 +15,10 @@
         display: flex;
         margin-bottom: 0;
 
-
         .govuk-button {
             height: 41px;
             width: 40px;
-            background-color: black;
+            background-color: govuk-colour("black");
             display: block;
             background-repeat: no-repeat;
             margin-bottom: 0;
@@ -33,11 +34,33 @@
     }
 
     a {
-        color: white;
+        color: govuk-colour("white");
         font-weight: 600;
         margin-top: 10px;
         display: block;
         text-align: right;
+    }
+
+    @include govuk-media-query($from: mobile) {
+
+        #tt-overlay {
+            background-color: white;
+            width: 100%;
+            // font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+            font-family: "nta", Arial, sans-serif;
+        }
+
+        .autocomplete__input--default {
+            padding: 10px;
+            border: 0;
+        }
+    }
+
+    @include govuk-media-query($from: tablet) {
+
+        .autocomplete__input--default {
+            padding: 8px;
+        }
     }
 }
 
@@ -47,15 +70,13 @@
         display: flex;
         margin-bottom: 0;
 
-
         .govuk-button {
             height: 40px;
             width: 40px;
-            background-color: black;
+            background-color: govuk-colour("black");
             display: block;
             background-repeat: no-repeat;
             margin-bottom: 0;
-
 
             img {
                 position: absolute;
@@ -67,25 +88,38 @@
     }
 
     a {
-        color: white;
+        color: govuk-colour("white");
         font-weight: 600;
         margin-top: 10px;
         display: block;
         text-align: right;
     }
-}
 
-#tt-overlay {
-    background-color: white;
-    width: 100%;
-    font-family: "nta", Arial, sans-serif;
+    @include govuk-media-query($from: mobile) {
+
+        #tt-overlay {
+            background-color: white;
+            width: 100%;
+            // font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+            font-family: "nta", Arial, sans-serif;
+        }
+
+        .autocomplete__input--default {
+            padding: 9px;
+            height: 42px;
+        }
+    }
+
+    @include govuk-media-query($from: tablet) {
+
+        .autocomplete__input--default {
+            padding: 6px;
+        }
+    }
 }
 
 .autocomplete__wrapper {
     position: relative;
-    background-color: white;
-    width: 100%;
-    font-family: "nta", Arial, sans-serif;
 }
 
 .autocomplete__hint, .autocomplete__input {
@@ -110,8 +144,7 @@
 }
 
 .autocomplete__input--default {
-    padding: 8px;
-    border: 0;
+    padding: 4px;
 }
 
 .autocomplete__input--focused {
