@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.Web.Modules;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -75,6 +76,9 @@ namespace ESFA.DC.LARS.Web
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.Populate(services);
+
+            containerBuilder.RegisterModule<WebServicesModule>();
+
             _applicationContainer = containerBuilder.Build();
 
             return new AutofacServiceProvider(_applicationContainer);
