@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.Web.Services\ESFA.DC.LARS.Web.Services.csproj" />
+  </ItemGroup>
+
 </Project>

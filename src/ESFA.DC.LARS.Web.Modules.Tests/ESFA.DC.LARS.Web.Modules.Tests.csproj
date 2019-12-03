@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.Web.Interfaces\ESFA.DC.LARS.Web.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

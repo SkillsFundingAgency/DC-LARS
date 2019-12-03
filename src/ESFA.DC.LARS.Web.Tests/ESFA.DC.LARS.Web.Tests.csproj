@@ -32,5 +32,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+ 
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.Web\ESFA.DC.LARS.Web.csproj" />
+  </ItemGroup>
 
 </Project>
