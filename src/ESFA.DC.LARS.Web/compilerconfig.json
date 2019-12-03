@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "wwwroot/assets/dist/css/site.css",
+    "inputFile": "wwwroot/assets/scss/site.scss",
+    "minify": { "enabled": false },
+    "options": { "sourceMap": true }
+  },
+  {
+    "outputFile": "wwwroot/assets/dist/css/search-box.css",
+    "inputFile": "wwwroot/assets/scss/search-box.scss",
+    "minify": { "enabled": false },
+    "options": { "sourceMap": true }
+  }
+]

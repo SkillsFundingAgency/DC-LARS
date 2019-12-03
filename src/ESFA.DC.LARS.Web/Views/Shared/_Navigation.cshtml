@@ -1,0 +1,7 @@
+﻿@{
+    var requestPath = Context.Request.Path;
+}
+
+<div class="main-nav">
+    <a id="1" class="govuk-heading-s @(requestPath.Value.EndsWith("/home") ? "active" : string.Empty)" href="/home">Home</a>
+</div>
