@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,13 +7,16 @@ namespace ESFA.DC.LARS.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ITelemetryWrapper _telemetryClient;
+
+        public HomeController(ITelemetryWrapper telemetryClient)
         {
-            return View();
+            _telemetryClient = telemetryClient;
         }
 
-        public IActionResult Privacy()
+        public IActionResult Index()
         {
+            _telemetryClient.TrackEvent("In home controller");
             return View();
         }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.Web.Modules;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +34,17 @@ namespace ESFA.DC.LARS.Web
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var insightOptions = new ApplicationInsightsServiceOptions
+            {
+                // Disables adaptive sampling.
+                EnableAdaptiveSampling = false,
+
+                // Disables QuickPulse (Live Metrics stream).
+                EnableQuickPulseMetricStream = false
+            };
+            services.AddApplicationInsightsTelemetry(insightOptions);
+
             return ConfigureAutofac(services);
         }
 
@@ -63,6 +76,9 @@ namespace ESFA.DC.LARS.Web
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.Populate(services);
+
+            containerBuilder.RegisterModule<WebServicesModule>();
+
             _applicationContainer = containerBuilder.Build();
 
             return new AutofacServiceProvider(_applicationContainer);
