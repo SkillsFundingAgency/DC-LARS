@@ -1,4 +1,4 @@
-﻿using Xunit;using Xunit;
+﻿using Xunit;
 
 namespace ESFA.DC.LARS.API.Tests
 {
