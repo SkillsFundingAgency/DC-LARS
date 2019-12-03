@@ -1,4 +1,4 @@
-name: $(GitVersion_NuGetVersion)
+name:  $(GitVersion.NuGetVersion)
 
 resources:
 - repo: self
@@ -49,7 +49,7 @@ steps:
     command: 'build'
     projects: '**/*.csproj'
     configuration: $(BuildConfiguration) 
-    arguments: '-p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
+    arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
 
 
 # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
