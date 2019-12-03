@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
@@ -32,6 +33,16 @@
     <Folder Include="wwwroot\assets\dist\govuk\js\" />
     <Folder Include="wwwroot\assets\dist\minified\govuk\" />
     <Folder Include="wwwroot\assets\dist\css\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.Web.Modules\ESFA.DC.LARS.Web.Modules.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 
