@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Interfaces\ESFA.DC.LARS.API.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Models\ESFA.DC.LARS.API.Models.csproj" />
+  </ItemGroup>
+
 </Project>

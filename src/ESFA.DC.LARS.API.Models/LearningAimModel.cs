@@ -4,6 +4,8 @@ namespace ESFA.DC.LARS.API.Models
 {
     public class LearningAimModel
     {
+        public string LearnAimRef { get; set; }
+
         public string LearningAimTitle { get; set; }
 
         public string Level { get; set; }
