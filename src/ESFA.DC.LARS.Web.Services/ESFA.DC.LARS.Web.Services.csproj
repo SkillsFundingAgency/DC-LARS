@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.LARS.Web.Interfaces\ESFA.DC.LARS.Web.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.Web.Models\ESFA.DC.LARS.Web.Models.csproj" />
   </ItemGroup>
 
 </Project>

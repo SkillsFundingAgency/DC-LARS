@@ -19,4 +19,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.Web.Models\ESFA.DC.LARS.Web.Models.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Net.Http;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Modules;
+using ESFA.DC.LARS.Web.Services.Clients;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace ESFA.DC.LARS.Web
 {
@@ -45,6 +50,10 @@ namespace ESFA.DC.LARS.Web
             };
             services.AddApplicationInsightsTelemetry(insightOptions);
 
+            services.AddHttpClient<IClientService, ClientService>()
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // Set lifetime to five minutes
+                .AddPolicyHandler(GetRetryPolicy());
+
             return ConfigureAutofac(services);
         }
 
@@ -75,13 +84,25 @@ namespace ESFA.DC.LARS.Web
         {
             var containerBuilder = new ContainerBuilder();
 
-            containerBuilder.Populate(services);
-
+            containerBuilder.RegisterModule<LoggingModule>();
             containerBuilder.RegisterModule<WebServicesModule>();
 
+            containerBuilder.Populate(services);
             _applicationContainer = containerBuilder.Build();
 
             return new AutofacServiceProvider(_applicationContainer);
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            var jitter = new Random();
+
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                .WaitAndRetryAsync(3, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                    + TimeSpan.FromMilliseconds(jitter.Next(0, 100)));
         }
     }
 }

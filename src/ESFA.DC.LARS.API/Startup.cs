@@ -1,9 +1,11 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.API.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -26,10 +28,24 @@ namespace ESFA.DC.LARS.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddApiVersioning(options =>
+            {
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
+                options.ReportApiVersions = true;
+            });
+
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Learning Aim Reference Service API", Version = "v1" });
             });
 
             return ConfigureAutofac(services);
@@ -47,7 +63,7 @@ namespace ESFA.DC.LARS.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learning Aim Reference Service API");
             });
 
             app.UseMvc();
@@ -58,6 +74,9 @@ namespace ESFA.DC.LARS.API
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.Populate(services);
+
+            containerBuilder.RegisterModule<ApiStubModule>();
+
             _applicationContainer = containerBuilder.Build();
 
             return new AutofacServiceProvider(_applicationContainer);
