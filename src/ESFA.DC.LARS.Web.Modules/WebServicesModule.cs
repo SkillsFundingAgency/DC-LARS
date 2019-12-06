@@ -1,6 +1,7 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using ESFA.DC.LARS.Web.Interfaces.Services;
-using ESFA.DC.LARS.Web.Services;
+using ESFA.DC.LARS.Web.Services.Clients;
 
 namespace ESFA.DC.LARS.Web.Modules
 {
@@ -8,7 +9,7 @@ namespace ESFA.DC.LARS.Web.Modules
     {
         protected override void Load(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<TelemetryWrapper>().As<ITelemetryWrapper>();
+            containerBuilder.RegisterType<LearningAimsApiService>().As<ILearningAimsApiService>();
         }
     }
 }

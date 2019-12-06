@@ -8,14 +8,19 @@ namespace ESFA.DC.LARS.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ITelemetryWrapper _telemetryClient;
+        private readonly ILearningAimsApiService _learningAimsApiService;
 
-        public HomeController(ITelemetryWrapper telemetryClient)
+        public HomeController(
+            ITelemetryWrapper telemetryClient,
+            ILearningAimsApiService learningAimsApiService)
         {
             _telemetryClient = telemetryClient;
+            _learningAimsApiService = learningAimsApiService;
         }
 
         public IActionResult Index()
         {
+            var learningAims = _learningAimsApiService.GetLearningAims(new SearchModel()).Result;
             _telemetryClient.TrackEvent("In home controller");
             return View();
         }
