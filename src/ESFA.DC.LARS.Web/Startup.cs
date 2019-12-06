@@ -2,6 +2,9 @@
 using System.Net.Http;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.Web.Configuration;
+using ESFA.DC.LARS.Web.Extensions;
+using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Modules;
 using ESFA.DC.LARS.Web.Services.Clients;
@@ -86,6 +89,10 @@ namespace ESFA.DC.LARS.Web
 
             containerBuilder.RegisterModule<LoggingModule>();
             containerBuilder.RegisterModule<WebServicesModule>();
+
+            containerBuilder.Register(c =>
+                    Configuration.GetConfigSection<ApiSettings>())
+                .As<IApiSettings>().SingleInstance();
 
             containerBuilder.Populate(services);
             _applicationContainer = containerBuilder.Build();

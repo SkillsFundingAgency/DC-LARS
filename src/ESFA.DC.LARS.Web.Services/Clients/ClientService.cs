@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using Newtonsoft.Json;
 
@@ -8,12 +9,14 @@ namespace ESFA.DC.LARS.Web.Services.Clients
 {
     public class ClientService : IClientService
     {
-        private const string BaseUrl = "http://localhost:4257/api/";
+        private readonly IApiSettings _settings;
         private readonly HttpClient _client;
 
         public ClientService(
+            IApiSettings settings,
             HttpClient client)
         {
+            _settings = settings;
             _client = client;
         }
 
@@ -22,7 +25,7 @@ namespace ESFA.DC.LARS.Web.Services.Clients
             var json = JsonConvert.SerializeObject(content);
             var contentString = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync($"{BaseUrl}{url}", contentString);
+            var response = await _client.PostAsync($"{_settings.BaseUrl}{url}", contentString);
 
             response.EnsureSuccessStatusCode();
             var aimsString = await response.Content.ReadAsStringAsync();
