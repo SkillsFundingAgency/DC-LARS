@@ -9,6 +9,7 @@ namespace ESFA.DC.LARS.Web.Modules
     {
         protected override void Load(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<ClientService>().As<IClientService>();
             containerBuilder.RegisterType<LearningAimsApiService>().As<ILearningAimsApiService>();
         }
     }
