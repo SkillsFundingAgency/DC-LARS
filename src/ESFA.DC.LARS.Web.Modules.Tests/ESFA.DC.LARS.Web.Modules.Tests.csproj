@@ -36,6 +36,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.LARS.Web.Interfaces\ESFA.DC.LARS.Web.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.LARS.Web.Modules\ESFA.DC.LARS.Web.Modules.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.Web\ESFA.DC.LARS.Web.csproj" />
   </ItemGroup>
 
 </Project>

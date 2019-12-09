@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using Autofac;
 using Autofac.Core;
-using Autofac.Extensions.DependencyInjection;
-using ESFA.DC.LARS.Web.Interfaces.Services;
-using ESFA.DC.LARS.Web.Services.Clients;
-using Microsoft.Extensions.DependencyInjection;
+using ESFA.DC.LARS.Web.Configuration;
+using ESFA.DC.LARS.Web.Interfaces;
 using Xunit;
 
 namespace ESFA.DC.LARS.Web.Modules.Tests
@@ -15,12 +13,9 @@ namespace ESFA.DC.LARS.Web.Modules.Tests
         public void TestRegistrations()
         {
             var containerBuilder = new ContainerBuilder();
+
+            containerBuilder.RegisterType<ApiSettings>().As<IApiSettings>();
             containerBuilder.RegisterModule<WebServicesModule>();
-
-            var services = new ServiceCollection();
-            services.AddHttpClient<IClientService, ClientService>();
-
-            containerBuilder.Populate(services);
 
             var container = containerBuilder.Build();
 
