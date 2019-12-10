@@ -4,11 +4,11 @@ using ESFA.DC.LARS.API.Services;
 
 namespace ESFA.DC.LARS.API.Modules
 {
-    public class ApiStubModule : Module
+    public class ApiModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<LearningAimServiceStub>().As<ILearningAimService>();
+            builder.RegisterType<LearningAimJsonService>().As<ILearningAimService>();
         }
     }
 }

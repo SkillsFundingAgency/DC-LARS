@@ -7,7 +7,6 @@ using ESFA.DC.ILR.ReferenceDataService.Model.LARS;
 using ESFA.DC.LARS.API.Models;
 using ESFA.DC.LARS.API.ReferenceData.Mappers;
 using ESFA.DC.Serialization.Interfaces;
-using ESFA.DC.Serialization.Json;
 using FluentAssertions;
 using Moq;
 using Xunit;
