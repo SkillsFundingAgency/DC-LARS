@@ -75,6 +75,7 @@ namespace ESFA.DC.LARS.API
 
             containerBuilder.Populate(services);
 
+            containerBuilder.RegisterModule<ReferenceDataModule>();
             containerBuilder.RegisterModule<ApiStubModule>();
 
             _applicationContainer = containerBuilder.Build();
