@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ESFA.DC.LARS.API.Interfaces;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Services;
 
 namespace ESFA.DC.LARS.API.Modules

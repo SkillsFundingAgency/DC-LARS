@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ESFA.DC.LARS.API.Interfaces;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using Microsoft.AspNetCore.Mvc;
 

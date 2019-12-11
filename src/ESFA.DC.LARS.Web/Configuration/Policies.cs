@@ -12,13 +12,15 @@ namespace ESFA.DC.LARS.Web.Configuration
 {
     public static class Policies
     {
+        private static int _timeOutInSeconds = 40;
+
         public static PolicyWrap<HttpResponseMessage> PolicyStrategy => Policy.WrapAsync(RetryPolicy, TimeoutPolicy);
 
         private static TimeoutPolicy<HttpResponseMessage> TimeoutPolicy
         {
             get
             {
-                return Policy.TimeoutAsync<HttpResponseMessage>(2, (context, timeSpan, task) =>
+                return Policy.TimeoutAsync<HttpResponseMessage>(_timeOutInSeconds, (context, timeSpan, task) =>
                 {
                     Debug.WriteLine($"[App|Policy]: Timeout delegate fired after {timeSpan.Seconds} seconds");
                     return Task.CompletedTask;
