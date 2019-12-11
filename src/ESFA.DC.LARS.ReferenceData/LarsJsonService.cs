@@ -17,15 +17,18 @@ namespace ESFA.DC.LARS.API.ReferenceData
         private readonly IFileService _fileService;
         private readonly IJsonSerializationService _jsonSerializationService;
         private readonly IMapper<LARSLearningDelivery, LearningAimModel> _mapper;
+        private readonly IPathProvider _pathProvider;
 
         public LarsJsonService(
             IFileService fileService,
             IJsonSerializationService jsonSerializationService,
-            IMapper<LARSLearningDelivery, LearningAimModel> mapper)
+            IMapper<LARSLearningDelivery, LearningAimModel> mapper,
+            IPathProvider pathProvider)
         {
             _fileService = fileService;
             _jsonSerializationService = jsonSerializationService;
             _mapper = mapper;
+            _pathProvider = pathProvider;
         }
 
         public async Task<IEnumerable<LearningAimModel>> GetLarsLearningDeliveriesFromJsonFile()
@@ -34,7 +37,7 @@ namespace ESFA.DC.LARS.API.ReferenceData
 
             try
             {
-                using (var stream = await _fileService.OpenReadStreamAsync(ReferenceDataConstants.LarsReferenceDataZipFile, null, CancellationToken.None))
+                using (var stream = await _fileService.OpenReadStreamAsync(_pathProvider.GetFileLocation(ReferenceDataConstants.LarsReferenceDataZipFile), null, CancellationToken.None))
                 {
                     using (var zip = new ZipArchive(stream, ZipArchiveMode.Read))
                     {

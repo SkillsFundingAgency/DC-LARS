@@ -21,6 +21,7 @@
     <PackageReference Include="ESFA.DC.FileService.Interface" Version="0.1.24-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.ReferenceDataService.Model" Version="0.1.89" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.6-beta0001" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,6 +30,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.LARS.API.Interfaces\ESFA.DC.LARS.API.Interfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReferenceData\LARSReferenceData.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

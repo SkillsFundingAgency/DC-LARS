@@ -8,16 +8,16 @@ namespace ESFA.DC.LARS.API.Services
 {
     public class LearningAimJsonService : ILearningAimService
     {
-        private readonly ILarsJsonService _larsJsonService;
+        private readonly ILarsCache _larsCache;
 
-        public LearningAimJsonService(ILarsJsonService larsJsonService)
+        public LearningAimJsonService(ILarsCache larsCache)
         {
-            _larsJsonService = larsJsonService;
+            _larsCache = larsCache;
         }
 
         public Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchParameters)
         {
-            return _larsJsonService.GetLarsLearningDeliveriesFromJsonFile();
+            return _larsCache.GetLearningAims(false);
         }
     }
 }
