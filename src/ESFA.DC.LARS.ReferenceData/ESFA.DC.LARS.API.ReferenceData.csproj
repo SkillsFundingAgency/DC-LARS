@@ -21,6 +21,7 @@
     <PackageReference Include="ESFA.DC.FileService.Interface" Version="0.1.24-beta0001" />
     <PackageReference Include="ESFA.DC.ILR.ReferenceDataService.Model" Version="0.1.89" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.Telemetry.Interfaces" Version="0.1.6-beta0001" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
