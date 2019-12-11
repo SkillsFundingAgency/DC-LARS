@@ -20,7 +20,7 @@ namespace ESFA.DC.LARS.API.Modules
 
             builder.RegisterType<PathProvider>().As<IPathProvider>();
             builder.RegisterType<LarsLearningAimMapper>().As<IMapper<LARSLearningDelivery, LearningAimModel>>();
-            builder.RegisterType<LarsJsonService>().As<ILarsJsonService>().SingleInstance();
+            builder.RegisterType<LarsJsonService>().As<ILarsJsonService>();
             builder.RegisterType<LarsCache>().As<ILarsCache>().SingleInstance();
         }
     }
