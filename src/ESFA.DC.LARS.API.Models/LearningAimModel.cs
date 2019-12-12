@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ESFA.DC.LARS.API.Models
 {
+    [ExcludeFromCodeCoverage]
     public class LearningAimModel
     {
         public string LearnAimRef { get; set; }

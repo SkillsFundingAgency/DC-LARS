@@ -6,6 +6,6 @@ namespace ESFA.DC.LARS.API.Interfaces.ReferenceData
 {
     public interface ILarsCache
     {
-        Task<IEnumerable<LearningAimModel>> GetLearningAims(bool isDirty);
+        Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchModel, bool isDirty);
     }
 }

@@ -1,5 +1,8 @@
-﻿namespace ESFA.DC.LARS.API.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ESFA.DC.LARS.API.Models
 {
+    [ExcludeFromCodeCoverage]
     public class SearchModel
     {
         public string SearchTerm { get; set; }

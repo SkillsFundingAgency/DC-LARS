@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ESFA.DC.LARS.API.Models.ReferenceData
 {
+    [ExcludeFromCodeCoverage]
     public class SearchFilterReferenceData
     {
         public List<string> AwardingBodies { get; set; }

@@ -6,6 +6,6 @@ namespace ESFA.DC.LARS.API.Interfaces.ReferenceData
 {
     public interface ILarsJsonService
     {
-        Task<IEnumerable<LearningAimModel>> GetLarsLearningDeliveriesFromJsonFile();
+        Task<IEnumerable<LearningAimModel>> GetLarsLearningDeliveriesFromJsonFile(SearchModel searchModel);
     }
 }

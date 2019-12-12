@@ -50,7 +50,7 @@ namespace ESFA.DC.LARS.API.ReferenceData.Tests
                     .Returns(path);
 
                 var sut = new LarsJsonService(fileServiceMock.Object, jsonSerializationServiceMock.Object, mapperMock.Object, pathProviderMock.Object);
-                result = await sut.GetLarsLearningDeliveriesFromJsonFile();
+                result = await sut.GetLarsLearningDeliveriesFromJsonFile(null);
             }
 
             result.Should().BeEquivalentTo(larsLearningDeliveries);
