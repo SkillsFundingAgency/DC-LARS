@@ -31,9 +31,9 @@ namespace ESFA.DC.LARS.API.ReferenceData
             _pathProvider = pathProvider;
         }
 
-        public async Task<IEnumerable<LearningAimModel>> GetLarsLearningDeliveriesFromJsonFile()
+        public async Task<IEnumerable<LearningAimModel>> GetLarsLearningDeliveriesFromJsonFile(SearchModel searchModel)
         {
-            List<LearningAimModel> larsLearningDeliveries;
+            IEnumerable<LearningAimModel> larsLearningDeliveries;
 
             try
             {
@@ -41,7 +41,11 @@ namespace ESFA.DC.LARS.API.ReferenceData
                 {
                     using (var zip = new ZipArchive(stream, ZipArchiveMode.Read))
                     {
-                        larsLearningDeliveries = RetrieveModel<List<LARSLearningDelivery>>(zip, ReferenceDataConstants.LarsLearningDeliveriesFile)
+                        var query = RetrieveModel<List<LARSLearningDelivery>>(zip,  ReferenceDataConstants.LarsLearningDeliveriesFile).AsQueryable();
+
+                        query = FilterDeliveryMatchesSearch(query, searchModel);
+
+                        larsLearningDeliveries = query
                             .Select(ld => _mapper.Map(ld))
                             .ToList();
                     }
@@ -54,6 +58,46 @@ namespace ESFA.DC.LARS.API.ReferenceData
             }
 
             return larsLearningDeliveries;
+        }
+
+        private IQueryable<LARSLearningDelivery> FilterDeliveryMatchesSearch(IQueryable<LARSLearningDelivery> query, SearchModel searchModel)
+        {
+            if (searchModel == null)
+            {
+                return query;
+            }
+
+            if (!string.IsNullOrEmpty(searchModel.SearchTerm))
+            {
+                query = query.Where(ld =>
+                    ld.LearnAimRefTitle.Contains(searchModel.SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    ld.LearnAimRef.Equals(searchModel.SearchTerm, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrEmpty(searchModel.AwardingBody))
+            {
+                query = query.Where(ld => ld.AwardOrgCode.Contains(searchModel.AwardingBody));
+            }
+
+            if (!string.IsNullOrEmpty(searchModel.Level))
+            {
+                query = query.Where(ld => ld.NotionalNVQLevelv2.Contains(searchModel.Level));
+            }
+
+            if (searchModel.SearchFilters != null)
+            {
+                if (searchModel.SearchFilters?.AwardingBodies.Any() ?? false)
+                {
+                    query = query.Where(ld => searchModel.SearchFilters.AwardingBodies.Any(ab => ab.Contains(ld.AwardOrgCode, StringComparison.OrdinalIgnoreCase)));
+                }
+
+                if (searchModel.SearchFilters?.Levels.Any() ?? false)
+                {
+                    query = query.Where(ld => searchModel.SearchFilters.Levels.Any(ab => ab.Contains(ld.NotionalNVQLevelv2, StringComparison.OrdinalIgnoreCase)));
+                }
+            }
+
+            return query;
         }
 
         private T RetrieveModel<T>(ZipArchive zipArchive, string fileName)

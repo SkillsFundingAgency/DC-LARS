@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ESFA.DC.LARS.Web.Models
 {
+    [ExcludeFromCodeCoverage]
     public class SearchFilterModel
     {
         public List<string> AwardingBodies { get; set; }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ESFA.DC.LARS.Web.Models
 {
+    [ExcludeFromCodeCoverage]
     public class CategoryModel
     {
         public int Reference { get; set; }

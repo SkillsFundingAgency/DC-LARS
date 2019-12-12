@@ -16,11 +16,11 @@ namespace ESFA.DC.LARS.API.ReferenceData
 
         private static IEnumerable<LearningAimModel> LearningAims { get; set; }
 
-        public async Task<IEnumerable<LearningAimModel>> GetLearningAims(bool isDirty)
+        public async Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchModel, bool isDirty)
         {
             if (LearningAims == null || isDirty)
             {
-                LearningAims = await _larsJsonService.GetLarsLearningDeliveriesFromJsonFile();
+                LearningAims = await _larsJsonService.GetLarsLearningDeliveriesFromJsonFile(searchModel);
             }
 
             return LearningAims;

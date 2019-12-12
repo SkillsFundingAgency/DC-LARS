@@ -23,7 +23,7 @@ namespace ESFA.DC.LARS.API.Services
         public Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchParameters)
         {
             _telemetry.TrackEvent("In Get Learning Aims");
-            return _larsCache.GetLearningAims(false);
+            return _larsCache.GetLearningAims(searchParameters, false);
         }
     }
 }
