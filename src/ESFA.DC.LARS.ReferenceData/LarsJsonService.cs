@@ -84,22 +84,12 @@ namespace ESFA.DC.LARS.API.ReferenceData
                 query = query.Where(ld => ld.NotionalNVQLevelv2.Contains(searchModel.Level));
             }
 
-            //if (!string.IsNullOrEmpty(searchModel.TeachingYear))
-            //{
-            //    query = query.Where(ld => ld..Contains(searchModel.Level));
-            //}
-
             if (searchModel.SearchFilters != null)
             {
                 if (searchModel.SearchFilters?.AwardingBodies.Any() ?? false)
                 {
                     query = query.Where(ld => searchModel.SearchFilters.AwardingBodies.Any(ab => ab.Contains(ld.AwardOrgCode, StringComparison.OrdinalIgnoreCase)));
                 }
-
-                //if (searchModel.SearchFilters?.FundingStreams.Any() ?? false)
-                //{
-                //    query = query.Where(ld => searchModel.SearchFilters.FundingStreams.Any(ab => ab.Contains(ld., StringComparison.OrdinalIgnoreCase)));
-                //}
 
                 if (searchModel.SearchFilters?.Levels.Any() ?? false)
                 {
