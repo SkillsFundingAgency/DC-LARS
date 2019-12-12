@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.LARS.API.Modules;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,16 @@ namespace ESFA.DC.LARS.API
                 options.SubstituteApiVersionInUrl = true;
             });
 
+            var insightOptions = new ApplicationInsightsServiceOptions
+            {
+                // Disables adaptive sampling.
+                EnableAdaptiveSampling = false,
+
+                // Disables QuickPulse (Live Metrics stream).
+                EnableQuickPulseMetricStream = false
+            };
+            services.AddApplicationInsightsTelemetry(insightOptions);
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -75,6 +86,7 @@ namespace ESFA.DC.LARS.API
 
             containerBuilder.Populate(services);
 
+            containerBuilder.RegisterModule<LoggingModule>();
             containerBuilder.RegisterModule<ReferenceDataModule>();
             containerBuilder.RegisterModule<ApiModule>();
 

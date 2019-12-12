@@ -1,17 +1,18 @@
 ﻿using System.Diagnostics;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
+using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ITelemetryWrapper _telemetryClient;
+        private readonly ITelemetry _telemetryClient;
         private readonly ILearningAimsApiService _learningAimsApiService;
 
         public HomeController(
-            ITelemetryWrapper telemetryClient,
+            ITelemetry telemetryClient,
             ILearningAimsApiService learningAimsApiService)
         {
             _telemetryClient = telemetryClient;

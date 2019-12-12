@@ -1,14 +1,17 @@
 ﻿using Autofac;
-using ESFA.DC.LARS.Web.Interfaces.Services;
-using ESFA.DC.LARS.Web.Services;
+using ESFA.DC.Serialization.Interfaces;
+using ESFA.DC.Serialization.Json;
+using ESFA.DC.Telemetry;
+using ESFA.DC.Telemetry.Interfaces;
 
 namespace ESFA.DC.LARS.Web.Modules
 {
     public class LoggingModule : Module
     {
-        protected override void Load(ContainerBuilder containerBuilder)
+        protected override void Load(ContainerBuilder builder)
         {
-            containerBuilder.RegisterType<TelemetryWrapper>().As<ITelemetryWrapper>();
+            builder.RegisterType<ApplicationInsightsTelemetry>().As<ITelemetry>();
+            builder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
         }
     }
 }
