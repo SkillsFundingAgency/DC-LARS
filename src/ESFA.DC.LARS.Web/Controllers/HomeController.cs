@@ -21,9 +21,15 @@ namespace ESFA.DC.LARS.Web.Controllers
 
         public IActionResult Index()
         {
-            var learningAims = _learningAimsApiService.GetLearningAims(new SearchModel()).Result;
             _telemetryClient.TrackEvent("In home controller");
             return View();
+        }
+
+        [HttpPost("Search")]
+        public IActionResult Search([FromForm]SearchModel searchModel)
+        {
+            var learningAims = _learningAimsApiService.GetLearningAims(searchModel).Result;
+            return RedirectToAction("Index", "SearchResult", new { learningAims });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

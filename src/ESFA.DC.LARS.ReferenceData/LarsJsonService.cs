@@ -79,10 +79,10 @@ namespace ESFA.DC.LARS.API.ReferenceData
                 query = query.Where(ld => ld.AwardOrgCode.Contains(searchModel.AwardingBody));
             }
 
-            if (!string.IsNullOrEmpty(searchModel.Level))
-            {
-                query = query.Where(ld => ld.NotionalNVQLevelv2.Contains(searchModel.Level));
-            }
+            //if (!string.IsNullOrEmpty(searchModel.Level))
+            //{
+            //    query = query.Where(ld => ld.NotionalNVQLevelv2.Contains(searchModel.Level));
+            //}
 
             if (searchModel.SearchFilters != null)
             {
