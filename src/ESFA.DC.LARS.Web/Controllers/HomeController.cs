@@ -28,8 +28,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpPost("Search")]
         public IActionResult Search([FromForm]SearchModel searchModel)
         {
-            var learningAims = _learningAimsApiService.GetLearningAims(searchModel).Result;
-            return RedirectToAction("Index", "SearchResult", new { learningAims });
+            return RedirectToAction("Index", "SearchResult", searchModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

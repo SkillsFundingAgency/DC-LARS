@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var resultsFound = Model?.LearningAimModels != null && Model.LearningAimModels.Any();
 }
 
 <div class="govuk-grid-row">
@@ -334,100 +335,60 @@
     </div>
 
 
-    <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body flex space-between"><span><span id="listCount">15</span> results</span> <span><a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#">Download results</a></span></p>
-        <div class="filter-feedback-container">
-            <span id="from" class="govuk-body govuk-!-font-size-16">
-                <strong>From: </strong>
-                <span id="firstFilter">
-                    <!-- <span class="close"></span><span class="filter-name">test</span>   -->
-                </span>
+<div class="govuk-grid-column-two-thirds">
+    @if (resultsFound)
+    {
+        <p class="govuk-body flex space-between">
+            <span>
+                <span id="listCount">@Model.LearningAimModels.Count()</span> results
             </span>
-        </div>
-        <div class="results-number-container">
-            <span id="containing" class="govuk-body govuk-!-font-size-16"><strong>Containing: </strong> <a href="#" class="results-elements"> <span class="close"></span> maths </a> </span>
-        </div>
-        <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-        <ul id="resultList" class="govuk-list">
-            <li class="Edexcel Level-1 2019-2020">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Maths (Stepping Stones to Functional Skills)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"> <span>40010740</span><span>Edexcel</span><span>Level 1</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="CG Level-2 2018-2019">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Functional Skills qualification in Mathematics</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"> <span>5010987X</span><span>CG - City & Guilds of London Instit</span><span>Level 2</span> <span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="AQA Level-1 2017-2018">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Maths (Stepping Stones to Functional Skills) - Reading</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"> <span>6014838X</span><span>AQA - Assessment & Qualifications Alliance</span><span>Level 1</span><span>45 Guided learning hours</span> </p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="CG Level-1 2019-2020">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Functional Skills Maths (QCF)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"> <span>60008805</span> <span>CG - City & Guilds of London Institute</span><span>Level 1</span><span>45 Guided learning hours</span> </p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-2 2018-2019">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Functional Skills Maths (QCF)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>40010776</span> <span>Edexcel</span><span>Level 2</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-1 2018-2019">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Maths: Calculating with Numbers - Addition and Subtraction (Entry 3)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>40008538</span> <span>Edexcel</span><span>Level 1</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-4 2019-2020">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">	Award in Maths: Handling Data (QCF)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>4000854X</span><span>Edexcel</span><span>Level 4</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-3 2019-2020">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Maths: Know How to Represent Information (Entry 1)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>40010533</span> <span>Edexcel</span><span>Level 3</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-1 2017-2018">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Functional Skills Mathematics (Entry 2)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>40003863</span><span>Edexcel</span><span>Level 1</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-2 2016-2017">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Award in Mathematics (Stepping Stones to Functional Skills) - Probability</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>00287333</span> <span>Edexcel</span><span>Level 2</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-4 2018-2019">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Functional Skills Maths</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>4000398X</span><span>Edexcel</span><span>Level 4</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-3 2019-2020">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Functional Skills Maths Level 2</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>00286603</span> <span>Edexcel</span><span>Level 3</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-3 2016-2017">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">Functional Skills Mathematics (Entry 2)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>40003097</span><span>Edexcel</span><span>Level 3</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-2 2019-2020">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">	Functional Skills qualification in Maths</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>40004880</span>  <span>Edexcel</span> <span>Level 2</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-            <li class="Edexcel Level-1 2019-2020">
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">	Functional Skills Qualification in Maths (Entry 3)</a>
-                <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between"><span>40006396</span>  <span>Edexcel</span> <span>Level 1</span><span>45 Guided learning hours</span></p>
-                <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
-            </li>
-        </ul>
-
+            <span>
+                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#">Download results</a>
+            </span>
+        </p>
+    }
+    <div class="filter-feedback-container">
+        <span id="from" class="govuk-body govuk-!-font-size-16">
+            <strong>From: </strong>
+            <span id="firstFilter">
+                <!-- <span class="close"></span><span class="filter-name">test</span>   -->
+            </span>
+        </span>
     </div>
+    <div class="results-number-container">
+        <span id="containing" class="govuk-body govuk-!-font-size-16">
+            @if (Model?.SearchModel != null)
+            {
+                <strong>Containing: </strong>
+                <a href="#" class="results-elements"> <span class="close"></span> @Model.SearchModel.SearchTerm </a>
+            }
+        </span>
+    </div>
+    <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <ul id="resultList" class="govuk-list">
+        @if (resultsFound)
+        {
+            @foreach (var learningAim in Model.LearningAimModels)
+            {
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">@learningAim.LearningAimTitle</a>
+                    <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between">
+                        <span>@learningAim.LearnAimRef</span>
+                        <span>@learningAim.Type</span><span>@learningAim.Level</span>
+                        <span>@learningAim.GuidedLearningHours Guided learning hours</span>
+                    </p>
+                    <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
+                </li>
+            }
+        }
+        else
+        {
+            <li>No results found</li>
+        }
+    </ul>
+
+</div>
 
     <div class="govuk-grid-column-one-third"></div>
 </div>
