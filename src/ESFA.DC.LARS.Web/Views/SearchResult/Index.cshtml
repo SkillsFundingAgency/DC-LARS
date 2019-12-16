@@ -1,0 +1,395 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    var resultsFound = Model?.LearningAimModels != null && Model.LearningAimModels.Any();
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="standard-search">
+            <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search</h1>
+            <form id="changeUrl" class="govuk-form-group" action="">
+                <div id="tt-overlay" class="autocomplete-wrapper"></div>
+                <button id="searchProviders" type="search" class="govuk-button">
+                    <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row govuk-!-margin-top-6">
+    <div class="govuk-grid-column-one-third">
+        <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
+        <div id="allFilters">
+            <section id="awardingBody" class="filter-section">
+                <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                    Awarding body
+                </a>
+                <span class="selected-text govuk-body govuk-!-font-size-16"> <span class="counter">1</span> selected</span>
+                <div class="filter-box hidden">
+                    <div class="govuk-form-group">
+                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body" name="awarding body" type="checkbox" value="iCan">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body">
+                                    iCan
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-2" name="awarding body" type="checkbox" value="Qualsafe-Awards">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-2">
+                                    Qualsafe-Awards
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-3" name="awarding body" type="checkbox" value="BIIAB">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-3">
+                                    BIIAB
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-4" name="awarding body" type="checkbox" value="AQA">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-4">
+                                    AQA
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-5" name="awarding body" type="checkbox" value="City-Guilds">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-5">
+                                    City-Guilds
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-6" name="awarding body" type="checkbox" value="Edexcel">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-6">
+                                    Edexcel
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-7" name="awarding body" type="checkbox" value="UWLQ">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-7">
+                                    UWLQ
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-8" name="awarding body" type="checkbox" value="UAL">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-8">
+                                    UAL
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-9" name="awarding body" type="checkbox" value="OCR">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-9">
+                                    OCR
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="awarding body-10" name="awarding body" type="checkbox" value="NCC-Education">
+                                <label class="govuk-label govuk-checkboxes__label" for="awarding body-10">
+                                    NCC-Education
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="level" class="filter-section">
+                <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                    Level
+                </a>
+                <span class="selected-text govuk-body govuk-!-font-size-16"> <span class="counter">1</span> selected</span>
+                <div class="filter-box hidden">
+                    <div class="govuk-form-group">
+                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level" name="level" type="checkbox" value="Level-1">
+                                <label class="govuk-label govuk-checkboxes__label" for="level">
+                                    Level-1
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-2" name="level" type="checkbox" value="Level-2">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-2">
+                                    Level-2
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-3" name="level" type="checkbox" value="Level-3">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-3">
+                                    Level-3
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-4" name="level" type="checkbox" value="Level-4">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-4">
+                                    Level-4
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-5" name="level" type="checkbox" value="Level-5">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-5">
+                                    Level-5
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-6" name="level" type="checkbox" value="Level-6">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-6">
+                                    Level-6
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-7" name="level" type="checkbox" value="Level-7">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-7">
+                                    Level-7
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-8" name="level" type="checkbox" value="Level-8">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-8">
+                                    Level-8
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-9" name="level" type="checkbox" value="Entry-level">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-9">
+                                    Entry-level
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-10" name="level" type="checkbox" value="Higher-level">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-10">
+                                    Higher-level
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-11" name="level" type="checkbox" value="Mixed-level">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-11">
+                                    Mixed-level
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="level-12" name="level" type="checkbox" value="Not-known">
+                                <label class="govuk-label govuk-checkboxes__label" for="level-12">
+                                    Not-known
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="teachingYear" class="filter-section">
+                <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                    Teaching year
+                </a>
+                <span class="selected-text govuk-body govuk-!-font-size-16"> <span class="counter">1</span> selected</span>
+                <div class="filter-box hidden">
+                    <div class="govuk-form-group">
+                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="teaching year" name="teaching year" type="checkbox" value="2019-2020">
+                                <label class="govuk-label govuk-checkboxes__label" for="teaching year">
+                                    2019-2020
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="teaching year-2" name="teaching year" type="checkbox" value="2018-2019">
+                                <label class="govuk-label govuk-checkboxes__label" for="teaching year-2">
+                                    2018-2019
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="teaching year-3" name="teaching year" type="checkbox" value="2017-2018">
+                                <label class="govuk-label govuk-checkboxes__label" for="teaching year-3">
+                                    2017-2018
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="teaching year-4" name="teaching year" type="checkbox" value="2016-2017">
+                                <label class="govuk-label govuk-checkboxes__label" for="teaching year-4">
+                                    2016-2017
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="fundingStream" class="filter-section">
+                <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                    Funding stream
+                </a>
+                <span class="selected-text govuk-body govuk-!-font-size-16"> <span class="counter">1</span> selected</span>
+                <div class="filter-box hidden">
+                    <div class="govuk-form-group">
+                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream" name="funding stream" type="checkbox" value="16-19">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream">
+                                    16-19
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-2" name="funding stream" type="checkbox" value="Adult-skills">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-2">
+                                    Adult-skills
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-3" name="funding stream" type="checkbox" value="Advanced-learner-loans">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-3">
+                                    Advanced-learner-loans
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-4" name="funding stream" type="checkbox" value="Other">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-4">
+                                    Other
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-5" name="funding stream" type="checkbox" value="Apprenticeships">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-5">
+                                    Apprenticeships
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-6" name="funding stream" type="checkbox" value="Community-learning">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-6">
+                                    Community learning
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-7" name="funding stream" type="checkbox" value="EFA-Funding-condition-english">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-7">
+                                    EFA-Funding-condition-english
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-8" name="funding stream" type="checkbox" value="EFA-Funding-condition-maths">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-8">
+                                    EFA-Funding-condition-maths
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-9" name="funding stream" type="checkbox" value="European-social-fund">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-9">
+                                    European-social-fund
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-10" name="funding stream" type="checkbox" value="OLASS">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-10">
+                                    OLASS
+                                </label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="funding stream-11" name="funding stream" type="checkbox" value="Unemployed-offer">
+                                <label class="govuk-label govuk-checkboxes__label" for="funding stream-11">
+                                    Unemployed-offer
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="newStarters" class="filter-section">
+                <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                    Last date for new starters
+                </a>
+                <span class="selected-text govuk-body govuk-!-font-size-16"> <span class="counter">1</span> selected</span>
+                <div class="filter-box hidden">
+                    <div class="govuk-date-input govuk-!-margin-top-3 govuk-!-margin-left-3">
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="passport-issued-day">
+                                    Day
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="passport-issued-day" name="passport-issued-day" type="number" pattern="[0-9]*">
+                            </div>
+                        </div>
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="passport-issued-month">
+                                    Month
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="passport-issued-month" name="passport-issued-month" type="number" pattern="[0-9]*">
+                            </div>
+                        </div>
+                        <div class="govuk-date-input__item">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="passport-issued-year">
+                                    Year
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="passport-issued-year" name="passport-issued-year" type="number" pattern="[0-9]*">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+<div class="govuk-grid-column-two-thirds">
+    @if (resultsFound)
+    {
+        <p class="govuk-body flex space-between">
+            <span>
+                <span id="listCount">@Model.LearningAimModels.Count()</span> results
+            </span>
+            <span>
+                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-16" href="#">Download results</a>
+            </span>
+        </p>
+    }
+    <div class="filter-feedback-container">
+        <span id="from" class="govuk-body govuk-!-font-size-16">
+            <strong>From: </strong>
+            <span id="firstFilter">
+                <!-- <span class="close"></span><span class="filter-name">test</span>   -->
+            </span>
+        </span>
+    </div>
+    <div class="results-number-container">
+        <span id="containing" class="govuk-body govuk-!-font-size-16">
+            @if (Model?.SearchModel != null)
+            {
+                <strong>Containing: </strong>
+                <a href="#" class="results-elements"> <span class="close"></span> @Model.SearchModel.SearchTerm </a>
+            }
+        </span>
+    </div>
+    <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <ul id="resultList" class="govuk-list">
+        @if (resultsFound)
+        {
+            @foreach (var learningAim in Model.LearningAimModels)
+            {
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="qualification-func">@learningAim.LearningAimTitle</a>
+                    <p class="govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex space-between">
+                        <span>@learningAim.LearnAimRef</span>
+                        <span>@learningAim.Type</span><span>@learningAim.Level</span>
+                        <span>@learningAim.GuidedLearningHours Guided learning hours</span>
+                    </p>
+                    <p class="govuk-body govuk-!-font-size-16"><span>Last date for new start: 31 August 2020</span></p>
+                </li>
+            }
+        }
+        else
+        {
+            <li>No results found</li>
+        }
+    </ul>
+
+</div>
+
+    <div class="govuk-grid-column-one-third"></div>
+</div>
+

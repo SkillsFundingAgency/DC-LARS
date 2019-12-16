@@ -1,6 +1,8 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
+using ESFA.DC.LARS.API.Models;
 using ESFA.DC.LARS.Web.Interfaces.Services;
+using ESFA.DC.LARS.Web.Mappers;
+using ESFA.DC.LARS.Web.Services.Builders;
 using ESFA.DC.LARS.Web.Services.Clients;
 
 namespace ESFA.DC.LARS.Web.Modules
@@ -11,6 +13,9 @@ namespace ESFA.DC.LARS.Web.Modules
         {
             containerBuilder.RegisterType<ClientService>().As<IClientService>();
             containerBuilder.RegisterType<LearningAimsApiService>().As<ILearningAimsApiService>();
+
+            containerBuilder.RegisterType<LearningAimMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
+            containerBuilder.RegisterType<SearchResultsBuilder>().As<ISearchResultsBuilder>();
         }
     }
 }
