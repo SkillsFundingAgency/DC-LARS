@@ -5,7 +5,5 @@
         string SearchServiceName { get; set; }
 
         string SearchServiceAdminApiKey { get; set; }
-
-        string SearchIndexName { get; set; }
     }
 }

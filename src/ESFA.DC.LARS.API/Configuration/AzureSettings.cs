@@ -7,7 +7,5 @@ namespace ESFA.DC.LARS.API.Configuration
         public string SearchServiceName { get; set; }
 
         public string SearchServiceAdminApiKey { get; set; }
-
-        public string SearchIndexName { get; set; }
     }
 }

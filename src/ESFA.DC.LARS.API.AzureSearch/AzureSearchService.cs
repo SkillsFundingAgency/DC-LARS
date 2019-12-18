@@ -48,7 +48,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
             catch (Exception ex)
             {
-                _telemetryClient.TrackEvent("bang");
+                _telemetryClient.TrackEvent(ex.Message);
                 throw;
             }
 
