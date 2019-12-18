@@ -1,0 +1,23 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ESFA.DC.LARS.API.Interfaces.AzureSearch;
+using ESFA.DC.LARS.API.Interfaces.Services;
+using ESFA.DC.LARS.API.Models;
+
+namespace ESFA.DC.LARS.API.Services
+{
+    public class LearningAimAzureService : ILearningAimService
+    {
+        private readonly IAzureSearchService _azureSearchService;
+
+        public LearningAimAzureService(IAzureSearchService azureSearchService)
+        {
+            _azureSearchService = azureSearchService;
+        }
+
+        public Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchParameters)
+        {
+            return _azureSearchService.GetLarsLearningDeliveries(searchParameters);
+        }
+    }
+}

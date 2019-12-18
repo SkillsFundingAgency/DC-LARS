@@ -1,6 +1,8 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.API.Configuration;
+using ESFA.DC.LARS.API.Extensions;
 using ESFA.DC.LARS.API.Modules;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -89,6 +91,10 @@ namespace ESFA.DC.LARS.API
             containerBuilder.RegisterModule<LoggingModule>();
             containerBuilder.RegisterModule<ReferenceDataModule>();
             containerBuilder.RegisterModule<ApiModule>();
+            containerBuilder.RegisterModule(new AzureModule
+            {
+                AzureSettings = Configuration.GetConfigSection<AzureSettings>()
+            });
 
             _applicationContainer = containerBuilder.Build();
 
