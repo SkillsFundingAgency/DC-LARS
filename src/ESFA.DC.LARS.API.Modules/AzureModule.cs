@@ -22,7 +22,10 @@ namespace ESFA.DC.LARS.API.Modules
                 .SingleInstance();
 
             builder.RegisterType<AzureSearchService>().As<IAzureSearchService>();
+
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
+            builder.RegisterType<AzureCategoryMapper>().As<IMapper<CategoryModel, Models.CategoryModel>>();
+            builder.RegisterType<AzureFundingModelMapper>().As<IMapper<FundingModel, Models.FundingModel>>();
         }
     }
 }

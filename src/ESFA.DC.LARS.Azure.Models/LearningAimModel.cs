@@ -37,8 +37,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public DateTime? EffectiveTo { get; set; }
 
-        public IEnumerable<CategoryModel> Categories { get; set; }
+        public List<CategoryModel> Categories { get; set; }
 
-        public IEnumerable<FundingModel> FundingModels { get; set; }
+        public List<FundingModel> FundingModels { get; set; }
     }
 }
