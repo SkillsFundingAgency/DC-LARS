@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="ESFA.DC.ILR.ReferenceDataService.Model" Version="0.1.89" />
+    <PackageReference Include="Microsoft.Azure.Search.Data" Version="10.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

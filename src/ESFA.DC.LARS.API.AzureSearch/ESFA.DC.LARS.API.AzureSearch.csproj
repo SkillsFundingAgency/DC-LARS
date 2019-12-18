@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ESFA.DC.Telemetry.Interfaces" Version="0.1.6-beta0001" />
+    <PackageReference Include="Microsoft.Azure.Search" Version="10.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Interfaces\ESFA.DC.LARS.API.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Models\ESFA.DC.LARS.API.Models.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.Azure.Models\ESFA.DC.LARS.Azure.Models.csproj" />
+  </ItemGroup>
+
+</Project>

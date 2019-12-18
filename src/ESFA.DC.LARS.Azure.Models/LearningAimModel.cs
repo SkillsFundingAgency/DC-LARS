@@ -1,0 +1,44 @@
+﻿using Microsoft.Azure.Search;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+
+namespace ESFA.DC.LARS.Azure.Models
+{
+    [ExcludeFromCodeCoverage]
+    public class LearningAimModel
+    {
+        [Key]
+        [IsSearchable, IsSortable]
+        public string LearnAimRef { get; set; }
+
+        [IsSearchable]
+        public string LearningAimTitle { get; set; }
+
+        [IsFilterable]
+        public string Level { get; set; }
+
+        [IsFilterable]
+        public string Type { get; set; }
+
+        public int GuidedLearningHours { get; set; }
+
+        [IsFilterable]
+        public string AwardingBody { get; set; }
+
+        [IsFilterable]
+        public string Level2Category { get; set; }
+
+        [IsFilterable]
+        public string Level3Category { get; set; }
+
+        public DateTime? EffectiveFrom { get; set; }
+
+        public DateTime? EffectiveTo { get; set; }
+
+        public IEnumerable<CategoryModel> Categories { get; set; }
+
+        public IEnumerable<FundingModel> FundingModels { get; set; }
+    }
+}
