@@ -35,6 +35,7 @@ namespace ESFA.DC.LARS.API
             {
                 options.ApiVersionReader = new HeaderApiVersionReader("api-version");
                 options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
                 options.ReportApiVersions = true;
             });

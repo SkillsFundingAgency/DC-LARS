@@ -73,7 +73,7 @@ namespace ESFA.DC.LARS.AzureSearch
                 }
             }
 
-            // Wait 2 seconds before starting queries 
+            // Wait 2 seconds before starting queries
             Console.WriteLine("Waiting for indexing...\n");
             Thread.Sleep(2000);
         }

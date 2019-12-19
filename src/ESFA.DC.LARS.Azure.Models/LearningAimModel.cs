@@ -1,8 +1,8 @@
-﻿using Microsoft.Azure.Search;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.Azure.Models
 {
