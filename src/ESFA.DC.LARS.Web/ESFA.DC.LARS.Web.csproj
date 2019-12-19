@@ -51,14 +51,7 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <Content Update="wwwroot\assets\dist\minified\site.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+ <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="xcopy /Y /S &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\assets\*.*&quot; &quot;$(ProjectDir)wwwroot\assets\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\all.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\govuk\js\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\html5shiv\dist\html5shiv.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;" />
   </Target>
 
