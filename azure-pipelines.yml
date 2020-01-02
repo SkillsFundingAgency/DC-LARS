@@ -17,10 +17,8 @@ steps:
 
 - task: DotNetCoreInstaller@2
   inputs:
-    version: 2.2.207
-  displayName: 'Use .NET Core sdk 2.2.7 (VS2019 = 2.2.207)'
-
-
+    version: 3.1.100
+  displayName: 'Use .NET Core sdk 3.1.100'
 
 # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
 # First install the tool on the machine, then run it
