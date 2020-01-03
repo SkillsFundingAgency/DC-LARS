@@ -86,7 +86,7 @@ steps:
     zipAfterPublish: true
     nobuild: true
     projects: '**/ESFA.DC.LARS.API.csproj'
-    arguments: '--output "$(build.artifactstagingdirectory)\Web\API"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)" --no-build --self-contained true -r win-x64'
+    arguments: '--output "$(build.artifactstagingdirectory)\Web\API"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
     vstsFeed: 'dct-pkg'
 
 - task: DotNetCoreCLI@2
