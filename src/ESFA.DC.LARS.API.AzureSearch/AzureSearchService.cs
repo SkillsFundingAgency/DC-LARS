@@ -33,17 +33,31 @@ namespace ESFA.DC.LARS.API.AzureSearch
         {
             IEnumerable<Models.LearningAimModel> learningAims;
 
+            var filter = string.Empty;
+            if (!string.IsNullOrEmpty(searchModel.AwardingBody))
+            {
+                filter += $"AwardingBody eq '{searchModel.AwardingBody}'";
+            }
+
             var parameters = new SearchParameters
             {
+                Filter = filter,
                 QueryType = QueryType.Full,
-                SearchMode = SearchMode.Any,
+                SearchMode = SearchMode.All,
                 IncludeTotalResultCount = true,
-                SearchFields = new List<string> { "LearningAimTitle", "LearnAimRef" }
+                SearchFields = new List<string> { "LearningAimTitle", "LearnAimRef" },
+                Top = 10000
             };
+
+            var searchTerm = string.Empty;
+            if (!string.IsNullOrEmpty(searchModel.SearchTerm))
+            {
+                searchTerm = $"LearnAimRef:{searchModel.SearchTerm} OR LearningAimTitle:{searchModel.SearchTerm}";
+            }
 
             try
             {
-                var result = await _learningDeliveryIndex.Documents.SearchAsync<LearningAimModel>(searchModel.SearchTerm, parameters);
+                var result = await _learningDeliveryIndex.Documents.SearchAsync<LearningAimModel>(searchTerm, parameters);
                 learningAims = result.Results.Select(r => _mapper.Map(r.Document));
             }
             catch (Exception ex)

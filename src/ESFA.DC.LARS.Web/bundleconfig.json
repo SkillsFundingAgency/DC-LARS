@@ -5,8 +5,8 @@
     "outputFileName": "wwwroot/assets/dist/minified/site.min.css",
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "wwwroot/assets/dist/css/site.css",
-      "wwwroot/assets/dist/css/search-box.css"
+      "wwwroot/assets/dist/css/search-box.css",
+      "wwwroot/assets/dist/css/site.css"
     ],
     "minify": {
       "enabled": true
