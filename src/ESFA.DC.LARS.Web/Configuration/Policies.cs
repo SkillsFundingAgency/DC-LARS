@@ -4,8 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Polly;
 using Polly.Extensions.Http;
-using Polly.Retry;
-using Polly.Timeout;
 using Polly.Wrap;
 
 namespace ESFA.DC.LARS.Web.Configuration
@@ -14,9 +12,9 @@ namespace ESFA.DC.LARS.Web.Configuration
     {
         private static int _timeOutInSeconds = 40;
 
-        public static PolicyWrap<HttpResponseMessage> PolicyStrategy => Policy.WrapAsync(RetryPolicy, TimeoutPolicy);
+        public static AsyncPolicyWrap<HttpResponseMessage> PolicyStrategy => Policy.WrapAsync(RetryPolicy, TimeoutPolicy);
 
-        private static TimeoutPolicy<HttpResponseMessage> TimeoutPolicy
+        private static IAsyncPolicy<HttpResponseMessage> TimeoutPolicy
         {
             get
             {
@@ -28,7 +26,7 @@ namespace ESFA.DC.LARS.Web.Configuration
             }
         }
 
-        private static RetryPolicy<HttpResponseMessage> RetryPolicy
+        private static IAsyncPolicy<HttpResponseMessage> RetryPolicy
         {
             get
             {
@@ -36,9 +34,7 @@ namespace ESFA.DC.LARS.Web.Configuration
                 return HttpPolicyExtensions
                     .HandleTransientHttpError()
                     .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-                    .WaitAndRetryAsync(3, retryAttempt =>
-                        TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
-                        + TimeSpan.FromMilliseconds(jitter.Next(0, 100)));
+                    .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(jitter.Next(0, 100)));
             }
         }
     }

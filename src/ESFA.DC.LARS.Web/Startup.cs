@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace ESFA.DC.LARS.Web
 {
@@ -37,7 +38,7 @@ namespace ESFA.DC.LARS.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             var insightOptions = new ApplicationInsightsServiceOptions
             {
@@ -49,6 +50,8 @@ namespace ESFA.DC.LARS.Web
             };
             services.AddApplicationInsightsTelemetry(insightOptions);
 
+            services.AddSingleton<Models.IAppVersionService, Models.AppVersionService>();
+
             FlurlHttp.Configure(settings =>
             {
                 settings.HttpClientFactory = new PollyHttpClientFactory();
@@ -58,7 +61,7 @@ namespace ESFA.DC.LARS.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -70,13 +73,11 @@ namespace ESFA.DC.LARS.Web
             }
 
             app.UseStaticFiles();
+            app.UseRouting();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
 
@@ -90,6 +91,10 @@ namespace ESFA.DC.LARS.Web
             containerBuilder.Register(c =>
                     Configuration.GetConfigSection<ApiSettings>())
                 .As<IApiSettings>().SingleInstance();
+
+            //containerBuilder.Register(c =>
+            //        Configuration.GetConfigSection<Models.AppVersionService>())
+            //    .As<Models.IAppVersionService>().SingleInstance();
 
             containerBuilder.Populate(services);
             _applicationContainer = containerBuilder.Build();
