@@ -1,4 +1,5 @@
-﻿@inject IAppVersionService AppVersionService
+﻿
+@inject IAppVersionService AppVer
 
 <footer class="govuk-footer " role="contentinfo">
     <div class="govuk-width-container ">
@@ -15,7 +16,7 @@
                 </span>
             </div>
             <div class="govuk-footer__meta-item">
-                <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright (Version : @AppVersionService.Version - Runtime : @AppVersionService.Version)</a>
+                <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright (Version : @AppVer.Version - Runtime : @AppVer.TargetFrameworkVersion)</a>
             </div>
         </div>
     </div>

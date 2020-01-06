@@ -50,6 +50,8 @@ namespace ESFA.DC.LARS.Web
             };
             services.AddApplicationInsightsTelemetry(insightOptions);
 
+            services.AddSingleton<Models.IAppVersionService, Models.AppVersionService>();
+
             FlurlHttp.Configure(settings =>
             {
                 settings.HttpClientFactory = new PollyHttpClientFactory();
@@ -70,16 +72,12 @@ namespace ESFA.DC.LARS.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseRouting();
             app.UseStaticFiles();
+            app.UseRouting();
             app.UseCookiePolicy();
 
-            app.UseEndpoints(routes =>
-            {
-                routes.MapControllerRoute(
-                             name: "areaRoute",
-                             pattern: "{area:exists}/{controller}/{action}/{id?}",
-                             defaults: new { action = "Index" });
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
 
