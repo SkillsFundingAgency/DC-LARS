@@ -70,14 +70,16 @@ namespace ESFA.DC.LARS.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseRouting();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(routes =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapControllerRoute(
+                             name: "areaRoute",
+                             pattern: "{area:exists}/{controller}/{action}/{id?}",
+                             defaults: new { action = "Index" });
             });
         }
 
@@ -91,6 +93,10 @@ namespace ESFA.DC.LARS.Web
             containerBuilder.Register(c =>
                     Configuration.GetConfigSection<ApiSettings>())
                 .As<IApiSettings>().SingleInstance();
+
+            //containerBuilder.Register(c =>
+            //        Configuration.GetConfigSection<Models.AppVersionService>())
+            //    .As<Models.IAppVersionService>().SingleInstance();
 
             containerBuilder.Populate(services);
             _applicationContainer = containerBuilder.Build();

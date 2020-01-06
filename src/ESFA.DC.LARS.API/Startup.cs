@@ -75,11 +75,20 @@ namespace ESFA.DC.LARS.API
             }
 
             app.UseRouting();
+            app.UseStaticFiles();
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learning Aim Reference Service API");
+            });
+
+            app.UseEndpoints(routes =>
+            {
+                routes.MapControllerRoute(
+                             name: "areaRoute",
+                             pattern: "{area:exists}/{controller}/{action}/{id?}",
+                             defaults: new { action = "Index" });
             });
         }
 
