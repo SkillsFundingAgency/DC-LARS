@@ -10,7 +10,8 @@ namespace ESFA.DC.LARS.Azure.Models
     public class LearningAimModel
     {
         [Key]
-        [IsSearchable, IsSortable]
+        [IsSearchable]
+        [IsSortable]
         public string LearnAimRef { get; set; }
 
         [IsSearchable]
