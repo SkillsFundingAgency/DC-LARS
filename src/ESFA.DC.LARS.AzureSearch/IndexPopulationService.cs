@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using ESFA.DC.LARS.Azure.Models;
+using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.EntityFrameworkCore;

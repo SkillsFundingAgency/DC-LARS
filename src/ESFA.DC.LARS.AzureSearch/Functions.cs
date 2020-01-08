@@ -1,44 +1,25 @@
-﻿using System;
-using Microsoft.Azure.Search;
+﻿using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Configuration;
 using Microsoft.ServiceBus.Messaging;
 
 namespace ESFA.DC.LARS.AzureSearch
 {
     public class Functions
     {
-        private readonly IConfigurationRoot _configuration;
-        private readonly IIndexPopulationService _indexPopulationService;
-        private readonly ISearchServiceClient _serviceClient;
+        private const string QueueName = "LARSUpdate";
+        private const string ServiceBusConnectionStringName = "AzureWebJobsServiceBus";
+
+        private readonly IIndexService _indexService;
 
         public Functions(
-            ISearchServiceClient serviceClient,
-            IConfigurationRoot configuration,
-            IIndexPopulationService indexPopulationService)
+            IIndexService indexService)
         {
-            _configuration = configuration;
-            _indexPopulationService = indexPopulationService;
-            _serviceClient = serviceClient;
+            _indexService = indexService;
         }
 
-        public void ProcessQueueMessage([ServiceBusTrigger(queueName: "LARSUpdate", Connection = "AzureWebJobsServiceBus")]BrokeredMessage message)
+        public void ProcessQueueMessage([ServiceBusTrigger(queueName: QueueName, Connection = ServiceBusConnectionStringName)]BrokeredMessage message)
         {
-            string indexName = _configuration["SearchIndexName"];
-
-            Console.WriteLine("{0}", "Deleting index...\n");
-            _indexPopulationService.DeleteIndexIfExists(indexName, _serviceClient);
-
-            Console.WriteLine("{0}", "Creating index...\n");
-            _indexPopulationService.CreateIndex(indexName, _serviceClient);
-
-            // Uncomment next 3 lines in "2 - Load documents"
-            ISearchIndexClient indexClient = _serviceClient.Indexes.GetClient(indexName);
-            Console.WriteLine("{0}", "Uploading documents...\n");
-            _indexPopulationService.UploadDocuments(_configuration, indexClient);
-
-            Console.WriteLine("{0}", "Complete.  Press any key to end application...\n");
-            Console.ReadKey();
+            _indexService.UpdateIndexes();
         }
     }
 }

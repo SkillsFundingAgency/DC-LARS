@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Search;
 using Microsoft.Extensions.Configuration;
 
-namespace ESFA.DC.LARS.AzureSearch
+namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IIndexPopulationService
     {
