@@ -2,25 +2,24 @@
 using System.Linq;
 using System.Threading;
 using ESFA.DC.LARS.Azure.Models;
+using ESFA.DC.LARS.AzureSearch.Configuration;
+using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-
+using Index = Microsoft.Azure.Search.Models.Index;
 using IndexAction = Microsoft.Azure.Search.Models.IndexAction;
 using IndexBatch = Microsoft.Azure.Search.Models.IndexBatch;
 
 namespace ESFA.DC.LARS.AzureSearch
 {
-    public class IndexPopulationService
+    public class IndexPopulationService : IIndexPopulationService
     {
-        public static void UploadDocuments(ISearchIndexClient indexClient, IConfigurationRoot configuration)
+        public void UploadDocuments(ISearchIndexClient indexClient, ConnectionStrings connectionStrings)
         {
-            var connectionString = configuration["LarsConnectionString"];
-
             var config = new DbContextOptionsBuilder<LarsContext>();
 
-            config.UseSqlServer(connectionString);
+            config.UseSqlServer(connectionStrings.LarsConnectionString);
 
             var next = true;
 
@@ -62,7 +61,6 @@ namespace ESFA.DC.LARS.AzureSearch
                     if (batch.Actions.Any())
                     {
                         indexClient.Documents.Index(batch);
-
                         page++;
                     }
                     else
@@ -72,9 +70,27 @@ namespace ESFA.DC.LARS.AzureSearch
                 }
             }
 
-            // Wait 2 seconds before starting queries
             Console.WriteLine("Waiting for indexing...\n");
             Thread.Sleep(2000);
+        }
+
+        public void DeleteIndexIfExists(string indexName, ISearchServiceClient serviceClient)
+        {
+            if (serviceClient.Indexes.Exists(indexName))
+            {
+                serviceClient.Indexes.Delete(indexName);
+            }
+        }
+
+        public void CreateIndex(string indexName, ISearchServiceClient serviceClient)
+        {
+            var definition = new Index
+            {
+                Name = indexName,
+                Fields = FieldBuilder.BuildForType<LearningAimModel>()
+            };
+
+            serviceClient.Indexes.Create(definition);
         }
     }
 }

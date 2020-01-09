@@ -1,69 +1,82 @@
-﻿using System;
-using ESFA.DC.LARS.Azure.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.AzureSearch.Configuration;
+using ESFA.DC.LARS.AzureSearch.Extensions;
+using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 using Microsoft.Extensions.Configuration;
-using Index = Microsoft.Azure.Search.Models.Index;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ESFA.DC.LARS.AzureSearch
 {
     public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-            IConfigurationRoot configuration = builder.Build();
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            IConfiguration configuration = configBuilder.Build();
 
-            SearchServiceClient serviceClient = CreateSearchServiceClient(configuration);
+            var connectionStrings = configuration.GetConfigSection<ConnectionStrings>();
 
-            string indexName = configuration["SearchIndexName"];
+            if (args.Any(a => a.Contains("run-manual")))
+            {
+                var container = ConfigureContainer(configuration, connectionStrings).Build();
 
-            Console.WriteLine("{0}", "Deleting index...\n");
-            DeleteIndexIfExists(indexName, serviceClient);
+                var indexService = container.Resolve<IIndexService>();
+                indexService.UpdateIndexes();
+            }
+            else
+            {
+                var builder = new HostBuilder();
+                builder.ConfigureWebJobs(b =>
+                {
+                    b.AddAzureStorageCoreServices();
+                    b.AddServiceBus(sbOptions =>
+                    {
+                        sbOptions.MessageHandlerOptions.AutoComplete = true;
+                        sbOptions.MessageHandlerOptions.MaxConcurrentCalls = 16;
+                    });
+                }).ConfigureLogging((context, b) =>
+                {
+                    b.AddConsole();
+                }).ConfigureServices(services =>
+                {
+                    services.AddAutofac();
+                }).ConfigureContainer<ContainerBuilder>(c => ConfigureContainer(configuration, connectionStrings));
 
-            Console.WriteLine("{0}", "Creating index...\n");
-            CreateIndex(indexName, serviceClient);
-
-            // Uncomment next 3 lines in "2 - Load documents"
-            ISearchIndexClient indexClient = serviceClient.Indexes.GetClient(indexName);
-            Console.WriteLine("{0}", "Uploading documents...\n");
-            IndexPopulationService.UploadDocuments(indexClient, configuration);
-
-            Console.WriteLine("{0}", "Complete.  Press any key to end application...\n");
-            Console.ReadKey();
+                var host = builder.Build();
+                using (host)
+                {
+                    await host.RunAsync();
+                }
+            }
         }
 
         // Create the search service client
-        private static SearchServiceClient CreateSearchServiceClient(IConfigurationRoot configuration)
+        private static SearchServiceClient CreateSearchServiceClient(IConfiguration configuration)
         {
             string searchServiceName = configuration["SearchServiceName"];
             string adminApiKey = configuration["SearchServiceAdminApiKey"];
 
-            SearchServiceClient serviceClient = new SearchServiceClient(searchServiceName, new SearchCredentials(adminApiKey));
+            var serviceClient = new SearchServiceClient(searchServiceName, new SearchCredentials(adminApiKey));
             return serviceClient;
         }
 
-        // Delete an existing index to reuse its name
-        private static void DeleteIndexIfExists(string indexName, SearchServiceClient serviceClient)
+        private static ContainerBuilder ConfigureContainer(IConfiguration configuration, ConnectionStrings connectionStrings)
         {
-            if (serviceClient.Indexes.Exists(indexName))
-            {
-                serviceClient.Indexes.Delete(indexName);
-            }
-        }
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.Register(c => configuration).As<IConfiguration>().SingleInstance();
+            containerBuilder.Register(c => connectionStrings).As<ConnectionStrings>().SingleInstance();
+            containerBuilder.Register(c => CreateSearchServiceClient(configuration)).As<ISearchServiceClient>()
+                .SingleInstance();
 
-        // Create an index whose fields correspond to the properties of the Hotel class.
-        // The Address property of Hotel will be modeled as a complex field.
-        // The properties of the Address class in turn correspond to sub-fields of the Address complex field.
-        // The fields of the index are defined by calling the FieldBuilder.BuildForType() method.
-        private static void CreateIndex(string indexName, SearchServiceClient serviceClient)
-        {
-            var definition = new Index
-            {
-                Name = indexName,
-                Fields = FieldBuilder.BuildForType<LearningAimModel>()
-            };
+            containerBuilder.RegisterType<IndexPopulationService>().As<IIndexPopulationService>();
+            containerBuilder.RegisterType<IndexService>().As<IIndexService>();
 
-            serviceClient.Indexes.Create(definition);
+            return containerBuilder;
         }
     }
 }
