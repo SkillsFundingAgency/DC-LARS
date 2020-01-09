@@ -70,12 +70,10 @@ namespace ESFA.DC.LARS.AzureSearch
                 }
             }
 
-            // Wait 2 seconds before starting queries
             Console.WriteLine("Waiting for indexing...\n");
             Thread.Sleep(2000);
         }
 
-        // Delete an existing index to reuse its name
         public void DeleteIndexIfExists(string indexName, ISearchServiceClient serviceClient)
         {
             if (serviceClient.Indexes.Exists(indexName))
@@ -84,10 +82,6 @@ namespace ESFA.DC.LARS.AzureSearch
             }
         }
 
-        // Create an index whose fields correspond to the properties of the Hotel class.
-        // The Address property of Hotel will be modeled as a complex field.
-        // The properties of the Address class in turn correspond to sub-fields of the Address complex field.
-        // The fields of the index are defined by calling the FieldBuilder.BuildForType() method.
         public void CreateIndex(string indexName, ISearchServiceClient serviceClient)
         {
             var definition = new Index
