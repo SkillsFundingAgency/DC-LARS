@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.AzureSearch.Configuration;
+using ESFA.DC.LARS.AzureSearch.Extensions;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 using Microsoft.Extensions.Configuration;
@@ -15,11 +17,13 @@ namespace ESFA.DC.LARS.AzureSearch
         static async Task Main(string[] args)
         {
             IConfigurationBuilder configBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
-            IConfigurationRoot configuration = configBuilder.Build();
+            IConfiguration configuration = configBuilder.Build();
+
+            var connectionStrings = configuration.GetConfigSection<ConnectionStrings>();
 
             if (args.Any(a => a.Contains("run-manual")))
             {
-                var container = ConfigureContainer(configuration).Build();
+                var container = ConfigureContainer(configuration, connectionStrings).Build();
 
                 var indexService = container.Resolve<IIndexService>();
                 indexService.UpdateIndexes();
@@ -41,7 +45,7 @@ namespace ESFA.DC.LARS.AzureSearch
                 }).ConfigureServices(services =>
                 {
                     services.AddAutofac();
-                }).ConfigureContainer<ContainerBuilder>(c => ConfigureContainer(configuration));
+                }).ConfigureContainer<ContainerBuilder>(c => ConfigureContainer(configuration, connectionStrings));
 
                 var host = builder.Build();
                 using (host)
@@ -52,7 +56,7 @@ namespace ESFA.DC.LARS.AzureSearch
         }
 
         // Create the search service client
-        private static SearchServiceClient CreateSearchServiceClient(IConfigurationRoot configuration)
+        private static SearchServiceClient CreateSearchServiceClient(IConfiguration configuration)
         {
             string searchServiceName = configuration["SearchServiceName"];
             string adminApiKey = configuration["SearchServiceAdminApiKey"];
@@ -61,10 +65,11 @@ namespace ESFA.DC.LARS.AzureSearch
             return serviceClient;
         }
 
-        private static ContainerBuilder ConfigureContainer(IConfigurationRoot configuration)
+        private static ContainerBuilder ConfigureContainer(IConfiguration configuration, ConnectionStrings connectionStrings)
         {
             var containerBuilder = new ContainerBuilder();
-            containerBuilder.Register(c => configuration).As<IConfigurationRoot>().SingleInstance();
+            containerBuilder.Register(c => configuration).As<IConfiguration>().SingleInstance();
+            containerBuilder.Register(c => connectionStrings).As<ConnectionStrings>().SingleInstance();
             containerBuilder.Register(c => CreateSearchServiceClient(configuration)).As<ISearchServiceClient>()
                 .SingleInstance();
 

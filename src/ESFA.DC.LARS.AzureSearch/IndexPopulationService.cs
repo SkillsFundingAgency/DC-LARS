@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading;
 using ESFA.DC.LARS.Azure.Models;
+using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Index = Microsoft.Azure.Search.Models.Index;
 using IndexAction = Microsoft.Azure.Search.Models.IndexAction;
 using IndexBatch = Microsoft.Azure.Search.Models.IndexBatch;
@@ -15,13 +15,11 @@ namespace ESFA.DC.LARS.AzureSearch
 {
     public class IndexPopulationService : IIndexPopulationService
     {
-        public void UploadDocuments(IConfigurationRoot configuration, ISearchIndexClient indexClient)
+        public void UploadDocuments(ISearchIndexClient indexClient, ConnectionStrings connectionStrings)
         {
-            var connectionString = configuration["LarsConnectionString"];
-
             var config = new DbContextOptionsBuilder<LarsContext>();
 
-            config.UseSqlServer(connectionString);
+            config.UseSqlServer(connectionStrings.LarsConnectionString);
 
             var next = true;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 using Microsoft.Extensions.Configuration;
@@ -7,17 +8,20 @@ namespace ESFA.DC.LARS.AzureSearch
 {
     public class IndexService : IIndexService
     {
-        private readonly IConfigurationRoot _configuration;
+        private readonly IConfiguration _configuration;
         private readonly IIndexPopulationService _indexPopulationService;
+        private readonly ConnectionStrings _connectionStrings;
         private readonly ISearchServiceClient _serviceClient;
 
         public IndexService(
             ISearchServiceClient serviceClient,
-            IConfigurationRoot configuration,
-            IIndexPopulationService indexPopulationService)
+            IConfiguration configuration,
+            IIndexPopulationService indexPopulationService,
+            ConnectionStrings connectionStrings)
         {
             _configuration = configuration;
             _indexPopulationService = indexPopulationService;
+            _connectionStrings = connectionStrings;
             _serviceClient = serviceClient;
         }
 
@@ -34,7 +38,7 @@ namespace ESFA.DC.LARS.AzureSearch
             // Uncomment next 3 lines in "2 - Load documents"
             ISearchIndexClient indexClient = _serviceClient.Indexes.GetClient(indexName);
             Console.WriteLine("{0}", "Uploading documents...\n");
-            _indexPopulationService.UploadDocuments(_configuration, indexClient);
+            _indexPopulationService.UploadDocuments(indexClient, _connectionStrings);
 
             Console.WriteLine("{0}", "Complete.  Press any key to end application...\n");
             Console.ReadKey();
