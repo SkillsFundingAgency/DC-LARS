@@ -1,7 +1,14 @@
 ﻿@import "node_modules/govuk-frontend/govuk/all.scss";
 
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 .white-text {
     color: govuk-colour("white");
+}
+ 
+#resultsContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 #resultList {
@@ -27,6 +34,20 @@
 
 .flex {
     display: flex;
+    flex-direction: column
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1
+}
+
+.flex-09 {
+    flex: 0.9;
 }
 
 .space-between {
@@ -91,4 +112,42 @@
 
 .filter-feedback {
     @extend .results-elements;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.visually-hidden, .visually-hidden2, .visually-hidden3 {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: space-around;
+}
+
+.custom-width-280 {
+    width: 280px;
+}
+
+.aims-list {
+    span {
+        margin-bottom: 10px;
+    }
+
+    margin-bottom: 0;
+}
+
+@include govuk-media-query($from: tablet) {
+    .flex {
+        flex-direction: row;
+    }
+
+    #resultsContainer {
+        margin-top: 0;
+    }
 }
