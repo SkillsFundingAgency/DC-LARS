@@ -35,8 +35,8 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
             var parameters = new SearchParameters
             {
-                QueryType = QueryType.Simple,
-                SearchMode = SearchMode.All,
+                QueryType = QueryType.Full,
+                SearchMode = SearchMode.Any,
                 IncludeTotalResultCount = true,
                 SearchFields = new List<string> { "LearningAimTitle" },
                 Top = 10000
@@ -45,7 +45,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
             var searchTerm = string.Empty;
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
             {
-                searchTerm = $"LearningAimTitle:{searchModel.SearchTerm}";
+                searchTerm = $"{searchModel.SearchTerm}";
             }
 
             try
