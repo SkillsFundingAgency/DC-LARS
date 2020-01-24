@@ -24,5 +24,11 @@ namespace ESFA.DC.LARS.API.Controllers
         {
             return await _learningAimService.GetLearningAims(searchParameters);
         }
+
+        [HttpGet]
+        public async Task<LearningAimModel> GetLearningAimAsync(string learnAimRef)
+        {
+            return await _learningAimService.GetLearningAim(learnAimRef);
+        }
     }
 }

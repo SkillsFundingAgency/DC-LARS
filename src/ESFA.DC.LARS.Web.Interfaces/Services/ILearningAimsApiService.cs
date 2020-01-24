@@ -7,5 +7,7 @@ namespace ESFA.DC.LARS.Web.Interfaces.Services
     public interface ILearningAimsApiService
     {
         Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel content);
+
+        Task<LearningAimModel> GetLearningAim(string learnAimRef);
     }
 }

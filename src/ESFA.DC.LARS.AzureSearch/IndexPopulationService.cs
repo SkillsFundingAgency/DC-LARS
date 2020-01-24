@@ -36,17 +36,10 @@ namespace ESFA.DC.LARS.AzureSearch
                             AwardingBody = ld.AwardOrgCode,
                             EffectiveFrom = ld.EffectiveFrom,
                             EffectiveTo = ld.EffectiveTo,
-                            Level = ld.NotionalNvqlevelv2,
+                            Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2desc,
+                            Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
-                            FundingModels = ld.LarsFundings.Select(s => new FundingModel()
-                            {
-                                FundingCategoryDescription = s.FundingCategory,
-                                EffectiveFrom = s.EffectiveFrom,
-                                EffectiveTo = s.EffectiveTo,
-                                RateUnWeighted = s.RateUnWeighted.HasValue ? s.RateUnWeighted.ToString() : null,
-                                RateWeighted = s.RateWeighted.HasValue ? s.RateWeighted.ToString() : null,
-                                WeightingFactor = s.WeightingFactor,
-                            }).ToList()
+                            GuidedLearningHours = ld.GuidedLearningHours ?? 0
                         })
                         .OrderBy(ld => ld.LearnAimRef)
                         .ThenBy(ld => ld.EffectiveFrom)

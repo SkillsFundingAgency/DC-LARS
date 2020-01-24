@@ -1,0 +1,34 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimDetailsViewModel
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">
+                @Model.LearningAimModel.LearningAimTitle
+            </h1>
+            <div class="flex space-between">
+                <ul class="govuk-list">
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Reference:</span> @Model.LearningAimModel.LearnAimRef
+                    </li>
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Level:</span> @Model.LearningAimModel.Level
+                    </li>
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Type:</span> @Model.LearningAimModel.Type
+                    </li>
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Guided learning hours:</span> @Model.LearningAimModel.GuidedLearningHours
+                    </li>
+                    <li>
+                        <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBody
+                    </li>
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state" target="blank"
+                           href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
+                            View more information on OFQUAL
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>

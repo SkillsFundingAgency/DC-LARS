@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.API.ReferenceData.Mappers
             return new LearningAimModel
             {
                 LearnAimRef = ld.LearnAimRef,
-                Level = ld.NotionalNVQLevel,
+                Level = ld.NotionalNVQLevelv2,
                 AwardingBody = ld.AwardOrgCode,
                 LearningAimTitle = ld.LearnAimRefTitle,
                 Type = ld.LearnAimRefType

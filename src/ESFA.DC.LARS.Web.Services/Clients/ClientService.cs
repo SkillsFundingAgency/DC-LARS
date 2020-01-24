@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using Flurl;
@@ -22,6 +24,18 @@ namespace ESFA.DC.LARS.Web.Services.Clients
                 .AppendPathSegment(url)
                 .PostJsonAsync(content)
                 .ReceiveJson<TResult>();
+        }
+
+        public async Task<TResult> GetAsync<TResult>(string url, IDictionary<string, object> parameters)
+        {
+            var clientUrl = _settings.BaseUrl.AppendPathSegment(url);
+
+            foreach (var parameter in parameters)
+            {
+                clientUrl.SetQueryParam(parameter.Key, parameter.Value);
+            }
+
+            return await clientUrl.GetJsonAsync<TResult>();
         }
     }
 }

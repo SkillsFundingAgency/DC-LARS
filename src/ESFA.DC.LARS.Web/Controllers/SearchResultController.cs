@@ -28,5 +28,11 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             return View(model);
         }
+
+        [HttpGet("RedirectToDetails")]
+        public IActionResult RedirectToDetails(string learnAimRef)
+        {
+            return RedirectToAction("Index", "LearningAimDetail", new { learnAimRef });
+        }
     }
 }

@@ -15,7 +15,11 @@
                 {
                     <li>
                         <h3>
-                            <a class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" href="#">@learningAim.LearningAimTitle</a>
+                            @Html.ActionLink(
+                                learningAim.LearningAimTitle,
+                                "RedirectToDetails", 
+                                new { learningAim.LearnAimRef },
+                                new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" })
                         </h3>
                         <div class="flex space-between">
                             <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">

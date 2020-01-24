@@ -19,5 +19,10 @@ namespace ESFA.DC.LARS.API.Services
         {
             return _azureSearchService.GetLarsLearningDeliveries(searchParameters);
         }
+
+        public Task<LearningAimModel> GetLearningAim(string learnAimRef)
+        {
+            return _azureSearchService.GetLarsLearningAim(learnAimRef);
+        }
     }
 }

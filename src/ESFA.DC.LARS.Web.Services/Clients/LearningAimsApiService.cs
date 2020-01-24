@@ -8,6 +8,7 @@ namespace ESFA.DC.LARS.Web.Services.Clients
     public class LearningAimsApiService : ILearningAimsApiService
     {
         private const string Url = "LearningAims";
+        private const string LearnAimRefParameterName = "learnAimRef";
 
         private readonly IClientService _clientService;
 
@@ -20,6 +21,15 @@ namespace ESFA.DC.LARS.Web.Services.Clients
         public async Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel content)
         {
             var response = await _clientService.PostAsync<SearchModel, IEnumerable<LearningAimModel>>(Url, content);
+
+            return response;
+        }
+
+        public async Task<LearningAimModel> GetLearningAim(string learnAimRef)
+        {
+            var parameters = new Dictionary<string, object> { { LearnAimRefParameterName, learnAimRef } };
+
+            var response = await _clientService.GetAsync<LearningAimModel>(Url, parameters);
 
             return response;
         }
