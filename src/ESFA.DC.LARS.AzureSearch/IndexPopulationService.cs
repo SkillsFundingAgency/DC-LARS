@@ -36,9 +36,11 @@ namespace ESFA.DC.LARS.AzureSearch
                             AwardingBody = ld.AwardOrgCode,
                             EffectiveFrom = ld.EffectiveFrom,
                             EffectiveTo = ld.EffectiveTo,
-                            Level = ld.NotionalNvqlevelv2,
+                            Level = ld.NotionalNvqlevelNavigation.NotionalNvqlevelDesc,
+                            Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
-                            FundingModels = ld.LarsFundings.Select(s => new FundingModel()
+                            GuidedLearningHours = ld.GuidedLearningHours.Value,
+                            FundingModels = ld.LarsFundings.Select(lf => new FundingModel
                             {
                                 FundingCategoryDescription = s.FundingCategory,
                                 EffectiveFrom = s.EffectiveFrom,
