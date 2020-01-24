@@ -39,7 +39,7 @@ namespace ESFA.DC.LARS.AzureSearch
                             Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2desc,
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
-                            GuidedLearningHours = ld.GuidedLearningHours.Value
+                            GuidedLearningHours = ld.GuidedLearningHours ?? 0
                         })
                         .OrderBy(ld => ld.LearnAimRef)
                         .ThenBy(ld => ld.EffectiveFrom)
