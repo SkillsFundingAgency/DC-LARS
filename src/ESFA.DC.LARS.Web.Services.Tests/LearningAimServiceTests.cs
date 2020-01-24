@@ -33,5 +33,27 @@ namespace ESFA.DC.LARS.Web.Services.Tests
 
             result.Should().BeEquivalentTo(learningAims);
         }
+
+        [Fact]
+        public async Task GetLearningAimCallsClientServiceGet()
+        {
+            var url = "LearningAims";
+            var learnAimRef = "6014838X";
+            var parameter = new Dictionary<string, object> { { "learnAimRef", learnAimRef } };
+
+            var learningAim = LearningAimFactory.GetLearningAim();
+
+            var clientServiceMock = new Mock<IClientService>();
+            clientServiceMock
+                .Setup(m => m.GetAsync<LearningAimModel>(url, parameter))
+                .ReturnsAsync(learningAim);
+
+            var sut = new LearningAimsApiService(clientServiceMock.Object);
+            var result = await sut.GetLearningAim(learnAimRef);
+
+            clientServiceMock.Verify(m => m.GetAsync<LearningAimModel>(url, parameter), Times.Once);
+
+            result.Should().BeEquivalentTo(learningAim);
+        }
     }
 }
