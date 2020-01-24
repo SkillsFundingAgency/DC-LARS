@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ESFA.DC.LARS.Web.Interfaces.Services
 {
@@ -6,6 +7,6 @@ namespace ESFA.DC.LARS.Web.Interfaces.Services
     {
         Task<TResult> PostAsync<TContent, TResult>(string url, TContent content);
 
-        Task<TResult> GetAsync<TResult>(string url, string parameterName, string searchTerm);
+        Task<TResult> GetAsync<TResult>(string url, IDictionary<string, object> parameters);
     }
 }

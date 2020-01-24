@@ -27,7 +27,9 @@ namespace ESFA.DC.LARS.Web.Services.Clients
 
         public async Task<LearningAimModel> GetLearningAim(string learnAimRef)
         {
-            var response = await _clientService.GetAsync<LearningAimModel>(Url, LearnAimRefParameterName, learnAimRef);
+            var parameters = new Dictionary<string, object> { { LearnAimRefParameterName, learnAimRef } };
+
+            var response = await _clientService.GetAsync<LearningAimModel>(Url, parameters);
 
             return response;
         }
