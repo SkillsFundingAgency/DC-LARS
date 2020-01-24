@@ -10,9 +10,16 @@ namespace ESFA.DC.LARS.API.Services
     {
         public async Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchParameters)
         {
-            LearningAimFactoryStub learningAimFactory = new LearningAimFactoryStub();
+            var learningAimFactory = new LearningAimFactoryStub();
 
             return new List<LearningAimModel> { learningAimFactory.GetLearningAim() };
+        }
+
+        public async Task<LearningAimModel> GetLearningAim(string learnAimRef)
+        {
+            var learningAimFactory = new LearningAimFactoryStub();
+
+            return learningAimFactory.GetLearningAim();
         }
     }
 }

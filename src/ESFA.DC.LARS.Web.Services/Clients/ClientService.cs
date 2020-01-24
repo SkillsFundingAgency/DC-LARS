@@ -23,5 +23,13 @@ namespace ESFA.DC.LARS.Web.Services.Clients
                 .PostJsonAsync(content)
                 .ReceiveJson<TResult>();
         }
+
+        public async Task<TResult> GetAsync<TResult>(string url, string parameterName, string searchTerm)
+        {
+            return await _settings.BaseUrl
+                .AppendPathSegment(url)
+                .SetQueryParam(parameterName, searchTerm)
+                .GetJsonAsync<TResult>();
+        }
     }
 }

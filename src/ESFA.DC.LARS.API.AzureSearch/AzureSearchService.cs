@@ -33,14 +33,8 @@ namespace ESFA.DC.LARS.API.AzureSearch
         {
             IEnumerable<Models.LearningAimModel> learningAims;
 
-            var parameters = new SearchParameters
-            {
-                QueryType = QueryType.Simple,
-                SearchMode = SearchMode.Any,
-                IncludeTotalResultCount = true,
-                SearchFields = new List<string> { "LearningAimTitle" },
-                Top = 10000
-            };
+            var parameters = GetDefaultParameters();
+            parameters.SearchFields = new List<string> { "LearningAimTitle" };
 
             var searchTerm = string.Empty;
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
@@ -48,6 +42,24 @@ namespace ESFA.DC.LARS.API.AzureSearch
                 searchTerm = $"{searchModel.SearchTerm}";
             }
 
+            learningAims = await SearchIndex(searchTerm, parameters);
+
+            return learningAims;
+        }
+
+        public async Task<Models.LearningAimModel> GetLarsLearningAim(string learnAimRef)
+        {
+            var parameters = GetDefaultParameters();
+            parameters.SearchFields = new List<string> { "LearnAimRef" };
+
+            var searchTerm = learnAimRef;
+
+            return (await SearchIndex(searchTerm, parameters)).First();
+        }
+
+        private async Task<IEnumerable<Models.LearningAimModel>> SearchIndex(string searchTerm, SearchParameters parameters)
+        {
+            IEnumerable<Models.LearningAimModel> learningAims;
             try
             {
                 var result = await _learningDeliveryIndex.Documents.SearchAsync<LearningAimModel>(searchTerm, parameters);
@@ -60,6 +72,17 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
 
             return learningAims;
+        }
+
+        private SearchParameters GetDefaultParameters()
+        {
+            return new SearchParameters
+            {
+                QueryType = QueryType.Simple,
+                SearchMode = SearchMode.Any,
+                IncludeTotalResultCount = true,
+                Top = 10000
+            };
         }
     }
 }

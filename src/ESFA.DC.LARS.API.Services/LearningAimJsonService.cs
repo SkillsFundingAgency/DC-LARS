@@ -25,5 +25,10 @@ namespace ESFA.DC.LARS.API.Services
             _telemetry.TrackEvent("In Get Learning Aims");
             return _larsCache.GetLearningAims(searchParameters, false);
         }
+
+        public Task<LearningAimModel> GetLearningAim(string learnAimRef)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
