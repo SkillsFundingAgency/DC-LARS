@@ -133,7 +133,7 @@ stages:
 	  displayName: 'Web Job - Create settings.job via PowerShell Script'
 	  inputs:
 		scriptType: inlineScript
-		workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
+		workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.FundingClaims.ReminderService" '
 		inlineScript: |
 		 $cmdCommand='{"schedule": "0 0 06 * * 1-5"}'
 		 $cmdCommand| Out-File -FilePath settings.job -Encoding ascii
@@ -143,7 +143,7 @@ stages:
 	  displayName: 'Web Job - Create run.cmd'
 	  inputs:
 		scriptType: inlineScript
-		workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
+		workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.FundingClaims.ReminderService" '
 		inlineScript: |
 		 $cmdCommand="dotnet ESFA.DC.LARS.AzureSearch.exe.dll"
 		 $cmdCommand| Out-File -FilePath run.cmd -Encoding ascii
