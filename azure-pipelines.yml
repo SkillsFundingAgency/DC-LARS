@@ -74,11 +74,10 @@ stages:
       inputs:
         command: 'build'
         vstsFeed: 'dct-pkg'
-        projects: '**/*.csproj'
+        projects: '**/ESFA.DC.LARS.AzureSearch/ESFA.DC.LARS.AzureSearch.csproj'
         configuration: $(BuildConfiguration) 
         arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)" --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
         
-
     # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
     - task: DotNetCoreCLI@2
       displayName: Run unit tests
@@ -130,19 +129,6 @@ stages:
         vstsFeed: 'dct-pkg'
 
     ## Web Job - Publish Project
-    - task: DotNetCoreCLI@2
-      enabled: true
-      displayName: 'Publish WebJob to Temp Folder'
-      inputs:
-        command: publish
-        publishWebProjects: false
-        projects: '**/ESFA.DC.LARS.AzureSearch/ESFA.DC.LARS.AzureSearch.csproj'
-        arguments: '--no-build --configuration $(BuildConfiguration) --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch" -p:version=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber)'
-        vstsFeed: 'dct-pkg'
-        zipAfterPublish: false
-        modifyOutputPath: false
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
-        
     - task: PowerShell@1
       enabled: true
       displayName: 'Web Job - Create settings.job via PowerShell Script'
