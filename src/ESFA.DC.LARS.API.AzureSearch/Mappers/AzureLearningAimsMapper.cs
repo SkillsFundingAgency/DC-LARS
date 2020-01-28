@@ -24,7 +24,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 AwardingBody = input.AwardingBody,
                 Level = input.Level,
                 GuidedLearningHours = input.GuidedLearningHours,
-                Categories = input.Categories.Select(cat => _categoryMapper.Map(cat)).ToList()
+                Categories = input.Categories?.Select(cat => _categoryMapper.Map(cat)).ToList()
             };
         }
     }
