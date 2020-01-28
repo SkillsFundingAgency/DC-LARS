@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -23,29 +24,38 @@ namespace ESFA.DC.LARS.AzureSearch
 
             if (args.Any(a => a.Contains("run-manual")))
             {
+                var start = DateTime.Now;
+                Console.WriteLine($"Starting {start}");
                 var container = ConfigureContainer(configuration, connectionStrings).Build();
 
                 var indexService = container.Resolve<IIndexService>();
                 indexService.UpdateIndexes();
+
+                var end = DateTime.Now;
+                Console.WriteLine($"Starting {end}");
+                var timeTaken = end - start;
+                Console.WriteLine($"Time taken: {timeTaken.Minutes} min {timeTaken.Seconds} sec {timeTaken.Milliseconds} ms");
+
+                Console.WriteLine("{0}", "Complete.  Press any key to end application...\n");
+                Console.ReadKey();
             }
             else
             {
                 var builder = new HostBuilder();
-                builder.ConfigureWebJobs(b =>
-                {
-                    b.AddAzureStorageCoreServices();
-                    b.AddServiceBus(sbOptions =>
+                builder
+                    .ConfigureWebJobs(b =>
                     {
-                        sbOptions.MessageHandlerOptions.AutoComplete = true;
-                        sbOptions.MessageHandlerOptions.MaxConcurrentCalls = 16;
-                    });
-                }).ConfigureLogging((context, b) =>
-                {
-                    b.AddConsole();
-                }).ConfigureServices(services =>
-                {
-                    services.AddAutofac();
-                }).ConfigureContainer<ContainerBuilder>(c => ConfigureContainer(configuration, connectionStrings));
+                        b.AddAzureStorageCoreServices();
+                        b.AddServiceBus(sbOptions =>
+                        {
+                            sbOptions.MessageHandlerOptions.AutoComplete = true;
+                            sbOptions.MessageHandlerOptions.MaxConcurrentCalls = 16;
+                        });
+                    })
+                    .ConfigureLogging((context, b) => { b.AddConsole(); })
+                    .ConfigureServices(services => { services.AddAutofac(); })
+                    .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                    .ConfigureContainer<ContainerBuilder>(c => ConfigureContainer(configuration, connectionStrings));
 
                 var host = builder.Build();
                 using (host)

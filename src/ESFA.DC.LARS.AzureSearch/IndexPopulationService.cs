@@ -39,7 +39,20 @@ namespace ESFA.DC.LARS.AzureSearch
                             Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2desc,
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
-                            GuidedLearningHours = ld.GuidedLearningHours ?? 0
+                            GuidedLearningHours = ld.GuidedLearningHours ?? 0,
+                            Categories = ld.LarsLearningDeliveryCategories.Select(cat => new CategoryModel
+                            {
+                                Reference = cat.CategoryRef,
+                                EffectiveTo = cat.EffectiveTo,
+                                EffectiveFrom = cat.EffectiveFrom,
+                                Title = cat.CategoryRefNavigation.CategoryName,
+                                Description = cat.CategoryRefNavigation.CategoryName,
+                                ParentReference = cat.CategoryRefNavigation.ParentCategoryRef,
+                                ParentDescription = context.LarsCategoryLookups
+                                    .Where(l => l.CategoryRef == cat.CategoryRefNavigation.ParentCategoryRef)
+                                    .Select(l => l.CategoryName)
+                                    .FirstOrDefault()
+                            }).ToList()
                         })
                         .OrderBy(ld => ld.LearnAimRef)
                         .ThenBy(ld => ld.EffectiveFrom)

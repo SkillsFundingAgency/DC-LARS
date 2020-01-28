@@ -39,9 +39,6 @@ namespace ESFA.DC.LARS.AzureSearch
             ISearchIndexClient indexClient = _serviceClient.Indexes.GetClient(indexName);
             Console.WriteLine("{0}", "Uploading documents...\n");
             _indexPopulationService.UploadDocuments(indexClient, _connectionStrings);
-
-            Console.WriteLine("{0}", "Complete.  Press any key to end application...\n");
-            Console.ReadKey();
         }
     }
 }
