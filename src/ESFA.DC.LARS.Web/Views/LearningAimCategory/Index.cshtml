@@ -20,7 +20,10 @@
                     </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                @if (Model != null && Model.LearningAimModel != null && Model.LearningAimModel.Categories.Any())
+                @if (Model != null 
+                     && Model.LearningAimModel != null 
+                     && Model.LearningAimModel.Categories != null 
+                     && Model.LearningAimModel.Categories.Any())
                 {
                     @foreach (var category in Model.LearningAimModel.Categories)
                     {
