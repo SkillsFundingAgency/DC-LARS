@@ -101,6 +101,49 @@ steps:
     arguments: '--output "$(build.artifactstagingdirectory)\Web\UI"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
     vstsFeed: 'dct-pkg'
 
+## Web Job - Publish Project
+- task: DotNetCoreCLI@2
+  enabled: true
+  displayName: 'ESFA.DC.FundingClaims.ReminderService - Publish WebJob to Temp Folder'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '**/ESFA.DC.LARS.AzureSearch/ESFA.DC.LARS.AzureSearch.csproj'
+    arguments: '--no-build --configuration $(BuildConfiguration) --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch" -p:version=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber)'
+    vstsFeed: 'dct-pkg'
+    zipAfterPublish: false
+    modifyOutputPath: false
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    
+- task: PowerShell@1
+  enabled: true
+  displayName: 'Web Job - Create settings.job via PowerShell Script'
+  inputs:
+    scriptType: inlineScript
+    workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.FundingClaims.ReminderService" '
+    inlineScript: |
+     $cmdCommand='{"schedule": "0 0 06 * * 1-5"}'
+     $cmdCommand| Out-File -FilePath settings.job -Encoding ascii
+     
+- task: PowerShell@1
+  enabled: true
+  displayName: 'Web Job - Create run.cmd'
+  inputs:
+    scriptType: inlineScript
+    workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.FundingClaims.ReminderService" '
+    inlineScript: |
+     $cmdCommand="dotnet ESFA.DC.LARS.AzureSearch.exe.dll"
+     $cmdCommand| Out-File -FilePath run.cmd -Encoding ascii
+
+## Create Zip File for Deployment     
+- task: ArchiveFiles@2
+  displayName: 'Package WebJobs for Website'
+  inputs:
+    rootFolderOrFile: '$(build.SourcesDirectory)\tmp'
+    includeRootFolder: false
+    archiveFile: '$(build.ArtifactStagingDirectory)\Web\WebJobs.zip'
+
+## Publish Web Artifacts
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: Web'
   enabled: true
