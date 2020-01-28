@@ -13,25 +13,6 @@ stages:
 - stage: Build
   displayName: Build stage
   jobs:  
-  - job: Installers
-    displayName: Installers
-    pool:
-      name: DCT
-      demands:
-      - IsNewBuildServer
-
-    steps:
-    - task: DotNetCoreInstaller@2
-      inputs:
-        version: 3.1.100
-      displayName: 'Use .NET Core sdk 3.1.100'
-
-    - task: Npm@1
-      displayName: 'NPM Install'
-      inputs:
-        command: 'install'
-        workingDir: 'src\ESFA.DC.LARS.Web'
-
   - job: Build
     displayName: Build
     pool:
@@ -40,18 +21,6 @@ stages:
       - IsNewBuildServer
 
     steps:
-    - task: DotNetCoreInstaller@2
-      inputs:
-        version: 3.1.100
-      displayName: 'Use .NET Core sdk 3.1.100'
-
-    - task: Npm@1
-      displayName: 'NPM Install'
-      inputs:
-        command: 'install'
-        workingDir: 'src\ESFA.DC.LARS.Web'
-
-
     - task: NuGetToolInstaller@0
       displayName: 'Use NuGet >=5.3.1'
       enabled: false
@@ -64,6 +33,11 @@ stages:
         preferBundledVersion: false
       displayName: GitVersion
 
+    - task: DotNetCoreInstaller@2
+      inputs:
+        version: 3.1.100
+      displayName: 'Use .NET Core sdk 3.1.100'
+
     # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
     # First install the tool on the machine, then run it
     - script: |
@@ -71,6 +45,12 @@ stages:
       displayName: Install dotnet-reportgenerator-globaltool
       continueOnError: true  
       enabled: false
+
+    - task: Npm@1
+      displayName: 'NPM Install'
+      inputs:
+        command: 'install'
+        workingDir: 'src\ESFA.DC.LARS.Web'
 
     - task: DotNetCoreCLI@2
       displayName: 'Restore Nuget packages'
