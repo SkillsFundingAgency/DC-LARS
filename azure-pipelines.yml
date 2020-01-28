@@ -46,7 +46,6 @@ stages:
       continueOnError: true  
       enabled: false
 
-
     - task: Npm@1
       displayName: 'NPM Install'
       inputs:
@@ -65,9 +64,19 @@ stages:
       displayName: 'Build Solution'
       inputs:
         command: 'build'
+		vstsFeed: 'dct-pkg'
         projects: '**/*.csproj'
         configuration: $(BuildConfiguration) 
         arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build WebJob in Temp Folder'
+      inputs:
+        command: 'build'
+		vstsFeed: 'dct-pkg'
+        projects: '**/*.csproj'
+        configuration: $(BuildConfiguration) 
+        arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)" --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
 
     # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
     - task: DotNetCoreCLI@2
@@ -122,7 +131,7 @@ stages:
     ## Web Job - Publish Project
     - task: DotNetCoreCLI@2
       enabled: true
-      displayName: 'ESFA.DC.FundingClaims.ReminderService - Publish WebJob to Temp Folder'
+      displayName: 'Publish WebJob to Temp Folder'
       inputs:
         command: publish
         publishWebProjects: false
