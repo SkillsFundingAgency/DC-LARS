@@ -64,8 +64,7 @@ stages:
       displayName: 'Build Solution'
       inputs:
         command: 'build'
-		vstsFeed: 'dct-pkg'
-        projects: '**/*.csproj'
+		projects: '**/*.csproj'
         configuration: $(BuildConfiguration) 
         arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
 
@@ -73,8 +72,7 @@ stages:
       displayName: 'Build WebJob in Temp Folder'
       inputs:
         command: 'build'
-		vstsFeed: 'dct-pkg'
-        projects: '**/*.csproj'
+		projects: '**/*.csproj'
         configuration: $(BuildConfiguration) 
         arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)" --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
 
