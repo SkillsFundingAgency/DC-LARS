@@ -1,10 +1,19 @@
-﻿using ESFA.DC.LARS.API.Interfaces.ReferenceData;
+﻿using System.Linq;
+using ESFA.DC.LARS.API.Interfaces.ReferenceData;
 using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Mappers
 {
     public class AzureLearningAimsMapper : IMapper<LearningAimModel, Models.LearningAimModel>
     {
+        private readonly IMapper<CategoryModel, Models.CategoryModel> _categoryMapper;
+
+        public AzureLearningAimsMapper(
+            IMapper<CategoryModel, Models.CategoryModel> categoryMapper)
+        {
+            _categoryMapper = categoryMapper;
+        }
+
         public Models.LearningAimModel Map(LearningAimModel input)
         {
             return new Models.LearningAimModel
@@ -14,7 +23,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 Type = input.Type,
                 AwardingBody = input.AwardingBody,
                 Level = input.Level,
-                GuidedLearningHours = input.GuidedLearningHours
+                GuidedLearningHours = input.GuidedLearningHours,
+                Categories = input.Categories.Select(cat => _categoryMapper.Map(cat)).ToList()
             };
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ESFA.DC.LARS.API.AzureSearch.Mappers;
+﻿using ESFA.DC.LARS.API.AzureSearch.Mappers;
 using ESFA.DC.LARS.API.Interfaces.ReferenceData;
 using ESFA.DC.LARS.Azure.Models;
 using FluentAssertions;
@@ -13,7 +12,13 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         [Fact]
         public void Map_Returns_Valid_Model()
         {
-            var mapper = new AzureLearningAimsMapper();
+            var azureCategory = new CategoryModel();
+            var categoryMapperMock = new Mock<IMapper<CategoryModel, Models.CategoryModel>>();
+            categoryMapperMock
+                .Setup(m => m.Map(azureCategory))
+                .Returns(new Models.CategoryModel());
+
+            var mapper = new AzureLearningAimsMapper(categoryMapperMock.Object);
 
             var azureModel = new LearningAimModel
             {
