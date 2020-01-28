@@ -19,8 +19,7 @@ stages:
       name: DCT
       demands:
       - IsBuildServer
-      #- ServiceFabricSDK  
-
+      
     steps:
 	- task: gittools.gitversion.gitversion-task.GitVersion@4
 	  inputs:
