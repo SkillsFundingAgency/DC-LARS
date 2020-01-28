@@ -19,146 +19,152 @@ stages:
       name: DCT
       demands:
       - IsBuildServer
-      
+
     steps:
-	- task: gittools.gitversion.gitversion-task.GitVersion@4
-	  inputs:
-		updateAssemblyInfo: true
-		preferBundledVersion: false
-	  displayName: GitVersion
+    - task: NuGetToolInstaller@0
+      displayName: 'Use NuGet >=5.3.1'
+      enabled: false
+      inputs:
+        versionSpec: '>=5.3.1'
 
-	- task: DotNetCoreInstaller@2
-	  inputs:
-		version: 3.1.100
-	  displayName: 'Use .NET Core sdk 3.1.100'
+    - task: gittools.gitversion.gitversion-task.GitVersion@4
+      inputs:
+        updateAssemblyInfo: true
+        preferBundledVersion: false
+      displayName: GitVersion
 
-	# Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
-	# First install the tool on the machine, then run it
-	- script: |
-			dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.6  
-	  displayName: Install dotnet-reportgenerator-globaltool
-	  continueOnError: true  
-	  enabled: false
+    - task: DotNetCoreInstaller@2
+      inputs:
+        version: 3.1.100
+      displayName: 'Use .NET Core sdk 3.1.100'
+
+    # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+    # First install the tool on the machine, then run it
+    - script: |
+            dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.6  
+      displayName: Install dotnet-reportgenerator-globaltool
+      continueOnError: true  
+      enabled: false
 
 
-	- task: Npm@1
-	  displayName: 'NPM Install'
-	  inputs:
-		command: 'install'
-		workingDir: 'src\ESFA.DC.LARS.Web'
+    - task: Npm@1
+      displayName: 'NPM Install'
+      inputs:
+        command: 'install'
+        workingDir: 'src\ESFA.DC.LARS.Web'
 
-	- task: DotNetCoreCLI@2
-	  displayName: 'Restore Nuget packages'
-	  inputs:
-		command: 'restore'
-		projects: '**/*.csproj'
-		feedsToUse: 'select'
-		vstsFeed: 'dct-pkg'
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore Nuget packages'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+        vstsFeed: 'dct-pkg'
 
-	- task: DotNetCoreCLI@2
-	  displayName: 'Build Solution'
-	  inputs:
-		command: 'build'
-		projects: '**/*.csproj'
-		configuration: $(BuildConfiguration) 
-		arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build Solution'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        configuration: $(BuildConfiguration) 
+        arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
 
-	# Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
-	- task: DotNetCoreCLI@2
-	  displayName: Run unit tests
-	  inputs:
-		command: test
-		arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-		nobuild: true
-		projects: '**/*Tests.csproj'
+    # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
+    - task: DotNetCoreCLI@2
+      displayName: Run unit tests
+      inputs:
+        command: test
+        arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+        nobuild: true
+        projects: '**/*Tests.csproj'
 
-	## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
-	# First install the tool on the machine, then run it
-	- script: |
-		dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.3.6  
-		reportgenerator -reports:$(Build.SourcesDirectory)/**/*Tests/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:Cobertura
-	  displayName: Create Code coverage report
-	  
-	# Publish the code coverage result (summary and web site)
-	# The summary allows to view the coverage percentage in the summary tab
-	# The web site allows to view which lines are covered directly in Azure Pipeline
-	- task: PublishCodeCoverageResults@1
-	  displayName: 'Publish code coverage'
-	  inputs:
-		codeCoverageTool: Cobertura
-		summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
-		reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+    ## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+    # First install the tool on the machine, then run it
+    - script: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.3.6  
+        reportgenerator -reports:$(Build.SourcesDirectory)/**/*Tests/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:Cobertura
+      displayName: Create Code coverage report
+      
+    # Publish the code coverage result (summary and web site)
+    # The summary allows to view the coverage percentage in the summary tab
+    # The web site allows to view which lines are covered directly in Azure Pipeline
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
+        reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
 
-	- task: DotNetCoreCLI@2
-	  displayName: 'Package Api Artifact Folder'
-	  inputs:
-		command: publish
-		configuration: $(BuildConfiguration) 
-		publishWebProjects: false
-		zipAfterPublish: true
-		nobuild: true
-		projects: '**/ESFA.DC.LARS.API.csproj'
-		arguments: '--output "$(build.artifactstagingdirectory)\Web\API"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
-		vstsFeed: 'dct-pkg'
+    - task: DotNetCoreCLI@2
+      displayName: 'Package Api Artifact Folder'
+      inputs:
+        command: publish
+        configuration: $(BuildConfiguration) 
+        publishWebProjects: false
+        zipAfterPublish: true
+        nobuild: true
+        projects: '**/ESFA.DC.LARS.API.csproj'
+        arguments: '--output "$(build.artifactstagingdirectory)\Web\API"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
+        vstsFeed: 'dct-pkg'
 
-	- task: DotNetCoreCLI@2
-	  displayName: 'Package UI Artifact Folder'
-	  inputs:
-		command: publish
-		configuration: $(BuildConfiguration) 
-		publishWebProjects: false
-		zipAfterPublish: true
-		nobuild: true
-		projects: '**/ESFA.DC.LARS.Web.csproj'
-		arguments: '--output "$(build.artifactstagingdirectory)\Web\UI"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
-		vstsFeed: 'dct-pkg'
+    - task: DotNetCoreCLI@2
+      displayName: 'Package UI Artifact Folder'
+      inputs:
+        command: publish
+        configuration: $(BuildConfiguration) 
+        publishWebProjects: false
+        zipAfterPublish: true
+        nobuild: true
+        projects: '**/ESFA.DC.LARS.Web.csproj'
+        arguments: '--output "$(build.artifactstagingdirectory)\Web\UI"  -p:version="$(Build.BuildNumber)" -p:FileVersion="$(Build.BuildNumber)"'
+        vstsFeed: 'dct-pkg'
 
-	## Web Job - Publish Project
-	- task: DotNetCoreCLI@2
-	  enabled: true
-	  displayName: 'ESFA.DC.FundingClaims.ReminderService - Publish WebJob to Temp Folder'
-	  inputs:
-		command: publish
-		publishWebProjects: false
-		projects: '**/ESFA.DC.LARS.AzureSearch/ESFA.DC.LARS.AzureSearch.csproj'
-		arguments: '--no-build --configuration $(BuildConfiguration) --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch" -p:version=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber)'
-		vstsFeed: 'dct-pkg'
-		zipAfterPublish: false
-		modifyOutputPath: false
-		workingDirectory: '$(System.DefaultWorkingDirectory)'
-		
-	- task: PowerShell@1
-	  enabled: true
-	  displayName: 'Web Job - Create settings.job via PowerShell Script'
-	  inputs:
-		scriptType: inlineScript
-		workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
-		inlineScript: |
-		 $cmdCommand='{"schedule": "0 0 06 * * 1-5"}'
-		 $cmdCommand| Out-File -FilePath settings.job -Encoding ascii
-		 
-	- task: PowerShell@1
-	  enabled: true
-	  displayName: 'Web Job - Create run.cmd'
-	  inputs:
-		scriptType: inlineScript
-		workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
-		inlineScript: |
-		 $cmdCommand="dotnet ESFA.DC.LARS.AzureSearch.exe.dll"
-		 $cmdCommand| Out-File -FilePath run.cmd -Encoding ascii
+    ## Web Job - Publish Project
+    - task: DotNetCoreCLI@2
+      enabled: true
+      displayName: 'ESFA.DC.FundingClaims.ReminderService - Publish WebJob to Temp Folder'
+      inputs:
+        command: publish
+        publishWebProjects: false
+        projects: '**/ESFA.DC.LARS.AzureSearch/ESFA.DC.LARS.AzureSearch.csproj'
+        arguments: '--no-build --configuration $(BuildConfiguration) --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch" -p:version=$(Build.BuildNumber) -p:FileVersion=$(Build.BuildNumber)'
+        vstsFeed: 'dct-pkg'
+        zipAfterPublish: false
+        modifyOutputPath: false
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        
+    - task: PowerShell@1
+      enabled: true
+      displayName: 'Web Job - Create settings.job via PowerShell Script'
+      inputs:
+        scriptType: inlineScript
+        workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
+        inlineScript: |
+         $cmdCommand='{"schedule": "0 0 06 * * 1-5"}'
+         $cmdCommand| Out-File -FilePath settings.job -Encoding ascii
+         
+    - task: PowerShell@1
+      enabled: true
+      displayName: 'Web Job - Create run.cmd'
+      inputs:
+        scriptType: inlineScript
+        workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
+        inlineScript: |
+         $cmdCommand="dotnet ESFA.DC.LARS.AzureSearch.exe.dll"
+         $cmdCommand| Out-File -FilePath run.cmd -Encoding ascii
 
-	## Create Zip File for Deployment     
-	- task: ArchiveFiles@2
-	  displayName: 'Package WebJobs for Website'
-	  inputs:
-		rootFolderOrFile: '$(build.SourcesDirectory)\tmp'
-		includeRootFolder: false
-		archiveFile: '$(build.ArtifactStagingDirectory)\Web\WebJobs.zip'
+    ## Create Zip File for Deployment     
+    - task: ArchiveFiles@2
+      displayName: 'Package WebJobs for Website'
+      inputs:
+        rootFolderOrFile: '$(build.SourcesDirectory)\tmp'
+        includeRootFolder: false
+        archiveFile: '$(build.ArtifactStagingDirectory)\Web\WebJobs.zip'
 
-	## Publish Web Artifacts
-	- task: PublishBuildArtifacts@1
-	  displayName: 'Publish Artifact: Web'
-	  enabled: true
-	  inputs:
-		ArtifactName: Web
-		PathtoPublish: '$(build.artifactstagingdirectory)\Web'
+    ## Publish Web Artifacts
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: Web'
+      enabled: true
+      inputs:
+        ArtifactName: Web
+        PathtoPublish: '$(build.artifactstagingdirectory)\Web'
