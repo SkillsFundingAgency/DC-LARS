@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.LARS.Web", "ESFA.DC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9C3662F2-E8D1-48C2-AFFB-4D64BA0F8092}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		..\.gitignore = ..\.gitignore
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\README.md = ..\README.md
 	EndProjectSection
@@ -55,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.LARS.API.AzureSearc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.LARS.Azure.Models", "ESFA.DC.LARS.Azure.Models\ESFA.DC.LARS.Azure.Models.csproj", "{E2FEC000-4E2C-4301-98D5-CC61215ED0B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.LARS.API.AzureSearch.Tests", "ESFA.DC.LARS.API.AzureSearch.Tests\ESFA.DC.LARS.API.AzureSearch.Tests.csproj", "{7659E65F-81A0-4772-A6B3-990CF65ADACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.LARS.API.AzureSearch.Tests", "ESFA.DC.LARS.API.AzureSearch.Tests\ESFA.DC.LARS.API.AzureSearch.Tests.csproj", "{7659E65F-81A0-4772-A6B3-990CF65ADACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
