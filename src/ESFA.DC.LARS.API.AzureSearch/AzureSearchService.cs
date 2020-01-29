@@ -34,7 +34,6 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IEnumerable<Models.LearningAimModel> learningAims;
 
             var parameters = GetDefaultParameters();
-            parameters.SearchFields = new List<string> { "LearningAimTitle" };
 
             var searchTerm = string.Empty;
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
