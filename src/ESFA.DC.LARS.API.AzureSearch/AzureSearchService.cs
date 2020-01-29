@@ -49,12 +49,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
         public async Task<Models.LearningAimModel> GetLarsLearningAim(string learnAimRef)
         {
-            var parameters = GetDefaultParameters();
-            parameters.SearchFields = new List<string> { "LearnAimRef" };
-
-            var searchTerm = learnAimRef;
-
-            return (await SearchIndex(searchTerm, parameters)).First();
+            return await IndexSeek(learnAimRef);
         }
 
         private async Task<IEnumerable<Models.LearningAimModel>> SearchIndex(string searchTerm, SearchParameters parameters)
@@ -72,6 +67,24 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
 
             return learningAims;
+        }
+
+        private async Task<Models.LearningAimModel> IndexSeek(string searchTerm)
+        {
+            Models.LearningAimModel learningAim;
+
+            try
+            {
+                var result = await _learningDeliveryIndex.Documents.GetAsync<LearningAimModel>(searchTerm);
+                learningAim = _mapper.Map(result);
+            }
+            catch (Exception ex)
+            {
+                _telemetryClient.TrackEvent(ex.Message);
+                throw;
+            }
+
+            return learningAim;
         }
 
         private SearchParameters GetDefaultParameters()
