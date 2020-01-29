@@ -34,7 +34,6 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IEnumerable<Models.LearningAimModel> learningAims;
 
             var parameters = GetDefaultParameters();
-            parameters.SearchFields = GetSearchableFields<LearningAimModel>();
 
             var searchTerm = string.Empty;
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
@@ -50,15 +49,6 @@ namespace ESFA.DC.LARS.API.AzureSearch
         public async Task<Models.LearningAimModel> GetLarsLearningAim(string learnAimRef)
         {
             return await IndexSeek(learnAimRef);
-        }
-
-        private List<string> GetSearchableFields<T>()
-        {
-            var fields = typeof(T).GetProperties()
-                .Where(p => { return p.GetCustomAttributes(false).Any(attr => attr is IsSearchableAttribute); })
-                .Select(p => p.Name).ToList();
-
-            return fields;
         }
 
         private async Task<IEnumerable<Models.LearningAimModel>> SearchIndex(string searchTerm, SearchParameters parameters)
