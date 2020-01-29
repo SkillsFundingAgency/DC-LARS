@@ -17,21 +17,16 @@ namespace ESFA.DC.LARS.Azure.Models
         [IsSearchable]
         public string LearningAimTitle { get; set; }
 
-        [IsFilterable]
         public string Level { get; set; }
 
-        [IsFilterable]
         public string Type { get; set; }
 
         public int GuidedLearningHours { get; set; }
 
-        [IsFilterable]
         public string AwardingBody { get; set; }
 
-        [IsFilterable]
         public string Level2Category { get; set; }
 
-        [IsFilterable]
         public string Level3Category { get; set; }
 
         public DateTime? EffectiveFrom { get; set; }
