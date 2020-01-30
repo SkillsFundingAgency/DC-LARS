@@ -1,13 +1,16 @@
-﻿using ESFA.DC.LARS.AzureSearch.Configuration;
+﻿using System.Threading.Tasks;
+using ESFA.DC.LARS.AzureSearch.Configuration;
 using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IIndexPopulationService
     {
-        void UploadDocuments(ISearchIndexClient indexClient, ConnectionStrings connectionStrings);
+        bool IsMatch(SearchIndexes index);
 
-        void DeleteIndexIfExists(string indexName, ISearchServiceClient serviceClient);
+        Task PopulateIndex(
+            ISearchIndexClient indexClient,
+            ConnectionStrings connectionStrings);
 
         void CreateIndex(string indexName, ISearchServiceClient serviceClient);
     }

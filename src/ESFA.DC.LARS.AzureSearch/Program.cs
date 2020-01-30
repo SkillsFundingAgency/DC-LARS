@@ -5,7 +5,10 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Extensions;
+using ESFA.DC.LARS.AzureSearch.Indexes;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
+using ESFA.DC.LARS.AzureSearch.Services;
+using ESFA.DC.LARS.AzureSearch.Strategies;
 using Microsoft.Azure.Search;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -29,6 +32,7 @@ namespace ESFA.DC.LARS.AzureSearch
                 var container = ConfigureContainer(configuration, connectionStrings).Build();
 
                 var indexService = container.Resolve<IIndexService>();
+
                 indexService.UpdateIndexes();
 
                 var end = DateTime.Now;
@@ -80,11 +84,18 @@ namespace ESFA.DC.LARS.AzureSearch
             var containerBuilder = new ContainerBuilder();
             containerBuilder.Register(c => configuration).As<IConfiguration>().SingleInstance();
             containerBuilder.Register(c => connectionStrings).As<ConnectionStrings>().SingleInstance();
-            containerBuilder.Register(c => CreateSearchServiceClient(configuration)).As<ISearchServiceClient>()
+            containerBuilder.Register(c => CreateSearchServiceClient(configuration))
+                .As<ISearchServiceClient>()
                 .SingleInstance();
 
-            containerBuilder.RegisterType<IndexPopulationService>().As<IIndexPopulationService>();
+            containerBuilder.RegisterType<LookupIndexPopulationService>().As<IIndexPopulationService>();
+            containerBuilder.RegisterType<LearningAimIndexPopulationService>().As<IIndexPopulationService>();
+
+            containerBuilder.RegisterType<IndexDeletionService>().As<IIndexDeletionService>();
             containerBuilder.RegisterType<IndexService>().As<IIndexService>();
+
+            containerBuilder.RegisterType<LearningAimIndex>().As<IIndex>();
+            containerBuilder.RegisterType<LookupIndex>().As<IIndex>();
 
             return containerBuilder;
         }

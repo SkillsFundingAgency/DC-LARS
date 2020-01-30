@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
+using Microsoft.Azure.Search.Models;
 using Microsoft.EntityFrameworkCore;
 using Index = Microsoft.Azure.Search.Models.Index;
-using IndexAction = Microsoft.Azure.Search.Models.IndexAction;
-using IndexBatch = Microsoft.Azure.Search.Models.IndexBatch;
 
-namespace ESFA.DC.LARS.AzureSearch
+namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
-    public class IndexPopulationService : IIndexPopulationService
+    public class LearningAimIndexPopulationService : IIndexPopulationService
     {
-        public void UploadDocuments(ISearchIndexClient indexClient, ConnectionStrings connectionStrings)
+        public bool IsMatch(SearchIndexes index)
+        {
+            return index == SearchIndexes.LearningDeliveryIndex;
+        }
+
+        public async Task PopulateIndex(
+            ISearchIndexClient indexClient,
+            ConnectionStrings connectionStrings)
         {
             var config = new DbContextOptionsBuilder<LarsContext>();
 
@@ -29,7 +36,7 @@ namespace ESFA.DC.LARS.AzureSearch
 
                 while (next)
                 {
-                    var learningAims = context.LarsLearningDeliveries
+                    var learningAims = await context.LarsLearningDeliveries
                         .Select(ld => new LearningAimModel
                         {
                             LearnAimRef = ld.LearnAimRef,
@@ -58,7 +65,7 @@ namespace ESFA.DC.LARS.AzureSearch
                         .ThenBy(ld => ld.EffectiveFrom)
                         .Skip(page * 10000)
                         .Take(10000)
-                        .ToArray();
+                        .ToArrayAsync();
 
                     var indexActions = learningAims.Select(IndexAction.Upload);
 
@@ -78,14 +85,6 @@ namespace ESFA.DC.LARS.AzureSearch
 
             Console.WriteLine("Waiting for indexing...\n");
             Thread.Sleep(2000);
-        }
-
-        public void DeleteIndexIfExists(string indexName, ISearchServiceClient serviceClient)
-        {
-            if (serviceClient.Indexes.Exists(indexName))
-            {
-                serviceClient.Indexes.Delete(indexName);
-            }
         }
 
         public void CreateIndex(string indexName, ISearchServiceClient serviceClient)
