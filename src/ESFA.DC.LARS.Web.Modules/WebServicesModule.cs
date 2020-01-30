@@ -13,6 +13,7 @@ namespace ESFA.DC.LARS.Web.Modules
         {
             containerBuilder.RegisterType<ClientService>().As<IClientService>();
             containerBuilder.RegisterType<LearningAimsApiService>().As<ILearningAimsApiService>();
+            containerBuilder.RegisterType<LookupApiService>().As<ILookupApiService>();
 
             containerBuilder.RegisterType<LearningAimMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             containerBuilder.RegisterType<SearchResultsBuilder>().As<ISearchResultsBuilder>();

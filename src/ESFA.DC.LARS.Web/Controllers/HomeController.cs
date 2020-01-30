@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
+using ESFA.DC.LARS.Web.Models.ViewModels;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +11,25 @@ namespace ESFA.DC.LARS.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ITelemetry _telemetryClient;
+        private readonly ILookupApiService _lookupApiService;
 
         public HomeController(
-            ITelemetry telemetryClient)
+            ITelemetry telemetryClient,
+            ILookupApiService lookupApiService)
         {
             _telemetryClient = telemetryClient;
+            _lookupApiService = lookupApiService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var model = new LookupViewModel();
+
+            var lookups = await _lookupApiService.GetLookups();
+            model.lookups = lookups;
+
             _telemetryClient.TrackEvent("In home controller");
-            return View();
+            return View(model);
         }
 
         [HttpPost("Search")]
