@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +8,11 @@ namespace ESFA.DC.LARS.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ITelemetry _telemetryClient;
-        private readonly ILearningAimsApiService _learningAimsApiService;
 
         public HomeController(
-            ITelemetry telemetryClient,
-            ILearningAimsApiService learningAimsApiService)
+            ITelemetry telemetryClient)
         {
             _telemetryClient = telemetryClient;
-            _learningAimsApiService = learningAimsApiService;
         }
 
         public IActionResult Index()

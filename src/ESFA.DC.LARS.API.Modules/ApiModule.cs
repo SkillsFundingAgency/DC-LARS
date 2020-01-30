@@ -8,8 +8,8 @@ namespace ESFA.DC.LARS.API.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<LearningAimJsonService>().As<ILearningAimService>();
             builder.RegisterType<LearningAimAzureService>().As<ILearningAimService>();
+            builder.RegisterType<LookupService>().As<ILookupService>();
         }
     }
 }

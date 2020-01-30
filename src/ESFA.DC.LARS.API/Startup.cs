@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.LARS.API.Configuration;
 using ESFA.DC.LARS.API.Extensions;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Modules;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -98,7 +99,6 @@ namespace ESFA.DC.LARS.API
             containerBuilder.Populate(services);
 
             containerBuilder.RegisterModule<LoggingModule>();
-            containerBuilder.RegisterModule<ReferenceDataModule>();
             containerBuilder.RegisterModule<ApiModule>();
             containerBuilder.RegisterModule(new AzureModule
             {
@@ -106,6 +106,8 @@ namespace ESFA.DC.LARS.API
             });
 
             _applicationContainer = containerBuilder.Build();
+
+            _applicationContainer.Resolve<ILearningAimService>();
 
             return new AutofacServiceProvider(_applicationContainer);
         }

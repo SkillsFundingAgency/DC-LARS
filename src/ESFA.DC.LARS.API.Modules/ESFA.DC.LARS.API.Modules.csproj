@@ -28,7 +28,6 @@
     <ProjectReference Include="..\ESFA.DC.LARS.API.Interfaces\ESFA.DC.LARS.API.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.LARS.API.Models\ESFA.DC.LARS.API.Models.csproj" />
     <ProjectReference Include="..\ESFA.DC.LARS.API.Services\ESFA.DC.LARS.API.Services.csproj" />
-    <ProjectReference Include="..\ESFA.DC.LARS.ReferenceData\ESFA.DC.LARS.API.ReferenceData.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,6 @@ using ESFA.DC.LARS.API.AzureSearch.Mappers;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
-using ESFA.DC.LARS.API.Interfaces.ReferenceData;
 using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.API.Modules
@@ -21,11 +20,20 @@ namespace ESFA.DC.LARS.API.Modules
                 .As<ILearningDeliveryIndexService>()
                 .SingleInstance();
 
+            builder
+                .Register(c => new LookupClient(AzureSettings))
+                .As<ILookupIndexService>()
+                .SingleInstance();
+
             builder.RegisterType<AzureSearchService>().As<IAzureSearchService>();
+            builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
 
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             builder.RegisterType<AzureCategoryMapper>().As<IMapper<CategoryModel, Models.CategoryModel>>();
             builder.RegisterType<AzureFundingModelMapper>().As<IMapper<FundingModel, Models.FundingModel>>();
+
+            builder.RegisterType<AzureLookupMapper>().As<IMapper<LookUpModel, Models.LookUpModel>>();
+            builder.RegisterType<AzureNotionalNVQLevel2ModelMapper>().As<IMapper<NotionalNVQLevel2Model, Models.NotionalNVQLevel2Model>>();
         }
     }
 }

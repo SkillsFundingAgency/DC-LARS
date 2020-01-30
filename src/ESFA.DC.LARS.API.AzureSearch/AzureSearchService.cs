@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
-using ESFA.DC.LARS.API.Interfaces.ReferenceData;
 using ESFA.DC.LARS.API.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.Azure.Search;

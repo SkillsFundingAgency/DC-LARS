@@ -11,7 +11,9 @@ namespace ESFA.DC.LARS.API.Modules.Tests
         public void TestRegistrations()
         {
             var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule<ApiStubModule>();
+            containerBuilder.RegisterModule<ApiModule>();
+            containerBuilder.RegisterModule<AzureModule>();
+            containerBuilder.RegisterModule<LoggingModule>();
 
             var container = containerBuilder.Build();
 

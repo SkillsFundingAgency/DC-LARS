@@ -1,5 +1,5 @@
 ﻿using ESFA.DC.LARS.API.AzureSearch.Mappers;
-using ESFA.DC.LARS.API.Interfaces.ReferenceData;
+using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.Azure.Models;
 using FluentAssertions;
 using Moq;
