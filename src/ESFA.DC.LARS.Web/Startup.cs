@@ -50,7 +50,7 @@ namespace ESFA.DC.LARS.Web
             };
             services.AddApplicationInsightsTelemetry(insightOptions);
 
-            services.AddSingleton<Models.IAppVersionService, Models.AppVersionService>();
+            services.AddSingleton<Models.IAppVersionService, AppVersionService>();
 
             FlurlHttp.Configure(settings =>
             {

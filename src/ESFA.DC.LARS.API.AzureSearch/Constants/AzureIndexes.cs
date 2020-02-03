@@ -3,5 +3,6 @@
     public class AzureIndexes
     {
         public const string LearningDeliveryIndex = "learning-delivery";
+        public const string LookupIndex = "lookups";
     }
 }

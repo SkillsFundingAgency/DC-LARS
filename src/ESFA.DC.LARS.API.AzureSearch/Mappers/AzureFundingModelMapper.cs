@@ -1,4 +1,4 @@
-﻿using ESFA.DC.LARS.API.Interfaces.ReferenceData;
+﻿using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Mappers
