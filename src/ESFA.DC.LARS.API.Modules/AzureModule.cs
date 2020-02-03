@@ -30,6 +30,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureLearningAimsService>().As<IAzureLearningAimsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
+            builder.RegisterType<AzureService>().As<IAzureService>();
 
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             builder.RegisterType<AzureCategoryMapper>().As<IMapper<CategoryModel, Models.CategoryModel>>();
