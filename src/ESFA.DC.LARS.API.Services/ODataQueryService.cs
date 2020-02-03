@@ -22,7 +22,7 @@ namespace ESFA.DC.LARS.API.Services
             var builder = new StringBuilder();
             foreach (var level in searchModel.Levels)
             {
-                builder.Append(parameters.Filter.Length == 0
+                builder.Append(builder.Length == 0
                     ? $"Level eq '{level}'"
                     : $" or Level eq '{level}'");
             }
