@@ -33,7 +33,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         }
 
         [HttpPost("Search")]
-        public IActionResult Search([FromForm]SearchModel searchModel)
+        public IActionResult Search([FromForm]BasicSearchModel searchModel)
         {
             return RedirectToAction("Index", "SearchResult", searchModel);
         }

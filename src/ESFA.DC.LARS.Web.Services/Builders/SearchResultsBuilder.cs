@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.Web.Services.Builders
         private readonly IMapper<LearningAimModel, Models.LearningAimModel> _mapper;
 
         public SearchResultsBuilder(
-            IMapper<API.Models.LearningAimModel, Models.LearningAimModel> mapper)
+            IMapper<LearningAimModel, Models.LearningAimModel> mapper)
         {
             _mapper = mapper;
         }

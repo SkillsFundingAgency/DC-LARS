@@ -17,7 +17,11 @@ namespace ESFA.DC.LARS.Azure.Models
         [IsSearchable]
         public string LearningAimTitle { get; set; }
 
+        [IsFilterable]
+        [IsFacetable]
         public string Level { get; set; }
+
+        public string LevelDescription { get; set; }
 
         public string Type { get; set; }
 

@@ -9,15 +9,21 @@ namespace ESFA.DC.LARS.Web.Controllers
     [Route("SearchResult")]
     public class SearchResultController : Controller
     {
+        private readonly ISearchModelFactory _searchModelFactory;
         private readonly ILearningAimsApiService _learningAimsApiService;
 
-        public SearchResultController(ILearningAimsApiService learningAimsApiService)
+        public SearchResultController(
+            ISearchModelFactory searchModelFactory,
+            ILearningAimsApiService learningAimsApiService)
         {
+            _searchModelFactory = searchModelFactory;
             _learningAimsApiService = learningAimsApiService;
         }
 
-        public async Task<IActionResult> Index(SearchModel searchModel = null)
+        public async Task<IActionResult> Index(BasicSearchModel basicSearchModel = null)
         {
+            var searchModel = _searchModelFactory.GetSearchModel(basicSearchModel);
+
             var learningAims = await _learningAimsApiService.GetLearningAims(searchModel);
 
             var model = new SearchResultsViewModel

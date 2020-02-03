@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -20,7 +19,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             return index == SearchIndexes.LearningDeliveryIndex;
         }
 
-        public async Task PopulateIndex(
+        public void PopulateIndex(
             ISearchIndexClient indexClient,
             ConnectionStrings connectionStrings)
         {
@@ -36,14 +35,15 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
                 while (next)
                 {
-                    var learningAims = await context.LarsLearningDeliveries
+                    var learningAims = context.LarsLearningDeliveries
                         .Select(ld => new LearningAimModel
                         {
                             LearnAimRef = ld.LearnAimRef,
                             AwardingBody = ld.AwardOrgCode,
                             EffectiveFrom = ld.EffectiveFrom,
                             EffectiveTo = ld.EffectiveTo,
-                            Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2desc,
+                            Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2,
+                            LevelDescription = ld.NotionalNvqlevelNavigation.NotionalNvqlevelDesc,
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
                             GuidedLearningHours = ld.GuidedLearningHours ?? 0,
@@ -65,7 +65,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         .ThenBy(ld => ld.EffectiveFrom)
                         .Skip(page * 10000)
                         .Take(10000)
-                        .ToArrayAsync();
+                        .ToArray();
 
                     var indexActions = learningAims.Select(IndexAction.Upload);
 

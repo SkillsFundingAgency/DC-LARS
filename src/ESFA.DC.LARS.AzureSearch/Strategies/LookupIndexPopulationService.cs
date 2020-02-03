@@ -18,7 +18,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             return index == SearchIndexes.LookUpIndex;
         }
 
-        public async Task PopulateIndex(ISearchIndexClient indexClient, ConnectionStrings connectionStrings)
+        public void PopulateIndex(ISearchIndexClient indexClient, ConnectionStrings connectionStrings)
         {
             var config = new DbContextOptionsBuilder<LarsContext>();
             config.UseSqlServer(connectionStrings.LarsConnectionString);
@@ -29,12 +29,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 lookups = new LookUpModel
                 {
                     LookUpKey = "1",
-                    NotionalNvqLevel2Lookups = await context.LarsNotionalNvqlevelv2Lookups.Select(lvl =>
+                    NotionalNvqLevel2Lookups = context.LarsNotionalNvqlevelv2Lookups.Select(lvl =>
                         new NotionalNVQLevel2Model
                         {
                             NotionalNVQLevelV2 = lvl.NotionalNvqlevelV2,
                             NotionalNVQLevelV2Desc = lvl.NotionalNvqlevelV2desc
-                        }).ToListAsync()
+                        }).ToList()
                 };
             }
 

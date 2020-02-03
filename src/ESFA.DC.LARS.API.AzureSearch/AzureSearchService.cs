@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.Azure.Search;
@@ -18,22 +19,25 @@ namespace ESFA.DC.LARS.API.AzureSearch
         private readonly ITelemetry _telemetryClient;
         private readonly IMapper<LearningAimModel, Models.LearningAimModel> _mapper;
         private readonly ILearningDeliveryIndexService _learningDeliveryIndex;
+        private readonly IODataQueryService _oDataQueryService;
 
         public AzureSearchService(
             ITelemetry telemetryClient,
             IMapper<LearningAimModel, Models.LearningAimModel> mapper,
-            ILearningDeliveryIndexService learningDeliveryIndex)
+            ILearningDeliveryIndexService learningDeliveryIndex,
+            IODataQueryService oDataQueryService)
         {
             _telemetryClient = telemetryClient;
             _mapper = mapper;
             _learningDeliveryIndex = learningDeliveryIndex;
+            _oDataQueryService = oDataQueryService;
         }
 
         public async Task<IEnumerable<Models.LearningAimModel>> GetLarsLearningDeliveries(SearchModel searchModel)
         {
-            IEnumerable<Models.LearningAimModel> learningAims;
-
             var parameters = GetDefaultParameters();
+
+            SetFilters(searchModel, parameters);
 
             var searchTerm = string.Empty;
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
@@ -41,7 +45,16 @@ namespace ESFA.DC.LARS.API.AzureSearch
                 searchTerm = $"{searchModel.SearchTerm}";
             }
 
-            learningAims = await SearchIndex(searchTerm, parameters);
+            IEnumerable<Models.LearningAimModel> learningAims;
+            try
+            {
+                 learningAims = await SearchIndex(searchTerm, parameters);
+            }
+            catch (Exception ex)
+            {
+                _telemetryClient.TrackEvent(ex.Message);
+                throw;
+            }
 
             return learningAims;
         }
@@ -86,11 +99,18 @@ namespace ESFA.DC.LARS.API.AzureSearch
             return learningAim;
         }
 
+        private void SetFilters(SearchModel searchModel, SearchParameters parameters)
+        {
+            parameters.Filter = string.Empty;
+
+            _oDataQueryService.SetLevelFilters(searchModel, parameters);
+        }
+
         private SearchParameters GetDefaultParameters()
         {
             return new SearchParameters
             {
-                QueryType = QueryType.Simple,
+                QueryType = QueryType.Full,
                 SearchMode = SearchMode.Any,
                 IncludeTotalResultCount = true,
                 Top = 10000

@@ -8,7 +8,7 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
     {
         bool IsMatch(SearchIndexes index);
 
-        Task PopulateIndex(
+        void PopulateIndex(
             ISearchIndexClient indexClient,
             ConnectionStrings connectionStrings);
 
