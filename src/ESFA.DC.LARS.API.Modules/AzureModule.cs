@@ -27,7 +27,7 @@ namespace ESFA.DC.LARS.API.Modules
                 .As<ILookupIndexService>()
                 .SingleInstance();
 
-            builder.RegisterType<AzureSearchService>().As<IAzureSearchService>();
+            builder.RegisterType<AzureLearningAimsService>().As<IAzureLearningAimsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
 

@@ -8,29 +8,31 @@ using ESFA.DC.LARS.API.Interfaces.IndexServices;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using ESFA.DC.Telemetry.Interfaces;
-using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using LearningAimModel = ESFA.DC.LARS.Azure.Models.LearningAimModel;
 
 namespace ESFA.DC.LARS.API.AzureSearch
 {
-    public class AzureSearchService : IAzureSearchService
+    public class AzureLearningAimsService : IAzureLearningAimsService
     {
         private readonly ITelemetry _telemetryClient;
         private readonly IMapper<LearningAimModel, Models.LearningAimModel> _mapper;
         private readonly ILearningDeliveryIndexService _learningDeliveryIndex;
         private readonly IODataQueryService _oDataQueryService;
+        private readonly IAzureService _azureService;
 
-        public AzureSearchService(
+        public AzureLearningAimsService(
             ITelemetry telemetryClient,
             IMapper<LearningAimModel, Models.LearningAimModel> mapper,
             ILearningDeliveryIndexService learningDeliveryIndex,
-            IODataQueryService oDataQueryService)
+            IODataQueryService oDataQueryService,
+            IAzureService azureService)
         {
             _telemetryClient = telemetryClient;
             _mapper = mapper;
             _learningDeliveryIndex = learningDeliveryIndex;
             _oDataQueryService = oDataQueryService;
+            _azureService = azureService;
         }
 
         public async Task<IEnumerable<Models.LearningAimModel>> GetLarsLearningDeliveries(SearchModel searchModel)
@@ -69,8 +71,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IEnumerable<Models.LearningAimModel> learningAims;
             try
             {
-                var result = await _learningDeliveryIndex.Documents.SearchAsync<LearningAimModel>(searchTerm, parameters);
-                learningAims = result.Results.Select(r => _mapper.Map(r.Document));
+                var result = await _azureService.SearchIndexAsync<LearningAimModel>(_learningDeliveryIndex, searchTerm, parameters);
+
+                learningAims = result.Results.Select(r => r.Document).Select(d => _mapper.Map(d));
             }
             catch (Exception ex)
             {
@@ -87,7 +90,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
             try
             {
-                var result = await _learningDeliveryIndex.Documents.GetAsync<LearningAimModel>(searchTerm);
+                var result = await _azureService.GetAsync<LearningAimModel>(_learningDeliveryIndex, searchTerm);
                 learningAim = _mapper.Map(result);
             }
             catch (Exception ex)
@@ -101,8 +104,6 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
         private void SetFilters(SearchModel searchModel, SearchParameters parameters)
         {
-            parameters.Filter = string.Empty;
-
             _oDataQueryService.SetLevelFilters(searchModel, parameters);
         }
 

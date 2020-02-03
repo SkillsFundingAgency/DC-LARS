@@ -4,7 +4,7 @@ using ESFA.DC.LARS.API.Models;
 
 namespace ESFA.DC.LARS.API.Interfaces.AzureSearch
 {
-    public interface IAzureSearchService
+    public interface IAzureLearningAimsService
     {
         Task<IEnumerable<Models.LearningAimModel>> GetLarsLearningDeliveries(SearchModel searchModel);
 

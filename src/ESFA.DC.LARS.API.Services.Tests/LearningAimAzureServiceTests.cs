@@ -16,7 +16,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
             var searchModel = new SearchModel();
             var learningAimModels = new List<LearningAimModel>();
 
-            var azureServiceMock = new Mock<IAzureSearchService>();
+            var azureServiceMock = new Mock<IAzureLearningAimsService>();
             azureServiceMock
                 .Setup(m => m.GetLarsLearningDeliveries(searchModel))
                 .ReturnsAsync(learningAimModels);
@@ -34,7 +34,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
             var learnAimRef = "6014838X";
             var learningAimModel = new LearningAimModel();
 
-            var azureServiceMock = new Mock<IAzureSearchService>();
+            var azureServiceMock = new Mock<IAzureLearningAimsService>();
             azureServiceMock
                 .Setup(m => m.GetLarsLearningAim(learnAimRef))
                 .ReturnsAsync(learningAimModel);

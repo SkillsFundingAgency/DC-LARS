@@ -16,6 +16,8 @@ namespace ESFA.DC.LARS.API.Services
                 return;
             }
 
+            parameters.Filter = string.Empty;
+
             foreach (var level in searchModel.Levels)
             {
                 parameters.Filter += parameters.Filter.Length == 0

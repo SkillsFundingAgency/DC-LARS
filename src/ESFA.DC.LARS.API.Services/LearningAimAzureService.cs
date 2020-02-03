@@ -8,9 +8,9 @@ namespace ESFA.DC.LARS.API.Services
 {
     public class LearningAimAzureService : ILearningAimService
     {
-        private readonly IAzureSearchService _azureSearchService;
+        private readonly IAzureLearningAimsService _azureSearchService;
 
-        public LearningAimAzureService(IAzureSearchService azureSearchService)
+        public LearningAimAzureService(IAzureLearningAimsService azureSearchService)
         {
             _azureSearchService = azureSearchService;
         }
