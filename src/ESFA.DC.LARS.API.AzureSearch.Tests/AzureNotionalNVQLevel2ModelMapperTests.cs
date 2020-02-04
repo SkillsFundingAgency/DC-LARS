@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ESFA.DC.LARS.API.AzureSearch.Mappers;
-using ESFA.DC.LARS.API.Interfaces;
+﻿using ESFA.DC.LARS.API.AzureSearch.Mappers;
 using ESFA.DC.LARS.Azure.Models;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Tests

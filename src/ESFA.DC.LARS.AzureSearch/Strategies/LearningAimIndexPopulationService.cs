@@ -2,30 +2,30 @@
 using System.Linq;
 using System.Threading;
 using ESFA.DC.LARS.Azure.Models;
-using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using Microsoft.EntityFrameworkCore;
-using Index = Microsoft.Azure.Search.Models.Index;
 
 namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
-    public class LearningAimIndexPopulationService : IIndexPopulationService
+    public class LearningAimIndexPopulationService : AbstractPopulationService<LearningAimModel>
     {
-        public bool IsMatch(SearchIndexes index)
+        public LearningAimIndexPopulationService(ISearchServiceClient searchServiceClient, IPopulationConfiguration populationConfiguration)
+            : base(searchServiceClient, populationConfiguration)
         {
-            return index == SearchIndexes.LearningDeliveryIndex;
         }
 
-        public void PopulateIndex(
-            ISearchIndexClient indexClient,
-            ConnectionStrings connectionStrings)
+        protected override string IndexName => _populationConfiguration.LearningAimsIndexName;
+
+        public override void PopulateIndex()
         {
+            var indexClient = GetIndexClient();
+
             var config = new DbContextOptionsBuilder<LarsContext>();
 
-            config.UseSqlServer(connectionStrings.LarsConnectionString);
+            config.UseSqlServer(ConnectionString);
 
             var next = true;
 
@@ -85,17 +85,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
             Console.WriteLine("Waiting for indexing...\n");
             Thread.Sleep(2000);
-        }
-
-        public void CreateIndex(string indexName, ISearchServiceClient serviceClient)
-        {
-            var definition = new Index
-            {
-                Name = indexName,
-                Fields = FieldBuilder.BuildForType<LearningAimModel>()
-            };
-
-            serviceClient.Indexes.Create(definition);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.Azure.Models
 {

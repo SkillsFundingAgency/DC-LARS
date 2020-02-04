@@ -23,13 +23,13 @@ namespace ESFA.DC.LARS.AzureSearch
             IConfigurationBuilder configBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
             IConfiguration configuration = configBuilder.Build();
 
-            var connectionStrings = configuration.GetConfigSection<ConnectionStrings>();
+            var populationConfiguration = configuration.GetConfigSection<PopulationConfiguration>();
 
             if (args.Any(a => a.Contains("run-manual")))
             {
                 var start = DateTime.Now;
                 Console.WriteLine($"Starting {start}");
-                var container = ConfigureContainer(configuration, connectionStrings).Build();
+                var container = ConfigureContainer(configuration, populationConfiguration).Build();
 
                 var indexService = container.Resolve<IIndexService>();
 
@@ -59,7 +59,7 @@ namespace ESFA.DC.LARS.AzureSearch
                     .ConfigureLogging((context, b) => { b.AddConsole(); })
                     .ConfigureServices(services => { services.AddAutofac(); })
                     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                    .ConfigureContainer<ContainerBuilder>(c => ConfigureContainer(configuration, connectionStrings));
+                    .ConfigureContainer<ContainerBuilder>(c => ConfigureContainer(configuration, populationConfiguration));
 
                 var host = builder.Build();
                 using (host)
@@ -79,19 +79,18 @@ namespace ESFA.DC.LARS.AzureSearch
             return serviceClient;
         }
 
-        private static ContainerBuilder ConfigureContainer(IConfiguration configuration, ConnectionStrings connectionStrings)
+        private static ContainerBuilder ConfigureContainer(IConfiguration configuration, IPopulationConfiguration populationConfiguration)
         {
             var containerBuilder = new ContainerBuilder();
-            containerBuilder.Register(c => configuration).As<IConfiguration>().SingleInstance();
-            containerBuilder.Register(c => connectionStrings).As<ConnectionStrings>().SingleInstance();
+
             containerBuilder.Register(c => CreateSearchServiceClient(configuration))
                 .As<ISearchServiceClient>()
                 .SingleInstance();
 
+            containerBuilder.Register(cb => populationConfiguration).As<IPopulationConfiguration>();
+
             containerBuilder.RegisterType<LookupIndexPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<LearningAimIndexPopulationService>().As<IIndexPopulationService>();
-
-            containerBuilder.RegisterType<IndexDeletionService>().As<IIndexDeletionService>();
             containerBuilder.RegisterType<IndexService>().As<IIndexService>();
 
             containerBuilder.RegisterType<LearningAimIndex>().As<IIndex>();

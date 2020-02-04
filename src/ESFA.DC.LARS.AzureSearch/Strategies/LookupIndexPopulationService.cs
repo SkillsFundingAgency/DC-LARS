@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
-using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
@@ -11,17 +9,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
-    public class LookupIndexPopulationService : IIndexPopulationService
+    public class LookupIndexPopulationService : AbstractPopulationService<LookUpModel>
     {
-        public bool IsMatch(SearchIndexes index)
+        public LookupIndexPopulationService(ISearchServiceClient searchServiceClient, IPopulationConfiguration populationConfiguration)
+            : base(searchServiceClient, populationConfiguration)
         {
-            return index == SearchIndexes.LookUpIndex;
         }
 
-        public void PopulateIndex(ISearchIndexClient indexClient, ConnectionStrings connectionStrings)
+        protected override string IndexName => _populationConfiguration.LookupsIndexName;
+
+        public override void PopulateIndex()
         {
+            var indexClient = GetIndexClient();
+
             var config = new DbContextOptionsBuilder<LarsContext>();
-            config.UseSqlServer(connectionStrings.LarsConnectionString);
+            config.UseSqlServer(ConnectionString);
 
             LookUpModel lookups;
             using (var context = new LarsContext(config.Options))
@@ -46,17 +48,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 indexClient.Documents.Index(batch);
             }
-        }
-
-        public void CreateIndex(string indexName, ISearchServiceClient serviceClient)
-        {
-            var definition = new Index
-            {
-                Name = indexName,
-                Fields = FieldBuilder.BuildForType<LookUpModel>()
-            };
-
-            serviceClient.Indexes.Create(definition);
         }
     }
 }
