@@ -7,6 +7,7 @@ using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Services;
+using ESFA.DC.LARS.API.Services.ODataFilters;
 using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.API.Modules
@@ -31,6 +32,9 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
             builder.RegisterType<AzureService>().As<IAzureService>();
+
+            builder.RegisterType<LevelODataFilter>().As<IODataFilter>();
+            builder.RegisterType<AwardingBodyODataFilter>().As<IODataFilter>();
 
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             builder.RegisterType<AzureCategoryMapper>().As<IMapper<CategoryModel, Models.CategoryModel>>();

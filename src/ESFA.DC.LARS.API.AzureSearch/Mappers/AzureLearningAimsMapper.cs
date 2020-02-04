@@ -21,7 +21,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 LearnAimRef = input.LearnAimRef,
                 LearningAimTitle = input.LearningAimTitle,
                 Type = input.Type,
-                AwardingBody = input.AwardingBody,
+                AwardingBody = input.AwardingBodyName,
                 Level = input.LevelDescription,
                 GuidedLearningHours = input.GuidedLearningHours,
                 Categories = input.Categories?.Select(cat => _categoryMapper.Map(cat)).ToList()

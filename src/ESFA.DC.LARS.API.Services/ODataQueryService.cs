@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
@@ -8,26 +8,31 @@ namespace ESFA.DC.LARS.API.Services
 {
     public class ODataQueryService : IODataQueryService
     {
-        public void SetLevelFilters(SearchModel searchModel, SearchParameters parameters)
+        private const string Concatenation = " and ";
+        private readonly IEnumerable<IODataFilter> _odataFilters;
+
+        public ODataQueryService(IEnumerable<IODataFilter> odataFilters)
         {
-            bool levelFilterSelected = searchModel.Levels?.Any() ?? false;
+            _odataFilters = odataFilters;
+        }
 
-            if (!levelFilterSelected)
+        public void SetFilters(SearchModel searchModel, SearchParameters parameters)
+        {
+            var odataQuery = new StringBuilder();
+
+            foreach (var filter in _odataFilters)
             {
-                return;
+                var filterString = filter.ApplyFilter(searchModel);
+
+                if (odataQuery.Length != 0 && !string.IsNullOrEmpty(filterString))
+                {
+                    odataQuery.Append(Concatenation);
+                }
+
+                odataQuery.Append(filterString);
             }
 
-            parameters.Filter = string.Empty;
-
-            var builder = new StringBuilder();
-            foreach (var level in searchModel.Levels)
-            {
-                builder.Append(builder.Length == 0
-                    ? $"Level eq '{level}'"
-                    : $" or Level eq '{level}'");
-            }
-
-            parameters.Filter = builder.ToString();
+            parameters.Filter = odataQuery.ToString();
         }
     }
 }

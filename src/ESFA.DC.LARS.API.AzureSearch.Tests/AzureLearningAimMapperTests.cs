@@ -25,7 +25,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 LearnAimRef = "testRef",
                 LearningAimTitle = "testTitle",
                 Type = "testType",
-                AwardingBody = "testAwardingBody",
+                AwardingBodyName = "testAwardingBody",
                 LevelDescription = "testLevel",
                 GuidedLearningHours = 12
             };
@@ -35,7 +35,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.LearnAimRef.Should().Be(azureModel.LearnAimRef);
             result.LearningAimTitle.Should().Be(azureModel.LearningAimTitle);
             result.Type.Should().Be(azureModel.Type);
-            result.AwardingBody.Should().Be(azureModel.AwardingBody);
+            result.AwardingBody.Should().Be(azureModel.AwardingBodyName);
             result.Level.Should().Be(azureModel.LevelDescription);
             result.GuidedLearningHours.Should().Be(azureModel.GuidedLearningHours);
         }

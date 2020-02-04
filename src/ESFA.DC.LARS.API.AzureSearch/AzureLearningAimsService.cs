@@ -104,7 +104,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
         private void SetFilters(SearchModel searchModel, SearchParameters parameters)
         {
-            _oDataQueryService.SetLevelFilters(searchModel, parameters);
+            _oDataQueryService.SetFilters(searchModel, parameters);
         }
 
         private SearchParameters GetDefaultParameters()
