@@ -3,18 +3,22 @@ using System.Linq;
 using System.Threading;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
-using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
     public class LearningAimIndexPopulationService : AbstractPopulationService<LearningAimModel>
     {
-        public LearningAimIndexPopulationService(ISearchServiceClient searchServiceClient, IPopulationConfiguration populationConfiguration)
+        private readonly ILarsContextFactory _contextFactory;
+
+        public LearningAimIndexPopulationService(
+            ISearchServiceClient searchServiceClient,
+            IPopulationConfiguration populationConfiguration,
+            ILarsContextFactory contextFactory)
             : base(searchServiceClient, populationConfiguration)
         {
+            _contextFactory = contextFactory;
         }
 
         protected override string IndexName => _populationConfiguration.LearningAimsIndexName;
@@ -23,13 +27,9 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
         {
             var indexClient = GetIndexClient();
 
-            var config = new DbContextOptionsBuilder<LarsContext>();
-
-            config.UseSqlServer(ConnectionString);
-
             var next = true;
 
-            using (var context = new LarsContext(config.Options))
+            using (var context = _contextFactory.GetLarsContext())
             {
                 var page = 0;
 

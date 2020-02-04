@@ -17,8 +17,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected abstract string IndexName { get; }
 
-        protected string ConnectionString => _populationConfiguration.LarsConnectionString;
-
         public abstract void PopulateIndex();
 
         public void CreateIndex()
