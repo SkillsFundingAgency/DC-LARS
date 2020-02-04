@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using Microsoft.Azure.Search.Models;
@@ -17,25 +18,21 @@ namespace ESFA.DC.LARS.API.Services
 
         public void SetFilters(SearchModel searchModel, SearchParameters parameters)
         {
-            var odataQuery = string.Empty;
+            var odataQuery = new StringBuilder();
 
             foreach (var filter in _odataFilters)
             {
                 var filterString = filter.ApplyFilter(searchModel);
-                odataQuery += filterString;
 
-                if (!string.IsNullOrEmpty(filterString))
+                if (odataQuery.Length != 0 && !string.IsNullOrEmpty(filterString))
                 {
-                    odataQuery += Concatenation;
+                    odataQuery.Append(Concatenation);
                 }
+
+                odataQuery.Append(filterString);
             }
 
-            if (!string.IsNullOrEmpty(odataQuery))
-            {
-                odataQuery = odataQuery.Substring(0, odataQuery.Length - Concatenation.Length);
-            }
-
-            parameters.Filter = odataQuery;
+            parameters.Filter = odataQuery.ToString();
         }
     }
 }
