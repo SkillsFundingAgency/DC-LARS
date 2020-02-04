@@ -1,30 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
-using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
-using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
-    public class LookupIndexPopulationService : IIndexPopulationService
+    public class LookupIndexPopulationService : AbstractPopulationService<LookUpModel>
     {
-        public bool IsMatch(SearchIndexes index)
+        private readonly ILarsContextFactory _contextFactory;
+
+        public LookupIndexPopulationService(
+            ISearchServiceClient searchServiceClient,
+            IPopulationConfiguration populationConfiguration,
+            ILarsContextFactory contextFactory)
+            : base(searchServiceClient, populationConfiguration)
         {
-            return index == SearchIndexes.LookUpIndex;
+            _contextFactory = contextFactory;
         }
 
-        public void PopulateIndex(ISearchIndexClient indexClient, ConnectionStrings connectionStrings)
+        protected override string IndexName => _populationConfiguration.LookupsIndexName;
+
+        public override void PopulateIndex()
         {
-            var config = new DbContextOptionsBuilder<LarsContext>();
-            config.UseSqlServer(connectionStrings.LarsConnectionString);
+            var indexClient = GetIndexClient();
 
             LookUpModel lookups;
-            using (var context = new LarsContext(config.Options))
+
+            using (var context = _contextFactory.GetLarsContext())
             {
                 lookups = new LookUpModel
                 {
@@ -46,17 +50,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 indexClient.Documents.Index(batch);
             }
-        }
-
-        public void CreateIndex(string indexName, ISearchServiceClient serviceClient)
-        {
-            var definition = new Index
-            {
-                Name = indexName,
-                Fields = FieldBuilder.BuildForType<LookUpModel>()
-            };
-
-            serviceClient.Indexes.Create(definition);
         }
     }
 }
