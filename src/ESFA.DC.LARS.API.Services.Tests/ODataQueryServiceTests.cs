@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using FluentAssertions;
 using Microsoft.Azure.Search.Models;
+using Moq;
 using Xunit;
 
 namespace ESFA.DC.LARS.API.Services.Tests
@@ -20,13 +22,25 @@ namespace ESFA.DC.LARS.API.Services.Tests
                 }
             };
 
+            var oDataQuery = $"Level eq '{searchModel.Levels.Single()}'";
+
+            var filterMock = new Mock<IODataFilter>();
+            filterMock
+                .Setup(m => m.ApplyFilter(searchModel))
+                .Returns(oDataQuery);
+
+            var oDataLevelFilters = new List<IODataFilter>
+            {
+                filterMock.Object
+            };
+
             var parameters = new SearchParameters();
 
-            var queryService = new ODataQueryService();
+            var queryService = new ODataQueryService(oDataLevelFilters);
 
-            queryService.SetLevelFilters(searchModel, parameters);
+            queryService.SetFilters(searchModel, parameters);
 
-            parameters.Filter.Should().Be($"Level eq '{searchModel.Levels.Single()}'");
+            parameters.Filter.Should().Be(oDataQuery);
         }
 
         [Fact]
@@ -42,13 +56,25 @@ namespace ESFA.DC.LARS.API.Services.Tests
                 }
             };
 
+            var oDataQuery = $"Level eq '{searchModel.Levels[0]}' or Level eq '{searchModel.Levels[1]}' or Level eq '{searchModel.Levels[2]}'";
+
+            var filterMock = new Mock<IODataFilter>();
+            filterMock
+                .Setup(m => m.ApplyFilter(searchModel))
+                .Returns(oDataQuery);
+
+            var oDataLevelFilters = new List<IODataFilter>
+            {
+                filterMock.Object
+            };
+
             var parameters = new SearchParameters();
 
-            var queryService = new ODataQueryService();
+            var queryService = new ODataQueryService(oDataLevelFilters);
 
-            queryService.SetLevelFilters(searchModel, parameters);
+            queryService.SetFilters(searchModel, parameters);
 
-            parameters.Filter.Should().Be($"Level eq '{searchModel.Levels[0]}' or Level eq '{searchModel.Levels[1]}' or Level eq '{searchModel.Levels[2]}'");
+            parameters.Filter.Should().Be(oDataQuery);
         }
     }
 }

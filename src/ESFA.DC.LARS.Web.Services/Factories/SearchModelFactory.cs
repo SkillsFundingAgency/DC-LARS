@@ -19,6 +19,11 @@ namespace ESFA.DC.LARS.Web.Services.Factories
                 searchModel.Levels.Add(basicSearchModel.Level);
             }
 
+            if (!string.IsNullOrEmpty(basicSearchModel.AwardingBody))
+            {
+                searchModel.AwardingBodies.Add(basicSearchModel.AwardingBody);
+            }
+
             return searchModel;
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using Microsoft.Azure.Search.Models;
@@ -8,26 +7,35 @@ namespace ESFA.DC.LARS.API.Services
 {
     public class ODataQueryService : IODataQueryService
     {
-        public void SetLevelFilters(SearchModel searchModel, SearchParameters parameters)
+        private const string Concatenation = " and ";
+        private readonly IEnumerable<IODataFilter> _odataFilters;
+
+        public ODataQueryService(IEnumerable<IODataFilter> odataFilters)
         {
-            bool levelFilterSelected = searchModel.Levels?.Any() ?? false;
+            _odataFilters = odataFilters;
+        }
 
-            if (!levelFilterSelected)
+        public void SetFilters(SearchModel searchModel, SearchParameters parameters)
+        {
+            var odataQuery = string.Empty;
+
+            foreach (var filter in _odataFilters)
             {
-                return;
+                var filterString = filter.ApplyFilter(searchModel);
+                odataQuery += filterString;
+
+                if (!string.IsNullOrEmpty(filterString))
+                {
+                    odataQuery += Concatenation;
+                }
             }
 
-            parameters.Filter = string.Empty;
-
-            var builder = new StringBuilder();
-            foreach (var level in searchModel.Levels)
+            if (!string.IsNullOrEmpty(odataQuery))
             {
-                builder.Append(builder.Length == 0
-                    ? $"Level eq '{level}'"
-                    : $" or Level eq '{level}'");
+                odataQuery = odataQuery.Substring(0, odataQuery.Length - Concatenation.Length);
             }
 
-            parameters.Filter = builder.ToString();
+            parameters.Filter = odataQuery;
         }
     }
 }

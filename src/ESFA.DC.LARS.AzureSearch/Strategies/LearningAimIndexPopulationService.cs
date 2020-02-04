@@ -39,7 +39,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         .Select(ld => new LearningAimModel
                         {
                             LearnAimRef = ld.LearnAimRef,
-                            AwardingBody = ld.AwardOrgCode,
+                            AwardingBodyCode = ld.AwardOrgCode,
+                            AwardingBodyName = context.LarsAwardOrgCodeLookups
+                                .Where(l => l.AwardOrgCode == ld.AwardOrgCode)
+                                .Select(l => l.AwardOrgName)
+                                .FirstOrDefault(),
                             EffectiveFrom = ld.EffectiveFrom,
                             EffectiveTo = ld.EffectiveTo,
                             Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2,
