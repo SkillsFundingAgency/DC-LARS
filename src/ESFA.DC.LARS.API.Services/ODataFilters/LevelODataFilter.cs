@@ -9,7 +9,7 @@ namespace ESFA.DC.LARS.API.Services.ODataFilters
     {
         public string ApplyFilter(SearchModel searchModel)
         {
-            if (!(searchModel.Levels?.Any() ?? false))
+            if (!(searchModel.Levels?.Any() ?? false) || searchModel.Levels.All(string.IsNullOrWhiteSpace))
             {
                 return string.Empty;
             }
