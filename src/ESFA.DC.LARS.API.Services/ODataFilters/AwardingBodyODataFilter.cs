@@ -1,32 +1,15 @@
-﻿using System.Linq;
-using System.Text;
-using ESFA.DC.LARS.API.Interfaces.Services;
+﻿using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 
 namespace ESFA.DC.LARS.API.Services.ODataFilters
 {
-    public class AwardingBodyODataFilter : IODataFilter
+    public class AwardingBodyODataFilter : BaseFilter, IODataFilter
     {
+        protected override string FilterODataString => "AwardingBodyCode eq '{0}' or AwardingBodyName eq '{0}'";
+
         public string ApplyFilter(SearchModel searchModel)
         {
-            if (!(searchModel.AwardingBodies?.Any() ?? false) || searchModel.AwardingBodies.All(string.IsNullOrWhiteSpace))
-            {
-                return string.Empty;
-            }
-
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append("(");
-            foreach (var body in searchModel.AwardingBodies)
-            {
-                stringBuilder.Append(stringBuilder.Length == 1
-                    ? $"AwardingBodyCode eq '{body}' or AwardingBodyName eq '{body}'"
-                    : $" or AwardingBodyCode eq '{body}' or AwardingBodyName eq '{body}'");
-            }
-
-            stringBuilder.Append(")");
-
-            return stringBuilder.ToString();
+            return ApplyFilter(searchModel.AwardingBodies);
         }
     }
 }
