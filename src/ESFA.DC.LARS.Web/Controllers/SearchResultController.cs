@@ -53,9 +53,13 @@ namespace ESFA.DC.LARS.Web.Controllers
                 searchModel = _searchModelFactory.GetSearchModel(basicSearchModel);
             }
 
-            var learningAims = await _learningAimsApiService.GetLearningAims(searchModel);
+            var learningAimsTask = _learningAimsApiService.GetLearningAims(searchModel);
+            var lookupsTask = _lookupApiService.GetLookups();
 
-            var lookups = await _lookupApiService.GetLookups();
+            await Task.WhenAll(learningAimsTask, lookupsTask);
+
+            var learningAims = learningAimsTask.Result;
+            var lookups = lookupsTask.Result;
 
             return new SearchResultsViewModel
             {
