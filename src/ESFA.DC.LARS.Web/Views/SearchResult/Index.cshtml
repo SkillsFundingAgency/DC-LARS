@@ -6,7 +6,43 @@
 }
 
 <div class="govuk-grid-row govuk-!-margin-top-6">
-    <div class="govuk-grid-column-one-third">&nbsp;</div>
+    <div class="govuk-grid-column-one-third">
+        <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
+        @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
+        {
+            <div id="allFilters">
+                <section id="level" class="filter-section">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                        Level
+                    </a>
+                    <div class="filter-box hidden">
+                        <div class="govuk-form-group">
+                            <div class="govuk-checkboxes govuk-checkboxes--small">
+                                @if (Model?.LookUpModel?.NotionalNvqLevel2Lookups != null)
+                                {
+                                    @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
+                                                   @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase)))
+                                                   {
+                                                       @Html.Raw("checked")
+                                                   }/>
+                                            <label class="govuk-label govuk-checkboxes__label" for="level">
+                                                @level.NotionalNVQLevelV2Desc
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        }
+    </div>
+
     <div class="govuk-grid-column-two-thirds">
         <ul id="resultList" class="govuk-list">
             @if (resultsFound)
@@ -17,7 +53,7 @@
                         <h3>
                             @Html.ActionLink(
                                 learningAim.LearningAimTitle,
-                                "RedirectToDetails", 
+                                "RedirectToDetails",
                                 new { learningAim.LearnAimRef },
                                 new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" })
                         </h3>
