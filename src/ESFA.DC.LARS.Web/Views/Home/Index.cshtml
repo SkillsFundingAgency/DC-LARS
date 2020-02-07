@@ -49,12 +49,17 @@
                             Teaching year
                         </label>
                         <select class="govuk-select" name="TeachingYear">
-                            <option value="View all" selected>View all</option>
-                            <option value="Valid for current year">Valid for current year</option>
-                            <option value="2019 to 2020">All 2019 to 2020</option>
-                            <option value="2018 to 2019">2018 to 2019</option>
-                            <option value="2017 to 2018">2017 to 2018</option>
-                            <option value="2016 to 2017">2016 to 2017</option>
+                            @foreach (var year in Model.lookups.AcademicYearLookups)
+                            {
+                                if (year.IsCurrentAcademicYear)
+                                {
+                                    <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                }
+                                else
+                                {
+                                    <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                                }
+                            }
                         </select>
                     </div>
                 </div>

@@ -6,11 +6,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
 {
     public class AzureLookupMapper : IMapper<LookUpModel, Models.LookUpModel>
     {
-        private readonly IMapper<NotionalNVQLevel2Model, Models.NotionalNVQLevel2Model> _nvqMapper;
+        private readonly IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel> _yearMapper;
+        private readonly IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model> _nvqMapper;
 
         public AzureLookupMapper(
-            IMapper<NotionalNVQLevel2Model, Models.NotionalNVQLevel2Model> nvqMapper)
+            IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel> yearMapper,
+            IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model> nvqMapper)
         {
+            _yearMapper = yearMapper;
             _nvqMapper = nvqMapper;
         }
 
@@ -19,6 +22,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             return new Models.LookUpModel
             {
                 LookUpKey = input.LookUpKey,
+                AcademicYearLookups = input.AcademicYearLookups.Select(_yearMapper.Map),
                 NotionalNvqLevel2Lookups = input.NotionalNvqLevel2Lookups.Select(_nvqMapper.Map)
             };
         }

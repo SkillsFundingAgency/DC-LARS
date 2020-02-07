@@ -14,25 +14,35 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         [Fact]
         public void Map_Returns_Valid_Model()
         {
-            var nvqMapperMock = new Mock<IMapper<NotionalNVQLevel2Model, Models.NotionalNVQLevel2Model>>();
+            var academicYearLookupMapperMock = new Mock<IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel>>();
+            academicYearLookupMapperMock
+                .Setup(m => m.Map(It.IsAny<AcademicYearLookupModel>()))
+                .Returns(new Models.AcademicYearLookupModel());
+
+            var nvqMapperMock = new Mock<IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model>>();
             nvqMapperMock
-                .Setup(m => m.Map(It.IsAny<NotionalNVQLevel2Model>()))
+                .Setup(m => m.Map(It.IsAny<NotionalNVQLevel2LookupModel>()))
                 .Returns(new Models.NotionalNVQLevel2Model());
 
             var model = new LookUpModel
             {
                 LookUpKey = "1",
-                NotionalNvqLevel2Lookups = new List<NotionalNVQLevel2Model>
+                NotionalNvqLevel2Lookups = new List<NotionalNVQLevel2LookupModel>
                 {
-                    new NotionalNVQLevel2Model()
+                    new NotionalNVQLevel2LookupModel()
+                },
+                AcademicYearLookups = new List<AcademicYearLookupModel>
+                {
+                    new AcademicYearLookupModel()
                 }
             };
 
-            var mapper = new AzureLookupMapper(nvqMapperMock.Object);
+            var mapper = new AzureLookupMapper(academicYearLookupMapperMock.Object, nvqMapperMock.Object);
             var result = mapper.Map(model);
 
             result.LookUpKey.Should().Be(model.LookUpKey);
-            result.NotionalNvqLevel2Lookups.Count().Should().Be(model.NotionalNvqLevel2Lookups.Count());
+            result.NotionalNvqLevel2Lookups.Should().HaveCount(model.NotionalNvqLevel2Lookups.Count());
+            result.AcademicYearLookups.Should().HaveCount(model.AcademicYearLookups.Count());
         }
     }
 }

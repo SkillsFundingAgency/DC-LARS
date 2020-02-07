@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Extensions;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -19,7 +20,14 @@ namespace ESFA.DC.LARS.AzureSearch
     {
         static async Task Main(string[] args)
         {
-            IConfigurationBuilder configBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var configFile = "appsettings.json";
+
+            if (args.Any(a => a.Contains("dev")))
+            {
+                configFile = "appsettings.development.json";
+            }
+
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder().AddJsonFile(configFile);
             IConfiguration configuration = configBuilder.Build();
 
             var populationConfiguration = configuration.GetConfigSection<PopulationConfiguration>();
@@ -86,11 +94,14 @@ namespace ESFA.DC.LARS.AzureSearch
                 .As<ISearchServiceClient>()
                 .SingleInstance();
 
+            containerBuilder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>();
+
             containerBuilder.Register(cb => populationConfiguration).As<IPopulationConfiguration>();
 
             containerBuilder.RegisterType<LookupIndexPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<LearningAimIndexPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<IndexService>().As<IIndexService>();
+            containerBuilder.RegisterType<AcademicYearService>().As<IAcademicYearService>();
             containerBuilder.RegisterType<LarsContextFactory>().As<ILarsContextFactory>();
 
             return containerBuilder;

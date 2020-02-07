@@ -24,6 +24,6 @@ namespace ESFA.DC.LARS.Web.Models
 
         public IEnumerable<CategoryModel> Categories { get; set; }
 
-        public IEnumerable<FundingModel> FundingModels { get; set; }
+        public IEnumerable<AcademicYearModel> AcademicYears { get; set; }
     }
 }
