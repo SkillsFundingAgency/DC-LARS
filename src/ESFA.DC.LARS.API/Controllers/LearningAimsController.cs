@@ -22,7 +22,8 @@ namespace ESFA.DC.LARS.API.Controllers
         [HttpPost]
         public async Task<IEnumerable<LearningAimModel>> GetLearningAimsAsync([FromBody]SearchModel searchParameters)
         {
-            return await _learningAimService.GetLearningAims(searchParameters);
+            var aims = await _learningAimService.GetLearningAims(searchParameters);
+            return aims;
         }
 
         [HttpGet]

@@ -18,19 +18,6 @@ namespace ESFA.DC.LARS.Web.Services.Tests.Factories
                 GuidedLearningHours = 5,
                 Level2Category = string.Empty,
                 Level3Category = string.Empty,
-                FundingModels = new List<FundingModel>
-                {
-                    new FundingModel
-                    {
-                        LearnAimRef = "12313131",
-                        FundingCategoryDescription = "Test description",
-                        EffectiveFrom = new DateTime(2019, 09, 01),
-                        EffectiveTo = new DateTime(2020, 08, 31),
-                        RateWeighted = 45.5M,
-                        RateUnWeighted = 50M,
-                        WeightingFactor = "Test"
-                    }
-                },
                 Categories = new List<CategoryModel>
                 {
                     new CategoryModel

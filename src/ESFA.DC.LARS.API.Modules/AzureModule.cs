@@ -35,13 +35,20 @@ namespace ESFA.DC.LARS.API.Modules
 
             builder.RegisterType<LevelODataFilter>().As<IODataFilter>();
             builder.RegisterType<AwardingBodyODataFilter>().As<IODataFilter>();
+            builder.RegisterType<AcademicYearODataFilter>().As<IODataFilter>();
+
+            builder.RegisterType<LevelODataFilter>().As<IODataFilter>();
+            builder.RegisterType<AwardingBodyODataFilter>().As<IODataFilter>();
 
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             builder.RegisterType<AzureCategoryMapper>().As<IMapper<CategoryModel, Models.CategoryModel>>();
             builder.RegisterType<AzureFundingModelMapper>().As<IMapper<FundingModel, Models.FundingModel>>();
+            builder.RegisterType<AzureAcademicYearMapper>().As<IMapper<AcademicYearModel, Models.AcademicYearModel>>();
+            builder.RegisterType<AzureValidityMapper>().As<IMapper<ValidityModel, Models.ValidityModel>>();
 
+            builder.RegisterType<AzureNotionalNVQLevel2ModelMapper>().As<IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model>>();
+            builder.RegisterType<AzureAcademicYearLookupMapper>().As<IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel>>();
             builder.RegisterType<AzureLookupMapper>().As<IMapper<LookUpModel, Models.LookUpModel>>();
-            builder.RegisterType<AzureNotionalNVQLevel2ModelMapper>().As<IMapper<NotionalNVQLevel2Model, Models.NotionalNVQLevel2Model>>();
         }
     }
 }

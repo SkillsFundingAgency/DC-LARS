@@ -13,12 +13,19 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         public void Map_Returns_Valid_Model()
         {
             var azureCategory = new CategoryModel();
+            var azureAcademicYear = new AcademicYearModel();
+
+            var academicMapperMock = new Mock<IMapper<AcademicYearModel, Models.AcademicYearModel>>();
+            academicMapperMock
+                .Setup(m => m.Map(azureAcademicYear))
+                .Returns(new Models.AcademicYearModel());
+
             var categoryMapperMock = new Mock<IMapper<CategoryModel, Models.CategoryModel>>();
             categoryMapperMock
                 .Setup(m => m.Map(azureCategory))
                 .Returns(new Models.CategoryModel());
 
-            var mapper = new AzureLearningAimsMapper(categoryMapperMock.Object);
+            var mapper = new AzureLearningAimsMapper(categoryMapperMock.Object, academicMapperMock.Object);
 
             var azureModel = new LearningAimModel
             {

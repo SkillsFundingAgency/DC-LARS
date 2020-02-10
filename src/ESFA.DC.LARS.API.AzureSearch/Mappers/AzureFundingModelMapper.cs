@@ -14,8 +14,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 EffectiveFrom = input.EffectiveFrom,
                 EffectiveTo = input.EffectiveTo,
                 WeightingFactor = input.WeightingFactor,
-                RateWeighted = decimal.TryParse(input.RateWeighted, out var weighted) ? weighted : default(decimal),
-                RateUnWeighted = decimal.TryParse(input.RateUnWeighted, out var unWeighted) ? unWeighted : default(decimal)
+                RateWeighted = input.RateWeighted,
+                RateUnWeighted = input.RateUnWeighted
             };
         }
     }

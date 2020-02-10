@@ -10,6 +10,8 @@ namespace ESFA.DC.LARS.Azure.Models
         [IsSearchable]
         public string LookUpKey { get; set; }
 
-        public IEnumerable<NotionalNVQLevel2Model> NotionalNvqLevel2Lookups { get; set; }
+        public IEnumerable<NotionalNVQLevel2LookupModel> NotionalNvqLevel2Lookups { get; set; }
+
+        public IEnumerable<AcademicYearLookupModel> AcademicYearLookups { get; set; }
     }
 }

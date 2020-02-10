@@ -24,6 +24,11 @@ namespace ESFA.DC.LARS.Web.Services.Factories
                 searchModel.AwardingBodies.Add(basicSearchModel.AwardingBody);
             }
 
+            if (!string.IsNullOrEmpty(basicSearchModel.TeachingYear))
+            {
+                searchModel.TeachingYears.Add(basicSearchModel.TeachingYear);
+            }
+
             return searchModel;
         }
     }

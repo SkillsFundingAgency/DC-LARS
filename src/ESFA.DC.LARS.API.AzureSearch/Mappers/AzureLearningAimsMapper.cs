@@ -7,11 +7,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
     public class AzureLearningAimsMapper : IMapper<LearningAimModel, Models.LearningAimModel>
     {
         private readonly IMapper<CategoryModel, Models.CategoryModel> _categoryMapper;
+        private readonly IMapper<AcademicYearModel, Models.AcademicYearModel> _academicYearMapper;
 
         public AzureLearningAimsMapper(
-            IMapper<CategoryModel, Models.CategoryModel> categoryMapper)
+            IMapper<CategoryModel, Models.CategoryModel> categoryMapper,
+            IMapper<AcademicYearModel, Models.AcademicYearModel> academicYearMapper)
         {
             _categoryMapper = categoryMapper;
+            _academicYearMapper = academicYearMapper;
         }
 
         public Models.LearningAimModel Map(LearningAimModel input)
@@ -24,7 +27,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 AwardingBody = input.AwardingBodyName,
                 Level = input.LevelDescription,
                 GuidedLearningHours = input.GuidedLearningHours,
-                Categories = input.Categories?.Select(cat => _categoryMapper.Map(cat)).ToList()
+                Categories = input.Categories?.Select(cat => _categoryMapper.Map(cat)).ToList(),
+                AcademicYears = input.AcademicYears?.Select(ay => _academicYearMapper.Map(ay)).ToList()
             };
         }
     }

@@ -10,7 +10,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         [Fact]
         public void Map_Returns_Valid_Model()
         {
-            var model = new NotionalNVQLevel2Model()
+            var model = new NotionalNVQLevel2LookupModel()
             {
                 NotionalNVQLevelV2 = "X",
                 NotionalNVQLevelV2Desc = "test desc"

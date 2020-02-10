@@ -10,14 +10,17 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     public class LookupIndexPopulationService : AbstractPopulationService<LookUpModel>
     {
         private readonly ILarsContextFactory _contextFactory;
+        private readonly IAcademicYearService _academicYearService;
 
         public LookupIndexPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
-            ILarsContextFactory contextFactory)
+            ILarsContextFactory contextFactory,
+            IAcademicYearService academicYearService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
+            _academicYearService = academicYearService;
         }
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
@@ -33,11 +36,18 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 lookups = new LookUpModel
                 {
                     LookUpKey = "1",
-                    NotionalNvqLevel2Lookups = context.LarsNotionalNvqlevelv2Lookups.Select(lvl =>
-                        new NotionalNVQLevel2Model
+                    NotionalNvqLevel2Lookups = context.LarsNotionalNvqlevelv2Lookups
+                        .Select(lvl => new NotionalNVQLevel2LookupModel
                         {
                             NotionalNVQLevelV2 = lvl.NotionalNvqlevelV2,
                             NotionalNVQLevelV2Desc = lvl.NotionalNvqlevelV2desc
+                        }).ToList(),
+                    AcademicYearLookups = _academicYearService.GetAcademicYears(context)
+                        .Select(ay => new AcademicYearLookupModel
+                        {
+                            IsCurrentAcademicYear = _academicYearService.IsCurrentAcademicYear(ay),
+                            AcademicYear = ay.AcademicYear,
+                            AcademicYearDesc = ay.AcademicYearDesc
                         }).ToList()
                 };
             }

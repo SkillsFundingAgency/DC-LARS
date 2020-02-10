@@ -14,9 +14,9 @@ namespace ESFA.DC.LARS.API.Models
 
         public DateTime? EffectiveTo { get; set; }
 
-        public decimal RateWeighted { get; set; }
+        public string RateWeighted { get; set; }
 
-        public decimal RateUnWeighted { get; set; }
+        public string RateUnWeighted { get; set; }
 
         public string WeightingFactor { get; set; }
     }
