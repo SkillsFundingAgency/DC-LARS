@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.LARS.API.Configuration;
@@ -21,9 +22,20 @@ namespace ESFA.DC.LARS.API
     {
         private IContainer _applicationContainer;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddJsonFile("appsettings.development.json");
+            }
+            else
+            {
+                builder.AddJsonFile("appsettings.json");
+            }
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
