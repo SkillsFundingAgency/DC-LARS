@@ -6,6 +6,8 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
     {
         public SearchModel SearchModel { get; set; }
 
+        public LookUpModel LookUpModel { get; set; }
+
         public IEnumerable<LearningAimModel> LearningAimModels { get; set; }
     }
 }

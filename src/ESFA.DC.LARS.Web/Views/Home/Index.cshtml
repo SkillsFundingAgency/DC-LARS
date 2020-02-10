@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LookupViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -35,19 +37,10 @@
                             Level
                         </label>
                         <select class="govuk-select" name="Level">
-                            <option value="Level 1" selected>Level 1</option>
-                            <option value="Level 1/2">Level 1/2</option>
-                            <option value="Level 2">Level 2</option>
-                            <option value="Level 3">Level 3</option>
-                            <option value="Level 4">Level 4</option>
-                            <option value="Level 5">Level 5</option>
-                            <option value="Level 6">Level 6</option>
-                            <option value="Level 7">Level 7</option>
-                            <option value="Level 8">Level 8</option>
-                            <option value="Entry level">Entry level</option>
-                            <option value="Higher level">Higher level</option>
-                            <option value="Mixed level">Mixed level</option>
-                            <option value="Not known">Not known</option>
+                            @foreach (var level in Model.lookups.NotionalNvqLevel2Lookups)
+                            {
+                                <option value="@level.NotionalNVQLevelV2">@level.NotionalNVQLevelV2Desc</option>
+                            }
                         </select>
                     </div>
 
@@ -56,12 +49,17 @@
                             Teaching year
                         </label>
                         <select class="govuk-select" name="TeachingYear">
-                            <option value="View all" selected>View all</option>
-                            <option value="Valid for current year">Valid for current year</option>
-                            <option value="2019 to 2020">All 2019 to 2020</option>
-                            <option value="2018 to 2019">2018 to 2019</option>
-                            <option value="2017 to 2018">2017 to 2018</option>
-                            <option value="2016 to 2017">2016 to 2017</option>
+                            @foreach (var year in Model.lookups.AcademicYearLookups)
+                            {
+                                if (year.IsCurrentAcademicYear)
+                                {
+                                    <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                }
+                                else
+                                {
+                                    <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                                }
+                            }
                         </select>
                     </div>
                 </div>

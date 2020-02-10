@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="ESFA.DC.Telemetry" Version="0.1.6-beta0001" />
-    <PackageReference Include="ESFA.DC.Telemetry.Interfaces" Version="0.1.6-beta0001" />
+    <PackageReference Include="ESFA.DC.Telemetry" Version="0.1.8-beta0001" />
+    <PackageReference Include="ESFA.DC.Telemetry.Interfaces" Version="0.1.8-beta0001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

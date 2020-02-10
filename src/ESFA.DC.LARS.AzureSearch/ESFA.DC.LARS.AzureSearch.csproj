@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="ESFA.DC.DateTimeProvider" Version="0.1.6-beta0001" />
     <PackageReference Include="ESFA.DC.ReferenceData.LARS.Model" Version="0.2.428" />
     <PackageReference Include="Microsoft.Azure.Search" Version="10.1.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.14" />
@@ -47,6 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

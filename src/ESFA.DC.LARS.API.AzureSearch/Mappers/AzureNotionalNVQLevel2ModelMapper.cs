@@ -3,9 +3,9 @@ using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Mappers
 {
-    public class AzureNotionalNVQLevel2ModelMapper : IMapper<NotionalNVQLevel2Model, Models.NotionalNVQLevel2Model>
+    public class AzureNotionalNVQLevel2ModelMapper : IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model>
     {
-        public Models.NotionalNVQLevel2Model Map(NotionalNVQLevel2Model input)
+        public Models.NotionalNVQLevel2Model Map(NotionalNVQLevel2LookupModel input)
         {
             return new Models.NotionalNVQLevel2Model
             {

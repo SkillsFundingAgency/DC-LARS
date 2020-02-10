@@ -13,20 +13,27 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         public void Map_Returns_Valid_Model()
         {
             var azureCategory = new CategoryModel();
+            var azureAcademicYear = new AcademicYearModel();
+
+            var academicMapperMock = new Mock<IMapper<AcademicYearModel, Models.AcademicYearModel>>();
+            academicMapperMock
+                .Setup(m => m.Map(azureAcademicYear))
+                .Returns(new Models.AcademicYearModel());
+
             var categoryMapperMock = new Mock<IMapper<CategoryModel, Models.CategoryModel>>();
             categoryMapperMock
                 .Setup(m => m.Map(azureCategory))
                 .Returns(new Models.CategoryModel());
 
-            var mapper = new AzureLearningAimsMapper(categoryMapperMock.Object);
+            var mapper = new AzureLearningAimsMapper(categoryMapperMock.Object, academicMapperMock.Object);
 
             var azureModel = new LearningAimModel
             {
                 LearnAimRef = "testRef",
                 LearningAimTitle = "testTitle",
                 Type = "testType",
-                AwardingBody = "testAwardingBody",
-                Level = "testLevel",
+                AwardingBodyName = "testAwardingBody",
+                LevelDescription = "testLevel",
                 GuidedLearningHours = 12
             };
 
@@ -35,8 +42,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.LearnAimRef.Should().Be(azureModel.LearnAimRef);
             result.LearningAimTitle.Should().Be(azureModel.LearningAimTitle);
             result.Type.Should().Be(azureModel.Type);
-            result.AwardingBody.Should().Be(azureModel.AwardingBody);
-            result.Level.Should().Be(azureModel.Level);
+            result.AwardingBody.Should().Be(azureModel.AwardingBodyName);
+            result.Level.Should().Be(azureModel.LevelDescription);
             result.GuidedLearningHours.Should().Be(azureModel.GuidedLearningHours);
         }
     }

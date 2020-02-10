@@ -6,6 +6,8 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.Web.Interfaces\ESFA.DC.LARS.Web.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.Web.Models\ESFA.DC.LARS.Web.Models.csproj" />
     <ProjectReference Include="..\ESFA.DC.LARS.Web.Services\ESFA.DC.LARS.Web.Services.csproj" />
   </ItemGroup>
 

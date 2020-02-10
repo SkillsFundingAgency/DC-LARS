@@ -5,7 +5,6 @@ using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.Telemetry.Interfaces;
-using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.API.AzureSearch
 {
@@ -16,15 +15,18 @@ namespace ESFA.DC.LARS.API.AzureSearch
         private readonly ITelemetry _telemetry;
         private readonly ILookupIndexService _lookupIndexService;
         private readonly IMapper<LookUpModel, Models.LookUpModel> _mapper;
+        private readonly IAzureService _azureService;
 
         public AzureLookupService(
             ITelemetry telemetry,
             ILookupIndexService lookupIndexService,
-            IMapper<LookUpModel, Models.LookUpModel> mapper)
+            IMapper<LookUpModel, Models.LookUpModel> mapper,
+            IAzureService azureService)
         {
             _telemetry = telemetry;
             _lookupIndexService = lookupIndexService;
             _mapper = mapper;
+            _azureService = azureService;
         }
 
         public async Task<Models.LookUpModel> GetLookups()
@@ -33,7 +35,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
             try
             {
-                var result = await _lookupIndexService.Documents.GetAsync<LookUpModel>(LookupIndexKey);
+                var result = await _azureService.GetAsync<LookUpModel>(_lookupIndexService, LookupIndexKey);
                 lookups = _mapper.Map(result);
             }
             catch (Exception ex)
