@@ -10,35 +10,60 @@
         <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
         @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
         {
-            <div id="allFilters">
-                <section id="level" class="filter-section">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
-                        Level
-                    </a>
-                    <div class="filter-box hidden">
-                        <div class="govuk-form-group">
-                            <div class="govuk-checkboxes govuk-checkboxes--small">
-                                @if (Model?.LookUpModel?.NotionalNvqLevel2Lookups != null)
-                                {
-                                    @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
-                                    {
-                                        <div class="govuk-checkboxes__item">
-                                            <input class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
-                                                   @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase)))
-                                                   {
-                                                       @Html.Raw("checked")
-                                                   }/>
-                                            <label class="govuk-label govuk-checkboxes__label" for="level">
-                                                @level.NotionalNVQLevelV2Desc
-                                            </label>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                        </div>
+    <div id="allFilters">
+        <section id="level" class="filter-section">
+            <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                Level
+            </a>
+            <div class="filter-box hidden">
+                <div class="govuk-form-group">
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                        @if (Model?.LookUpModel?.NotionalNvqLevel2Lookups != null)
+                        {
+                            @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
+                            {
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
+                                           @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked")  } />
+                                    <label class="govuk-label govuk-checkboxes__label" for="level">
+                                        @level.NotionalNVQLevelV2Desc
+                                    </label>
+                                </div>
+                            }
+                        }
                     </div>
-                </section>
+                </div>
             </div>
+        </section>
+
+        <section id="level" class="filter-section">
+            <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                Teaching Year
+            </a>
+            <div class="filter-box hidden">
+                <div class="govuk-form-group">
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                        @if (Model?.LookUpModel?.AcademicYearLookups != null)
+                        {
+                        <select class="govuk-select" name="TeachingYears">
+                            @foreach (var year in Model.LookUpModel.AcademicYearLookups)
+                            {
+                                @if (Model.SearchModel.TeachingYears.Any(t => t.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                }
+                                else
+                                {
+                                    <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                                }
+                            }
+                        </select>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
             <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
         }
     </div>
