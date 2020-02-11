@@ -48,7 +48,10 @@ namespace ESFA.DC.LARS.AzureSearch
                 Console.WriteLine($"Time taken: {timeTaken.Minutes} min {timeTaken.Seconds} sec {timeTaken.Milliseconds} ms");
 
                 Console.WriteLine("{0}", "Complete.  Press any key to end application...\n");
-                //Console.ReadKey();
+                if (args.Any(a => a.Contains("dev")))
+                {
+                    Console.ReadKey();
+                }
             }
             else
             {
