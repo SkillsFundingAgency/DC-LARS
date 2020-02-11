@@ -48,6 +48,14 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             IsCurrentAcademicYear = _academicYearService.IsCurrentAcademicYear(ay),
                             AcademicYear = ay.AcademicYear,
                             AcademicYearDesc = ay.AcademicYearDesc
+                        }).ToList(),
+                    ValidityFundingMappingLookups = context.LarsValidityFundingMappings
+                        .Select(fm => new ValidityFundingMappingLookupModel
+                        {
+                            ValidityCategory = fm.ValidityCategory,
+                            FundingCategory = fm.FundingCategory,
+                            EffectiveFrom = fm.EffectiveFrom,
+                            EffectiveTo = fm.EffectiveTo
                         }).ToList()
                 };
             }

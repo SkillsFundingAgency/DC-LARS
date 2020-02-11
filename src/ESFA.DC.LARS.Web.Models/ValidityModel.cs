@@ -7,5 +7,11 @@ namespace ESFA.DC.LARS.Web.Models
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public DateTime? LastNewStartDate { get; set; }
+
+        public string ValidityCategory { get; set; }
+
+        public string ValidityCategoryDescription { get; set; }
     }
 }

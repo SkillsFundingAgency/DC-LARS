@@ -14,6 +14,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         [Fact]
         public void Map_Returns_Valid_Model()
         {
+            var mappingMapperMock = new Mock<IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel>>();
+            mappingMapperMock
+                .Setup(m => m.Map(It.IsAny<ValidityFundingMappingLookupModel>()))
+                .Returns(new Models.ValidityFundingMappingLookupModel());
+
             var academicYearLookupMapperMock = new Mock<IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel>>();
             academicYearLookupMapperMock
                 .Setup(m => m.Map(It.IsAny<AcademicYearLookupModel>()))
@@ -34,15 +39,20 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 AcademicYearLookups = new List<AcademicYearLookupModel>
                 {
                     new AcademicYearLookupModel()
+                },
+                ValidityFundingMappingLookups = new List<ValidityFundingMappingLookupModel>
+                {
+                    new ValidityFundingMappingLookupModel()
                 }
             };
 
-            var mapper = new AzureLookupMapper(academicYearLookupMapperMock.Object, nvqMapperMock.Object);
+            var mapper = new AzureLookupMapper(academicYearLookupMapperMock.Object, nvqMapperMock.Object, mappingMapperMock.Object);
             var result = mapper.Map(model);
 
             result.LookUpKey.Should().Be(model.LookUpKey);
             result.NotionalNvqLevel2Lookups.Should().HaveCount(model.NotionalNvqLevel2Lookups.Count());
             result.AcademicYearLookups.Should().HaveCount(model.AcademicYearLookups.Count());
+            result.ValidityFundingMappingLookups.Should().HaveCount(model.ValidityFundingMappingLookups.Count());
         }
     }
 }

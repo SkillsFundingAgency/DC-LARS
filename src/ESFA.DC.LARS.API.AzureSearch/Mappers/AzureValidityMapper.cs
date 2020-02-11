@@ -10,7 +10,10 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             return new Models.ValidityModel
             {
                 StartDate = input.StartDate,
-                EndDate = input.EndDate
+                EndDate = input.EndDate,
+                LastNewStartDate = input.LastNewStartDate,
+                ValidityCategory = input.ValidityCategory,
+                ValidityCategoryDescription = input.ValidityCategoryDescription
             };
         }
     }

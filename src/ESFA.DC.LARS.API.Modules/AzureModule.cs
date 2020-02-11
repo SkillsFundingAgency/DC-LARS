@@ -49,6 +49,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureNotionalNVQLevel2ModelMapper>().As<IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model>>();
             builder.RegisterType<AzureAcademicYearLookupMapper>().As<IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel>>();
             builder.RegisterType<AzureLookupMapper>().As<IMapper<LookUpModel, Models.LookUpModel>>();
+            builder.RegisterType<AzureValidityFundingMappingLookupMapper>().As<IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel>>();
         }
     }
 }

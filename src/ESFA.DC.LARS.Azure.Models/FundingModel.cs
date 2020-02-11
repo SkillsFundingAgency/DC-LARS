@@ -8,6 +8,8 @@ namespace ESFA.DC.LARS.Azure.Models
     {
         public string LearnAimRef { get; set; }
 
+        public string FundingCategory { get; set; }
+
         public string FundingCategoryDescription { get; set; }
 
         public DateTime EffectiveFrom { get; set; }
