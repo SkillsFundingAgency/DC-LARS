@@ -146,7 +146,7 @@ stages:
         scriptType: inlineScript
         workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
         inlineScript: |
-         $cmdCommand="dotnet ESFA.DC.LARS.AzureSearch.exe run-manual"
+         $cmdCommand="dotnet ESFA.DC.LARS.AzureSearch.dll run-manual"
          $cmdCommand| Out-File -FilePath run.cmd -Encoding ascii
 
     ## Create Zip File for Deployment     
