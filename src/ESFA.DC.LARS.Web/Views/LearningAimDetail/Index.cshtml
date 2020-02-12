@@ -38,22 +38,26 @@
                 </li>
             </ul>
             <div class="govuk-form-group">
-                <label class="govuk-label" for="sort">
+                <label class="govuk-label" for="academicYear">
                     Teaching year
                 </label>
-                <select class="govuk-select" id="academicYear" name="AcademicYear">
-                    @foreach (var year in Model.LookUpModel.AcademicYearLookups)
-                    {
-                        @if (Model.AcademicYear.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase))
+                @using (Html.BeginForm("ChangeAcademicYear", "LearningAimDetail", FormMethod.Post, new {@id = "academicYearForm", @class = "govuk-form-group"}))
+                {
+                    <input type="hidden" name="learnAimRef" value="@Model.LearningAimModel.LearnAimRef">
+                    <select class="govuk-select" id="academicYear" name="AcademicYear" onchange="this.form.submit()">
+                        @foreach (var year in Model.LookUpModel.AcademicYearLookups)
                         {
-                            <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                            @if (Model.AcademicYear.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                            }
+                            else
+                            {
+                                <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
-                        }
-                    }
-                </select>
+                    </select>
+                }
             </div>
         </div>
     </div>
@@ -110,10 +114,10 @@
                                             <strong> Programme weighting:</strong> @funding.WeightingFactor
                                         </li>
                                         <li>
-                                            <strong>Weighted rate:</strong> £@funding.RateWeighted
+                                            <strong>Weighted rate:</strong> £@($"{funding.RateWeighted:N2}")
                                         </li>
                                         <li>
-                                            <strong>Unweighted rate:</strong> £@funding.RateUnWeighted
+                                            <strong>Unweighted rate:</strong> £@($"{funding.RateUnWeighted:N2}")
                                         </li>
                                     </ul>
                                 }

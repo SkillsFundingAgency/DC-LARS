@@ -23,6 +23,20 @@ namespace ESFA.DC.LARS.Web.Controllers
         [Route("{learnAimRef}")]
         public async Task<IActionResult> Index(string learnAimRef)
         {
+            var model = await GetData(learnAimRef);
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> ChangeAcademicYear([FromForm]string learnAimRef, [FromForm]string academicYear)
+        {
+            var model = await GetData(learnAimRef, academicYear);
+
+            return View("Index", model);
+        }
+
+        private async Task<LearningAimDetailsViewModel> GetData(string learnAimRef, string academicYear = null)
+        {
             var lookupsTask = _lookupApiService.GetLookups();
             var learningAimTask = _learningAimsApiService.GetLearningAim(learnAimRef);
 
@@ -31,14 +45,14 @@ namespace ESFA.DC.LARS.Web.Controllers
             var lookups = lookupsTask.Result;
             var learningAim = learningAimTask.Result;
 
-            var model = new LearningAimDetailsViewModel
+            var selectedYear = academicYear ?? lookups.AcademicYearLookups.FirstOrDefault(l => l.IsCurrentAcademicYear)?.AcademicYear;
+
+            return new LearningAimDetailsViewModel
             {
-                AcademicYear = lookups.AcademicYearLookups.FirstOrDefault(l => l.IsCurrentAcademicYear)?.AcademicYear,
+                AcademicYear = selectedYear,
                 LookUpModel = lookups,
                 LearningAimModel = learningAim
             };
-
-            return View(model);
         }
     }
 }
