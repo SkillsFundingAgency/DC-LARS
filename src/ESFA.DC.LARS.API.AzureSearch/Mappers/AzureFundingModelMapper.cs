@@ -10,12 +10,13 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             return new Models.FundingModel
             {
                 LearnAimRef = input.LearnAimRef,
+                FundingCategory = input.FundingCategory,
                 FundingCategoryDescription = input.FundingCategoryDescription,
                 EffectiveFrom = input.EffectiveFrom,
                 EffectiveTo = input.EffectiveTo,
                 WeightingFactor = input.WeightingFactor,
-                RateWeighted = input.RateWeighted,
-                RateUnWeighted = input.RateUnWeighted
+                RateWeighted = decimal.TryParse(input.RateWeighted, out var weighted) ? weighted : default(decimal),
+                RateUnWeighted = decimal.TryParse(input.RateUnWeighted, out var unWeighted) ? unWeighted : default(decimal)
             };
         }
     }

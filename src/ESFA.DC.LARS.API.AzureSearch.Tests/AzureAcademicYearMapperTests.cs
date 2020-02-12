@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ESFA.DC.LARS.API.AzureSearch.Mappers;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.Azure.Models;
@@ -43,10 +42,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.AcademicYear.Should().Be("testYear");
 
             result.Fundings.Should().HaveCount(1);
-            result.Fundings.Single().Should().BeEquivalentTo(fundingModel);
-
             result.Validities.Should().HaveCount(1);
-            result.Validities.Single().Should().BeEquivalentTo(validityModel);
         }
     }
 }

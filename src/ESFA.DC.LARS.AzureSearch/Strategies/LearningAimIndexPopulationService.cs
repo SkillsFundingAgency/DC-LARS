@@ -74,13 +74,21 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                 .Select(lv => new ValidityModel
                                 {
                                     StartDate = lv.StartDate,
-                                    EndDate = lv.EndDate
+                                    EndDate = lv.EndDate,
+                                    LastNewStartDate = lv.LastNewStartDate,
+                                    ValidityCategory = lv.ValidityCategory,
+                                    ValidityCategoryDescription = lv.ValidityCategoryNavigation.ValidityCategoryDesc2
                                 }).ToList(),
                             FundingModels = ld.LarsFundings
                                .Select(lf => new FundingModel
                                {
                                    EffectiveFrom = lf.EffectiveFrom,
-                                   EffectiveTo = lf.EffectiveTo
+                                   EffectiveTo = lf.EffectiveTo,
+                                   FundingCategory = lf.FundingCategory,
+                                   FundingCategoryDescription = lf.FundingCategoryNavigation.FundingCategoryDesc2,
+                                   RateWeighted = lf.RateWeighted.ToString(),
+                                   RateUnWeighted = lf.RateUnWeighted.ToString(),
+                                   WeightingFactor = lf.WeightingFactor
                                }).ToList()
                         })
                         .OrderBy(ld => ld.LearnAimRef)

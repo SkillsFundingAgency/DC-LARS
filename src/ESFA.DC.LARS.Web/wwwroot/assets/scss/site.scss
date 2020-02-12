@@ -1,10 +1,12 @@
 ﻿@import "node_modules/govuk-frontend/govuk/all.scss";
+// global styles for <a> and <p> tags
+$govuk-global-styles: true;
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 .white-text {
     color: govuk-colour("white");
 }
- 
+
 #resultsContainer {
     margin-top: 20px;
     display: flex;
@@ -15,6 +17,10 @@
 
     li {
         margin-bottom: 50px;
+
+        ul.funding-stream-list li {
+            margin-bottom: 10px;
+        }
     }
 
     .no-underline {
@@ -65,7 +71,6 @@
     padding-bottom: 15px;
     padding-left: 5px;
 }
-
 
 .results-elements {
     color: black !important;

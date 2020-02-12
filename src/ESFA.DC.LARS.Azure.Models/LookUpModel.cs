@@ -13,5 +13,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public IEnumerable<NotionalNVQLevel2LookupModel> NotionalNvqLevel2Lookups { get; set; }
 
         public IEnumerable<AcademicYearLookupModel> AcademicYearLookups { get; set; }
+
+        public IEnumerable<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
     }
 }

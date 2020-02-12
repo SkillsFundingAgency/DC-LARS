@@ -1,42 +1,134 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimDetailsViewModel
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl">
-                @Model.LearningAimModel.LearningAimTitle
-            </h1>
-            <div class="flex space-between">
-                <ul class="govuk-list">
-                    <li>
-                        <span class="govuk-!-font-weight-bold">Reference:</span> @Model.LearningAimModel.LearnAimRef
-                    </li>
-                    <li>
-                        <span class="govuk-!-font-weight-bold">Level:</span> @Model.LearningAimModel.Level
-                    </li>
-                    <li>
-                        <span class="govuk-!-font-weight-bold">Type:</span> @Model.LearningAimModel.Type
-                    </li>
-                    <li>
-                        <span class="govuk-!-font-weight-bold">Guided learning hours:</span> @Model.LearningAimModel.GuidedLearningHours
-                    </li>
-                    <li>
-                        <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBody
-                    </li>
-                    <li>
-                        @Html.ActionLink(
-                            "View category information",
-                            "Index",
-                            "LearningAimCategory", 
-                            new { @Model.LearningAimModel.LearnAimRef },
-                            new { @class = "govuk-link govuk-link--no-visited-state" })
-                    </li>
-                    <li>
-                        <a class="govuk-link govuk-link--no-visited-state" target="blank"
-                           href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
-                            View more information on OFQUAL
-                        </a>
-                    </li>
-                </ul>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            @Model.LearningAimModel.LearningAimTitle
+        </h1>
+        <div class="flex space-between">
+            <ul class="govuk-list">
+                <li>
+                    <span class="govuk-!-font-weight-bold">Reference:</span> @Model.LearningAimModel.LearnAimRef
+                </li>
+                <li>
+                    <span class="govuk-!-font-weight-bold">Level:</span> @Model.LearningAimModel.Level
+                </li>
+                <li>
+                    <span class="govuk-!-font-weight-bold">Type:</span> @Model.LearningAimModel.Type
+                </li>
+                <li>
+                    <span class="govuk-!-font-weight-bold">Guided learning hours:</span> @Model.LearningAimModel.GuidedLearningHours
+                </li>
+                <li>
+                    <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBody
+                </li>
+                <li>
+                    @Html.ActionLink(
+                        "View category information",
+                        "Index",
+                        "LearningAimCategory",
+                        new { @Model.LearningAimModel.LearnAimRef },
+                        new { @class = "govuk-link govuk-link--no-visited-state" })
+                </li>
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state" target="blank"
+                       href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
+                        View more information on OFQUAL
+                    </a>
+                </li>
+            </ul>
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="academicYear">
+                    Teaching year
+                </label>
+                @using (Html.BeginForm("ChangeAcademicYear", "LearningAimDetail", FormMethod.Post, new {@id = "academicYearForm", @class = "govuk-form-group"}))
+                {
+                    <input type="hidden" name="learnAimRef" value="@Model.LearningAimModel.LearnAimRef">
+                    <select class="govuk-select" id="academicYear" name="AcademicYear" onchange="this.form.submit()">
+                        @foreach (var year in Model.LookUpModel.AcademicYearLookups)
+                        {
+                            @if (Model.AcademicYear.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                            }
+                            else
+                            {
+                                <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                            }
+                        }
+                    </select>
+                }
             </div>
         </div>
     </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
+            @{
+                var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
+                if (academicYear != null)
+                {
+                    @foreach (var category in academicYear.Validities)
+                    {
+                        FundingModel funding = null;
+
+                        var validityFundingCategory = Model.LookUpModel.ValidityFundingMappingLookups
+                            .FirstOrDefault(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase));
+                        if (validityFundingCategory != null)
+                        {
+                            funding = academicYear.Fundings
+                                .FirstOrDefault(f => f.FundingCategory.Equals(validityFundingCategory.FundingCategory, StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        <div class="govuk-accordion__section">
+                            <div class="govuk-accordion__section-header">
+                                <h2 class="govuk-accordion__section-heading">
+                                    <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                        @category.ValidityCategory
+                                    </span>
+                                </h2>
+
+                                <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-2">
+                                    <span>
+                                        <strong>Last date for new start:</strong> @category.LastNewStartDate?.ToString("dd MMMM yyyy")
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div id="accordion-with-summary-sections-content-2" class="govuk-body govuk-accordion__section-content" aria-labelledby="accordion-with-summary-sections-heading-2">
+                                <p> <strong>Course Validity:</strong> </p>
+                                <p> <strong> From:</strong> @category.StartDate.ToString("dd MMMM yyyy") <strong>to</strong> @category.EndDate?.ToString("dd MMMM yyyy")</p>
+
+                                @if (funding != null)
+                                {
+                                    <ul class="govuk-list">
+                                        <li>
+                                            <strong> Category:</strong> @funding.FundingCategory
+                                        </li>
+                                        <li>
+                                            <strong>Effective from:</strong> @funding.EffectiveFrom.ToString("dd MMMM yyyy")
+                                        </li>
+                                        <li>
+                                            <strong>Effective to:</strong> @funding.EffectiveTo?.ToString("dd MMMM yyyy")
+                                        </li>
+                                        <li>
+                                            <strong> Programme weighting:</strong> @funding.WeightingFactor
+                                        </li>
+                                        <li>
+                                            <strong>Weighted rate:</strong> £@($"{funding.RateWeighted:N2}")
+                                        </li>
+                                        <li>
+                                            <strong>Unweighted rate:</strong> £@($"{funding.RateUnWeighted:N2}")
+                                        </li>
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
