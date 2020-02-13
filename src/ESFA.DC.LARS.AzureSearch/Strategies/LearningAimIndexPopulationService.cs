@@ -10,7 +10,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
     public class LearningAimIndexPopulationService : AbstractPopulationService<LearningAimModel>
     {
-        private const int PageSize = 3000;
+        private const int PageSize = 2000;
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
 
@@ -38,6 +38,30 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
                 var academicYears = _academicYearService.GetAcademicYears(context);
 
+                var level2Categories = context.LarsAnnualValues
+                    .Select(av => new EntitlementCategoryModel
+                    {
+                        LearnAimRef = av.LearnAimRef,
+                        EffectiveFrom = av.EffectiveFrom,
+                        EffectiveTo = av.EffectiveTo,
+                        CategoryDescription =
+                            av.FullLevel2EntitlementCategoryNavigation.FullLevel2EntitlementCategoryDesc
+                    })
+                    .GroupBy(gb => gb.LearnAimRef)
+                    .ToDictionary(av => av.Key, em => em.Select(x => x).ToList());
+
+                var level3Categories = context.LarsAnnualValues
+                    .Select(av => new EntitlementCategoryModel
+                    {
+                        LearnAimRef = av.LearnAimRef,
+                        EffectiveFrom = av.EffectiveFrom,
+                        EffectiveTo = av.EffectiveTo,
+                        CategoryDescription =
+                            av.FullLevel3EntitlementCategoryNavigation.FullLevel3EntitlementCategoryDesc
+                    })
+                    .GroupBy(gb => gb.LearnAimRef)
+                    .ToDictionary(av => av.Key, em => em.Select(x => x).ToList());
+
                 while (next)
                 {
                     var learningAims = context.LarsLearningDeliveries
@@ -52,7 +76,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             EffectiveFrom = ld.EffectiveFrom,
                             EffectiveTo = ld.EffectiveTo,
                             Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2,
-                            LevelDescription = ld.NotionalNvqlevelNavigation.NotionalNvqlevelDesc,
+                            LevelDescription = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2desc,
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
                             GuidedLearningHours = ld.GuidedLearningHours ?? 0,
@@ -99,12 +123,23 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
                     foreach (var learningDelivery in learningAims)
                     {
+                        level2Categories.TryGetValue(learningDelivery.LearnAimRef, out var level2Cat);
+                        level3Categories.TryGetValue(learningDelivery.LearnAimRef, out var level3Cat);
+
                         learningDelivery.AcademicYears =
                             academicYears.Select(ay => new AcademicYearModel
                             {
                                 AcademicYear = ay.AcademicYear,
                                 Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate || (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate || (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList()
+                                Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate || (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                                Level2Category = level2Cat?
+                                    .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
+                                    .Select(cat => cat.CategoryDescription)
+                                    .FirstOrDefault(),
+                                Level3Category = level3Cat?
+                                    .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
+                                    .Select(cat => cat.CategoryDescription)
+                                    .FirstOrDefault(),
                             }).ToList();
 
                         learningDelivery.ValidityModels = null;
