@@ -33,11 +33,7 @@ namespace ESFA.DC.LARS.Azure.Models
         [IsFilterable]
         public string AwardingBodyName { get; set; }
 
-        public string Level2Category { get; set; }
-
-        public string Level3Category { get; set; }
-
-        public DateTime? EffectiveFrom { get; set; }
+        public DateTime EffectiveFrom { get; set; }
 
         public DateTime? EffectiveTo { get; set; }
 

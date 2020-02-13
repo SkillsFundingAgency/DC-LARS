@@ -1,4 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimDetailsViewModel
+@{
+    var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
+}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -21,6 +24,14 @@
                 </li>
                 <li>
                     <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBody
+                </li>
+                <li>
+                    <span class="govuk-!-font-weight-bold">Level 2 Category:</span> 
+                    @Model.LearningAimModel.AcademicYears.Where(ay => ay.AcademicYear == academicYear?.AcademicYear).Select(ay => ay.Level2Category).FirstOrDefault()
+                </li>
+                <li>
+                    <span class="govuk-!-font-weight-bold">Level 3 Category:</span>
+                    @Model.LearningAimModel.AcademicYears.Where(ay => ay.AcademicYear == academicYear?.AcademicYear).Select(ay => ay.Level3Category).FirstOrDefault()
                 </li>
                 <li>
                     @Html.ActionLink(
@@ -67,7 +78,6 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
             @{
-                var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
                 if (academicYear != null)
                 {
                     @foreach (var category in academicYear.Validities)

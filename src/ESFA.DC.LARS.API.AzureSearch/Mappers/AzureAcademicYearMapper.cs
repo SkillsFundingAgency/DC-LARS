@@ -22,6 +22,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             return new Models.AcademicYearModel
             {
                 AcademicYear = input.AcademicYear,
+                Level2Category = input.Level2Category,
+                Level3Category = input.Level3Category,
                 Fundings = input.Fundings.Select(_fundingMapper.Map).ToList(),
                 Validities = input.Validities.Select(_validityMapper.Map).ToList()
             };
