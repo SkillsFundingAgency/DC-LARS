@@ -10,17 +10,20 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
         private readonly IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model> _nvqMapper;
         private readonly IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel> _mappingMapper;
         private readonly IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel> _validityMapper;
+        private readonly IMapper<AwardingBodyLookupModel, Models.AwardingBodyLookupModel> _awardingBodyMapper;
 
         public AzureLookupMapper(
             IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel> yearMapper,
             IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model> nvqMapper,
             IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel> mappingMapper,
-            IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel> validityMapper)
+            IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel> validityMapper,
+            IMapper<AwardingBodyLookupModel, Models.AwardingBodyLookupModel> awardingBodyMapper)
         {
             _yearMapper = yearMapper;
             _nvqMapper = nvqMapper;
             _mappingMapper = mappingMapper;
             _validityMapper = validityMapper;
+            _awardingBodyMapper = awardingBodyMapper;
         }
 
         public Models.LookUpModel Map(LookUpModel input)
@@ -31,7 +34,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 AcademicYearLookups = input.AcademicYearLookups?.Select(_yearMapper.Map),
                 NotionalNvqLevel2Lookups = input.NotionalNvqLevel2Lookups?.Select(_nvqMapper.Map),
                 ValidityCategoryLookups = input.ValidityCategoryLookups?.Select(_validityMapper.Map),
-                ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map)
+                ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map),
+                AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map)
             };
         }
     }

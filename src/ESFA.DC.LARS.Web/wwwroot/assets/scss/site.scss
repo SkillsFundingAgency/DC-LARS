@@ -110,6 +110,13 @@ $govuk-global-styles: true;
     }
 }
 
+.filter-box {
+    display: inline-block;
+    overflow-y: auto;
+    height: 200px;
+    margin-bottom: 15px;
+}
+
 .filter-feedback-container {
     @extend .results-number-container;
     display: none;

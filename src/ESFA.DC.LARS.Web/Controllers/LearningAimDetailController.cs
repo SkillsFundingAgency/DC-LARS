@@ -21,9 +21,9 @@ namespace ESFA.DC.LARS.Web.Controllers
         }
 
         [Route("{learnAimRef}")]
-        public async Task<IActionResult> Index(string learnAimRef)
+        public async Task<IActionResult> Index(string learnAimRef, string academicYear)
         {
-            var model = await GetData(learnAimRef);
+            var model = await GetData(learnAimRef, academicYear);
 
             return View(model);
         }

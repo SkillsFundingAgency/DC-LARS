@@ -8,6 +8,8 @@ namespace ESFA.DC.LARS.Web.Models
 
         public IEnumerable<NotionalNVQLevel2Model> NotionalNvqLevel2Lookups { get; set; }
 
+        public IEnumerable<AwardingBodyLookupModel> AwardingBodyLookups { get; set; }
+
         public IEnumerable<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
 
         public IEnumerable<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }

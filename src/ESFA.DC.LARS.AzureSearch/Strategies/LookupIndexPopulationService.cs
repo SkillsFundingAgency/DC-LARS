@@ -49,6 +49,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             AcademicYear = ay.AcademicYear,
                             AcademicYearDesc = ay.AcademicYearDesc
                         }).ToList(),
+                    AwardingBodyLookups = context.LarsAwardOrgCodeLookups
+                        .Select(ab => new AwardingBodyLookupModel
+                        {
+                            AwardingBodyCode = ab.AwardOrgCode,
+                            AwardingBodyName = ab.AwardOrgName
+                        }).ToList(),
                     ValidityCategoryLookups = context.LarsValidityCategoryLookups
                         .Select(vc => new ValidityCategoryLookupModel
                         {
