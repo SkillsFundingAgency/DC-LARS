@@ -130,8 +130,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             academicYears.Select(ay => new AcademicYearModel
                             {
                                 AcademicYear = ay.AcademicYear,
-                                Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate || (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate || (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                                Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate && (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                                Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate && (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
                                 Level2Category = level2Cat?
                                     .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
                                     .Select(cat => cat.CategoryDescription)
@@ -141,6 +141,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                     .Select(cat => cat.CategoryDescription)
                                     .FirstOrDefault(),
                             }).ToList();
+
+                        learningDelivery.AcademicYears.RemoveAll(ay => !ay.Validities.Any());
 
                         learningDelivery.ValidityModels = null;
                         learningDelivery.FundingModels = null;

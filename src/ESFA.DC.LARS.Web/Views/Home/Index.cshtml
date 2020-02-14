@@ -37,6 +37,7 @@
                             Level
                         </label>
                         <select class="govuk-select" name="Level">
+                            <option value="" selected></option>
                             @foreach (var level in Model.lookups.NotionalNvqLevel2Lookups)
                             {
                                 <option value="@level.NotionalNVQLevelV2">@level.NotionalNVQLevelV2Desc</option>
