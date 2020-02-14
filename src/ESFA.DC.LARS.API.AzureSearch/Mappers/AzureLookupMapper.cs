@@ -9,15 +9,18 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
         private readonly IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel> _yearMapper;
         private readonly IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model> _nvqMapper;
         private readonly IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel> _mappingMapper;
+        private readonly IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel> _validityMapper;
 
         public AzureLookupMapper(
             IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel> yearMapper,
             IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model> nvqMapper,
-            IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel> mappingMapper)
+            IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel> mappingMapper,
+            IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel> validityMapper)
         {
             _yearMapper = yearMapper;
             _nvqMapper = nvqMapper;
             _mappingMapper = mappingMapper;
+            _validityMapper = validityMapper;
         }
 
         public Models.LookUpModel Map(LookUpModel input)
@@ -27,6 +30,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 LookUpKey = input.LookUpKey,
                 AcademicYearLookups = input.AcademicYearLookups?.Select(_yearMapper.Map),
                 NotionalNvqLevel2Lookups = input.NotionalNvqLevel2Lookups?.Select(_nvqMapper.Map),
+                ValidityCategoryLookups = input.ValidityCategoryLookups?.Select(_validityMapper.Map),
                 ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map)
             };
         }

@@ -49,6 +49,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             AcademicYear = ay.AcademicYear,
                             AcademicYearDesc = ay.AcademicYearDesc
                         }).ToList(),
+                    ValidityCategoryLookups = context.LarsValidityCategoryLookups
+                        .Select(vc => new ValidityCategoryLookupModel
+                        {
+                            ValidityCategory = vc.ValidityCategory,
+                            ValidityCategoryDescription = vc.ValidityCategoryDesc2
+                        }).ToList(),
                     ValidityFundingMappingLookups = context.LarsValidityFundingMappings
                         .Select(fm => new ValidityFundingMappingLookupModel
                         {

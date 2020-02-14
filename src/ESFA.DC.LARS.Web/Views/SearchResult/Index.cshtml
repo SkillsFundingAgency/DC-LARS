@@ -10,6 +10,8 @@
         <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
         @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
         {
+            <input type="hidden" name="SearchTerm" value="@Model?.SearchModel.SearchTerm" />
+
     <div id="allFilters">
         <section id="level" class="filter-section">
             <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
@@ -35,6 +37,32 @@
                 </div>
             </div>
         </section>
+        
+        <section id="level" class="filter-section">
+            <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+                Funding Stream
+            </a>
+            <div class="filter-box hidden">
+                <div class="govuk-form-group">
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                        @if (Model?.LookUpModel?.ValidityCategoryLookups != null)
+                        {
+                            @foreach (var validity in Model.LookUpModel.ValidityCategoryLookups)
+                            {
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="fundingStreams" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
+                                           @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                    <label class="govuk-label govuk-checkboxes__label" for="fundingStreams">
+                                        @validity.ValidityCategoryDescription
+                                    </label>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <section id="level" class="filter-section">
             <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">

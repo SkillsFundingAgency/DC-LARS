@@ -19,6 +19,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .Setup(m => m.Map(It.IsAny<ValidityFundingMappingLookupModel>()))
                 .Returns(new Models.ValidityFundingMappingLookupModel());
 
+            var validityMapperMock = new Mock<IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel>>();
+            validityMapperMock
+                .Setup(m => m.Map(It.IsAny<ValidityCategoryLookupModel>()))
+                .Returns(new Models.ValidityCategoryLookupModel());
+
             var academicYearLookupMapperMock = new Mock<IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel>>();
             academicYearLookupMapperMock
                 .Setup(m => m.Map(It.IsAny<AcademicYearLookupModel>()))
@@ -40,18 +45,27 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 {
                     new AcademicYearLookupModel()
                 },
+                ValidityCategoryLookups = new List<ValidityCategoryLookupModel>
+                {
+                    new ValidityCategoryLookupModel()
+                },
                 ValidityFundingMappingLookups = new List<ValidityFundingMappingLookupModel>
                 {
                     new ValidityFundingMappingLookupModel()
                 }
             };
 
-            var mapper = new AzureLookupMapper(academicYearLookupMapperMock.Object, nvqMapperMock.Object, mappingMapperMock.Object);
+            var mapper = new AzureLookupMapper(
+                academicYearLookupMapperMock.Object,
+                nvqMapperMock.Object,
+                mappingMapperMock.Object,
+                validityMapperMock.Object);
             var result = mapper.Map(model);
 
             result.LookUpKey.Should().Be(model.LookUpKey);
             result.NotionalNvqLevel2Lookups.Should().HaveCount(model.NotionalNvqLevel2Lookups.Count());
             result.AcademicYearLookups.Should().HaveCount(model.AcademicYearLookups.Count());
+            result.ValidityCategoryLookups.Should().HaveCount(model.ValidityCategoryLookups.Count());
             result.ValidityFundingMappingLookups.Should().HaveCount(model.ValidityFundingMappingLookups.Count());
         }
     }
