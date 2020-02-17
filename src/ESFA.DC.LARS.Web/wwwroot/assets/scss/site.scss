@@ -158,6 +158,14 @@ $govuk-global-styles: true;
     margin-left: 15px;
 }
 
+.home-black-border {
+    border: 2px solid #0b0c0c !important;
+}
+
+.home-control-left-margin {
+    margin-left: 5px;
+}
+
 @include govuk-media-query($from: tablet) {
     .flex {
         flex-direction: row;
