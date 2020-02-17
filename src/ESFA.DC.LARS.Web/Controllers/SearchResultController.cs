@@ -31,9 +31,9 @@ namespace ESFA.DC.LARS.Web.Controllers
         }
 
         [HttpGet("RedirectToDetails")]
-        public IActionResult RedirectToDetails(string learnAimRef)
+        public IActionResult RedirectToDetails(string learnAimRef, string academicYear)
         {
-            return RedirectToAction("Index", "LearningAimDetail", new { learnAimRef });
+            return RedirectToAction("Index", "LearningAimDetail", new { learnAimRef, academicYear });
         }
 
         [HttpPost("Search")]

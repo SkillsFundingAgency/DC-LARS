@@ -14,6 +14,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public IEnumerable<AcademicYearLookupModel> AcademicYearLookups { get; set; }
 
+        public IEnumerable<AwardingBodyLookupModel> AwardingBodyLookups { get; set; }
+
         public IEnumerable<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
 
         public IEnumerable<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
