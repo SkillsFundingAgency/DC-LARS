@@ -139,7 +139,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                 Level3Category = level3Cat?
                                     .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
                                     .Select(cat => cat.CategoryDescription)
-                                    .FirstOrDefault(),
+                                    .FirstOrDefault()
                             }).ToList();
 
                         learningDelivery.AcademicYears.RemoveAll(ay => !ay.Validities.Any());
