@@ -154,6 +154,10 @@ $govuk-global-styles: true;
     margin-bottom: 0;
 }
 
+.left-margin {
+    margin-left: 15px;
+}
+
 @include govuk-media-query($from: tablet) {
     .flex {
         flex-direction: row;
