@@ -45,10 +45,7 @@
                                     {
                                         <div class="govuk-checkboxes__item left-margin">
                                             <input class="govuk-checkboxes__input" id="AwardingBody" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
-                                                   @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase)))
-                                                   {
-                                                       @Html.Raw("checked")
-                                                   }/>
+                                                   @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked")  } />
                                             <label class="govuk-label govuk-checkboxes__label" for="level">
                                                 @awardingBody.AwardingBodyName
                                             </label>
@@ -73,10 +70,7 @@
                                     {
                                         <div class="govuk-checkboxes__item left-margin">
                                             <input class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
-                                                   @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase)))
-                                                   {
-                                                       @Html.Raw("checked")
-                                                   }/>
+                                                   @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked")  } />
                                             <label class="govuk-label govuk-checkboxes__label" for="level">
                                                 @level.NotionalNVQLevelV2Desc
                                             </label>
@@ -101,10 +95,7 @@
                                     {
                                         <div class="govuk-checkboxes__item left-margin">
                                             <input class="govuk-checkboxes__input" id="fundingStreams" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
-                                                   @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase)))
-                                                   {
-                                                       @Html.Raw("checked")
-                                                   }/>
+                                                   @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked")  } />
                                             <label class="govuk-label govuk-checkboxes__label" for="fundingStreams">
                                                 @validity.ValidityCategoryDescription
                                             </label>
@@ -144,8 +135,13 @@
                     </div>
                 </section>
             </div>
-            <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary"/>
+            <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
 
+            @Html.ActionLink(
+                "Clear Filters",
+                "ClearFilters",
+                new { searchTerm = Model.SearchModel.SearchTerm },
+                new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
         </div>
 
         <div class="govuk-grid-column-two-thirds">

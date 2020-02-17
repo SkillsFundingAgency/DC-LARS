@@ -44,6 +44,13 @@ namespace ESFA.DC.LARS.Web.Controllers
             return View("Index", model);
         }
 
+        [HttpGet("ClearFilters")]
+        public async Task<IActionResult> ClearFilters(string searchTerm)
+        {
+            var model = await PopulateViewModel(null, new SearchModel { SearchTerm = searchTerm });
+            return View("Index", model);
+        }
+
         private async Task<SearchResultsViewModel> PopulateViewModel(
             BasicSearchModel basicSearchModel = null,
             SearchModel searchModel = null)
