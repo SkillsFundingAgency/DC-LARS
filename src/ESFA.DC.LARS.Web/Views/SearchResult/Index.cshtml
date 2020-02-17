@@ -5,12 +5,30 @@
     var resultsFound = Model?.LearningAimModels != null && Model.LearningAimModels.Any();
 }
 
-<div class="govuk-grid-row govuk-!-margin-top-6">
-    <div class="govuk-grid-column-one-third">
-        <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
-        @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
-        {
-            <input type="hidden" name="SearchTerm" value="@Model?.SearchModel.SearchTerm" />
+
+@using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div class="standard-search">
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search</h1>
+                <div class="govuk-form-group">
+                    <div id="tt-overlay" class="autocomplete-wrapper second">
+                        <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                            <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm" placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchModel.SearchTerm" />
+                        </div>
+                    </div>
+                    <button id="searchProviders" type="submit" class="govuk-button">
+                        <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+        <div class="govuk-grid-column-one-third">
+            <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
 
             <div id="allFilters">
 
@@ -25,9 +43,12 @@
                                 {
                                     @foreach (var awardingBody in Model.LookUpModel.AwardingBodyLookups)
                                     {
-                                        <div class="govuk-checkboxes__item">
+                                        <div class="govuk-checkboxes__item left-margin">
                                             <input class="govuk-checkboxes__input" id="AwardingBody" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
-                                                   @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                                   @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase)))
+                                                   {
+                                                       @Html.Raw("checked")
+                                                   }/>
                                             <label class="govuk-label govuk-checkboxes__label" for="level">
                                                 @awardingBody.AwardingBodyName
                                             </label>
@@ -50,9 +71,12 @@
                                 {
                                     @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
                                     {
-                                        <div class="govuk-checkboxes__item">
+                                        <div class="govuk-checkboxes__item left-margin">
                                             <input class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
-                                                   @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked")  } />
+                                                   @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase)))
+                                                   {
+                                                       @Html.Raw("checked")
+                                                   }/>
                                             <label class="govuk-label govuk-checkboxes__label" for="level">
                                                 @level.NotionalNVQLevelV2Desc
                                             </label>
@@ -75,9 +99,12 @@
                                 {
                                     @foreach (var validity in Model.LookUpModel.ValidityCategoryLookups)
                                     {
-                                        <div class="govuk-checkboxes__item">
+                                        <div class="govuk-checkboxes__item left-margin">
                                             <input class="govuk-checkboxes__input" id="fundingStreams" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
-                                                   @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked")  } />
+                                                   @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase)))
+                                                   {
+                                                       @Html.Raw("checked")
+                                                   }/>
                                             <label class="govuk-label govuk-checkboxes__label" for="fundingStreams">
                                                 @validity.ValidityCategoryDescription
                                             </label>
@@ -117,42 +144,43 @@
                     </div>
                 </section>
             </div>
-            <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
-        }
-    </div>
+            <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary"/>
 
-    <div class="govuk-grid-column-two-thirds">
-        <ul id="resultList" class="govuk-list">
-            @if (resultsFound)
-            {
-                @foreach (var learningAim in Model.LearningAimModels)
+        </div>
+
+        <div class="govuk-grid-column-two-thirds">
+            <ul id="resultList" class="govuk-list">
+                @if (resultsFound)
                 {
-                    <li>
-                        <h3>
-                            @Html.ActionLink(
-                                learningAim.LearningAimTitle,
-                                "RedirectToDetails",
-                                new { learnAimRef = learningAim.LearnAimRef, academicYear = Model.SearchModel.TeachingYears.FirstOrDefault() },
-                                new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" })
-                        </h3>
-                        <div class="flex space-between">
-                            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                                <span><strong>Reference:</strong> @learningAim.LearnAimRef</span>
-                                <span><strong>Assessor:</strong> @learningAim.AwardingBody</span>
+                    @foreach (var learningAim in Model.LearningAimModels)
+                    {
+                        <li>
+                            <h3>
+                                @Html.ActionLink(
+                                    learningAim.LearningAimTitle,
+                                    "RedirectToDetails",
+                                    new {learnAimRef = learningAim.LearnAimRef, academicYear = Model.SearchModel.TeachingYears.FirstOrDefault()},
+                                    new {@class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline"})
+                            </h3>
+                            <div class="flex space-between">
+                                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                                    <span><strong>Reference:</strong> @learningAim.LearnAimRef</span>
+                                    <span><strong>Assessor:</strong> @learningAim.AwardingBody</span>
+                                </div>
+                                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                                    <span><strong>NVQ notional level:</strong> @learningAim.Level</span>
+                                    <span><strong>Guided learning hours:</strong> @learningAim.GuidedLearningHours </span>
+                                </div>
                             </div>
-                            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                                <span><strong>NVQ notional level:</strong> @learningAim.Level</span>
-                                <span><strong>Guided learning hours:</strong> @learningAim.GuidedLearningHours </span>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    }
                 }
-            }
-            else
-            {
-                <li>No results found</li>
-            }
-        </ul>
+                else
+                {
+                    <li>No results found</li>
+                }
+            </ul>
 
+        </div>
     </div>
-</div>
+}
