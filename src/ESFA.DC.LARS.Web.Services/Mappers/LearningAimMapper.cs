@@ -10,7 +10,8 @@ namespace ESFA.DC.LARS.Web.Mappers
             {
                 LearnAimRef = input.LearnAimRef,
                 Level = input.Level,
-                AwardingBody = input.AwardingBody,
+                AwardingBodyCode = input.AwardingBodyCode,
+                AwardingBodyName = input.AwardingBodyName,
                 LearningAimTitle = input.LearningAimTitle,
                 Type = input.Type
             };
