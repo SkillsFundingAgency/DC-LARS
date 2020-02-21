@@ -25,7 +25,7 @@ namespace ESFA.DC.LARS.API.Services.ODataFilters
                     stringBuilder.Append(" or ");
                 }
 
-                stringBuilder.Append(string.Format(FilterODataString, filter));
+                stringBuilder.AppendFormat(FilterODataString, filter);
             }
 
             stringBuilder.Append(")");

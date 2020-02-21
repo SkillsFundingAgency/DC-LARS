@@ -28,7 +28,7 @@ namespace ESFA.DC.LARS.API.Services.ODataFilters
                     stringBuilder.Append(" or ");
                 }
 
-                stringBuilder.Append(string.Format(FilterODataString, filter, searchModel.TeachingYears.FirstOrDefault()));
+                stringBuilder.AppendFormat(FilterODataString, filter, searchModel.TeachingYears.FirstOrDefault());
             }
 
             stringBuilder.Append(")");
