@@ -15,12 +15,13 @@
   {
     "outputFileName": "wwwroot/assets/dist/minified/site-all.min.js",
     "inputFiles": [
+      "wwwroot/assets/js/FilterFeedback.js",
       "wwwroot/assets/js/site.js"
     ],
     "minify": {
       "enabled": true
     },
-    "sourceMap": false
+    "sourceMap": true
   },
   {
     "outputFileName": "wwwroot/assets/dist/minified/govuk/all.min.js",

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "govuk-frontend": "^3.4.0",
-    "html5shiv": "^3.7.3"
+    "html5shiv": "^3.7.3",
+    "vue":  "^2.6.11" 
   }
 }
