@@ -84,11 +84,13 @@
                     FundingModel funding = null;
 
                     var validityFundingCategory = Model.LookUpModel.ValidityFundingMappingLookups
-                        .FirstOrDefault(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase));
-                    if (validityFundingCategory != null)
+                        .Where(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                    if (validityFundingCategory.Any())
                     {
                         funding = academicYear.Fundings
-                            .FirstOrDefault(f => f.FundingCategory.Equals(validityFundingCategory.FundingCategory, StringComparison.OrdinalIgnoreCase));
+                            .FirstOrDefault(f => 
+                                validityFundingCategory.Any(vfc => f.FundingCategory.Equals(vfc.FundingCategory, StringComparison.OrdinalIgnoreCase)));
                     }
 
                     <div class="govuk-accordion__section">
