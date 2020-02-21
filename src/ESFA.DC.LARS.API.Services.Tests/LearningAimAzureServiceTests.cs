@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Models;
 using FluentAssertions;
@@ -21,7 +22,12 @@ namespace ESFA.DC.LARS.API.Services.Tests
                 .Setup(m => m.GetLarsLearningDeliveries(searchModel))
                 .ReturnsAsync(learningAimModels);
 
-            var service = new LearningAimAzureService(azureServiceMock.Object);
+            var searchCleaningServiceMock = new Mock<ISearchCleaningService>();
+            searchCleaningServiceMock
+                .Setup(m => m.EscapeSpecialCharacters(It.IsAny<string>()))
+                .Returns(string.Empty);
+
+            var service = new LearningAimAzureService(azureServiceMock.Object, searchCleaningServiceMock.Object);
             var result = await service.GetLearningAims(searchModel);
 
             azureServiceMock.Verify(m => m.GetLarsLearningDeliveries(searchModel), Times.Once);
@@ -39,7 +45,12 @@ namespace ESFA.DC.LARS.API.Services.Tests
                 .Setup(m => m.GetLarsLearningAim(learnAimRef))
                 .ReturnsAsync(learningAimModel);
 
-            var service = new LearningAimAzureService(azureServiceMock.Object);
+            var searchCleaningServiceMock = new Mock<ISearchCleaningService>();
+            searchCleaningServiceMock
+                .Setup(m => m.EscapeSpecialCharacters(It.IsAny<string>()))
+                .Returns(learnAimRef);
+
+            var service = new LearningAimAzureService(azureServiceMock.Object, searchCleaningServiceMock.Object);
             var result = await service.GetLearningAim(learnAimRef);
 
             azureServiceMock.Verify(m => m.GetLarsLearningAim(learnAimRef), Times.Once);
