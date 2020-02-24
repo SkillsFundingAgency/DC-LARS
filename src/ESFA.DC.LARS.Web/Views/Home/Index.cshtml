@@ -18,7 +18,9 @@
                         <div aria-atomic="true" aria-live="polite" role="status" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
                             No search results.<span>,,</span>
                         </div>
-                        <input aria-owns="autocomplete-overlay__listbox" autocomplete="off" class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm" placeholder="e.g maths or 40010740" type="text" role="textbox">
+                        <input aria-owns="autocomplete-overlay__listbox" autocomplete="off" maxlength="200"
+                               class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
+                               placeholder="e.g maths or 40010740" type="text" role="textbox">
                         <ul class="autocomplete__menu autocomplete__menu--overlay autocomplete__menu--hidden" id="autocomplete-overlay__listbox" role="listbox"></ul>
                     </div>
                 </div>
@@ -28,7 +30,7 @@
                         <label class="govuk-label white-text" for="width-10">
                             Awarding body
                         </label>
-                        <input class="govuk-input govuk-input--width-10 home-black-border" id="width-10" name="AwardingBody" type="text">
+                        <input class="govuk-input govuk-input--width-10 home-black-border" id="width-10" name="AwardingBody" type="text" maxlength="150">
 
                     </div>
 
@@ -73,8 +75,6 @@
                         <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
                     </svg>
                 </button>
-
-
             }
         </div>
     </div>
