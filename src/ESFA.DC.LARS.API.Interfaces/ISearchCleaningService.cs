@@ -2,6 +2,8 @@
 {
     public interface ISearchCleaningService
     {
-        string EscapeSpecialCharacters(string term);
+        string EscapeSearchSpecialCharacters(string term);
+
+        string EscapeFilterSpecialCharacters(string term);
     }
 }

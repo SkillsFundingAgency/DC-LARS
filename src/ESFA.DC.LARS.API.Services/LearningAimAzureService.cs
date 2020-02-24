@@ -23,7 +23,7 @@ namespace ESFA.DC.LARS.API.Services
 
         public Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchParameters)
         {
-            searchParameters.SearchTerm = _searchCleaningService.EscapeSpecialCharacters(searchParameters.SearchTerm);
+            searchParameters.SearchTerm = _searchCleaningService.EscapeSearchSpecialCharacters(searchParameters.SearchTerm);
             searchParameters.FundingStreams = CleanFilter(searchParameters.FundingStreams);
             searchParameters.AwardingBodies = CleanFilter(searchParameters.AwardingBodies);
             searchParameters.Levels = CleanFilter(searchParameters.Levels);
@@ -33,7 +33,7 @@ namespace ESFA.DC.LARS.API.Services
 
         public Task<LearningAimModel> GetLearningAim(string learnAimRef)
         {
-            learnAimRef = _searchCleaningService.EscapeSpecialCharacters(learnAimRef);
+            learnAimRef = _searchCleaningService.EscapeSearchSpecialCharacters(learnAimRef);
             return _azureSearchService.GetLarsLearningAim(learnAimRef);
         }
 
@@ -44,7 +44,7 @@ namespace ESFA.DC.LARS.API.Services
                 return new List<string>();
             }
 
-            return filters.Select(filter => _searchCleaningService.EscapeSpecialCharacters(filter)).ToList();
+            return filters.Select(filter => _searchCleaningService.EscapeFilterSpecialCharacters(filter)).ToList();
         }
     }
 }

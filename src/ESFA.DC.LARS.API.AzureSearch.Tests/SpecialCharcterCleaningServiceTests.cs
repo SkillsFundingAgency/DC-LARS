@@ -38,7 +38,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var escapeChar = @"\";
             var service = new SearchCleaningService();
 
-            var result = service.EscapeSpecialCharacters(replaceChar.ToString());
+            var result = service.EscapeSearchSpecialCharacters(replaceChar.ToString());
 
             result.Should().Be(escapeChar + replaceChar);
         }
@@ -50,7 +50,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
 
             var service = new SearchCleaningService();
 
-            var result = service.EscapeSpecialCharacters(normalChars);
+            var result = service.EscapeSearchSpecialCharacters(normalChars);
 
             result.Should().Be(normalChars);
         }

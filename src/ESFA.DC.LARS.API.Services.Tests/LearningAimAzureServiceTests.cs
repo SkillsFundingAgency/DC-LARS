@@ -24,7 +24,11 @@ namespace ESFA.DC.LARS.API.Services.Tests
 
             var searchCleaningServiceMock = new Mock<ISearchCleaningService>();
             searchCleaningServiceMock
-                .Setup(m => m.EscapeSpecialCharacters(It.IsAny<string>()))
+                .Setup(m => m.EscapeSearchSpecialCharacters(It.IsAny<string>()))
+                .Returns(string.Empty);
+
+            searchCleaningServiceMock
+                .Setup(m => m.EscapeFilterSpecialCharacters(It.IsAny<string>()))
                 .Returns(string.Empty);
 
             var service = new LearningAimAzureService(azureServiceMock.Object, searchCleaningServiceMock.Object);
@@ -47,8 +51,12 @@ namespace ESFA.DC.LARS.API.Services.Tests
 
             var searchCleaningServiceMock = new Mock<ISearchCleaningService>();
             searchCleaningServiceMock
-                .Setup(m => m.EscapeSpecialCharacters(It.IsAny<string>()))
+                .Setup(m => m.EscapeSearchSpecialCharacters(It.IsAny<string>()))
                 .Returns(learnAimRef);
+
+            searchCleaningServiceMock
+                .Setup(m => m.EscapeFilterSpecialCharacters(It.IsAny<string>()))
+                .Returns(string.Empty);
 
             var service = new LearningAimAzureService(azureServiceMock.Object, searchCleaningServiceMock.Object);
             var result = await service.GetLearningAim(learnAimRef);
