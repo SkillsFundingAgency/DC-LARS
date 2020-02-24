@@ -33,6 +33,8 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
             builder.RegisterType<AzureService>().As<IAzureService>();
 
+            builder.RegisterType<SearchCleaningService>().As<ISearchCleaningService>();
+
             builder.RegisterType<LevelODataFilter>().As<IODataFilter>();
             builder.RegisterType<AwardingBodyODataFilter>().As<IODataFilter>();
             builder.RegisterType<AcademicYearODataFilter>().As<IODataFilter>();

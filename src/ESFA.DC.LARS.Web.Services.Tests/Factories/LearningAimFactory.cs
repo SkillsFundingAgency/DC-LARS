@@ -11,7 +11,8 @@ namespace ESFA.DC.LARS.Web.Services.Tests.Factories
             return new LearningAimModel
             {
                 LearnAimRef = "12313131",
-                AwardingBody = "Test Awarding Body",
+                AwardingBodyCode = "1231231",
+                AwardingBodyName = "Test Awarding Body",
                 LearningAimTitle = "Learning Aim 1",
                 Level = "1",
                 Type = "Test type",

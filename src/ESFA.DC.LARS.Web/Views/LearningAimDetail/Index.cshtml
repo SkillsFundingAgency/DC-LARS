@@ -23,7 +23,7 @@
                     <span class="govuk-!-font-weight-bold">Guided learning hours:</span> @Model.LearningAimModel.GuidedLearningHours
                 </li>
                 <li>
-                    <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBody
+                    <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBodyName
                 </li>
                 <li>
                     <span class="govuk-!-font-weight-bold">Level 2 Category:</span>
@@ -84,11 +84,13 @@
                     FundingModel funding = null;
 
                     var validityFundingCategory = Model.LookUpModel.ValidityFundingMappingLookups
-                        .FirstOrDefault(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase));
-                    if (validityFundingCategory != null)
+                        .Where(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                    if (validityFundingCategory.Any())
                     {
                         funding = academicYear.Fundings
-                            .FirstOrDefault(f => f.FundingCategory.Equals(validityFundingCategory.FundingCategory, StringComparison.OrdinalIgnoreCase));
+                            .FirstOrDefault(f => 
+                                validityFundingCategory.Any(vfc => f.FundingCategory.Equals(vfc.FundingCategory, StringComparison.OrdinalIgnoreCase)));
                     }
 
                     <div class="govuk-accordion__section">

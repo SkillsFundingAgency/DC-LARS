@@ -35,12 +35,17 @@ namespace ESFA.DC.LARS.API.Services.Tests
         {
             var searchModel = new SearchModel
             {
+                TeachingYears = new List<string>
+                {
+                    "1920"
+                },
                 FundingStreams = new List<string>
                 {
                     "Test"
                 }
             };
-            var fundingStreamOData = $"(AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{searchModel.FundingStreams.Single()}')))";
+            var fundingStreamOData =
+                $"(AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{searchModel.FundingStreams.Single()}') and ay/AcademicYear eq '{searchModel.TeachingYears.Single()}'))";
 
             var filter = new FundingStreamODataFilter();
             var result = filter.ApplyFilter(searchModel);
@@ -53,14 +58,19 @@ namespace ESFA.DC.LARS.API.Services.Tests
         {
             var searchModel = new SearchModel
             {
+                TeachingYears = new List<string>
+                {
+                    "1920"
+                },
                 FundingStreams = new List<string>
                 {
                     "Test1",
                     "Test2"
                 }
             };
-            var fundingStreamOData = $"(AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{searchModel.FundingStreams[0]}'))" +
-                                     $" or AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{searchModel.FundingStreams[1]}')))";
+            var fundingStreamOData =
+                $"(AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{searchModel.FundingStreams[0]}') and ay/AcademicYear eq '{searchModel.TeachingYears.Single()}')" +
+                $" or AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{searchModel.FundingStreams[1]}') and ay/AcademicYear eq '{searchModel.TeachingYears.Single()}'))";
 
             var filter = new FundingStreamODataFilter();
             var result = filter.ApplyFilter(searchModel);
