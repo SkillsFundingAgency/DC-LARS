@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
