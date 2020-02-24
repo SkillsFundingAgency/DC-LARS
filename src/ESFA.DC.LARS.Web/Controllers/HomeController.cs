@@ -10,8 +10,6 @@ namespace ESFA.DC.LARS.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private const int SearchFieldMaxLength = 100;
-
         private readonly ITelemetry _telemetryClient;
         private readonly ILookupApiService _lookupApiService;
 
