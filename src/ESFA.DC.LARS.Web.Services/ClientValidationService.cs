@@ -12,26 +12,22 @@ namespace ESFA.DC.LARS.Web.Services
 
         public string SearchTermLengthValid(string searchTerm)
         {
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                return string.Empty;
-            }
-
-            return searchTerm.Length > MaxSearchTermLength
-                ? _searchTermError
-                : string.Empty;
+            return LengthValid(searchTerm, MaxSearchTermLength) ? string.Empty : _searchTermError;
         }
 
         public string FilterLengthValid(string filterTerm)
         {
-            if (string.IsNullOrEmpty(filterTerm))
+            return LengthValid(filterTerm, MaxFilterLength) ? string.Empty : _filterError;
+        }
+
+        private bool LengthValid(string term, int maxLength)
+        {
+            if (string.IsNullOrEmpty(term))
             {
-                return string.Empty;
+                return true;
             }
 
-            return filterTerm.Length > MaxFilterLength
-                ? _filterError
-                : string.Empty;
+            return term.Length <= maxLength;
         }
     }
 }
