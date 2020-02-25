@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.LARS.Web.Models.ViewModels;
@@ -12,15 +14,18 @@ namespace ESFA.DC.LARS.Web.Controllers
         private readonly ISearchModelFactory _searchModelFactory;
         private readonly ILearningAimsApiService _learningAimsApiService;
         private readonly ILookupApiService _lookupApiService;
+        private readonly IClientValidationService _clientValidationService;
 
         public SearchResultController(
             ISearchModelFactory searchModelFactory,
             ILearningAimsApiService learningAimsApiService,
-            ILookupApiService lookupApiService)
+            ILookupApiService lookupApiService,
+            IClientValidationService clientValidationService)
         {
             _searchModelFactory = searchModelFactory;
             _learningAimsApiService = learningAimsApiService;
             _lookupApiService = lookupApiService;
+            _clientValidationService = clientValidationService;
         }
 
         public async Task<IActionResult> Index(BasicSearchModel basicSearchModel = null)
@@ -39,7 +44,17 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpPost("Search")]
         public async Task<IActionResult> Search([FromForm]SearchModel searchModel)
         {
-            var model = await PopulateViewModel(null, searchModel);
+            var model = new SearchResultsViewModel();
+
+            ValidateSearch(searchModel, model);
+            if (model.ValidationErrors.Any())
+            {
+                model.SearchModel = searchModel;
+                model.LookUpModel = await _lookupApiService.GetLookups();
+                return View("Index", model);
+            }
+
+            model = await PopulateViewModel(null, searchModel);
 
             return View("Index", model);
         }
@@ -49,6 +64,15 @@ namespace ESFA.DC.LARS.Web.Controllers
         {
             var model = await PopulateViewModel(null, new SearchModel { SearchTerm = searchTerm });
             return View("Index", model);
+        }
+
+        private void ValidateSearch(SearchModel searchModel, SearchResultsViewModel viewModel)
+        {
+            var searchTermError = _clientValidationService.SearchTermLengthValid(searchModel.SearchTerm);
+            if (!string.IsNullOrEmpty(searchTermError))
+            {
+                viewModel.ValidationErrors.Add(searchTermError);
+            }
         }
 
         private async Task<SearchResultsViewModel> PopulateViewModel(
