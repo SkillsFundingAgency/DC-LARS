@@ -33,7 +33,6 @@ namespace ESFA.DC.LARS.Web.Controllers
             var lookups = await _lookupApiService.GetLookups();
             model.Lookups = lookups;
 
-            _telemetryClient.TrackEvent("ESFA.DC.LARS.Web - In home controller");
             return View(model);
         }
 
