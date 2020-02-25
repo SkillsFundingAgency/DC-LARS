@@ -1,6 +1,7 @@
 ﻿const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
 const devMode = process.env.NODE_ENV !== 'production';
@@ -32,6 +33,11 @@ module.exports = {
         // Array of rules that tells Webpack how the modules (output)
         // will be created
         rules: [
+            {
+                test: /\.vue$/,
+                exclude: /node_modules/,
+                loader: 'vue-loader'
+            },
             {
                 // Look for JavaScript files and process them according to the
                 // rules specified in the different loaders
@@ -130,6 +136,7 @@ module.exports = {
         // the location
         new MiniCssExtractPlugin({
             filename: devMode ? './wwwroot/assets/dist/css/site.css' : './wwwroot/assets/dist/minified/site.min.css'
-        })
+        }),
+        new VueLoaderPlugin()
     ]
 };

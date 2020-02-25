@@ -25,6 +25,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
-, "-vs-binding":{"BeforeBuild":["build"],"ProjectOpened":["watch"]}
+  "description": "",
+  "-vs-binding": {
+    "BeforeBuild": [
+      "build"
+    ],
+    "ProjectOpened": [
+      "watch"
+    ]
+  },
+  "devDependencies": {
+    "vue-loader": "^15.9.0",
+    "vue-template-compiler": "^2.6.11"
+  }
 }
