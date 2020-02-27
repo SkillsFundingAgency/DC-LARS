@@ -154,16 +154,7 @@
 
             <div class="govuk-grid-column-two-thirds">
 
-                <div id="" class="filter-feedback-container no-js" style="display: block;">
-                    <span id="from" class="govuk-body govuk-!-font-size-16">
-                        <strong>Showing </strong>
-                        <span id="filters">
-                            <a href="#" class="filter-feedback">
-                                <span class="filter-name"> <span class="close"></span>Level-1</span>
-                            </a>
-                        </span>
-                    </span>
-                </div>
+                <filter-feedback :search-filters='@Html.Raw(Json.Serialize(Model.SearchModel))'></filter-feedback>
 
                 <ul id="resultList" class="govuk-list">
                     @if (resultsFound)
@@ -204,5 +195,5 @@
 
 @section PageScripts
 {
-    <script type="module" src="app/Search.js"></script>
+    <script type="module" src="assets/dist/js/app.js"></script>
 }

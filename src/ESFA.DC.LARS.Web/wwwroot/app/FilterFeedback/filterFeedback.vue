@@ -3,12 +3,14 @@
         <span id="from" class="govuk-body govuk-!-font-size-16">
             <strong>Showing </strong>
             <span id="firstFilter">
-                <a href="#" class="filter-feedback" v-for="filter in filters"> 
-                    <span class="filter-name"> 
-                        <span class="close"></span>
-                        {{ filter }}
-                    </span> 
-                </a>
+                <template v-for="filter in filters">
+                    <a href="#" class="filter-feedback">
+                        <span class="filter-name">
+                            <span class="close"></span>
+                            {{ filter }}
+                        </span>
+                    </a>
+                </template>
             </span>
         </span>
     </div>
@@ -18,8 +20,24 @@
     export default {
         el: '#filter-feedback',
         props: {
-            filters: {
-                type : Object
+            searchFilters: Object
+        },
+        mounted() {
+            this.init();
+        },
+        data() {
+            return {
+                filters: []
+            }
+        },
+        methods: {
+            init: function () {
+                //alert('props: ' + this.searchFilters);
+
+                for (let filter of this.searchFilters.levels) {
+                    //alert(filter);
+                    this.filters.push(filter);
+                }
             }
         }
     }

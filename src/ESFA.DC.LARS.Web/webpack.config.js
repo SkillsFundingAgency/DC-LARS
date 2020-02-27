@@ -4,29 +4,24 @@ const postcssPresetEnv = require('postcss-preset-env');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
-const devMode = process.env.NODE_ENV !== 'production';
+const devMode = true; //process.env.NODE_ENV !== 'production';
 module.exports = {
     // Tells Webpack which built-in optimizations to use
     // If you leave this out, Webpack will default to 'production'
     mode: devMode ? 'development' : 'production',
     // Webpack needs to know where to start the bundling process,
-    // so we define the Sass file under './Styles' directory
-    // and the script file under './Scripts' directory
+    // so we define the Sass file under '/scss' directory
+    // and the script file under '/js' directory
     entry: {
-        css: './wwwroot/assets/scss/site.scss',
-        site: './wwwroot/assets/js/site.js'
+        site: ['./wwwroot/assets/scss/site.scss', './wwwroot/assets/js/site.js'],
+        'search-box': './wwwroot/assets/scss/search-box.scss',
+        app: './wwwroot/app/search.js'
     },
     // This is where we define the path where Webpack will place
     // a bundled JS file.
     output: {
+        filename: './assets/dist/js/[name].js',
         path: path.resolve(__dirname, 'wwwroot'),
-        // Specify the base path for all the styles within your
-        // application. This is relative to the output path, so in
-        // our case it will be ./wwwroot/css
-        publicPath: './wwwroot/assets/dist/css',
-        // The name of the output bundle. Path is also relative
-        // to the output path, so './wwwroot/js'
-        filename: './wwwroot/assets/dist/js/[name].js'
     },
     devtool: devMode ? 'inline-source-map' : 'source-map',
     module: {
@@ -120,7 +115,7 @@ module.exports = {
                             // the CSS file, file-loader will output as
                             // url(../images/pattern.png), which is relative
                             // to '/css/site.css'
-                            publicPath: './wwwroot/assets/images',
+                            publicPath: './assets/images',
                             // When this option is 'true', the loader will emit the
                             // image to output.path. In our case we don't want this
                             emitFile: false
@@ -131,11 +126,9 @@ module.exports = {
         ]
     },
     plugins: [
-        // Configuration options for MiniCssExtractPlugin. Here I'm only
-        // indicating what the CSS output file name should be and
-        // the location
         new MiniCssExtractPlugin({
-            filename: devMode ? './wwwroot/assets/dist/css/site.css' : './wwwroot/assets/dist/minified/site.min.css'
+            filename: devMode ? './assets/dist/css/[name].css' : './assets/dist/minified/[name].min.css',
+            chunkFilename: "[name].css"
         }),
         new VueLoaderPlugin()
     ]

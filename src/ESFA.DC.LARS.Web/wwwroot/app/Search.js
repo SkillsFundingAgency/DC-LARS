@@ -1,5 +1,5 @@
 ﻿import Vue from "../assets/dist/minified/vue.min.js";
-import FilterFeedback from "./FilterFeedback/filterFeedback";
+import FilterFeedback from "../app/FilterFeedback/filterFeedback.vue";
 
 var app = new Vue({
     el: "#app",
