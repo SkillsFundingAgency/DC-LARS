@@ -154,7 +154,7 @@
 
             <div class="govuk-grid-column-two-thirds">
 
-                <filter-feedback :search-filters='@Html.Raw(Json.Serialize(Model.SearchModel))'></filter-feedback>
+                <filter-feedback v-bind:search-filters='@Json.Serialize(Model.SearchModel)'></filter-feedback>
 
                 <ul id="resultList" class="govuk-list">
                     @if (resultsFound)

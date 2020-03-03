@@ -20,6 +20,10 @@
     <None Remove="wwwroot\wwwroot\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\app\blank.ts" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
@@ -51,12 +55,17 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\blank.ts" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 
  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy /Y /S &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\assets\*.*&quot; &quot;$(ProjectDir)wwwroot\assets\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\all.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\govuk\js\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\html5shiv\dist\html5shiv.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\vue\dist\vue.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;" />
+    <Exec Command="xcopy /Y /S &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\assets\*.*&quot; &quot;$(ProjectDir)wwwroot\assets\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\all.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\govuk\js\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\html5shiv\dist\html5shiv.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\vue\dist\vue.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\vue-class-component\dist\vue-class-component.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\vue-property-decorator\lib\vue-property-decorator.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\js\&quot;" />
   </Target>
 
 </Project>

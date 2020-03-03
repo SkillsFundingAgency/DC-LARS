@@ -16,22 +16,26 @@
     </div>
 </template>
 
-<script>
-    export default {
-        el: '#filter-feedback',
-        props: {
-            searchFilters: Object
-        },
+<script lang="ts">
+    import Vue from "../../assets/dist/minified/vue.min.js";
+    import Component from "../../assets/dist/minified/vue-class-component.min.js";
+    import Prop from '../../assets/dist/js/vue-property-decorator.js';
+
+    interface SearchFilters {
+        levels : Array<String>
+    }
+
+    @Component
+    export default class FilterFeedback extends Vue {
+        @Prop() readonly searchFilters: SearchFilters;
+
+        private  filters: Array<String>;
+
         mounted() {
             this.init();
-        },
-        data() {
-            return {
-                filters: []
-            }
-        },
-        methods: {
-            init: function () {
+        }
+
+        private init() : void {
                 //alert('props: ' + this.searchFilters);
 
                 for (let filter of this.searchFilters.levels) {
@@ -39,6 +43,5 @@
                     this.filters.push(filter);
                 }
             }
-        }
     }
 </script>
