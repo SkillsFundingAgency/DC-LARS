@@ -15,5 +15,7 @@ namespace ESFA.DC.LARS.AzureSearch.Configuration
         public string LearningAimsIndexName { get; set; }
 
         public string LookupsIndexName { get; set; }
+
+        public string FrameworkIndexName { get; set; }
     }
 }
