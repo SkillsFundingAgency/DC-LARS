@@ -17,9 +17,7 @@
 </template>
 
 <script lang="ts">
-    import Vue from "../../assets/dist/minified/vue.min.js";
-    import Component from "../../assets/dist/minified/vue-class-component.min.js";
-    import Prop from '../../assets/dist/js/vue-property-decorator.js';
+    import { Component, Prop, Vue } from 'vue-property-decorator';
 
     interface SearchFilters {
         levels : Array<String>
@@ -27,9 +25,14 @@
 
     @Component
     export default class FilterFeedback extends Vue {
-        @Prop() readonly searchFilters: SearchFilters;
+        @Prop() readonly searchFilters!: SearchFilters;
 
-        private  filters: Array<String>;
+        private filters: Array<String>;
+
+        constructor() {
+            super();
+            this.filters = [];
+        }
 
         mounted() {
             this.init();

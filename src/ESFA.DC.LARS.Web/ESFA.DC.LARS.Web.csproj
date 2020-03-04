@@ -21,7 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\app\blank.ts" />
+    <Content Remove="wwwroot\app\Search.ts" />
+    <Content Remove="wwwroot\blank.js" />
+    <Content Remove="wwwroot\blank.js.map" />
+    <Content Remove="wwwroot\Search.js" />
+    <Content Remove="wwwroot\Search.js.map" />
   </ItemGroup>
 
 
@@ -55,7 +59,7 @@
 
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\app\blank.ts" />
+    <TypeScriptCompile Include="wwwroot\app\search.ts" />
   </ItemGroup>
 
 
@@ -65,7 +69,7 @@
 
 
  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy /Y /S &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\assets\*.*&quot; &quot;$(ProjectDir)wwwroot\assets\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\all.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\govuk\js\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\html5shiv\dist\html5shiv.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\vue\dist\vue.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\vue-class-component\dist\vue-class-component.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\vue-property-decorator\lib\vue-property-decorator.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\js\&quot;" />
+    <Exec Command="xcopy /Y /S &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\assets\*.*&quot; &quot;$(ProjectDir)wwwroot\assets\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\govuk-frontend\govuk\all.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\govuk\js\&quot;&#xD;&#xA;xcopy /Y &quot;$(ProjectDir)node_modules\html5shiv\dist\html5shiv.min.js&quot; &quot;$(ProjectDir)wwwroot\assets\dist\minified\&quot;" />
   </Target>
 
 </Project>

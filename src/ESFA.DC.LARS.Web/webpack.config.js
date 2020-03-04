@@ -1,10 +1,11 @@
 ﻿const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
-const devMode = true; //process.env.NODE_ENV !== 'production';
+const devMode = process.env.NODE_ENV !== 'production';
 module.exports = {
     // Tells Webpack which built-in optimizations to use
     // If you leave this out, Webpack will default to 'production'
@@ -13,25 +14,22 @@ module.exports = {
     // so we define the Sass file under '/scss' directory
     // and the script file under '/js' directory
     entry: {
-        site: ['./wwwroot/assets/scss/site.scss', './wwwroot/assets/js/site.js'],
-        'search-box': './wwwroot/assets/scss/search-box.scss',
-        app: './wwwroot/app/search.js'
+        site: ['./wwwroot/assets/scss/site.scss', './wwwroot/assets/js/site.js', './wwwroot/assets/scss/search-box.scss'],
+        app: './wwwroot/app/search.ts'
     },
     // This is where we define the path where Webpack will place
     // a bundled JS file.
     output: {
         filename: './assets/dist/js/[name].js',
-        path: path.resolve(__dirname, 'wwwroot'),
+        path: path.resolve(__dirname, 'wwwroot')
     },
     devtool: devMode ? 'inline-source-map' : 'source-map',
     module: {
-        // Array of rules that tells Webpack how the modules (output)
-        // will be created
         rules: [
             {
                 test: /\.ts$/,
-                exclude: /node_modules|vue\/src/,
                 loader: 'ts-loader',
+                exclude: /node_modules/,
                 options: {
                     appendTsSuffixTo: [/\.vue$/]
                 }
@@ -39,25 +37,22 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                options:
-                { // 2.5 UPDATE: vue-cli handles all this stuff for you now, it bundles an external config called vue-loader.conf.js and imports it as vueLoderConfig
-                    // no need to worry about any of it
-                    esModule: true, // TK Make sure this is added and true
-                    // 2.5 UPDATE: this is not needed in Vue 2.5 and above
+                options: {
                     loaders: {
-                        // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
-                        // the "scss" and "sass" values for the lang attribute to the right configs here.
-                        // other preprocessors should work out of the box, no loader config like this necessary.
                         'scss': 'vue-style-loader!css-loader!sass-loader',
                         'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
                     }
-                    // other vue-loader options go here
                 }
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
             },
             {
                 // Look for Sass files and process them according to the
@@ -143,5 +138,26 @@ module.exports = {
             chunkFilename: "[name].css"
         }),
         new VueLoaderPlugin()
-    ]
+    ],
+    resolve: {
+        extensions : ['.ts', '.js', '.vue', '.json'],
+        alias: {
+            vue$: 'vue/dist/vue.esm.js'
+        }
+    }
 };
+
+if (process.env.NODE_ENV === 'production') {
+    module.exports.devtool = '#source-map';
+    // http://vue-loader.vuejs.org/en/workflow/production.html
+    module.exports.plugins = (module.exports.plugins || []).concat([
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        })
+    ]);
+}

@@ -1,8 +1,10 @@
 {
   "dependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
     "babel-loader": "^8.0.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "cross-env": "^7.0.0",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
@@ -14,6 +16,8 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.6.0",
     "sass-loader": "^8.0.2",
+    "ts-loader": "^6.2.1",
+    "typescript": "~3.7.5",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-loader": "^15.9.0",
@@ -37,9 +41,5 @@
     "ProjectOpened": [
       "watch"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-decorators": "^7.8.3"
   }
 }

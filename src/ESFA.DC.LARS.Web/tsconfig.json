@@ -1,18 +1,24 @@
 {
   "compilerOptions": {
-    "noImplicitAny": false,
-    "noEmitOnError": true,
-    "removeComments": false,
+    "outDir": "./wwwroot/assets/dist/js/",
     "sourceMap": true,
-    "outDir": "./wwwroot",
-    "target": "ES6",
-    "experimentalDecorators": true
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "module": "es2015",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": [
+      "es2016",
+      "dom"
+    ]
   },
   "include": [
     "./wwwroot/**/*"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "compileOnSave": true
+  ]
 }
