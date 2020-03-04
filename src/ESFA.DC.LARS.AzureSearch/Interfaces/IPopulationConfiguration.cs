@@ -7,5 +7,7 @@
         string LearningAimsIndexName { get; }
 
         string LookupsIndexName { get; }
+
+        string FrameworkIndexName { get; set; }
     }
 }
