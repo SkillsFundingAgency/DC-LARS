@@ -28,8 +28,15 @@ namespace ESFA.DC.LARS.API.Modules
                 .As<ILookupIndexService>()
                 .SingleInstance();
 
+            builder
+                .Register(c => new FrameworkClient(AzureSettings))
+                .As<IFrameworkIndexService>()
+                .SingleInstance();
+
             builder.RegisterType<AzureLearningAimsService>().As<IAzureLearningAimsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
+            builder.RegisterType<AzureFrameworkService>().As<IAzureFrameworkService>();
+
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
             builder.RegisterType<AzureService>().As<IAzureService>();
 
@@ -52,6 +59,8 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureLookupMapper>().As<IMapper<LookUpModel, Models.LookUpModel>>();
             builder.RegisterType<AzureValidityCategoryLookupMapper>().As<IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel>>();
             builder.RegisterType<AzureValidityFundingMappingLookupMapper>().As<IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel>>();
+
+            builder.RegisterType<AzureFrameworkMapper>().As<IMapper<FrameworkModel, Models.FrameworkModel>>();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -42,11 +41,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 frameworks = context.LarsFrameworks
                     .Select(fr => new FrameworkModel
                     {
-                        Id = string.Concat(fr.FworkCode, fr.ProgType, fr.PwayCode), // azure search index must have 1 key field
+                        Id = string.Concat(fr.FworkCode, "-", fr.ProgType, "-", fr.PwayCode), // azure search index must have 1 key field
                         FrameworkCode = fr.FworkCode,
                         ProgramType = fr.ProgType,
                         PathwayCode = fr.PwayCode,
                         PathwayName = fr.PathwayName,
+                        FrameworkTitle = fr.IssuingAuthorityTitle,
                         EffectiveFrom = fr.EffectiveFrom,
                         EffectiveTo = fr.EffectiveTo,
                         SectorSubjectAreaTier2 = fr.SectorSubjectAreaTier2.ToString(), // decimal not supported by azure

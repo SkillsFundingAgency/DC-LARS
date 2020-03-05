@@ -1,22 +1,18 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace ESFA.DC.LARS.Azure.Models
+namespace ESFA.DC.LARS.API.Models
 {
     public class FrameworkModel
     {
-        [Key]
-        public string Id { get; set; }
-
         public int FrameworkCode { get; set; }
 
         public int ProgramType { get; set; }
 
         public int PathwayCode { get; set; }
 
-        public string FrameworkTitle { get; set; }
-
         public string PathwayName { get; set; }
+
+        public string FrameworkTitle { get; set; }
 
         public string IssuingAuthority { get; set; }
 
