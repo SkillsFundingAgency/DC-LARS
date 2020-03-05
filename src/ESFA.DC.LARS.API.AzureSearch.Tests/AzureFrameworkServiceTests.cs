@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
-using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using FluentAssertions;
-using Microsoft.Azure.Search.Models;
 using Moq;
 using Xunit;
 
@@ -44,8 +41,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
 
             var indexServiceMock = new Mock<IFrameworkIndexService>();
 
-            var filterServiceMock = new Mock<IFrameworkODataFilter>();
-
             var azureServiceMock = new Mock<IAzureService>();
             azureServiceMock
                 .Setup(m => m.GetAsync<FrameworkModel>(It.IsAny<IFrameworkIndexService>(), key))
@@ -55,8 +50,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 telemetryMock.Object,
                 indexServiceMock.Object,
                 mapperMock.Object,
-                azureServiceMock.Object,
-                filterServiceMock.Object);
+                azureServiceMock.Object);
 
             var result = await service.GetFramework(frameworkCode, programType, pathwayCode);
 
