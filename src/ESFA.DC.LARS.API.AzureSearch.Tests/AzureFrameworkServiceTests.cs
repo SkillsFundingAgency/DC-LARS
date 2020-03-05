@@ -22,6 +22,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var programType = 2;
             var pathwayCode = 3;
 
+            var key = $"{frameworkCode}-{programType}-{pathwayCode}";
+
             var azureFramework = new FrameworkModel
             {
                 FrameworkCode = frameworkCode,
@@ -35,16 +37,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 PathwayCode = pathwayCode
             };
 
-            var searchResult = new DocumentSearchResult<FrameworkModel>(
-                new List<SearchResult<FrameworkModel>>
-                {
-                    new SearchResult<FrameworkModel>(azureFramework)
-                },
-                1,
-                0,
-                null,
-                SearchContinuationToken.CreateTestToken("foo"));
-
             var mapperMock = new Mock<IMapper<FrameworkModel, Models.FrameworkModel>>();
             mapperMock.Setup(m => m.Map(azureFramework)).Returns(apiFramework);
 
@@ -56,8 +48,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
 
             var azureServiceMock = new Mock<IAzureService>();
             azureServiceMock
-                .Setup(m => m.SearchIndexAsync<FrameworkModel>(indexServiceMock.Object, string.Empty, It.IsAny<SearchParameters>()))
-                .ReturnsAsync(searchResult);
+                .Setup(m => m.GetAsync<FrameworkModel>(It.IsAny<IFrameworkIndexService>(), key))
+                .ReturnsAsync(azureFramework);
 
             var service = new AzureFrameworkService(
                 telemetryMock.Object,
@@ -68,7 +60,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
 
             var result = await service.GetFramework(frameworkCode, programType, pathwayCode);
 
-            azureServiceMock.Verify(m => m.SearchIndexAsync<FrameworkModel>(indexServiceMock.Object, string.Empty, It.IsAny<SearchParameters>()), Times.Once);
+            azureServiceMock.Verify(m => m.GetAsync<FrameworkModel>(It.IsAny<IFrameworkIndexService>(), key), Times.Once);
 
             result.Should().BeSameAs(apiFramework);
         }
