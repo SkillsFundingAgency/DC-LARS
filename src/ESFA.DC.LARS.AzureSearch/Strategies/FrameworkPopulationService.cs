@@ -42,7 +42,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 frameworks = context.LarsFrameworks
                     .Select(fr => new FrameworkModel
                     {
-                        Id = string.Concat(fr.FworkCode, fr.ProgType, fr.PwayCode), // azure search index must have 1 key field
+                        Id = string.Concat(fr.FworkCode, "-", fr.ProgType, "-", fr.PwayCode), // azure search index must have 1 key field
                         FrameworkCode = fr.FworkCode,
                         ProgramType = fr.ProgType,
                         PathwayCode = fr.PwayCode,

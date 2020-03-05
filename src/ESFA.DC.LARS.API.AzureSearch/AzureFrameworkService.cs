@@ -37,16 +37,13 @@ namespace ESFA.DC.LARS.API.AzureSearch
         {
             Models.FrameworkModel framework;
 
-            var parameters = new SearchParameters
-            {
-                Filter = _frameworkODataFilter.GetFilter(frameworkCode, programType, pathwayCode)
-            };
+            var key = $"{frameworkCode}-{programType}-{pathwayCode}";
 
             try
             {
-                var result = await _azureService.SearchIndexAsync<FrameworkModel>(_frameworkIndexService, string.Empty, parameters);
+                var result = await _azureService.GetAsync<FrameworkModel>(_frameworkIndexService, key);
 
-                framework = result.Results.Select(r => _mapper.Map(r.Document)).FirstOrDefault();
+                framework = _mapper.Map(result);
             }
             catch (Exception ex)
             {

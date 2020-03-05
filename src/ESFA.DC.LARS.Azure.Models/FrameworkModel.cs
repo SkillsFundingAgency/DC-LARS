@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.Azure.Models
 {
@@ -9,13 +8,10 @@ namespace ESFA.DC.LARS.Azure.Models
         [Key]
         public string Id { get; set; }
 
-        [IsFilterable]
         public int FrameworkCode { get; set; }
 
-        [IsFilterable]
         public int ProgramType { get; set; }
 
-        [IsFilterable]
         public int PathwayCode { get; set; }
 
         public string FrameworkTitle { get; set; }
