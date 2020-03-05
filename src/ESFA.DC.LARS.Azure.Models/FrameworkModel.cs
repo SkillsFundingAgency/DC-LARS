@@ -18,6 +18,8 @@ namespace ESFA.DC.LARS.Azure.Models
         [IsFilterable]
         public int PathwayCode { get; set; }
 
+        public string FrameworkTitle { get; set; }
+
         public string PathwayName { get; set; }
 
         public string IssuingAuthority { get; set; }

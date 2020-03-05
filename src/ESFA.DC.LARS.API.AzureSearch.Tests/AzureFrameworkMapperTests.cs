@@ -17,6 +17,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 ProgramType = 2,
                 PathwayCode = 0,
                 PathwayName = "nametest",
+                FrameworkTitle = "testtitle",
                 EffectiveFrom = new DateTime(2020, 1, 1),
                 EffectiveTo = new DateTime(2022, 1, 1),
                 SectorSubjectAreaTier2 = "-1",
@@ -32,6 +33,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.PathwayCode.Should().Be(model.PathwayCode);
             result.ProgramType.Should().Be(model.ProgramType);
             result.PathwayName.Should().Be(model.PathwayName);
+            result.FrameworkTitle.Should().Be(model.FrameworkTitle);
             result.EffectiveFrom.Should().Be(model.EffectiveFrom);
             result.EffectiveTo.Should().Be(model.EffectiveTo);
             result.SectorSubjectAreaTier2.Should().Be(model.SectorSubjectAreaTier2);

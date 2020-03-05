@@ -47,6 +47,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         ProgramType = fr.ProgType,
                         PathwayCode = fr.PwayCode,
                         PathwayName = fr.PathwayName,
+                        FrameworkTitle = fr.IssuingAuthorityTitle,
                         EffectiveFrom = fr.EffectiveFrom,
                         EffectiveTo = fr.EffectiveTo,
                         SectorSubjectAreaTier2 = fr.SectorSubjectAreaTier2.ToString(), // decimal not supported by azure

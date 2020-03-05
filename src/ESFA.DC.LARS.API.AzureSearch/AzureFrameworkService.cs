@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.Azure.Search.Models;
@@ -12,26 +13,24 @@ namespace ESFA.DC.LARS.API.AzureSearch
 {
     public class AzureFrameworkService : IAzureFrameworkService
     {
-        private readonly string _frameworkQueryString = "FrameworkCode eq {0} and ProgramType eq {1} and PathwayCode eq {2}";
-
         private readonly ITelemetry _telemetry;
         private readonly IFrameworkIndexService _frameworkIndexService;
         private readonly IMapper<FrameworkModel, Models.FrameworkModel> _mapper;
         private readonly IAzureService _azureService;
-        private readonly ISearchCleaningService _searchCleaningService;
+        private readonly IFrameworkODataFilter _frameworkODataFilter;
 
         public AzureFrameworkService(
             ITelemetry telemetry,
             IFrameworkIndexService frameworkIndexService,
             IMapper<FrameworkModel, Models.FrameworkModel> mapper,
             IAzureService azureService,
-            ISearchCleaningService searchCleaningService)
+            IFrameworkODataFilter frameworkODataFilter)
         {
             _telemetry = telemetry;
             _frameworkIndexService = frameworkIndexService;
             _mapper = mapper;
             _azureService = azureService;
-            _searchCleaningService = searchCleaningService;
+            _frameworkODataFilter = frameworkODataFilter;
         }
 
         public async Task<Models.FrameworkModel> GetFramework(int frameworkCode, int programType, int pathwayCode)
@@ -40,7 +39,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
             var parameters = new SearchParameters
             {
-                Filter = GetFilter(frameworkCode, programType, pathwayCode)
+                Filter = _frameworkODataFilter.GetFilter(frameworkCode, programType, pathwayCode)
             };
 
             try
@@ -56,12 +55,6 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
 
             return framework;
-        }
-
-        private string GetFilter(int frameworkCode, int programType, int pathwayCode)
-        {
-            return _searchCleaningService.EscapeFilterSpecialCharacters(
-                string.Format(_frameworkQueryString, frameworkCode, programType, pathwayCode));
         }
     }
 }

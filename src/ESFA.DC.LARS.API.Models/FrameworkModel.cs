@@ -12,6 +12,8 @@ namespace ESFA.DC.LARS.API.Models
 
         public string PathwayName { get; set; }
 
+        public string FrameworkTitle { get; set; }
+
         public string IssuingAuthority { get; set; }
 
         public string IssuingAuthorityDesc { get; set; }

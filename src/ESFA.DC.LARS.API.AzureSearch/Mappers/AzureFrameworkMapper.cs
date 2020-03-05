@@ -13,6 +13,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 ProgramType = input.ProgramType,
                 PathwayCode = input.PathwayCode,
                 PathwayName = input.PathwayName,
+                FrameworkTitle = input.FrameworkTitle,
                 EffectiveFrom = input.EffectiveFrom,
                 EffectiveTo = input.EffectiveTo,
                 SectorSubjectAreaTier2 = input.SectorSubjectAreaTier2,
