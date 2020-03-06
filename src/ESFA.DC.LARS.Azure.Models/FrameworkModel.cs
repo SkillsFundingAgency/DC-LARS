@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ESFA.DC.LARS.Azure.Models
@@ -29,5 +30,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public string SectorSubjectAreaTier2 { get; set; }
 
         public string SectorSubjectAreaTier2Desc { get; set; }
+
+        public List<FrameworkAimModel> LearningAims { get; set; }
     }
 }
