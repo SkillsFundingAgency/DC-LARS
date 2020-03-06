@@ -29,6 +29,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             IEnumerable<FrameworkModel> frameworks;
 
             IDictionary<string, string> issuingAuthorities;
+            IDictionary<int, string> componentTypes;
 
             using (var context = _contextFactory.GetLarsContext())
             {
@@ -37,6 +38,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         .ToDictionary(
                             ia => ia.IssuingAuthority.ToString(), // field is different type between tables...
                             ia => ia.IssuingAuthorityDesc);
+
+                componentTypes =
+                    context.LarsApprenticeshipComponentTypeLookups
+                        .ToDictionary(
+                            ct => ct.ApprenticeshipComponentType,
+                            ct => ct.ApprenticeshipComponentTypeDesc);
 
                 frameworks = context.LarsFrameworks
                     .Select(fr => new FrameworkModel
@@ -52,7 +59,18 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2 = fr.SectorSubjectAreaTier2.ToString(), // decimal not supported by azure
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
-                        IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority]
+                        IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
+                        LearningAims = fr.LarsFrameworkAims.Select(fa => new FrameworkAimModel
+                        {
+                            LearnAimRef = fa.LearnAimRef,
+                            LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
+                            AwardingBodyCode = fa.LearnAimRefNavigation.AwardOrgCode,
+                            Level = fa.LearnAimRefNavigation.NotionalNvqlevelv2,
+                            EffectiveFrom = fa.LearnAimRefNavigation.EffectiveFrom,
+                            EffectiveTo = fa.LearnAimRefNavigation.EffectiveTo,
+                            ComponentType = fa.FrameworkComponentType,
+                            ComponentTypeDesc = fa.FrameworkComponentType != null ? componentTypes[fa.FrameworkComponentType.Value] : null
+                        }).ToList()
                     }).ToList();
             }
 
