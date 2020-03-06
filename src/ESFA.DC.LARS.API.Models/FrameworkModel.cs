@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.LARS.API.Models
 {
@@ -25,5 +26,7 @@ namespace ESFA.DC.LARS.API.Models
         public string SectorSubjectAreaTier2 { get; set; }
 
         public string SectorSubjectAreaTier2Desc { get; set; }
+
+        public List<FrameworkAimModel> LearningAims { get; set; }
     }
 }

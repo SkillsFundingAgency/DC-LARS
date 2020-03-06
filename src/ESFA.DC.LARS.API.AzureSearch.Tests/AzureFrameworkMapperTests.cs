@@ -1,7 +1,9 @@
 ﻿using System;
 using ESFA.DC.LARS.API.AzureSearch.Mappers;
+using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.Azure.Models;
 using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Tests
@@ -26,7 +28,9 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 IssuingAuthorityDesc = "testauthdesc"
             };
 
-            var mapper = new AzureFrameworkMapper();
+            var aimMapperMock = new Mock<IMapper<FrameworkAimModel, Models.FrameworkAimModel>>();
+
+            var mapper = new AzureFrameworkMapper(aimMapperMock.Object);
             var result = mapper.Map(model);
 
             result.FrameworkCode.Should().Be(model.FrameworkCode);
