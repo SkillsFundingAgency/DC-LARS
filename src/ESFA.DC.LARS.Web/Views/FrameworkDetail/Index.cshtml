@@ -1,0 +1,27 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            @Model.Framework.FrameworkTitle
+            <span class="govuk-caption-xl">@Model.Framework.FrameworkCode</span>
+        </h1>
+
+        <ul class="govuk-list">
+            <li>
+                <strong>Pathway:</strong> @Model.Framework.PathwayCode - @Model.Framework.PathwayName
+            </li>
+            <li>
+                <strong>Issuing authority:</strong> @Model.Framework.IssuingAuthority - @Model.Framework.IssuingAuthorityDesc
+            </li>
+            <li>
+                <strong>Effective from:</strong> @Model.Framework.EffectiveFrom?.ToString("dd MMMM yyyy") to: @Model.Framework.EffectiveTo?.ToString("dd MMMM yyyy")
+            </li>
+        </ul>
+
+        <h2 class="govuk-heading-m ">Sector subject area</h2>
+        <div class="govuk-body">
+            <p>@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>
+        </div>
+    </div>
+</div>
