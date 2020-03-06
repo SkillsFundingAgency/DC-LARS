@@ -27,13 +27,15 @@
         <h2 class="govuk-heading-m ">Related learning aims</h2>
         @foreach (var aim in Model.Framework.LearningAims)
         {
-            @Html.ActionLink(
-                aim.LearningAimTitle,
-                "Index",
-                "LearningAimDetail",
-                new { learnAimRef = aim.LearnAimRef },
-                new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
             <ul class="govuk-list">
+                <li>
+                    @Html.ActionLink(
+                        aim.LearningAimTitle,
+                        "Index",
+                        "LearningAimDetail",
+                        new { learnAimRef = aim.LearnAimRef },
+                        new { @class = "govuk-link govuk-!-font-weight-bold govuk-link--no-visited-state" })
+                </li>
                 <li>
                     <strong>Reference:</strong> @aim.LearnAimRef
                 </li>
