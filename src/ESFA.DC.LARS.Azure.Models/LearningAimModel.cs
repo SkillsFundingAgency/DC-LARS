@@ -43,5 +43,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public List<ValidityModel> ValidityModels { get; set; }
 
         public List<AcademicYearModel> AcademicYears { get; set; }
+
+        public List<LearningAimFrameworkModel> Frameworks { get; set; }
     }
 }

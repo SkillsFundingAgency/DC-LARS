@@ -113,7 +113,23 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                    RateWeighted = lf.RateWeighted.ToString(),
                                    RateUnWeighted = lf.RateUnWeighted.ToString(),
                                    WeightingFactor = lf.WeightingFactor
-                               }).ToList()
+                               }).ToList(),
+                            Frameworks = ld.LarsFrameworkAims
+                                .Select(fa => new LearningAimFrameworkModel
+                                {
+                                    LearningAimTitle = ld.LearnAimRefTitle,
+                                    FrameworkCode = fa.FworkCode,
+                                    PathwayCode = fa.PwayCode,
+                                    ProgramType = fa.ProgType,
+                                    EffectiveFrom = fa.EffectiveFrom,
+                                    EffectiveTo = fa.EffectiveTo,
+                                    PathwayName = fa.LarsFramework.PathwayName,
+                                    ProgramTypeDesc = fa.LarsFramework.ProgTypeNavigation.ProgTypeDesc,
+                                    IssuingAuthority = fa.LarsFramework.IssuingAuthority,
+                                    ComponentType = fa.FrameworkComponentType,
+                                    //ComponentTypeDesc =
+                                    //IssuingAuthorityDesc = fa.
+                                }).ToList()
                         })
                         .OrderBy(ld => ld.LearnAimRef)
                         .ThenBy(ld => ld.EffectiveFrom)
