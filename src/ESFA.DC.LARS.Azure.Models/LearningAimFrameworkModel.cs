@@ -4,7 +4,11 @@ namespace ESFA.DC.LARS.Azure.Models
 {
     public class LearningAimFrameworkModel
     {
+        public string LearnAimRef { get; set; }
+
         public string LearningAimTitle { get; set; }
+
+        public string FrameworkTitle { get; set; }
 
         public int FrameworkCode { get; set; }
 

@@ -6,7 +6,9 @@ namespace ESFA.DC.LARS.Azure.Models
     {
         public string LearnAimRef { get; set; }
 
-        public string CategoryDescription { get; set; }
+        public string Category2Description { get; set; }
+
+        public string Category3Description { get; set; }
 
         public DateTime EffectiveFrom { get; set; }
 
