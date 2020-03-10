@@ -48,6 +48,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<FundingStreamODataFilter>().As<IODataFilter>();
 
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
+            builder.RegisterType<AzureLearningAimFrameworkMapper>().As<IMapper<LearningAimFrameworkModel, Models.LearningAimFrameworkModel>>();
             builder.RegisterType<AzureCategoryMapper>().As<IMapper<CategoryModel, Models.CategoryModel>>();
             builder.RegisterType<AzureFundingModelMapper>().As<IMapper<FundingModel, Models.FundingModel>>();
             builder.RegisterType<AzureAcademicYearMapper>().As<IMapper<AcademicYearModel, Models.AcademicYearModel>>();

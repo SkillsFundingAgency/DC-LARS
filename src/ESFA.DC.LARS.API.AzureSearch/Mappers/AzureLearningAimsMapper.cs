@@ -8,13 +8,16 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
     {
         private readonly IMapper<CategoryModel, Models.CategoryModel> _categoryMapper;
         private readonly IMapper<AcademicYearModel, Models.AcademicYearModel> _academicYearMapper;
+        private readonly IMapper<LearningAimFrameworkModel, Models.LearningAimFrameworkModel> _frameworkMapper;
 
         public AzureLearningAimsMapper(
             IMapper<CategoryModel, Models.CategoryModel> categoryMapper,
-            IMapper<AcademicYearModel, Models.AcademicYearModel> academicYearMapper)
+            IMapper<AcademicYearModel, Models.AcademicYearModel> academicYearMapper,
+            IMapper<LearningAimFrameworkModel, Models.LearningAimFrameworkModel> frameworkMapper)
         {
             _categoryMapper = categoryMapper;
             _academicYearMapper = academicYearMapper;
+            _frameworkMapper = frameworkMapper;
         }
 
         public Models.LearningAimModel Map(LearningAimModel input)
@@ -29,7 +32,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 Level = input.LevelDescription,
                 GuidedLearningHours = input.GuidedLearningHours,
                 Categories = input.Categories?.Select(cat => _categoryMapper.Map(cat)).ToList(),
-                AcademicYears = input.AcademicYears?.Select(ay => _academicYearMapper.Map(ay)).ToList()
+                AcademicYears = input.AcademicYears?.Select(ay => _academicYearMapper.Map(ay)).ToList(),
+                Frameworks = input.Frameworks?.Select(fr => _frameworkMapper.Map(fr)).ToList()
             };
         }
     }

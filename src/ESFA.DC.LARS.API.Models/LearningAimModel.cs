@@ -27,5 +27,7 @@ namespace ESFA.DC.LARS.API.Models
         public IEnumerable<CategoryModel> Categories { get; set; }
 
         public IEnumerable<AcademicYearModel> AcademicYears { get; set; }
+
+        public IEnumerable<LearningAimFrameworkModel> Frameworks { get; set; }
     }
 }
