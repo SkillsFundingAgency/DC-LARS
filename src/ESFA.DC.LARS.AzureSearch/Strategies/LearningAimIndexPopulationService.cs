@@ -162,19 +162,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         }
 
                         learningDelivery.AcademicYears =
-                            academicYears.Select(ay => new AcademicYearModel
+                            academicYears.Select(ay =>
                             {
-                                AcademicYear = ay.AcademicYear,
-                                Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate && (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate && (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                Level2Category = entitlementCategory?
-                                    .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
-                                    .Select(cat => cat.Category2Description)
-                                    .FirstOrDefault(),
-                                Level3Category = entitlementCategory?
-                                    .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
-                                    .Select(cat => cat.Category3Description)
-                                    .FirstOrDefault()
+                                var selectedEntitlementCategory = entitlementCategory?
+                                    .FirstOrDefault(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate);
+
+                                return new AcademicYearModel
+                                    {
+                                        AcademicYear = ay.AcademicYear,
+                                        Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate && (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                                        Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate && (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                                        Level2Category = selectedEntitlementCategory?.Category2Description,
+                                        Level3Category = selectedEntitlementCategory?.Category3Description
+                                    };
                             }).ToList();
 
                         learningDelivery.AcademicYears.RemoveAll(ay => !ay.Validities.Any());
