@@ -24,8 +24,10 @@ namespace ESFA.DC.LARS.Web.Models
 
         public string Level3Category { get; set; }
 
-        public IEnumerable<CategoryModel> Categories { get; set; }
+        public List<CategoryModel> Categories { get; set; }
 
-        public IEnumerable<AcademicYearModel> AcademicYears { get; set; }
+        public List<AcademicYearModel> AcademicYears { get; set; }
+
+        public List<LearningAimFrameworkModel> Frameworks { get; set; }
     }
 }

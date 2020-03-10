@@ -6,14 +6,14 @@ namespace ESFA.DC.LARS.API.Models
     {
         public string LookUpKey { get; set; }
 
-        public IEnumerable<AcademicYearLookupModel> AcademicYearLookups { get; set; }
+        public List<AcademicYearLookupModel> AcademicYearLookups { get; set; }
 
-        public IEnumerable<NotionalNVQLevel2Model> NotionalNvqLevel2Lookups { get; set; }
+        public List<NotionalNVQLevel2Model> NotionalNvqLevel2Lookups { get; set; }
 
-        public IEnumerable<AwardingBodyLookupModel> AwardingBodyLookups { get; set; }
+        public List<AwardingBodyLookupModel> AwardingBodyLookups { get; set; }
 
-        public IEnumerable<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
+        public List<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
 
-        public IEnumerable<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
+        public List<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
     }
 }
