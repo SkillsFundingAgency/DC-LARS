@@ -10,7 +10,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>ESFA.DC.LARS.API.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>C:\Users\Peter\source\repos\SFA\DC-LARS\src\ESFA.DC.LARS.API\ESFA.DC.LARS.API.xml</DocumentationFile>
+    <DocumentationFile>ESFA.DC.LARS.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

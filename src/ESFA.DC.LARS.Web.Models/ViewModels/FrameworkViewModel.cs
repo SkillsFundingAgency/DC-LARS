@@ -1,0 +1,11 @@
+﻿using System.Collections.Generic;
+
+namespace ESFA.DC.LARS.Web.Models.ViewModels
+{
+    public class FrameworkViewModel
+    {
+        public LearningAimModel LearningAim { get; set; }
+
+        public List<LearningAimFrameworkModel> Frameworks { get; set; }
+    }
+}
