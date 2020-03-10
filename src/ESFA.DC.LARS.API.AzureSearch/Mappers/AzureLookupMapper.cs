@@ -31,11 +31,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             return new Models.LookUpModel
             {
                 LookUpKey = input.LookUpKey,
-                AcademicYearLookups = input.AcademicYearLookups?.Select(_yearMapper.Map),
-                NotionalNvqLevel2Lookups = input.NotionalNvqLevel2Lookups?.Select(_nvqMapper.Map),
-                ValidityCategoryLookups = input.ValidityCategoryLookups?.Select(_validityMapper.Map),
-                ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map),
-                AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map)
+                AcademicYearLookups = input.AcademicYearLookups?.Select(_yearMapper.Map).ToList(),
+                NotionalNvqLevel2Lookups = input.NotionalNvqLevel2Lookups?.Select(_nvqMapper.Map).ToList(),
+                ValidityCategoryLookups = input.ValidityCategoryLookups?.Select(_validityMapper.Map).ToList(),
+                ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map).ToList(),
+                AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map).ToList()
             };
         }
     }
