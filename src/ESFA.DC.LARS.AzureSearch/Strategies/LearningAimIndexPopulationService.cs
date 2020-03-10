@@ -13,16 +13,22 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
         private const int PageSize = 2000;
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
+        private readonly IIssuingAuthorityService _issuingAuthorityService;
+        private readonly IComponentTypeService _componentTypeService;
 
         public LearningAimIndexPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
-            IAcademicYearService academicYearService)
+            IAcademicYearService academicYearService,
+            IIssuingAuthorityService issuingAuthorityService,
+            IComponentTypeService componentTypeService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
+            _issuingAuthorityService = issuingAuthorityService;
+            _componentTypeService = componentTypeService;
         }
 
         protected override string IndexName => _populationConfiguration.LearningAimsIndexName;
@@ -38,25 +44,39 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
                 var academicYears = _academicYearService.GetAcademicYears(context);
 
-                var level2Categories = context.LarsAnnualValues
-                    .Select(av => new EntitlementCategoryModel
-                    {
-                        LearnAimRef = av.LearnAimRef,
-                        EffectiveFrom = av.EffectiveFrom,
-                        EffectiveTo = av.EffectiveTo,
-                        CategoryDescription =
-                            av.FullLevel2EntitlementCategoryNavigation.FullLevel2EntitlementCategoryDesc
-                    })
-                    .GroupBy(gb => gb.LearnAimRef)
-                    .ToDictionary(av => av.Key, em => em.Select(x => x).ToList());
+                var issuingAuthorities = _issuingAuthorityService.GetIssuingAuthorities(context);
 
-                var level3Categories = context.LarsAnnualValues
+                var componentTypes = _componentTypeService.GetComponentTypes(context);
+
+                var frameworkAims = context.LarsFrameworkAims
+                    .Select(fa => new LearningAimFrameworkModel
+                        {
+                            LearnAimRef = fa.LearnAimRef,
+                            LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
+                            FrameworkTitle = fa.LarsFramework.IssuingAuthorityTitle,
+                            FrameworkCode = fa.FworkCode,
+                            PathwayCode = fa.PwayCode,
+                            ProgramType = fa.ProgType,
+                            EffectiveFrom = fa.EffectiveFrom,
+                            EffectiveTo = fa.EffectiveTo,
+                            PathwayName = fa.LarsFramework.PathwayName,
+                            ProgramTypeDesc = fa.LarsFramework.ProgTypeNavigation.ProgTypeDesc,
+                            IssuingAuthority = fa.LarsFramework.IssuingAuthority,
+                            ComponentType = fa.FrameworkComponentType
+                        })
+                    .AsEnumerable()
+                    .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
+
+                var entitlementCategories = context.LarsAnnualValues
                     .Select(av => new EntitlementCategoryModel
                     {
                         LearnAimRef = av.LearnAimRef,
                         EffectiveFrom = av.EffectiveFrom,
                         EffectiveTo = av.EffectiveTo,
-                        CategoryDescription =
+                        Category2Description =
+                            av.FullLevel2EntitlementCategoryNavigation.FullLevel2EntitlementCategoryDesc,
+                        Category3Description =
                             av.FullLevel3EntitlementCategoryNavigation.FullLevel3EntitlementCategoryDesc
                     })
                     .GroupBy(gb => gb.LearnAimRef)
@@ -64,6 +84,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
                 while (next)
                 {
+                    var queryStartTime = DateTime.Now;
                     var learningAims = context.LarsLearningDeliveries
                         .Select(ld => new LearningAimModel
                         {
@@ -120,26 +141,40 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         .Skip(page * PageSize)
                         .Take(PageSize)
                         .ToArray();
+                    var queryEndTime = DateTime.Now;
 
+                    var postProcessStartTime = DateTime.Now;
                     foreach (var learningDelivery in learningAims)
                     {
-                        level2Categories.TryGetValue(learningDelivery.LearnAimRef, out var level2Cat);
-                        level3Categories.TryGetValue(learningDelivery.LearnAimRef, out var level3Cat);
+                        entitlementCategories.TryGetValue(learningDelivery.LearnAimRef, out var entitlementCategory);
+
+                        if (frameworkAims.TryGetValue(learningDelivery.LearnAimRef, out var frameworks))
+                        {
+                            learningDelivery.Frameworks = frameworks;
+                            foreach (var framework in learningDelivery.Frameworks)
+                            {
+                                framework.ComponentTypeDesc = framework.ComponentType != null
+                                    ? componentTypes[framework.ComponentType.Value]
+                                    : null;
+
+                                framework.IssuingAuthorityDesc = issuingAuthorities[framework.IssuingAuthority];
+                            }
+                        }
 
                         learningDelivery.AcademicYears =
-                            academicYears.Select(ay => new AcademicYearModel
+                            academicYears.Select(ay =>
                             {
-                                AcademicYear = ay.AcademicYear,
-                                Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate && (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate && (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                Level2Category = level2Cat?
-                                    .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
-                                    .Select(cat => cat.CategoryDescription)
-                                    .FirstOrDefault(),
-                                Level3Category = level3Cat?
-                                    .Where(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate)
-                                    .Select(cat => cat.CategoryDescription)
-                                    .FirstOrDefault()
+                                var selectedEntitlementCategory = entitlementCategory?
+                                    .FirstOrDefault(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate);
+
+                                return new AcademicYearModel
+                                    {
+                                        AcademicYear = ay.AcademicYear,
+                                        Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate && (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                                        Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate && (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                                        Level2Category = selectedEntitlementCategory?.Category2Description,
+                                        Level3Category = selectedEntitlementCategory?.Category3Description
+                                    };
                             }).ToList();
 
                         learningDelivery.AcademicYears.RemoveAll(ay => !ay.Validities.Any());
@@ -147,6 +182,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         learningDelivery.ValidityModels = null;
                         learningDelivery.FundingModels = null;
                     }
+
+                    var postProcessEndTime = DateTime.Now;
 
                     var indexActions = learningAims.Select(IndexAction.Upload);
 
@@ -158,9 +195,16 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         indexClient.Documents.Index(batch);
                         var endTime = DateTime.Now;
 
-                        var duration = endTime - startTime;
+                        var duration = queryEndTime - queryStartTime;
                         page++;
-                        Console.WriteLine($"Processed {page * PageSize} learning aim documents, (batch time: {duration.Minutes} mins, {duration.Seconds} secs, {duration.Milliseconds} ms) ...");
+                        Console.WriteLine($"Processed {page * PageSize} learning aim documents");
+                        Console.WriteLine($"query time: {duration.Minutes} mins, {duration.Seconds} secs, {duration.Milliseconds} ms)");
+
+                        duration = postProcessEndTime - postProcessStartTime;
+                        Console.WriteLine($"post process time: {duration.Minutes} mins, {duration.Seconds} secs, {duration.Milliseconds} ms)");
+
+                        duration = endTime - startTime;
+                        Console.WriteLine($"batch time: {duration.Minutes} mins, {duration.Seconds} secs, {duration.Milliseconds} ms) \n");
                     }
                     else
                     {
