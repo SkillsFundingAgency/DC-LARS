@@ -10,14 +10,20 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     public class FrameworkPopulationService : AbstractPopulationService<FrameworkModel>
     {
         private readonly ILarsContextFactory _contextFactory;
+        private readonly IIssuingAuthorityService _issuingAuthorityService;
+        private readonly IComponentTypeService _componentTypeService;
 
         public FrameworkPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
-            ILarsContextFactory contextFactory)
+            ILarsContextFactory contextFactory,
+            IIssuingAuthorityService issuingAuthorityService,
+            IComponentTypeService componentTypeService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
+            _issuingAuthorityService = issuingAuthorityService;
+            _componentTypeService = componentTypeService;
         }
 
         protected override string IndexName => _populationConfiguration.FrameworkIndexName;
@@ -33,17 +39,9 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
             using (var context = _contextFactory.GetLarsContext())
             {
-                issuingAuthorities =
-                    context.LarsIssuingAuthorityLookups
-                        .ToDictionary(
-                            ia => ia.IssuingAuthority.ToString(), // field is different type between tables...
-                            ia => ia.IssuingAuthorityDesc);
+                issuingAuthorities = _issuingAuthorityService.GetIssuingAuthorities(context);
 
-                componentTypes =
-                    context.LarsApprenticeshipComponentTypeLookups
-                        .ToDictionary(
-                            ct => ct.ApprenticeshipComponentType,
-                            ct => ct.ApprenticeshipComponentTypeDesc);
+                componentTypes = _componentTypeService.GetComponentTypes(context);
 
                 frameworks = context.LarsFrameworks
                     .Select(fr => new FrameworkModel
