@@ -177,7 +177,7 @@
                                     <span><strong>Guided learning hours:</strong> @learningAim.GuidedLearningHours </span>
                                 </div>
                             </div>
-                            @if (!string.IsNullOrEmpty(academicYear))
+                            @if (!string.IsNullOrEmpty(academicYear) && academicYear.Trim().Length == 4)
                             {
                                 var validities = learningAim.AcademicYears.Where(ay => ay.AcademicYear.Equals(academicYear)).SelectMany(p => p.Validities);
                                 
