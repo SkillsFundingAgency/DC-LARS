@@ -14,8 +14,8 @@ module.exports = {
     // so we define the Sass file under '/scss' directory
     // and the script file under '/js' directory
     entry: {
-        site: ['./wwwroot/assets/scss/site.scss', './wwwroot/assets/js/site.js', './wwwroot/assets/scss/search-box.scss'],
-        app: './wwwroot/app/search.ts'
+        site: ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss', './wwwroot/assets/js/site.js'],
+        app: './wwwroot/app/main.ts'
     },
     // This is where we define the path where Webpack will place
     // a bundled JS file.

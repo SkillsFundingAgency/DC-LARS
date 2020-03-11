@@ -153,8 +153,8 @@
             </div>
 
             <div class="govuk-grid-column-two-thirds">
-
-                <filter-feedback v-bind:search-filters='@Json.Serialize(Model.SearchModel)'></filter-feedback>
+                
+                <slot name="feedback"></slot>
 
                 <ul id="resultList" class="govuk-list">
                     @if (resultsFound)
@@ -195,5 +195,5 @@
 
 @section PageScripts
 {
-    <script type="module" src="assets/dist/js/app.js"></script>
+    <script type="module" src="/assets/dist/js/app.js"></script>
 }

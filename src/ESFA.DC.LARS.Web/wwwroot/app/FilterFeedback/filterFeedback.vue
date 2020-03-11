@@ -1,13 +1,13 @@
 ﻿<template>
-    <div class="filter-feedback-container" style="display: block;">
+    <div class="filter-feedback-container" style="display: block;" v-if="filters.length > 0">
         <span id="from" class="govuk-body govuk-!-font-size-16">
             <strong>Showing </strong>
             <span id="firstFilter">
-                <template v-for="filter in filters">
+                <template v-for="(value, key) in filters">
                     <a href="#" class="filter-feedback">
                         <span class="filter-name">
-                            <span class="close"></span>
-                            {{ filter }}
+                            <span class="close" v-bind:id="key"></span>
+                            {{ value }}
                         </span>
                     </a>
                 </template>
@@ -18,20 +18,18 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { ISearchFilters } from '../../app/Interfaces/ISearchFilters';
 
-    interface SearchFilters {
-        levels : Array<String>
-    }
 
     @Component
     export default class FilterFeedback extends Vue {
-        @Prop() readonly searchFilters!: SearchFilters;
+        @Prop() readonly searchFilters!: ISearchFilters;
 
-        private filters: Array<String>;
+        private filters: Map<string, string>;
 
         constructor() {
             super();
-            this.filters = [];
+            this.filters = new Map();
         }
 
         mounted() {
@@ -39,12 +37,31 @@
         }
 
         private init() : void {
-                //alert('props: ' + this.searchFilters);
+            const classScope = this;
 
-                for (let filter of this.searchFilters.levels) {
-                    //alert(filter);
-                    this.filters.push(filter);
-                }
+            if (this.searchFilters.awardingBodies !== undefined) {
+                this.searchFilters.awardingBodies.forEach(function (value, key) {
+                    classScope.filters.set(key, value);
+                });
             }
+
+            if (this.searchFilters.levels !== undefined) {
+                this.searchFilters.levels.forEach(function (value, key) {
+                    classScope.filters.set(key, value);
+                });
+            }
+
+            if (this.searchFilters.fundingStreams !== undefined) {
+                this.searchFilters.fundingStreams.forEach(function (value, key) {
+                    classScope.filters.set(key, value);
+                });
+            }
+
+            if (this.searchFilters.teachingYears !== undefined) {
+                this.searchFilters.teachingYears.forEach(function (value, key) {
+                    classScope.filters.set(key, value);
+                });
+            }
+        }
     }
 </script>
