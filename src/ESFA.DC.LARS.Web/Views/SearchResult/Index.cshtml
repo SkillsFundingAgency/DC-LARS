@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     var resultsFound = Model?.LearningAimModels != null && Model.LearningAimModels.Any();
+    var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
 
@@ -148,7 +149,7 @@
             @Html.ActionLink(
                 "Clear Filters",
                 "ClearFilters",
-                new { searchTerm = Model.SearchModel.SearchTerm },
+                new { searchTerm = Model.SearchModel.SearchTerm, academicYear = academicYear },
                 new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
         </div>
 
@@ -158,7 +159,6 @@
                 {
                     @foreach (var learningAim in Model.LearningAimModels)
                     {
-                        var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
                         <li>
                             <h3 class="govuk-!-margin-0">
                                 @Html.ActionLink(
