@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
@@ -60,9 +61,9 @@ namespace ESFA.DC.LARS.Web.Controllers
         }
 
         [HttpGet("ClearFilters")]
-        public async Task<IActionResult> ClearFilters(string searchTerm)
+        public async Task<IActionResult> ClearFilters(string searchTerm, string academicYear)
         {
-            var model = await PopulateViewModel(null, new SearchModel { SearchTerm = searchTerm });
+            var model = await PopulateViewModel(null, new SearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear } });
             return View("Index", model);
         }
 
