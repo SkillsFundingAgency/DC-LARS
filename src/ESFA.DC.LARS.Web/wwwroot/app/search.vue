@@ -1,7 +1,5 @@
 ﻿<template v-slot:feedback>
-    <!--<filter-feedback v-bind:search-filters='filters'></filter-feedback>-->
-
-    <span>fooooooooooooooo</span>
+    <filter-feedback v-bind:search-filters='filters'></filter-feedback>
 </template>
 
 <script lang="ts">
@@ -20,7 +18,6 @@
         constructor() {
             super();
             this.filters = {
-                flag : "",
                 awardingBodies: [],
                 levels : [],
                 fundingStreams : [],
@@ -35,12 +32,6 @@
         private init() : void {
             this.filters.awardingBodies.push({ key : 'foo', value : 'bar' });
             Vue.set(this.filters.awardingBodies, 'foo', 'bar');
-
-            this.filters.flag = "changed";
-
-            let index = this.filters.awardingBodies.findIndex(x => x.key === 'foo');
-            alert('Setting length: ' + this.filters.awardingBodies.length);
-            alert('Setting value: ' + this.filters.awardingBodies[index]);
         }
     }
 </script>

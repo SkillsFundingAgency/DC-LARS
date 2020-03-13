@@ -1,13 +1,13 @@
 ﻿<template>
-    <div class="filter-feedback-container" style="display: block;" v-if="filters.length > 0">
+    <div class="filter-feedback-container" style="display: block;">
         <span id="from" class="govuk-body govuk-!-font-size-16">
             <strong>Showing </strong>
             <span id="firstFilter">
-                <template v-for="(value, key) in filters">
+                <template v-for="filter in filters">
                     <a href="#" class="filter-feedback">
                         <span class="filter-name">
-                            <span class="close" v-bind:id="key"></span>
-                            {{ value }}
+                            <span class="close" v-bind:id="filter.key"></span>
+                            {{ filter.value }}
                         </span>
                     </a>
                 </template>
@@ -25,9 +25,9 @@
     export default class FilterFeedback extends Vue {
         @Prop() readonly searchFilters!: ISearchFilters;
 
-        @Watch('searchFilters')
-            filtersChanged(newFilters: ISearchFilters) {
-              this.refreshFilters(newFilters);
+        @Watch('searchFilters', { immediate: true, deep: true })
+            filtersChanged() {
+              this.refreshFilters();
             };
 
         private filters: Array<IFilterItem>;
@@ -37,37 +37,29 @@
             this.filters = [];
         }
 
-        private refreshFilters(newFilters: ISearchFilters) : void {
+        private refreshFilters() : void {
             const classScope = this;
-
-            alert('in filter refreshFilters');
-            let index = this.searchFilters.awardingBodies.findIndex(x => x.key === 'foo');
-            alert('filter: ' + newFilters.awardingBodies[index]);
 
             if (this.searchFilters.awardingBodies !== undefined) {
                 this.searchFilters.awardingBodies.forEach(function (value) {
-                    alert('add ' + value.key + 'to awardingbodies');
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }
 
             if (this.searchFilters.levels !== undefined) {
                 this.searchFilters.levels.forEach(function (value) {
-                    alert('add ' + value.key + 'to levels');
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }
 
             if (this.searchFilters.fundingStreams !== undefined) {
                 this.searchFilters.fundingStreams.forEach(function (value) {
-                    alert('add ' + value.key + 'to fundingstreams');
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }
 
             if (this.searchFilters.teachingYears !== undefined) {
                 this.searchFilters.teachingYears.forEach(function (value) {
-                    alert('add ' + value.key + 'to teachingyears');
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }
