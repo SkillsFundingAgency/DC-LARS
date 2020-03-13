@@ -1,5 +1,7 @@
-﻿<template v-slot="feedback">
-    <filter-feedback v-bind:search-filters='filters'></filter-feedback>
+﻿<template v-slot:feedback>
+    <!--<filter-feedback v-bind:search-filters='filters'></filter-feedback>-->
+
+    <span>fooooooooooooooo</span>
 </template>
 
 <script lang="ts">
