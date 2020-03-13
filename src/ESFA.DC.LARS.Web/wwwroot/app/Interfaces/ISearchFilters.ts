@@ -1,6 +1,9 @@
-﻿export interface ISearchFilters {
-    levels? : Map<string, string>;
-    awardingBodies? : Map<string, string>;
-    teachingYears? : Map<string, string>;
-    fundingStreams? : Map<string, string>;
+﻿import {IFilterItem} from '../../app/Interfaces/IFilterItem';
+
+export interface ISearchFilters {
+    flag: string,
+    levels : Array<IFilterItem>;
+    awardingBodies : Array<IFilterItem>;
+    teachingYears : Array<IFilterItem>;
+    fundingStreams : Array<IFilterItem>;
 }

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\ISearchFilters.ts" />
     <Content Remove="wwwroot\app\main.ts" />
     <Content Remove="wwwroot\app\search.vue" />
@@ -61,6 +62,7 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\ISearchFilters.ts" />
     <TypeScriptCompile Include="wwwroot\app\main.ts" />
     <TypeScriptCompile Include="wwwroot\app\search.vue" />

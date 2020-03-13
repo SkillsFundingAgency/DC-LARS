@@ -5,7 +5,7 @@ const postcssPresetEnv = require('postcss-preset-env');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
-const devMode = process.env.NODE_ENV !== 'production';
+const devMode = true;// process.env.NODE_ENV !== 'production';
 module.exports = {
     // Tells Webpack which built-in optimizations to use
     // If you leave this out, Webpack will default to 'production'
