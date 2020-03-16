@@ -6,33 +6,34 @@
 }
 
 <div id="app">
-@using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
-{
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <div class="standard-search">
-                <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search</h1>
-                <div class="govuk-form-group">
-                    <div id="tt-overlay" class="autocomplete-wrapper second">
-                        <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
-                            <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
-                                   placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchModel.SearchTerm" maxlength="200" />
+    <search></search>
+    @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
+    {
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="standard-search">
+                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search</h1>
+                    <div class="govuk-form-group">
+                        <div id="tt-overlay" class="autocomplete-wrapper second">
+                            <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                                <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
+                                       placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchModel.SearchTerm" maxlength="200"/>
+                            </div>
                         </div>
+                        <button id="searchProviders" type="submit" class="govuk-button">
+                            <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png"/>
+                        </button>
                     </div>
-                    <button id="searchProviders" type="submit" class="govuk-button">
-                        <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
-                    </button>
                 </div>
-            </div>
 
-            <ul class="govuk-list">
-                @foreach (var error in Model.ValidationErrors)
-                {
-                    <li class="govuk-error-message">@error</li>
-                }
-            </ul>
+                <ul class="govuk-list">
+                    @foreach (var error in Model.ValidationErrors)
+                    {
+                        <li class="govuk-error-message">@error</li>
+                    }
+                </ul>
+            </div>
         </div>
-    </div>
 
         <div class="govuk-grid-row govuk-!-margin-top-6">
             <div class="govuk-grid-column-one-third">
@@ -53,7 +54,10 @@
                                         {
                                             <div class="govuk-checkboxes__item left-margin">
                                                 <input class="govuk-checkboxes__input" id="AwardingBody" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
-                                                       @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                                       @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase)))
+                                                       {
+                                                           @Html.Raw("checked")
+                                                       }/>
                                                 <label class="govuk-label govuk-checkboxes__label" for="level">
                                                     @awardingBody.AwardingBodyName
                                                 </label>
@@ -78,7 +82,10 @@
                                         {
                                             <div class="govuk-checkboxes__item left-margin">
                                                 <input class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
-                                                       @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                                       @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase)))
+                                                       {
+                                                           @Html.Raw("checked")
+                                                       }/>
                                                 <label class="govuk-label govuk-checkboxes__label" for="level">
                                                     @level.NotionalNVQLevelV2Desc
                                                 </label>
@@ -103,7 +110,10 @@
                                         {
                                             <div class="govuk-checkboxes__item left-margin">
                                                 <input class="govuk-checkboxes__input" id="fundingStreams" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
-                                                       @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                                       @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase)))
+                                                       {
+                                                           @Html.Raw("checked")
+                                                       }/>
                                                 <label class="govuk-label govuk-checkboxes__label" for="fundingStreams">
                                                     @validity.ValidityCategoryDescription
                                                 </label>
@@ -143,19 +153,18 @@
                         </div>
                     </section>
                 </div>
-                <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+                <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary"/>
 
                 @Html.ActionLink(
                     "Clear Filters",
                     "ClearFilters",
-                    new { searchTerm = Model.SearchModel.SearchTerm },
-                    new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
+                    new {searchTerm = Model.SearchModel.SearchTerm},
+                    new {@class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary"})
             </div>
 
             <div class="govuk-grid-column-two-thirds">
-                
-                <search></search>
-                @*<slot name="feedback"></slot>*@
+
+                <portal-target name="filter-feedback"></portal-target>
 
                 <ul id="resultList" class="govuk-list">
                     @if (resultsFound)
@@ -167,8 +176,8 @@
                                     @Html.ActionLink(
                                         learningAim.LearningAimTitle,
                                         "RedirectToDetails",
-                                        new { learnAimRef = learningAim.LearnAimRef, academicYear = Model.SearchModel.TeachingYears.FirstOrDefault() },
-                                        new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" })
+                                        new {learnAimRef = learningAim.LearnAimRef, academicYear = Model.SearchModel.TeachingYears.FirstOrDefault()},
+                                        new {@class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline"})
                                 </h3>
                                 <div class="flex space-between">
                                     <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">

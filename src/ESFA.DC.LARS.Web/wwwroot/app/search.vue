@@ -1,5 +1,7 @@
-﻿<template v-slot:feedback>
-    <filter-feedback v-bind:search-filters='filters'></filter-feedback>
+﻿<template>
+    <portal to="filter-feedback">
+        <filter-feedback v-bind:search-filters='filters'></filter-feedback>
+    </portal>
 </template>
 
 <script lang="ts">
@@ -23,6 +25,8 @@
                 fundingStreams : [],
                 teachingYears : []
             };
+
+            alert('search constructor');
         }
         
         mounted() {
