@@ -164,14 +164,16 @@
         </div>
 
         <div class="govuk-grid-column-two-thirds">
-            <portal-target name="filter-feedback"></portal-target>
-
+            
             <ul id="resultList" class="govuk-list">
                 @if (resultsFound)
                 {
                     <p class="govuk-body flex space-between">
                         <span>@Model.LearningAimModels.Count() results</span>
                     </p>
+
+                    <portal-target name="filter-feedback"></portal-target>
+
                     <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
                     @foreach (var learningAim in Model.LearningAimModels)
                     {

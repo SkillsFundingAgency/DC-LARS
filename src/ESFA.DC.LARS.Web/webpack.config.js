@@ -5,7 +5,7 @@ const postcssPresetEnv = require('postcss-preset-env');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
-const devMode = true;// process.env.NODE_ENV !== 'production';
+const devMode = process.env.NODE_ENV !== 'production';
 module.exports = {
     // Tells Webpack which built-in optimizations to use
     // If you leave this out, Webpack will default to 'production'
@@ -147,13 +147,13 @@ module.exports = {
     }
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (!devMode) {
     module.exports.devtool = '#source-map';
     // http://vue-loader.vuejs.org/en/workflow/production.html
     module.exports.plugins = (module.exports.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: '"development"'
+                NODE_ENV: devMode ? '"development"' : '"production"'
             }
         }),
         new webpack.LoaderOptionsPlugin({

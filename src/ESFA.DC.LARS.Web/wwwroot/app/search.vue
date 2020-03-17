@@ -31,10 +31,10 @@
         }
 
         private init() : void {
-            this.filters.awardingBodies.push({ key : 'foo', value : 'bar' });
-            Vue.set(this.filters.awardingBodies, 'foo', 'bar');
-
-            this.$store.commit('updateFilters', this.filters);
+            //example state
+            //this.filters.awardingBodies.push({ key : 'foo', value : 'bar' });
+            //Vue.set(this.filters.awardingBodies, 'foo', 'bar');
+            //this.$store.commit('updateFilters', this.filters);
         }
     }
 </script>
