@@ -17,18 +17,16 @@
 </template>
 
 <script lang="ts">
-    import { Watch, Component, Prop, Vue } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator';
     import { ISearchFilters } from '../../app/Interfaces/ISearchFilters';
     import { IFilterItem } from '../../app/Interfaces/IFilterItem';
 
     @Component
     export default class FilterFeedback extends Vue {
-        @Prop() readonly searchFilters!: ISearchFilters;
 
-        @Watch('searchFilters', { immediate: true, deep: true })
-            filtersChanged() {
-              this.refreshFilters();
-            };
+        get savedfilters(): ISearchFilters {
+            return this.$store.state.filters;
+        };
 
         private filters: Array<IFilterItem>;
 
@@ -37,29 +35,44 @@
             this.filters = [];
         }
 
+        mounted() {
+            const classScope = this;
+            this.$store.watch(
+                function (state) {
+                    return state.filters;
+                },
+                function () {
+                    classScope.refreshFilters();
+                },
+                {
+                    immediate: true,
+                    deep: true
+                });
+        }
+
         private refreshFilters() : void {
             const classScope = this;
 
-            if (this.searchFilters.awardingBodies !== undefined) {
-                this.searchFilters.awardingBodies.forEach(function (value) {
+            if (this.savedfilters.awardingBodies !== undefined) {
+                this.savedfilters.awardingBodies.forEach(function (value) {
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }
 
-            if (this.searchFilters.levels !== undefined) {
-                this.searchFilters.levels.forEach(function (value) {
+            if (this.savedfilters.levels !== undefined) {
+                this.savedfilters.levels.forEach(function (value) {
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }
 
-            if (this.searchFilters.fundingStreams !== undefined) {
-                this.searchFilters.fundingStreams.forEach(function (value) {
+            if (this.savedfilters.fundingStreams !== undefined) {
+                this.savedfilters.fundingStreams.forEach(function (value) {
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }
 
-            if (this.searchFilters.teachingYears !== undefined) {
-                this.searchFilters.teachingYears.forEach(function (value) {
+            if (this.savedfilters.teachingYears !== undefined) {
+                this.savedfilters.teachingYears.forEach(function (value) {
                     classScope.filters.push({key: value.key, value: value.value });
                 });
             }

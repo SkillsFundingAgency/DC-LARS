@@ -1,6 +1,6 @@
 ﻿<template>
     <portal to="filter-feedback">
-        <filter-feedback v-bind:search-filters='filters'></filter-feedback>
+        <filter-feedback></filter-feedback>
     </portal>
 </template>
 
@@ -17,16 +17,13 @@
     export default class Search extends Vue {
         private filters: ISearchFilters;
 
+        get savedfilters(): ISearchFilters {
+            return this.$store.state.filters;
+        };
+
         constructor() {
             super();
-            this.filters = {
-                awardingBodies: [],
-                levels : [],
-                fundingStreams : [],
-                teachingYears : []
-            };
-
-            alert('search constructor');
+            this.filters = this.$store.state.filters;
         }
         
         mounted() {
@@ -36,6 +33,8 @@
         private init() : void {
             this.filters.awardingBodies.push({ key : 'foo', value : 'bar' });
             Vue.set(this.filters.awardingBodies, 'foo', 'bar');
+
+            this.$store.commit('updateFilters', this.filters);
         }
     }
 </script>
