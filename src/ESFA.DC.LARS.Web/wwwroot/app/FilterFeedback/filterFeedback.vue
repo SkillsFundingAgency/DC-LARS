@@ -60,13 +60,13 @@
                     filters.awardingBodies = this.removeFromArray(filters.awardingBodies, filter);
                     break;
                 case 'lv':
-                    this.removeFromArray(filters.levels, filter);
+                    filters.levels = this.removeFromArray(filters.levels, filter);
                     break;
                 case 'fs':
-                    this.removeFromArray(filters.fundingStreams, filter);
+                    filters.fundingStreams = this.removeFromArray(filters.fundingStreams, filter);
                     break;
                 case 'ty':
-                    this.removeFromArray(filters.teachingYears, filter);
+                    filters.teachingYears = this.removeFromArray(filters.teachingYears, filter);
                     break;
             }
 
