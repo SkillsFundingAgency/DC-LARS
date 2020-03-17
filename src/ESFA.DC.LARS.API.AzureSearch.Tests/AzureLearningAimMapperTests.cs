@@ -14,6 +14,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         {
             var azureCategory = new CategoryModel();
             var azureAcademicYear = new AcademicYearModel();
+            var learningAimFramework = new LearningAimFrameworkModel();
 
             var academicMapperMock = new Mock<IMapper<AcademicYearModel, Models.AcademicYearModel>>();
             academicMapperMock
@@ -25,7 +26,12 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .Setup(m => m.Map(azureCategory))
                 .Returns(new Models.CategoryModel());
 
-            var mapper = new AzureLearningAimsMapper(categoryMapperMock.Object, academicMapperMock.Object);
+            var frameworkMapperMock = new Mock<IMapper<LearningAimFrameworkModel, Models.LearningAimFrameworkModel>>();
+            frameworkMapperMock
+                .Setup(m => m.Map(learningAimFramework))
+                .Returns(new Models.LearningAimFrameworkModel());
+
+            var mapper = new AzureLearningAimsMapper(categoryMapperMock.Object, academicMapperMock.Object, frameworkMapperMock.Object);
 
             var azureModel = new LearningAimModel
             {

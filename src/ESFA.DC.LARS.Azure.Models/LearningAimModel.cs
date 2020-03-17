@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
 using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.Azure.Models
@@ -44,5 +43,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public List<ValidityModel> ValidityModels { get; set; }
 
         public List<AcademicYearModel> AcademicYears { get; set; }
+
+        public List<LearningAimFrameworkModel> Frameworks { get; set; }
     }
 }

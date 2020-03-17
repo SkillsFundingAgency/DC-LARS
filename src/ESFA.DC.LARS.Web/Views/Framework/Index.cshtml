@@ -1,0 +1,46 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <h1 class="govuk-heading-xl">
+            @Model?.LearningAim?.LearningAimTitle
+            <span class="govuk-caption-xl">@Model?.LearningAim?.LearnAimRef</span>
+        </h1>
+
+        <h2 class="govuk-heading-m">Frameworks</h2>
+        
+        @if (Model?.LearningAim?.Frameworks != null)
+        {
+            foreach (var framework in Model.LearningAim.Frameworks)
+            {
+                <ul class="govuk-list">
+                    <li>
+                        @Html.ActionLink(
+                            framework.FrameworkTitle,
+                            "Index",
+                            "FrameworkDetail",
+                            new { frameworkCode = framework.FrameworkCode, programType = framework.ProgramType, pathwayCode = framework.PathwayCode },
+                            new { @class = "govuk-link govuk-!-font-weight-bold govuk-link--no-visited-state" })
+                    </li>
+                    <li>
+                        <strong>Code:</strong> @framework.FrameworkCode
+                    </li>
+                    <li>
+                        <strong>Type:</strong> @framework.ProgramType - @framework.ProgramTypeDesc
+                    </li>
+                    <li>
+                        <strong>Pathway:</strong> @framework.PathwayCode - @framework.PathwayName <br>
+                        <strong>Effective from:</strong> @framework.EffectiveFrom?.ToString("dd MMMM yyyy") to: @framework.EffectiveTo?.ToString("dd MMMM yyyy")
+                    </li>
+                    <li>
+                        <strong>Component type:</strong> @framework.ComponentType - @framework.ComponentTypeDesc
+                    </li>
+                    <li>
+                        <strong>Issuing authority:</strong> @framework.IssuingAuthority - @framework.IssuingAuthorityDesc
+                    </li>
+                </ul>
+                <hr>
+            }
+        }
+    </div>
+</div>

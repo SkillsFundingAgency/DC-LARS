@@ -10,6 +10,7 @@ namespace ESFA.DC.LARS.API.Modules
         {
             builder.RegisterType<LearningAimAzureService>().As<ILearningAimService>();
             builder.RegisterType<LookupService>().As<ILookupService>();
+            builder.RegisterType<FrameworkService>().As<IFrameworkService>();
         }
     }
 }

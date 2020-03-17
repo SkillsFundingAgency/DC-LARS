@@ -1,0 +1,58 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            @Model.Framework.FrameworkTitle
+            <span class="govuk-caption-xl">@Model.Framework.FrameworkCode</span>
+        </h1>
+
+        <ul class="govuk-list">
+            <li>
+                <strong>Pathway:</strong> @Model.Framework.PathwayCode - @Model.Framework.PathwayName
+            </li>
+            <li>
+                <strong>Issuing authority:</strong> @Model.Framework.IssuingAuthority - @Model.Framework.IssuingAuthorityDesc
+            </li>
+            <li>
+                <strong>Effective from:</strong> @Model.Framework.EffectiveFrom?.ToString("dd MMMM yyyy") to: @Model.Framework.EffectiveTo?.ToString("dd MMMM yyyy")
+            </li>
+        </ul>
+
+        <h2 class="govuk-heading-m ">Sector subject area</h2>
+        <div class="govuk-body">
+            <p>@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>
+        </div>
+
+        <h2 class="govuk-heading-m ">Related learning aims</h2>
+        @foreach (var aim in Model.Framework.LearningAims)
+        {
+            <ul class="govuk-list">
+                <li>
+                    @Html.ActionLink(
+                        aim.LearningAimTitle,
+                        "Index",
+                        "LearningAimDetail",
+                        new { learnAimRef = aim.LearnAimRef },
+                        new { @class = "govuk-link govuk-!-font-weight-bold govuk-link--no-visited-state" })
+                </li>
+                <li>
+                    <strong>Reference:</strong> @aim.LearnAimRef
+                </li>
+                <li>
+                    <strong>Awarding body:</strong> @aim.AwardingBodyCode
+                </li>
+                <li>
+                    <strong>Level:</strong> @aim.Level
+                </li>
+                <li>
+                    <strong>Effective from:</strong> @aim.EffectiveFrom.ToString("dd MMMM yyyy") to: @aim.EffectiveTo?.ToString("dd MMMM yyyy")
+                </li>
+                <li>
+                    <strong>Component Type:</strong> @aim.ComponentType - @aim.ComponentTypeDesc
+                </li>
+            </ul>
+            <hr />
+        }
+    </div>
+</div>

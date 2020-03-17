@@ -166,6 +166,16 @@ $govuk-global-styles: true;
     margin-left: 5px;
 }
 
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-third {
+    flex-grow: 1;
+    width: 33%;
+}
+
 @include govuk-media-query($from: tablet) {
     .flex {
         flex-direction: row;

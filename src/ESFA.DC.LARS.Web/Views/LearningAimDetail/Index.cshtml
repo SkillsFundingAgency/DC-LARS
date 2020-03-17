@@ -41,6 +41,17 @@
                         new { @Model.LearningAimModel.LearnAimRef },
                         new { @class = "govuk-link govuk-link--no-visited-state" })
                 </li>
+                @if (Model?.LearningAimModel?.Frameworks?.Any() ?? false)
+                {
+                    <li>
+                        @Html.ActionLink(
+                            "View frameworks",
+                            "Index",
+                            "Framework",
+                            new {@Model.LearningAimModel.LearnAimRef},
+                            new {@class = "govuk-link govuk-link--no-visited-state"})
+                    </li>
+                }
                 <li>
                     <a class="govuk-link govuk-link--no-visited-state" target="blank"
                        href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
@@ -68,6 +79,10 @@
                             }
                         }
                     </select>
+                    <noscript>
+                        <br/>
+                        <input type="submit" value="Update" class="govuk-!-margin-top-4 govuk-button"/>
+                    </noscript>
                 }
             </div>
         </div>

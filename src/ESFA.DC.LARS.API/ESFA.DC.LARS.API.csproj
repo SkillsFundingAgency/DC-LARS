@@ -10,7 +10,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CodeAnalysisRuleSet>ESFA.DC.LARS.API.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>C:\Users\Peter\source\repos\SFA\DC-LARS\src\ESFA.DC.LARS.API\ESFA.DC.LARS.API.xml</DocumentationFile>
+    <DocumentationFile>ESFA.DC.LARS.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.1.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
