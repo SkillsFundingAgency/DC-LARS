@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
 const devMode = process.env.NODE_ENV !== 'production';
@@ -153,7 +154,7 @@ if (!devMode) {
     module.exports.plugins = (module.exports.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: devMode ? '"development"' : '"production"'
+                NODE_ENV: '"production"'
             }
         }),
         new webpack.LoaderOptionsPlugin({

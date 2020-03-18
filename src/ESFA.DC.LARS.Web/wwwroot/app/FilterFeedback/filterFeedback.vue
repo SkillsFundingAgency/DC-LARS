@@ -18,13 +18,12 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import { ISearchFilters } from '../../app/Interfaces/ISearchFilters';
     import { IFilterItem } from '../../app/Interfaces/IFilterItem';
 
     @Component
     export default class FilterFeedback extends Vue {
 
-        get savedfilters(): ISearchFilters {
+        get savedfilters(): Array<IFilterItem> {
             return this.$store.state.filters;
         };
 
@@ -51,31 +50,14 @@
         }
 
         removeFilter(filter: IFilterItem): void {
-            const prefix = filter.key.substring(0, 2);
-            filter.key = filter.key.substring(3);
+            this.filters = this.removeFromArray(this.savedfilters, filter);
 
-            let filters = this.savedfilters;
-            switch (prefix) {
-                case 'ab':
-                    filters.awardingBodies = this.removeFromArray(filters.awardingBodies, filter);
-                    break;
-                case 'lv':
-                    filters.levels = this.removeFromArray(filters.levels, filter);
-                    break;
-                case 'fs':
-                    filters.fundingStreams = this.removeFromArray(filters.fundingStreams, filter);
-                    break;
-                case 'ty':
-                    filters.teachingYears = this.removeFromArray(filters.teachingYears, filter);
-                    break;
-            }
-
-            this.$store.commit('updateFilters', filters);
+            this.$store.commit('updateFilters', this.filters);
         }
 
         private removeFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
             const found = filters.find(function (filter) {
-                return filter.key === item.key;
+                return filter.key === item.key && filter.type === item.type;
             });
 
             if (found !== undefined) {
@@ -88,32 +70,32 @@
         }
 
         private refreshFilters() : void {
-            const classScope = this;
-            this.filters = [];
-            
-            if (this.savedfilters.awardingBodies !== undefined) {
-                this.savedfilters.awardingBodies.forEach(function (value) {
-                    classScope.filters.push({key: 'ab-' + value.key, value: value.value });
-                });
-            }
+            //clone so we are not changing the store in the sort and triggering the watch ... recursion
+            let filtersToSort  = [...this.savedfilters]; 
 
-            if (this.savedfilters.levels !== undefined) {
-                this.savedfilters.levels.forEach(function (value) {
-                    classScope.filters.push({key: 'lv-' + value.key, value: value.value });
-                });
-            }
+            this.filters = this.sortFilters(filtersToSort);
+        }
 
-            if (this.savedfilters.fundingStreams !== undefined) {
-                this.savedfilters.fundingStreams.forEach(function (value) {
-                    classScope.filters.push({key: 'fs-' + value.key, value: value.value });
-                });
-            }
+        private sortFilters(filters: Array<IFilterItem>): Array<IFilterItem> {
+            return filters.sort((f1, f2) => {
+                if (f1.type < f2.type) {
+                    return 1;
+                }
 
-            if (this.savedfilters.teachingYears !== undefined) {
-                this.savedfilters.teachingYears.forEach(function (value) {
-                    classScope.filters.push({key: 'ty-' + value.key, value: value.value });
-                });
-            }
+                if (f1.type > f2.type) {
+                    return -1;
+                }
+
+                if (f1.value > f2.value) {
+                    return 1;
+                }
+
+                if (f1.value < f2.value) {
+                    return -1;
+                }
+
+                return 0;
+            });
         }
     }
 </script>

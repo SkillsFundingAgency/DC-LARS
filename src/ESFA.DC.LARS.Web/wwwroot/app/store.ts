@@ -1,20 +1,15 @@
 ﻿import Vue from 'vue';
 import Vuex from 'vuex';
-import { ISearchFilters } from '../app/Interfaces/ISearchFilters';
+import { IFilterItem } from '../app/Interfaces/IFilterItem';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        filters : {
-            awardingBodies: [],
-            levels : [],
-            fundingStreams : [],
-            teachingYears : []
-        } as ISearchFilters
+        filters : [] as Array<IFilterItem>
     },
     mutations: {
-        updateFilters(state, filters: ISearchFilters) {
+        updateFilters(state, filters: Array<IFilterItem>) {
             state.filters = filters;
         }
     }

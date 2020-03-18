@@ -7,17 +7,17 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import FilterFeedback from '../app/FilterFeedback/filterFeedback.vue';
-    import { ISearchFilters } from '../app/Interfaces/ISearchFilters';
-    
+    import { FilterType, IFilterItem } from '../app/Interfaces/IFilterItem';
+
     @Component({
       components: {
         'filter-feedback' : FilterFeedback
       }
     })
     export default class Search extends Vue {
-        private filters: ISearchFilters;
+        private filters: Array<IFilterItem>;
 
-        get savedfilters(): ISearchFilters {
+        get savedfilters(): Array<IFilterItem> {
             return this.$store.state.filters;
         };
 
@@ -32,9 +32,8 @@
 
         private init() : void {
             //example state
-            //this.filters.awardingBodies.push({ key : 'foo', value : 'bar' });
-            //Vue.set(this.filters.awardingBodies, 'foo', 'bar');
-            //this.$store.commit('updateFilters', this.filters);
+            this.filters.push({ key : 'foo', value : 'bar', type: FilterType.AwardingBody});
+            this.$store.commit('updateFilters', this.filters);
         }
     }
 </script>
