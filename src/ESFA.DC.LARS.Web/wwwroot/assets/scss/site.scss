@@ -185,3 +185,11 @@ $govuk-global-styles: true;
         margin-top: 0;
     }
 }
+
+.category-no-top-padding {
+    padding-top: 0 !important;
+}
+
+.no-js {
+    display: none !important;
+}

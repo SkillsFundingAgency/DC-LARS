@@ -13,11 +13,27 @@
     <CodeAnalysisRuleSet>ESFA.DC.LARS.Web.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\wwwroot\**" />
+    <Content Remove="wwwroot\wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\wwwroot\**" />
+    <None Remove="wwwroot\wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
+    <Content Remove="wwwroot\app\main.ts" />
+    <Content Remove="wwwroot\app\search.vue" />
+    <Content Remove="wwwroot\app\store.ts" />
+    <Content Remove="wwwroot\blank.js" />
+    <Content Remove="wwwroot\blank.js.map" />
+    <Content Remove="wwwroot\Search.js" />
+    <Content Remove="wwwroot\Search.js.map" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
-    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
     <PackageReference Include="ESFA.DC.Telemetry" Version="0.1.8-beta0001" />
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
@@ -42,6 +58,14 @@
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.LARS.API.Models\ESFA.DC.LARS.API.Models.csproj" />
     <ProjectReference Include="..\ESFA.DC.LARS.Web.Modules\ESFA.DC.LARS.Web.Modules.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
+    <TypeScriptCompile Include="wwwroot\app\main.ts" />
+    <TypeScriptCompile Include="wwwroot\app\search.vue" />
+    <TypeScriptCompile Include="wwwroot\app\store.ts" />
   </ItemGroup>
 
 
