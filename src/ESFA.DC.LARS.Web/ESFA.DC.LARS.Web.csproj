@@ -25,7 +25,9 @@
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\main.ts" />
     <Content Remove="wwwroot\app\search.vue" />
+    <Content Remove="wwwroot\app\Services\filterService.ts" />
     <Content Remove="wwwroot\app\store.ts" />
+    <Content Remove="wwwroot\app\Tests\filterFeedback.test.ts" />
     <Content Remove="wwwroot\blank.js" />
     <Content Remove="wwwroot\blank.js.map" />
     <Content Remove="wwwroot\Search.js" />
@@ -63,11 +65,13 @@
 
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\app\cookieService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\cookieService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
     <TypeScriptCompile Include="wwwroot\app\main.ts" />
-    <TypeScriptCompile Include="wwwroot\app\search.vue" />
+    <TypeScriptCompile Include="wwwroot\app\Components\search.vue" />
+    <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
     <TypeScriptCompile Include="wwwroot\app\store.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Tests\filterFeedback.test.ts" />
   </ItemGroup>
 
 

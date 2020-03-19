@@ -18,27 +18,31 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import { IFilterItem } from '../../app/Interfaces/IFilterItem';
+    import { IFilterItem } from '../Interfaces/IFilterItem';
+    import FilterService from '../Services/filterService';
 
     @Component
     export default class FilterFeedback extends Vue {
 
         get savedfilters(): Array<IFilterItem> {
-            return this.$store.state.filters;
+            return this.$store.state.qualificationFilters;
         };
 
         private filters: Array<IFilterItem>;
 
+        private filterService : FilterService;
+
         constructor() {
             super();
             this.filters = [];
+            this.filterService = new FilterService();
         }
 
         mounted() {
             const classScope = this;
             this.$store.watch(
                 function (state) {
-                    return state.filters;
+                    return state.qualificationFilters;
                 },
                 function () {
                     classScope.refreshFilters();
@@ -50,52 +54,16 @@
         }
 
         removeFilter(filter: IFilterItem): void {
-            this.filters = this.removeFromArray(this.savedfilters, filter);
+            this.filters = this.filterService.removeFromArray(this.savedfilters, filter);
 
             this.$store.commit('updateFilters', this.filters);
-        }
-
-        private removeFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
-            const found = filters.find(function (filter) {
-                return filter.key === item.key && filter.type === item.type;
-            });
-
-            if (found !== undefined) {
-                const index = filters.indexOf(found);
-                if (index > -1) {
-                    filters.splice(index, 1);
-                }
-            }
-            return filters;
         }
 
         private refreshFilters() : void {
             //clone so we are not changing the store in the sort and triggering the watch ... recursion
             let filtersToSort  = [...this.savedfilters]; 
 
-            this.filters = this.sortFilters(filtersToSort);
-        }
-
-        private sortFilters(filters: Array<IFilterItem>): Array<IFilterItem> {
-            return filters.sort((f1, f2) => {
-                if (f1.type < f2.type) {
-                    return 1;
-                }
-
-                if (f1.type > f2.type) {
-                    return -1;
-                }
-
-                if (f1.value > f2.value) {
-                    return 1;
-                }
-
-                if (f1.value < f2.value) {
-                    return -1;
-                }
-
-                return 0;
-            });
+            this.filters = this.filterService.sortFilters(filtersToSort);
         }
     }
 </script>

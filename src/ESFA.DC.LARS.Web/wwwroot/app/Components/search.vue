@@ -6,8 +6,8 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import FilterFeedback from '../app/FilterFeedback/filterFeedback.vue';
-    import { FilterType, IFilterItem } from '../app/Interfaces/IFilterItem';
+    import FilterFeedback from './filterFeedback.vue';
+    import { FilterType, IFilterItem } from '../Interfaces/IFilterItem';
 
     @Component({
       components: {
