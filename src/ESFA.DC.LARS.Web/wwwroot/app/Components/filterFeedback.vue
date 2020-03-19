@@ -54,7 +54,7 @@
         }
 
         removeFilter(filter: IFilterItem): void {
-            this.filters = this.filterService.removeFromArray(this.savedfilters, filter);
+            this.filters = this.filterService.removeFilterFromArray(this.savedfilters, filter);
 
             this.$store.commit('updateFilters', this.filters);
         }

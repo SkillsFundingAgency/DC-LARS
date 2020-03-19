@@ -1,7 +1,7 @@
 ﻿import { IFilterItem } from '../Interfaces/IFilterItem';
 
 export default class FilterService {
-    removeFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
+    removeFilterFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
         const found = filters.find(function (filter) {
             return filter.key === item.key && filter.type === item.type;
         });
