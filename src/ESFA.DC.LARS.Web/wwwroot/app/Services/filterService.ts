@@ -1,10 +1,8 @@
-﻿import { IFilterItem } from '../Interfaces/IFilterItem';
+﻿import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
-export default class FilterService {
+ class FilterService {
     removeFilterFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
-        const found = filters.find(function (filter) {
-            return filter.key === item.key && filter.type === item.type;
-        });
+        const found = this.findFilterItem(item.key, item.type, filters);
 
         if (found !== undefined) {
             const index = filters.indexOf(found);
@@ -13,6 +11,14 @@ export default class FilterService {
             }
         }
         return filters;
+    }
+
+    findFilterItem(key: string, type: FilterType, filters: Array<IFilterItem>): IFilterItem | undefined {
+        const found = filters.find(function (filter) {
+            return filter.key === key && filter.type === type;
+        });
+
+        return found;
     }
 
     sortFilters(filters: Array<IFilterItem>): Array<IFilterItem> {
@@ -36,4 +42,20 @@ export default class FilterService {
             return 0;
         });
     }
+
+    watchQualificationFilters(classScope: Vue, callback : Function) {
+        classScope.$store.watch(
+            function (state) {
+                return state.qualificationFilters;
+            },
+            function () {
+                callback()
+            },
+            {
+                immediate: true,
+                deep: true
+            });
+    }
 }
+
+export const filterService = new FilterService();

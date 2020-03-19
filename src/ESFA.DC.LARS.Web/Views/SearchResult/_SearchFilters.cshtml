@@ -1,0 +1,109 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel
+
+<span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
+
+<div id="allFilters">
+
+    <section id="level" class="filter-section">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+            Awarding Body
+        </a>
+        <div class="filter-box hidden">
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes govuk-checkboxes--small" ref="AwardingBody">
+                    @if (Model?.LookUpModel?.AwardingBodyLookups != null)
+                    {
+                        @foreach (var awardingBody in Model.LookUpModel.AwardingBodyLookups)
+                        {
+                            <div class="govuk-checkboxes__item left-margin">
+                                <input v-on:change="updateCheckboxFilter('@awardingBody.AwardingBodyCode',  '@awardingBody.AwardingBodyName', $event.target.checked, 'AwardingBody')" class="govuk-checkboxes__input" id="AwardingBody" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
+                                       @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                <label class="govuk-label govuk-checkboxes__label" for="level">
+                                    @awardingBody.AwardingBodyName
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="level" class="filter-section">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+            Level
+        </a>
+        <div class="filter-box hidden">
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes govuk-checkboxes--small" ref="Levels">
+                    @if (Model?.LookUpModel?.NotionalNvqLevel2Lookups != null)
+                    {
+                        @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
+                        {
+                            <div class="govuk-checkboxes__item left-margin">
+                                <input v-on:change="updateCheckboxFilter('@level.NotionalNVQLevelV2', '@level.NotionalNVQLevelV2Desc', $event.target.checked, 'Levels')" class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
+                                       @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                <label class="govuk-label govuk-checkboxes__label" for="level">
+                                    @level.NotionalNVQLevelV2Desc
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="level" class="filter-section">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+            Funding Stream
+        </a>
+        <div class="filter-box hidden">
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes govuk-checkboxes--small" ref="FundingStreams">
+                    @if (Model?.LookUpModel?.ValidityCategoryLookups != null)
+                    {
+                        @foreach (var validity in Model.LookUpModel.ValidityCategoryLookups)
+                        {
+                            <div class="govuk-checkboxes__item left-margin">
+                                <input v-on:change="updateCheckboxFilter('@validity.ValidityCategory', '@validity.ValidityCategoryDescription', $event.target.checked, 'FundingStreams')" class="govuk-checkboxes__input" id="fundingStreams" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
+                                       @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
+                                <label class="govuk-label govuk-checkboxes__label" for="FundingStreams">
+                                    @validity.ValidityCategoryDescription
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="level" class="filter-section">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+            Teaching Year
+        </a>
+        <div>
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes govuk-checkboxes--small" ref="TeachingYears">
+                    @if (Model?.LookUpModel?.AcademicYearLookups != null)
+                    {
+                        <select v-on:change="updateSelectFilter($event.target.id, $event.target.value, 'TeachingYears')" class="govuk-select" name="TeachingYears" >
+                            @foreach (var year in Model.LookUpModel.AcademicYearLookups)
+                            {
+                                @if (Model.SearchModel.TeachingYears.Any(t => t.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                }
+                                else
+                                {
+                                    <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                                }
+                            }
+                        </select>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
