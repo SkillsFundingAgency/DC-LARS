@@ -3,7 +3,7 @@ import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
 const filterService = new FilterService();
 
-test('removeFilterFromArray should remove filter item from array of filter items', () => {
+it('removeFilterFromArray should remove filter item from array of filter items', () => {
 
     const filters: Array<IFilterItem> = [
         {
