@@ -16,9 +16,9 @@
                         @foreach (var awardingBody in Model.LookUpModel.AwardingBodyLookups)
                         {
                             <div class="govuk-checkboxes__item left-margin">
-                                <input v-on:change="updateCheckboxFilter('@awardingBody.AwardingBodyCode',  '@awardingBody.AwardingBodyName', $event.target.checked, 'AwardingBody')" class="govuk-checkboxes__input" id="AwardingBody" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
+                                <input v-on:change="updateCheckboxFilter('@awardingBody.AwardingBodyCode',  '@awardingBody.AwardingBodyName', $event.target.checked, 'AwardingBody')" class="govuk-checkboxes__input" id="AwardingBody-@awardingBody.AwardingBodyCode" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
                                        @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
-                                <label class="govuk-label govuk-checkboxes__label" for="level">
+                                <label class="govuk-label govuk-checkboxes__label" for="AwardingBody-@awardingBody.AwardingBodyCode">
                                     @awardingBody.AwardingBodyName
                                 </label>
                             </div>
@@ -41,9 +41,9 @@
                         @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
                         {
                             <div class="govuk-checkboxes__item left-margin">
-                                <input v-on:change="updateCheckboxFilter('@level.NotionalNVQLevelV2', '@level.NotionalNVQLevelV2Desc', $event.target.checked, 'Levels')" class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
+                                <input v-on:change="updateCheckboxFilter('@level.NotionalNVQLevelV2', '@level.NotionalNVQLevelV2Desc', $event.target.checked, 'Levels')" class="govuk-checkboxes__input" id="Levels-@level.NotionalNVQLevelV2" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
                                        @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
-                                <label class="govuk-label govuk-checkboxes__label" for="level">
+                                <label class="govuk-label govuk-checkboxes__label" for="Levels-@level.NotionalNVQLevelV2">
                                     @level.NotionalNVQLevelV2Desc
                                 </label>
                             </div>
@@ -66,9 +66,9 @@
                         @foreach (var validity in Model.LookUpModel.ValidityCategoryLookups)
                         {
                             <div class="govuk-checkboxes__item left-margin">
-                                <input v-on:change="updateCheckboxFilter('@validity.ValidityCategory', '@validity.ValidityCategoryDescription', $event.target.checked, 'FundingStreams')" class="govuk-checkboxes__input" id="fundingStreams" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
+                                <input v-on:change="updateCheckboxFilter('@validity.ValidityCategory', '@validity.ValidityCategoryDescription', $event.target.checked, 'FundingStreams')" class="govuk-checkboxes__input" id="FundingStreams-@validity.ValidityCategory" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
                                        @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
-                                <label class="govuk-label govuk-checkboxes__label" for="FundingStreams">
+                                <label class="govuk-label govuk-checkboxes__label" for="FundingStreams-@validity.ValidityCategory">
                                     @validity.ValidityCategoryDescription
                                 </label>
                             </div>
