@@ -22,20 +22,9 @@ namespace ESFA.DC.LARS.API
     {
         private IContainer _applicationContainer;
 
-        public Startup(IWebHostEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddJsonFile("appsettings.development.json");
-            }
-            else
-            {
-                builder.AddJsonFile("appsettings.json");
-            }
-
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
