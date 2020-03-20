@@ -20,6 +20,7 @@
     "postcss-preset-env": "^6.6.0",
     "sass-loader": "^8.0.2",
     "save": "^2.4.0",
+    "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "~3.7.5",
     "vue": "^2.6.11",
@@ -35,6 +36,12 @@
     "watch": "webpack --watch",
     "build": "cross-env NODE_ENV=production webpack",
     "test": "jest"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": [
+      "<rootDir>/wwwroot/assets/"
+    ]
   },
   "keywords": [],
   "author": "",
