@@ -335,3 +335,5 @@ ASALocalRun/
 /src/ESFA.DC.LARS.Web/minified/assets/dist/js/site.min.css
 /src/ESFA.DC.LARS.Web/wwwroot/site.js.map
 /src/ESFA.DC.LARS.Web/wwwroot/site.js
+
+**/*appsettings.*.json
