@@ -69,7 +69,6 @@
     <TypeScriptCompile Include="wwwroot\app\Services\cookieService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
     <TypeScriptCompile Include="wwwroot\app\main.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Components\search.vue" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
     <TypeScriptCompile Include="wwwroot\app\store.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\filterService.test.ts" />

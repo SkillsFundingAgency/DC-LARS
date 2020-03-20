@@ -38,7 +38,7 @@
 
         <div class="govuk-grid-row govuk-!-margin-top-6">
             <div class="govuk-grid-column-one-third">
-                <noscript>
+                <noscript id="filtersNoScript">
                     @await Html.PartialAsync("_SearchFilters", Model)
 
                     <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
@@ -67,8 +67,8 @@
                             <span>@Model.LearningAimModels.Count() results</span>
                         </p>
 
-                        <portal-target name="filter-feedback"></portal-target>
-
+                        <filter-feedback></filter-feedback>
+                        
                         <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
                         @foreach (var learningAim in Model.LearningAimModels)
                         {
@@ -124,4 +124,8 @@
 @section PageScripts
 {
     <script type="module" src="/assets/dist/js/app.js"></script>
+    <script>
+         var element = document.getElementById("filtersNoScript");
+         element.parentNode.removeChild(element);
+    </script>
 }
