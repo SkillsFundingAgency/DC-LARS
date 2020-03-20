@@ -52,6 +52,8 @@ stages:
         command: 'install'
         workingDir: 'src\ESFA.DC.LARS.Web'
 
+
+
     - task: DotNetCoreCLI@2
       displayName: 'Restore Nuget packages'
       inputs:
@@ -77,15 +79,19 @@ stages:
         projects: '**/ESFA.DC.LARS.AzureSearch/ESFA.DC.LARS.AzureSearch.csproj'
         configuration: $(BuildConfiguration) 
         arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)" --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
-        
+
     # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
     - task: DotNetCoreCLI@2
-      displayName: Run unit tests
+      displayName: Run .net Core Unit Tests
       inputs:
         command: test
         arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
         nobuild: true
         projects: '**/*Tests.csproj'
+
+    - script: npm run test
+      displayName:  Run JavaScript Unit Tests
+      workingDirectory: '$(Build.SourcesDirectory)\src\ESFA.DC.LARS.Web'  # location of package.json
 
     ## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
     # First install the tool on the machine, then run it
