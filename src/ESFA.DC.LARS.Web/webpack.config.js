@@ -7,7 +7,7 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
-const devMode = true; // process.env.NODE_ENV !== 'production';
+const devMode = process.env.NODE_ENV !== 'production';
 module.exports = {
     // Tells Webpack which built-in optimizations to use
     // If you leave this out, Webpack will default to 'production'
