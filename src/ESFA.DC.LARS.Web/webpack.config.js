@@ -3,10 +3,11 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
-const devMode = process.env.NODE_ENV !== 'production';
+const devMode = true; // process.env.NODE_ENV !== 'production';
 module.exports = {
     // Tells Webpack which built-in optimizations to use
     // If you leave this out, Webpack will default to 'production'
@@ -15,13 +16,15 @@ module.exports = {
     // so we define the Sass file under '/scss' directory
     // and the script file under '/js' directory
     entry: {
-        site: ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss', './wwwroot/assets/js/site.js'],
-        app: './wwwroot/app/main.ts'
+        './assets/dist/js/site': './wwwroot/assets/js/site.js',
+        site : ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss'],
+        './assets/dist/js/app': './wwwroot/app/main.ts',
+        './assets/dist/minified/govuk/all.min' : './wwwroot/assets/dist/govuk/js/all.js'
     },
     // This is where we define the path where Webpack will place
     // a bundled JS file.
     output: {
-        filename: './assets/dist/js/[name].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'wwwroot')
     },
     devtool: devMode ? 'inline-source-map' : 'source-map',
@@ -85,15 +88,7 @@ module.exports = {
                             plugins: devMode
                                 ? () => []
                                 : () => [
-                                    postcssPresetEnv({
-                                        // Compile our CSS code to support browsers 
-                                        // according to the rules specified below
-                                        // You can modify the target browsers according to
-                                        // your needs by using supported queries.
-                                        // https://github.com/browserslist/browserslist#queries
-                                        //https://browserl.ist/?q=%3E0.25%25%2C+not+dead%2C+not+ie+%3C%3D+11%2C+not+op_mini+all
-                                        browsers: ['>0.2%', 'not dead', 'not ie < 10', 'not op_mini all']
-                                    }),
+                                    postcssPresetEnv(),
                                     require('cssnano')()
                                 ]
                         }
@@ -138,7 +133,8 @@ module.exports = {
             filename: devMode ? './assets/dist/css/[name].css' : './assets/dist/minified/[name].min.css',
             chunkFilename: "[name].css"
         }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new MinifyPlugin()
     ],
     resolve: {
         extensions : ['.ts', '.js', '.vue', '.json'],
