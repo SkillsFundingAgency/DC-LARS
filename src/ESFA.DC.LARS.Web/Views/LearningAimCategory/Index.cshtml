@@ -1,29 +1,53 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
+@* Needs Search Term and academic year *@
+<div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item">
+            @Html.ActionLink(
+                "Search Results",
+                "Index",
+                "SearchResult",
+                new BasicSearchModel { SearchTerm = "Diploma in Engineering Technology" },
+                new { @class = "govuk-breadcrumbs__link" })
+        </li>
+        <li class="govuk-breadcrumbs__list-item">
+            @Html.ActionLink(
+                @Model.LearningAimModel.LearningAimTitle,
+                "Index",
+                "LearningAimDetail",
+                new { learnAimRef = Model.LearningAimModel.LearnAimRef, academicYear = Model.LearningAimModel.AcademicYears.FirstOrDefault() },
+                new { @class = "govuk-breadcrumbs__link" })
+        </li>
+        <li class="govuk-breadcrumbs__list-item">
+            Category
+        </li>
+    </ol>
+</div>
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-xl">
-                @Model.LearningAimModel.LearningAimTitle
-                <span class="govuk-caption-xl">@Model.LearningAimModel.LearnAimRef</span>
-            </h1>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+            @Model.LearningAimModel.LearningAimTitle
+            <span class="govuk-caption-xl">@Model.LearningAimModel.LearnAimRef</span>
+        </h1>
 
-            <table class="govuk-table">
-                <caption class="govuk-table__caption govuk-!-font-size-27">Category</caption>
-                <thead class="govuk-table__head">
-                    <tr class="govuk-table__row">
-                        <th scope="col" class="govuk-table__header">Reference</th>
-                        <th scope="col" class="govuk-table__header">Description</th>
-                        <th scope="col" class="govuk-table__header">Parent Reference</th>
-                        <th scope="col" class="govuk-table__header">Parent Description</th>
-                        <th scope="col" class="govuk-table__header">Effective from</th>
-                        <th scope="col" class="govuk-table__header">Effective to</th>
-                    </tr>
-                </thead>
-                <tbody class="govuk-table__body">
-                @if (Model != null 
-                     && Model.LearningAimModel != null 
-                     && Model.LearningAimModel.Categories != null 
-                     && Model.LearningAimModel.Categories.Any())
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-!-font-size-27">Category</caption>
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Reference</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                    <th scope="col" class="govuk-table__header">Parent Reference</th>
+                    <th scope="col" class="govuk-table__header">Parent Description</th>
+                    <th scope="col" class="govuk-table__header">Effective from</th>
+                    <th scope="col" class="govuk-table__header">Effective to</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                @if (Model != null
+                    && Model.LearningAimModel != null
+                    && Model.LearningAimModel.Categories != null
+                    && Model.LearningAimModel.Categories.Any())
                 {
                     @foreach (var category in Model.LearningAimModel.Categories)
                     {
@@ -43,7 +67,7 @@
                         <td colspan="6" class="govuk-table__cell">No categories found</td>
                     </tr>
                 }
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
+</div>
