@@ -52,7 +52,7 @@
 
             //Assumption:  All filters of a certain type are located in the same container.
             Array.from(new Set(filters.map(filter => filter.type))).forEach(type => {
-                const typeContainer = classScope.$refs[type.toString()] as HTMLInputElement;
+                const typeContainer = classScope.$refs[type.toString()] as HTMLElement;
 
                 filters.filter(i => i.type === type).forEach(filter => {
                     !classScope.updateCheckboxDisplay(typeContainer, filter.key, isAdded)
@@ -61,7 +61,7 @@
             });
         }
 
-        private updateCheckboxDisplay(typeContainer :HTMLInputElement, key:string, isAdded: boolean) : boolean {
+        private updateCheckboxDisplay(typeContainer :HTMLElement, key:string, isAdded: boolean) : boolean {
             const input = typeContainer.querySelector(`input[value='${key}']`) as HTMLInputElement;
 
             if (input && input.checked) {
@@ -71,7 +71,7 @@
             return false;
         }
 
-        private updateSelectDisplay(typeContainer :HTMLInputElement, key:string, isAdded: boolean) : boolean {
+        private updateSelectDisplay(typeContainer :HTMLElement, key:string, isAdded: boolean) : boolean {
             const select = typeContainer.querySelector("select") as HTMLSelectElement;
 
             if (select) {
