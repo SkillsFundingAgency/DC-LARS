@@ -33,8 +33,6 @@ export default class FilterService {
                 if (f1.value < f2.value) {
                     return -1;
                 }
-
-                return 0;
             }
 
             return 0;
