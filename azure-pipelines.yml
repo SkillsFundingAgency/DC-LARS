@@ -91,6 +91,7 @@ stages:
 
     - script: npm run test
       displayName:  Run JavaScript Unit Tests
+      workingDirectory: '$(Build.SourcesDirectory)\src\ESFA.DC.LARS.Web'  # location of package.json
 
     ## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
     # First install the tool on the machine, then run it
