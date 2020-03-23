@@ -6,11 +6,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        filters : [] as Array<IFilterItem>
+        qualificationFilters : [] as Array<IFilterItem>
     },
     mutations: {
         updateFilters(state, filters: Array<IFilterItem>) {
-            state.filters = filters;
+            state.qualificationFilters = filters;
         }
     }
 });
