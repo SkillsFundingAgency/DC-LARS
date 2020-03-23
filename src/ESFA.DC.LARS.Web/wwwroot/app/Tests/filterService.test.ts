@@ -1,4 +1,4 @@
-﻿import FilterService from '../Services/filterService';
+﻿import { filterService } from '../Services/filterService';
 import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
 const filterService = new FilterService();
