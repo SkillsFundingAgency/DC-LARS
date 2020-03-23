@@ -330,6 +330,7 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-**/*appsettings.*.json
 /src/ESFA.DC.LARS.Web/wwwroot/site.js.map
 /src/ESFA.DC.LARS.Web/wwwroot/site.js
+
+**/*appsettings.*.json
