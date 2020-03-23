@@ -19,7 +19,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import { IFilterItem } from '../Interfaces/IFilterItem';
-    import FilterService from '../Services/filterService';
+    import { filterService } from '../Services/filterService';
 
     @Component
     export default class FilterFeedback extends Vue {
@@ -30,32 +30,17 @@
 
         private filters: Array<IFilterItem>;
 
-        private filterService : FilterService;
-
         constructor() {
             super();
             this.filters = [];
-            this.filterService = new FilterService();
         }
 
         mounted() {
-            const classScope = this;
-            this.$store.watch(
-                function (state) {
-                    return state.qualificationFilters;
-                },
-                function () {
-                    classScope.refreshFilters();
-                },
-                {
-                    immediate: true,
-                    deep: true
-                });
+            filterService.watchQualificationFilters(this, this.refreshFilters);
         }
 
         removeFilter(filter: IFilterItem): void {
-            this.filters = this.filterService.removeFilterFromArray(this.savedfilters, filter);
-
+            this.filters = filterService.removeFilterFromArray(this.savedfilters, filter);
             this.$store.commit('updateFilters', this.filters);
         }
 
@@ -63,7 +48,7 @@
             //clone so we are not changing the store in the sort and triggering the watch ... recursion
             let filtersToSort  = [...this.savedfilters]; 
 
-            this.filters = this.filterService.sortFilters(filtersToSort);
+            this.filters = filterService.sortFilters(filtersToSort);
         }
     }
 </script>

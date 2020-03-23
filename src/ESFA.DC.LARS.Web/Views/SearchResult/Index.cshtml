@@ -7,7 +7,6 @@
 }
 
 <div id="app">
-    <search></search>
     @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
     {
         <div class="govuk-grid-row">
@@ -38,188 +37,83 @@
 
         <div class="govuk-grid-row govuk-!-margin-top-6">
             <div class="govuk-grid-column-one-third">
-                <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
+                <noscript id="filtersNoScript">
+                    @await Html.PartialAsync("_SearchFilters", Model)
 
-                <div id="allFilters">
+                    <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
 
-                    <section id="level" class="filter-section">
-                        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
-                            Awarding Body
-                        </a>
-                        <div class="filter-box hidden">
-                            <div class="govuk-form-group">
-                                <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    @if (Model?.LookUpModel?.AwardingBodyLookups != null)
-                                    {
-                                        @foreach (var awardingBody in Model.LookUpModel.AwardingBodyLookups)
-                                        {
-                                            <div class="govuk-checkboxes__item left-margin">
-                                                <input class="govuk-checkboxes__input" id="AwardingBody" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
-                                                       @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase)))
-                                                       {
-                                                           @Html.Raw("checked")
-                                                       }/>
-                                                <label class="govuk-label govuk-checkboxes__label" for="level">
-                                                    @awardingBody.AwardingBodyName
-                                                </label>
-                                            </div>
-                                        }
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    @Html.ActionLink(
+                        "Clear Filters",
+                        "ClearFilters",
+                        new { searchTerm = Model.SearchModel.SearchTerm },
+                        new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
+                </noscript>
 
-                    <section id="level" class="filter-section">
-                        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
-                            Level
-                        </a>
-                        <div class="filter-box hidden">
-                            <div class="govuk-form-group">
-                                <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    @if (Model?.LookUpModel?.NotionalNvqLevel2Lookups != null)
-                                    {
-                                        @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
-                                        {
-                                            <div class="govuk-checkboxes__item left-margin">
-                                                <input class="govuk-checkboxes__input" id="level" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
-                                                       @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase)))
-                                                       {
-                                                           @Html.Raw("checked")
-                                                       }/>
-                                                <label class="govuk-label govuk-checkboxes__label" for="level">
-                                                    @level.NotionalNVQLevelV2Desc
-                                                </label>
-                                            </div>
-                                        }
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                <script id="filtersTemplate" type="text/x-template">
+                    <div>
+                        @await Html.PartialAsync("_SearchFilters", Model)
+                    </div>
+                </script>
+                <filters></filters>
+            </div>
 
-                    <section id="level" class="filter-section">
-                        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
-                            Funding Stream
-                        </a>
-                        <div class="filter-box hidden">
-                            <div class="govuk-form-group">
-                                <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    @if (Model?.LookUpModel?.ValidityCategoryLookups != null)
-                                    {
-                                        @foreach (var validity in Model.LookUpModel.ValidityCategoryLookups)
-                                        {
-                                            <div class="govuk-checkboxes__item left-margin">
-                                                <input class="govuk-checkboxes__input" id="fundingStreams" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
-                                                       @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase)))
-                                                       {
-                                                           @Html.Raw("checked")
-                                                       }/>
-                                                <label class="govuk-label govuk-checkboxes__label" for="fundingStreams">
-                                                    @validity.ValidityCategoryDescription
-                                                </label>
-                                            </div>
-                                        }
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+            <div class="govuk-grid-column-two-thirds">
 
-                    <section id="level" class="filter-section">
-                        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
-                            Teaching Year
-                        </a>
-                        <div>
-                            <div class="govuk-form-group">
-                                <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    @if (Model?.LookUpModel?.AcademicYearLookups != null)
-                                    {
-                                        <select class="govuk-select" name="TeachingYears">
-                                            @foreach (var year in Model.LookUpModel.AcademicYearLookups)
-                                            {
-                                                @if (Model.SearchModel.TeachingYears.Any(t => t.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase)))
-                                                {
-                                                    <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
-                                                }
-                                            }
-                                        </select>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary"/>
-
-            @Html.ActionLink(
-                "Clear Filters",
-                "ClearFilters",
-                new { searchTerm = Model.SearchModel.SearchTerm, academicYear = academicYear },
-                new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
-        </div>
-
-        <div class="govuk-grid-column-two-thirds">
-            
-            <ul id="resultList" class="govuk-list">
-                @if (resultsFound)
-                {
-                    <p class="govuk-body flex space-between">
-                        <span>@Model.LearningAimModels.Count() results</span>
-                    </p>
-
-                    <portal-target name="filter-feedback"></portal-target>
-
-                    <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
-                    @foreach (var learningAim in Model.LearningAimModels)
+                <ul id="resultList" class="govuk-list">
+                    @if (resultsFound)
                     {
-                        <li>
-                            <h3 class="govuk-!-margin-0">
-                                @Html.ActionLink(
-                                    learningAim.LearningAimTitle,
-                                    "RedirectToDetails",
-                                    new { learnAimRef = learningAim.LearnAimRef, academicYear = academicYear },
-                                    new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" })
-                            </h3>
-                            <div class="flex space-between">
-                                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                                    <span><strong>Reference:</strong> @learningAim.LearnAimRef</span>
-                                    <span><strong>Assessor:</strong> @learningAim.AwardingBodyCode</span>
-                                </div>
-                                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                                    <span><strong>NVQ notional level:</strong> @learningAim.Level</span>
-                                    <span><strong>Guided learning hours:</strong> @learningAim.GuidedLearningHours </span>
-                                </div>
-                            </div>
-                            @if (!string.IsNullOrEmpty(academicYear) && academicYear.Trim().Length == 4)
-                            {
-                                var validities = learningAim.AcademicYears.Where(ay => ay.AcademicYear.Equals(academicYear)).SelectMany(p => p.Validities);
+                        <p class="govuk-body flex space-between">
+                            <span>@Model.LearningAimModels.Count() results</span>
+                        </p>
 
-                                <div class="aims-list govuk-body govuk-!-font-size-16 flex-col flex-1">
-                                    <strong>Available funding streams for academic year @($"20{academicYear.Substring(0, 2)} to 20{academicYear.Substring(2, 2)}:")</strong>
+                        <filter-feedback></filter-feedback>
+                        
+                        <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                        @foreach (var learningAim in Model.LearningAimModels)
+                        {
+                            <li>
+                                <h3 class="govuk-!-margin-0">
+                                    @Html.ActionLink(
+                                        learningAim.LearningAimTitle,
+                                        "RedirectToDetails",
+                                        new { learnAimRef = learningAim.LearnAimRef, academicYear = academicYear },
+                                        new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" })
+                                </h3>
+                                <div class="flex space-between">
+                                    <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                                        <span><strong>Reference:</strong> @learningAim.LearnAimRef</span>
+                                        <span><strong>Assessor:</strong> @learningAim.AwardingBodyCode</span>
+                                    </div>
+                                    <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                                        <span><strong>NVQ notional level:</strong> @learningAim.Level</span>
+                                        <span><strong>Guided learning hours:</strong> @learningAim.GuidedLearningHours </span>
+                                    </div>
                                 </div>
+                                @if (!string.IsNullOrEmpty(academicYear) && academicYear.Trim().Length == 4)
+                                {
+                                    var validities = learningAim.AcademicYears.Where(ay => ay.AcademicYear.Equals(academicYear)).SelectMany(p => p.Validities);
 
-                                <div class="flex-wrap govuk-!-font-size-16">
-                                    @foreach (var validity in validities)
-                                    {
-                                        <div class="flex-third govuk-!-margin-bottom-2">
-                                            @validity.ValidityCategoryDescription
-                                        </div>
-                                    }
-                                </div>
-                            }
-                        </li>
+                                    <div class="aims-list govuk-body govuk-!-font-size-16 flex-col flex-1">
+                                        <strong>Available funding streams for academic year @($"20{academicYear.Substring(0, 2)} to 20{academicYear.Substring(2, 2)}:")</strong>
+                                    </div>
+
+                                    <div class="flex-wrap govuk-!-font-size-16">
+                                        @foreach (var validity in validities)
+                                        {
+                                            <div class="flex-third govuk-!-margin-bottom-2">
+                                                @validity.ValidityCategoryDescription
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </li>
+                        }
                     }
-                }
-                else
-                {
-                    <li>No results found</li>
-                }
-            </ul>
+                    else
+                    {
+                        <li>No results found</li>
+                    }
+                </ul>
 
             </div>
         </div>
@@ -229,4 +123,8 @@
 @section PageScripts
 {
     <script type="module" src="/assets/dist/js/app.js"></script>
+    <script>
+         var element = document.getElementById("filtersNoScript");
+         element.parentNode.removeChild(element);
+    </script>
 }

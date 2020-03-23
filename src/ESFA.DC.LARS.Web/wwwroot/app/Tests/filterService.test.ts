@@ -1,7 +1,5 @@
-﻿import FilterService from '../Services/filterService';
+﻿import { filterService } from '../Services/filterService';
 import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
-
-const filterService = new FilterService();
 
 it('removeFilterFromArray should remove filter item from array of filter items', () => {
 
