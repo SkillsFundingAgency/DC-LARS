@@ -6,8 +6,16 @@
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
+<script type="module">
+    import StorageService from '/assets/dist/js/Services/storageService.js';
+    window.service = new StorageService(sessionStorage);
+    var obj = { searchTerm: "@Model.SearchModel.SearchTerm" }
+    service.store('test', obj);
+</script>
+
+
 <div id="app">
-    @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new {@id = "filterForm", @class = "govuk-form-group"}))
+    @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
     {
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -17,11 +25,11 @@
                         <div id="tt-overlay" class="autocomplete-wrapper second">
                             <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
                                 <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
-                                       placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchModel.SearchTerm" maxlength="200"/>
+                                       placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchModel.SearchTerm" maxlength="200" />
                             </div>
                         </div>
                         <button id="searchProviders" type="submit" class="govuk-button">
-                            <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png"/>
+                            <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
                         </button>
                     </div>
                 </div>
@@ -67,7 +75,7 @@
                         </p>
 
                         <filter-feedback></filter-feedback>
-                        
+
                         <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
                         @foreach (var learningAim in Model.LearningAimModels)
                         {
@@ -124,7 +132,7 @@
 {
     <script type="module" src="/assets/dist/js/app.js"></script>
     <script>
-         var element = document.getElementById("filtersNoScript");
-         element.parentNode.removeChild(element);
+        var element = document.getElementById("filtersNoScript");
+        element.parentNode.removeChild(element);
     </script>
 }

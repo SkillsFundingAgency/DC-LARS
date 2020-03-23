@@ -2,7 +2,13 @@
 @{
     var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
 }
-@* Needs Search Term  *@
+
+<script type="module">
+    import StorageService from '/assets/dist/js/Services/storageService.js';
+    window.service = new StorageService(sessionStorage);
+    var obj = service.retrieve('test');
+    </script>
+
 <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item">
@@ -10,8 +16,9 @@
                 "Search Results",
                 "Index",
                 "SearchResult",
-                new BasicSearchModel { SearchTerm = "Diploma in Engineering Technology" },
+                new BasicSearchModel { SearchTerm = "" },
                 new { @class = "govuk-breadcrumbs__link" })
+            @*<a href="@Url.Action("Index", "SearchResult")?custId={{cust.Id}}"></a>*@
         </li>
         <li class="govuk-breadcrumbs__list-item">
             @Model?.LearningAimModel?.LearningAimTitle
