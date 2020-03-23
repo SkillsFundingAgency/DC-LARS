@@ -28,9 +28,10 @@
 
          public updateSelectFilter(key: string, value: string, type: FilterType): void {
             const filters = this.savedfilters; 
-            const filter = filterService.findFilterItem(key, type, filters);
+            let filter = filterService.findFilterItemByType(type, filters);
 
-            filter ? filter.value = key : filters.push({key, value, type });
+            filter ? filter = Object.assign(filter, {key: key, value: value}) : filters.push({ key, value, type });
+
             this.updateStore(filters);
         }
 

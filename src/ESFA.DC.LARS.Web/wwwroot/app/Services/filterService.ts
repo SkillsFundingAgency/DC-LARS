@@ -19,7 +19,15 @@
         });
 
         return found;
-    }
+     }
+
+    findFilterItemByType(type: FilterType, filters: Array<IFilterItem>): IFilterItem | undefined {
+        const found = filters.find(function (filter) {
+            return filter.type === type;
+        });
+
+        return found;
+     }
 
     sortFilters(filters: Array<IFilterItem>): Array<IFilterItem> {
         return filters.sort((f1, f2) => {
