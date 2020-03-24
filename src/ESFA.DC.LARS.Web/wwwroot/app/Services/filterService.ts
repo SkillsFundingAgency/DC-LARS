@@ -51,7 +51,7 @@
         });
     }
 
-    watchQualificationFilters(classScope: Vue, callback : Function) {
+     watchQualificationFilters(classScope: Vue, callback: Function, immediate: boolean, deep: boolean ) {
         classScope.$store.watch(
             function (state) {
                 return state.qualificationFilters;
@@ -60,8 +60,8 @@
                 callback()
             },
             {
-                immediate: true,
-                deep: true
+                immediate: immediate,
+                deep: deep
             });
     }
 }

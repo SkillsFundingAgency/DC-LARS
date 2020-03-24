@@ -88,7 +88,7 @@
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="TeachingYears">
                     @if (Model?.LookUpModel?.AcademicYearLookups != null)
                     {
-                        <select v-on:change="updateSelectFilter($event.target.value, $event.target.options[$event.target.options.selectedIndex].text, 'TeachingYears')" class="govuk-select" name="TeachingYears" >
+                        <select v-on:change="updateSelectFilter($event.target.value, $event.target.options[$event.target.options.selectedIndex].text, 'TeachingYears')" class="govuk-select" name="TeachingYears" id="TeachingYears" >
                             @foreach (var year in Model.LookUpModel.AcademicYearLookups)
                             {
                                 @if (Model.SearchModel.TeachingYears.Any(t => t.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase)))

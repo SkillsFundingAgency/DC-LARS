@@ -36,7 +36,7 @@
         }
 
         mounted() {
-            filterService.watchQualificationFilters(this, this.refreshFilters);
+            filterService.watchQualificationFilters(this, this.refreshFilters, true, true);
         }
 
         removeFilter(filter: IFilterItem): void {

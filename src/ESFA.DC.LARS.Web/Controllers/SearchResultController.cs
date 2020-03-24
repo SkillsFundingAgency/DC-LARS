@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ESFA.DC.LARS.Web.Extensions;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.LARS.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
@@ -58,6 +60,24 @@ namespace ESFA.DC.LARS.Web.Controllers
             model = await PopulateViewModel(null, searchModel);
 
             return View("Index", model);
+        }
+
+        [HttpGet("Results")]
+        public async Task<IActionResult> Results([FromQuery]SearchModel searchModel)
+        {
+            var model = new SearchResultsViewModel();
+
+            ValidateSearch(searchModel, model);
+
+            if (model.ValidationErrors.Any())
+            {
+                return Json(new { validationErrors = model.ValidationErrors });
+            }
+
+            model = await PopulateViewModel(null, searchModel);
+            var partialViewHtml = await this.RenderViewAsync("_SearchResults", model, true);
+
+            return Json(new { data= partialViewHtml, count= model.LearningAimModels.Count() });
         }
 
         [HttpGet("ClearFilters")]
