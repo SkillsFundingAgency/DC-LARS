@@ -1,10 +1,10 @@
-﻿import axios, { AxiosResponse } from 'axios'
+﻿import axios from 'axios'
 import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 import qs from 'qs';
 import { ISearchRequest } from '../Interfaces/ISearchRequest';
 import { ISearchResults } from '../Interfaces/ISearchResults';
 
-class ResultsService {
+class SearchService {
 
 	async getResultsAsync(filters: Array<IFilterItem>): Promise<ISearchResults>{
 		var response = await axios.get<ISearchResults>('../SearchResult/Results', {
@@ -32,4 +32,4 @@ class ResultsService {
 	private teachingYears = (): Array<string> => new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears")).value}`);
 }
 
-export const resultsService = new ResultsService();
+export const searchService = new SearchService();

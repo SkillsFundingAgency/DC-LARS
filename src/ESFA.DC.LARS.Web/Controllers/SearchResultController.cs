@@ -65,19 +65,23 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpGet("Results")]
         public async Task<IActionResult> Results([FromQuery]SearchModel searchModel)
         {
-            var model = new SearchResultsViewModel();
-
-            ValidateSearch(searchModel, model);
-
-            if (model.ValidationErrors.Any())
+            var resultsModel = new SearchResultsViewModel
             {
-                return Json(new { validationErrors = model.ValidationErrors });
+                SearchModel = searchModel
+            };
+
+            ValidateSearch(searchModel, resultsModel);
+
+            if (resultsModel.ValidationErrors.Any())
+            {
+                return Json(new { validationErrors = resultsModel.ValidationErrors });
             }
 
-            model = await PopulateViewModel(null, searchModel);
-            var partialViewHtml = await this.RenderViewAsync("_SearchResults", model, true);
+            resultsModel.LearningAimModels = await _learningAimsApiService.GetLearningAims(searchModel);
 
-            return Json(new { data= partialViewHtml, count= model.LearningAimModels.Count() });
+            var partialViewHtml = await this.RenderViewAsync("_SearchResults", resultsModel, true);
+
+            return Json(new { data= partialViewHtml, count= resultsModel.LearningAimModels.Count() });
         }
 
         [HttpGet("ClearFilters")]

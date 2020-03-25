@@ -4,7 +4,7 @@ import PortalVue from 'portal-vue';
 
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
-import { resultsService } from '../app/Services/resultsService';
+import { searchService } from './Services/searchService';
 import { filterService } from '../app/Services/filterService';
 
 Vue.use(PortalVue);
@@ -24,7 +24,7 @@ let vue = new Vue({
             const resultCount = classScope.$refs["ResultsCount"] as HTMLElement;
             if (resultsContainer && resultCount) {
                 resultsContainer.innerHTML = "Loading";
-                var response = await resultsService.getResultsAsync(classScope.$store.state.qualificationFilters);
+                var response = await searchService.getResultsAsync(classScope.$store.state.qualificationFilters);
                 resultsContainer.innerHTML = response.data;
                 resultCount.innerHTML = `${response.count} results`;
             }
