@@ -1,5 +1,5 @@
 ﻿export interface ISearchResults {
     data: string;
-    validationErrors: string;
+    validationErrors: Array<string>;
     count: number;
 }

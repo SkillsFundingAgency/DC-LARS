@@ -67,21 +67,20 @@ namespace ESFA.DC.LARS.Web.Controllers
         {
             var resultsModel = new SearchResultsViewModel
             {
-                SearchModel = searchModel
+                SearchModel = searchModel,
+                LearningAimModels = new List<LearningAimModel>()
             };
 
             ValidateSearch(searchModel, resultsModel);
 
-            if (resultsModel.ValidationErrors.Any())
+            if (!resultsModel.ValidationErrors.Any())
             {
-                return Json(new { validationErrors = resultsModel.ValidationErrors });
+                resultsModel.LearningAimModels = await _learningAimsApiService.GetLearningAims(searchModel);
             }
-
-            resultsModel.LearningAimModels = await _learningAimsApiService.GetLearningAims(searchModel);
 
             var partialViewHtml = await this.RenderViewAsync("_SearchResults", resultsModel, true);
 
-            return Json(new { data= partialViewHtml, count= resultsModel.LearningAimModels.Count() });
+            return Json(new { data= partialViewHtml, count= resultsModel.LearningAimModels.Count(), validationErrors= resultsModel.ValidationErrors });
         }
 
         [HttpGet("ClearFilters")]

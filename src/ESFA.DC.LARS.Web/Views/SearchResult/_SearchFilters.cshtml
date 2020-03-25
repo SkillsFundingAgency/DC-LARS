@@ -8,6 +8,7 @@
         <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
             Awarding Body
         </a>
+        
         <div class="filter-box hidden">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="AwardingBody">
@@ -33,6 +34,7 @@
         <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
             Level
         </a>
+
         <div class="filter-box hidden">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="Levels">
@@ -58,6 +60,7 @@
         <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
             Funding Stream
         </a>
+        
         <div class="filter-box hidden">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="FundingStreams">
@@ -88,7 +91,7 @@
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="TeachingYears">
                     @if (Model?.LookUpModel?.AcademicYearLookups != null)
                     {
-                        <select v-on:change="updateSelectFilter($event.target.value, $event.target.options[$event.target.options.selectedIndex].text, 'TeachingYears')" class="govuk-select" name="TeachingYears" id="TeachingYears" >
+                        <select v-on:change="updateSelectFilter($event.target.value, $event.target.options[$event.target.options.selectedIndex].text, 'TeachingYears')" class="govuk-select" name="TeachingYears" id="TeachingYears">
                             @foreach (var year in Model.LookUpModel.AcademicYearLookups)
                             {
                                 @if (Model.SearchModel.TeachingYears.Any(t => t.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase)))

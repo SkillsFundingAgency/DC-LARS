@@ -20,14 +20,17 @@ let vue = new Vue({
         const classScope = this;
         
         const callback = async function () {
-            const resultsContainer = classScope.$refs["Results"] as HTMLElement;
-            const resultCount = classScope.$refs["ResultsCount"] as HTMLElement;
-            if (resultsContainer && resultCount) {
-                resultsContainer.innerHTML = "Loading";
-                var response = await searchService.getResultsAsync(classScope.$store.state.qualificationFilters);
-                resultsContainer.innerHTML = response.data;
-                resultCount.innerHTML = `${response.count} results`;
-            }
+            const resultsContainer = <HTMLElement>classScope.$refs["Results"];
+            const resultCount = <HTMLElement>classScope.$refs["ResultsCount"];
+            const validationErrorContainer = <HTMLElement>classScope.$refs["ValidationErrors"];
+
+            resultsContainer.innerHTML = "Loading";
+
+            var response = await searchService.getResultsAsync(classScope.$store.state.qualificationFilters);
+
+            resultsContainer.innerHTML = response.data;
+            resultCount.innerHTML = `${response.count} results`;
+            validationErrorContainer.innerHTML = response.validationErrors.map(v => `<li class="govuk-error-message">${v}</li>`).join();
         }
 
         filterService.watchQualificationFilters(this, callback, false, true);
