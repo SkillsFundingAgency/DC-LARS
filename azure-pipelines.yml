@@ -52,8 +52,6 @@ stages:
         command: 'install'
         workingDir: 'src\ESFA.DC.LARS.Web'
 
-
-
     - task: DotNetCoreCLI@2
       displayName: 'Restore Nuget packages'
       inputs:
@@ -70,7 +68,11 @@ stages:
         projects: '**/*.csproj'
         configuration: $(BuildConfiguration) 
         arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
-
+  
+    - script: npm run-script build
+      displayName:  Run npm build
+      workingDirectory: '$(Build.SourcesDirectory)\src\ESFA.DC.LARS.Web'  # location of package.json
+      
     - task: DotNetCoreCLI@2
       displayName: 'Build WebJob in Temp Folder'
       inputs:
