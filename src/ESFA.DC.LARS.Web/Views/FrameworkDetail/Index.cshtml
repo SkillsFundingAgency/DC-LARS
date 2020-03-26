@@ -1,32 +1,15 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
-@* Needs Search Term, LearnAimRef, learningAimTitle and academic year *@
+
 <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item">
-            @Html.ActionLink(
-                "Search Results",
-                "Index",
-                "SearchResult",
-                new BasicSearchModel { SearchTerm = "Diploma in Engineering Technology" },
-                new { @class = "govuk-breadcrumbs__link" })
+            <a id="searchResultsLink" class="govuk-breadcrumbs__link">Search Results</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" href="all-results">TODO learning aim title</a>
-            @*@Html.ActionLink(
-                @Model.Framework..LearningAim.LearningAimTitle,
-                "Index",
-                "LearningAimDetail",
-                new { learnAimRef = Model.LearningAim.LearnAimRef, academicYear = Model.LearningAim.AcademicYears.FirstOrDefault() },
-                new { @class = "govuk-breadcrumbs__link" })*@
+            <a id="learningAimDetailLink" class="govuk-breadcrumbs__link"></a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" href="all-results">Frameworks</a>
-            @Html.ActionLink(
-                "Frameworks",
-                "Index",
-                "Framework",
-                new { learnAimRef = "Test" },
-                new { @class = "govuk-breadcrumbs__link" })
+            <a id="frameworksLink" class="govuk-breadcrumbs__link">Frameworks</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
             Pathways
@@ -90,3 +73,21 @@
         }
     </div>
 </div>
+
+@section PageScripts
+{
+    <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
+        import LinkService from '/assets/dist/js/Services/linkService.js';
+
+        var storageService = new StorageService(sessionStorage);
+        var linkService = new LinkService();
+
+        var storageItem = storageService.retrieve('sessionData');
+
+        linkService.setSearchResultsLink('searchResultsLink', storageItem.searchTerm, storageItem.teachingYear);
+        linkService.setLearningAimDetailLink('learningAimDetailLink', storageItem.learnAimRef, storageItem.learningAimDetailsYear);
+        linkService.setFrameworksLink('frameworksLink', storageItem.learnAimRef);
+        document.getElementById("learningAimDetailLink").innerHTML = storageItem.learningAimTitle;
+    </script>
+}

@@ -3,22 +3,10 @@
     var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
 }
 
-<script type="module">
-    import StorageService from '/assets/dist/js/Services/storageService.js';
-    window.service = new StorageService(sessionStorage);
-    var obj = service.retrieve('test');
-    </script>
-
 <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item">
-            @Html.ActionLink(
-                "Search Results",
-                "Index",
-                "SearchResult",
-                new BasicSearchModel { SearchTerm = "" },
-                new { @class = "govuk-breadcrumbs__link" })
-            @*<a href="@Url.Action("Index", "SearchResult")?custId={{cust.Id}}"></a>*@
+            <a id="searchResultsLink" class="govuk-breadcrumbs__link">Search Results</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
             @Model?.LearningAimModel?.LearningAimTitle
@@ -180,3 +168,22 @@
         }
     </div>
 </div>
+
+@section PageScripts
+{
+    <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
+        import LinkService from '/assets/dist/js/Services/linkService.js';
+
+        var storageService = new StorageService(sessionStorage);
+        var linkService = new LinkService();
+
+        var storageItem = storageService.retrieve('sessionData');
+        storageItem.learnAimRef = "@Model.LearningAimModel.LearnAimRef";
+        storageItem.learningAimTitle = "@Model.LearningAimModel.LearningAimTitle";
+        storageItem.learningAimDetailsYear = "@academicYear";
+        storageService.store('sessionData', storageItem);
+
+        linkService.setSearchResultsLink('searchResultsLink', storageItem.searchTerm, storageItem.teachingYear);
+    </script>
+}

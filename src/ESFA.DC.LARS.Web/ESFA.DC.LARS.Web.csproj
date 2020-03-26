@@ -27,6 +27,7 @@
     <Content Remove="wwwroot\app\main.ts" />
     <Content Remove="wwwroot\app\search.vue" />
     <Content Remove="wwwroot\app\Services\filterService.ts" />
+    <Content Remove="wwwroot\app\Services\linkService.ts" />
     <Content Remove="wwwroot\app\Services\storageService.ts" />
     <Content Remove="wwwroot\app\store.ts" />
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
@@ -72,6 +73,7 @@
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
     <TypeScriptCompile Include="wwwroot\app\main.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\linkService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\storageService.ts" />
     <TypeScriptCompile Include="wwwroot\app\store.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\filterService.test.ts" />

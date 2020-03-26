@@ -6,14 +6,6 @@
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
-<script type="module">
-    import StorageService from '/assets/dist/js/Services/storageService.js';
-    window.service = new StorageService(sessionStorage);
-    var obj = { searchTerm: "@Model.SearchModel.SearchTerm" }
-    service.store('test', obj);
-</script>
-
-
 <div id="app">
     @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
     {
@@ -134,5 +126,11 @@
     <script>
         var element = document.getElementById("filtersNoScript");
         element.parentNode.removeChild(element);
+    </script>
+    <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
+        var storageService = new StorageService(sessionStorage);
+        var storageItem = { searchTerm: "@Model.SearchModel.SearchTerm", teachingYear: "@academicYear" }
+        storageService.store('sessionData', storageItem);
     </script>
 }

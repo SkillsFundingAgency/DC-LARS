@@ -1,22 +1,12 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
-@* Needs Search Term and academic year *@
+
 <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
         <li class="govuk-breadcrumbs__list-item">
-            @Html.ActionLink(
-                "Search Results",
-                "Index",
-                "SearchResult",
-                new BasicSearchModel { SearchTerm = "Diploma in Engineering Technology" },
-                new { @class = "govuk-breadcrumbs__link" })
+            <a id="searchResultsLink" class="govuk-breadcrumbs__link">Search Results</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
-            @Html.ActionLink(
-                @Model.LearningAimModel.LearningAimTitle,
-                "Index",
-                "LearningAimDetail",
-                new { learnAimRef = Model.LearningAimModel.LearnAimRef, academicYear = Model.LearningAimModel.AcademicYears.FirstOrDefault() },
-                new { @class = "govuk-breadcrumbs__link" })
+            <a id="learningAimDetailLink" class="govuk-breadcrumbs__link">@Model?.LearningAimModel?.LearningAimTitle</a>
         </li>
         <li class="govuk-breadcrumbs__list-item">
             Category
@@ -71,3 +61,19 @@
         </table>
     </div>
 </div>
+
+@section PageScripts
+{
+    <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
+        import LinkService from '/assets/dist/js/Services/linkService.js';
+
+        var storageService = new StorageService(sessionStorage);
+        var linkService = new LinkService();
+
+        var storageItem = storageService.retrieve('sessionData');
+
+        linkService.setSearchResultsLink('searchResultsLink', storageItem.searchTerm, storageItem.teachingYear);
+        linkService.setLearningAimDetailLink('learningAimDetailLink', '@Model?.LearningAimModel?.LearnAimRef', storageItem.learningAimDetailsYear);
+    </script>
+}
