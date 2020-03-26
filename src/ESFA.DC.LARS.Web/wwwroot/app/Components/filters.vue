@@ -12,7 +12,7 @@
 
         mounted() {
             this.currentDisplayFilters = this.savedfilters;
-            filterService.watchQualificationFilters(this, this.updateDisplay);
+            filterService.watchQualificationFilters(this, this.updateDisplay, false, true);
             accordionService.initialiseAccordion();
         }
 

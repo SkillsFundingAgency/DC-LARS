@@ -31,7 +31,9 @@
     "vue-template-compiler": "^2.6.11",
     "vuex": "^3.1.3",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "axios": "^0.19.2",
+    "qs": "^6.9.2"
   },
   "scripts": {
     "watch": "webpack --watch",
@@ -58,5 +60,8 @@
     "ProjectOpened": [
       "watch"
     ]
+  },
+  "devDependencies": {
+    "@types/qs": "^6.9.1"
   }
 }
