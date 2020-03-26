@@ -2,7 +2,8 @@
     import { Component, Vue } from 'vue-property-decorator';
     import { IFilterItem, FilterType } from '../../app/Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
-    
+    import { accordionService } from '../Services/accordionService';
+
     @Component({
         template: "#filtersTemplate"
     })
@@ -12,6 +13,7 @@
         mounted() {
             this.currentDisplayFilters = this.savedfilters;
             filterService.watchQualificationFilters(this, this.updateDisplay, false, true);
+            accordionService.initialiseAccordion();
         }
 
         get savedfilters(): Array<IFilterItem> {
@@ -33,6 +35,14 @@
             filter ? filter = Object.assign(filter, {key: key, value: value}) : filters.push({ key, value, type });
 
             this.updateStore(filters);
+        }
+
+        public updateAccordion(id: string) : void {
+            accordionService.toggleSection(id, false);
+        }
+
+        public updateAccordionAll(): void {
+            accordionService.updateAccordionAll();
         }
 
         private updateStore(filters: Array<IFilterItem>) {

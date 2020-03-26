@@ -28,6 +28,7 @@
     <Content Remove="wwwroot\app\Interfaces\IStorageItem.ts" />
     <Content Remove="wwwroot\app\main.ts" />
     <Content Remove="wwwroot\app\search.vue" />
+    <Content Remove="wwwroot\app\Services\accordionService.ts" />
     <Content Remove="wwwroot\app\Services\filterService.ts" />
     <Content Remove="wwwroot\app\Services\storageService.ts" />
     <Content Remove="wwwroot\app\Services\searchService.ts" />
@@ -76,6 +77,7 @@
     <TypeScriptCompile Include="wwwroot\app\Interfaces\ISearchRequest.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
     <TypeScriptCompile Include="wwwroot\app\main.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\accordionService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\storageService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\searchService.ts" />

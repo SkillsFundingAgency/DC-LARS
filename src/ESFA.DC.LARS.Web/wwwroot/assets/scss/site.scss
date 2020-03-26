@@ -110,13 +110,6 @@ $govuk-global-styles: true;
     }
 }
 
-.filter-box {
-    display: inline-block;
-    overflow-y: auto;
-    height: 200px;
-    margin-bottom: 15px;
-}
-
 .filter-feedback-container {
     @extend .results-number-container;
     display: none;
@@ -190,6 +183,161 @@ $govuk-global-styles: true;
     padding-top: 0 !important;
 }
 
-.no-js {
+.hidden {
     display: none !important;
+}
+
+.filter-container {
+    border-top: 1px solid govuk-colour("mid-grey");
+}
+
+.filter-section {
+    border-bottom: 1px solid govuk-colour("mid-grey");
+    padding-top: 20px;
+    padding-right: 15px;
+    padding-bottom: 0;
+    padding-left: 0;
+
+    .filter-box-button {
+        padding-left: 15px;
+        padding-bottom: 5px;
+        display: block;
+        margin-top: 0;
+        margin-bottom: 0;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .selected-text {
+        margin-left: 35px;
+        margin-top: -4px;
+        margin-bottom: 0;
+        display: block;
+        display: none;
+    }
+
+    .govuk-checkboxes__item {
+        margin-left: 15px;
+    }
+
+    .filter-box-button {
+        display: flex;
+    }
+
+    .filter-box-button:before {
+        content: "";
+        box-sizing: border-box;
+        height: 12px;
+        width: 12px;
+        margin-top: 4px;
+        border-style: solid;
+        border-color: black;
+        border-width: 0px 3px 3px 0px;
+        transform: rotate(45deg);
+        transition: border-width 150ms ease-in-out;
+        margin-right: 10px;
+        transform: rotate(45deg);
+    }
+
+    .filter-box-button.rotate:before {
+        margin-top: 9px;
+        transform: rotate(225deg);
+    }
+
+    .filter-box {
+        display: inline-block;
+        overflow-y: hidden;
+        margin-bottom: 15px;
+        max-height: 0;
+        transition: max-height 0.2s ease-in-out;
+
+        .input-container {
+            margin-left: 15px;
+            margin-top: 10px;
+            width: 90%;
+            // padding-bottom: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: white;
+            // display: none;
+            input {
+                padding-left: 35px;
+            }
+
+            .search-icon {
+                svg {
+                    position: absolute;
+                    width: 20px;
+                    padding: 10px;
+                    left: 0px;
+                    display: block;
+                    height: auto;
+                }
+            }
+        }
+
+        .govuk-form-group {
+            position: relative;
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background-color: #ffffff;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        &.expanded {
+            display: inline-block;
+            overflow-y: hidden;
+            max-height: 200px;
+            transition: max-height 0.2s ease-in-out;
+            padding-bottom: 10px;
+        }
+    }
+
+    .filter-box.hidden {
+        display: none;
+    }
+}
+
+#custom-box {
+    margin-left: 12px;
+    max-height: fit-content;
+}
+
+.govuk-select-filter {
+    margin-left: 15px;
+    margin-bottom: 10px;
+
+    @include govuk-font($size: 19, $line-height: 1.25);
+    box-sizing: border-box; // should this be global?
+    max-width: 100%;
+    height: 40px;
+
+    @if $govuk-typography-use-rem {
+        height: govuk-px-to-rem(40px);
+    }
+
+    padding: govuk-spacing(1); // was 5px 4px 4px - size of it should be adjusted to match other form elements
+    border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+
+    &:focus {
+        outline: $govuk-focus-width solid $govuk-focus-colour;
+        // Ensure outline appears outside of the element
+        outline-offset: 0;
+        // Double the border by adding its width again. Use `box-shadow` to do
+        // this instead of changing `border-width` (which changes element size) and
+        // since `outline` is already used for the yellow focus state.
+        box-shadow: inset 0 0 0 $govuk-border-width-form-element;
+
+        @include govuk-if-ie8 {
+            // IE8 doesn't support `box-shadow` so double the border with
+            // `border-width`.
+            border-width: $govuk-border-width-form-element * 2;
+        }
+    }
 }
