@@ -2,7 +2,7 @@
     import { Component, Vue } from 'vue-property-decorator';
     import { IFilterItem, FilterType } from '../../app/Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
-
+    
     @Component({
         template: "#filtersTemplate"
     })
@@ -11,7 +11,7 @@
 
         mounted() {
             this.currentDisplayFilters = this.savedfilters;
-            filterService.watchQualificationFilters(this, this.updateDisplay);
+            filterService.watchQualificationFilters(this, this.updateDisplay, false, true);
         }
 
         get savedfilters(): Array<IFilterItem> {
