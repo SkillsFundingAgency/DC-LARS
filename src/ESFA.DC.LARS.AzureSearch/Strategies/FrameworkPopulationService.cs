@@ -64,8 +64,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
                             AwardingBodyCode = fa.LearnAimRefNavigation.AwardOrgCode,
                             Level = fa.LearnAimRefNavigation.NotionalNvqlevelv2,
-                            EffectiveFrom = fa.LearnAimRefNavigation.EffectiveFrom,
-                            EffectiveTo = fa.LearnAimRefNavigation.EffectiveTo,
+                            EffectiveFrom = fa.EffectiveFrom,
+                            EffectiveTo = fa.EffectiveTo,
                             ComponentType = fa.FrameworkComponentType,
                             ComponentTypeDesc = fa.FrameworkComponentType != null ? componentTypes[fa.FrameworkComponentType.Value] : null
                         }).ToList()

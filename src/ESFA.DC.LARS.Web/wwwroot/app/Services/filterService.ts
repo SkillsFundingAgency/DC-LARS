@@ -31,20 +31,22 @@
 
     sortFilters(filters: Array<IFilterItem>): Array<IFilterItem> {
         return filters.sort((f1, f2) => {
-            if (f1.type < f2.type) {
-                return 1;
-            }
-
             if (f1.type > f2.type) {
-                return -1;
-            }
-
-            if (f1.value > f2.value) {
                 return 1;
             }
 
-            if (f1.value < f2.value) {
+            if (f1.type < f2.type) {
                 return -1;
+            }
+
+            if (f1.type === f2.type) {
+                if (f1.value > f2.value) {
+                    return 1;
+                }
+
+                if (f1.value < f2.value) {
+                    return -1;
+                }
             }
 
             return 0;
