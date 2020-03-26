@@ -52,3 +52,22 @@ test('sortFilters should order filters by type then by value', () => {
     expect(result[1].value).toBe('second');
     expect(result[2].value).toBe('third');
 });
+
+test('findFilterItemByType should find filter by type', () => {
+
+    const filters: Array<IFilterItem> = [
+        {
+            key: 'foo',
+            value: 'bar',
+            type: FilterType.Levels
+        },
+        {
+            key: 'found',
+            value: 'find',
+            type: FilterType.AwardingBody
+        }];
+
+    const found = filterService.findFilterItemByType(FilterType.AwardingBody, filters);
+
+    expect(found?.key).toBe('found');
+});
