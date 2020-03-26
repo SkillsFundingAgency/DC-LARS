@@ -25,7 +25,7 @@ class SearchService {
 		return request;
 	}
 
-	private filterValuesForType = (filters: Array<IFilterItem>, type: FilterType): Array<string> => filters.filter(f => f.type === type).map(f => f.key);
+	private filterValuesForType = (filters: Array<IFilterItem>, type: FilterType): Array<string> => filters.filter(f => f.type.toString() === FilterType[type].toString()).map(f => f.key);
 
 	private searchTerm = (): string => (<HTMLInputElement>document.getElementById("autocomplete-overlay")).value;
 

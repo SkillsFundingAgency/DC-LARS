@@ -1,8 +1,8 @@
 ﻿export enum FilterType {
-    AwardingBody = "AwardingBody",
-    Levels = "Levels",
-    FundingStreams = "FundingStreams",
-    TeachingYears = "TeachingYears"
+    AwardingBody,
+    Levels,
+    FundingStreams,
+    TeachingYears
 }
 
 export interface IFilterItem {

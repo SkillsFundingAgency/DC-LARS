@@ -33,17 +33,17 @@ test('sortFilters should order filters by type then by value', () => {
         {
             key: 'test1',
             value: 'third',
-            type: FilterType.TeachingYears
+            type: FilterType.FundingStreams
         },
         {
             key: 'test2',
             value: 'first',
-            type: FilterType.AwardingBody
+            type: FilterType.Levels
         },
         {
             key: 'test3',
             value: 'second',
-            type: FilterType.TeachingYears
+            type: FilterType.FundingStreams
         }];
 
     const result = filterService.sortFilters(filters);
