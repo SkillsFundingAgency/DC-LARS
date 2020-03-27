@@ -2,13 +2,21 @@
 
 <span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
 
-<div id="allFilters">
+<div class="govuk-accordion__controls" style="display: none;" id="accordionButtonContainer">
+    <button type="button" class="govuk-accordion__open-all" aria-expanded="false" id="accordionButton"
+            v-on:click="updateAccordionAll()">
+        Open all
+    </button>
+</div>
+
+<div id="allFilters" class="filter-container">
 
     <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
+           v-on:click="updateAccordion($event.target.id)" id="awardingBodyButton">
             Awarding Body
         </a>
-        <div class="filter-box hidden">
+        <div class="filter-box expanded">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="AwardingBody">
                     @if (Model?.LookUpModel?.AwardingBodyLookups != null)
@@ -30,10 +38,11 @@
     </section>
 
     <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
+           v-on:click="updateAccordion($event.target.id)" id="levelButton">
             Level
         </a>
-        <div class="filter-box hidden">
+        <div class="filter-box expanded">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="Levels">
                     @if (Model?.LookUpModel?.NotionalNvqLevel2Lookups != null)
@@ -55,10 +64,11 @@
     </section>
 
     <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
+           v-on:click="updateAccordion($event.target.id)" id="fundingStreamButton">
             Funding Stream
         </a>
-        <div class="filter-box hidden">
+        <div class="filter-box expanded">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="FundingStreams">
                     @if (Model?.LookUpModel?.ValidityCategoryLookups != null)
@@ -80,15 +90,16 @@
     </section>
 
     <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button">
+        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
+           v-on:click="updateAccordion($event.target.id)" id="teachingYearButton">
             Teaching Year
         </a>
-        <div>
+        <div class="filter-box expanded">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="TeachingYears">
                     @if (Model?.LookUpModel?.AcademicYearLookups != null)
                     {
-                        <select v-on:change="updateSelectFilter($event.target.value, $event.target.options[$event.target.options.selectedIndex].text, 'TeachingYears')" class="govuk-select" name="TeachingYears" >
+                        <select v-on:change="updateSelectFilter($event.target.value, $event.target.options[$event.target.options.selectedIndex].text, 'TeachingYears')" class="govuk-select-filter" name="TeachingYears" id="TeachingYears">
                             @foreach (var year in Model.LookUpModel.AcademicYearLookups)
                             {
                                 @if (Model.SearchModel.TeachingYears.Any(t => t.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase)))
