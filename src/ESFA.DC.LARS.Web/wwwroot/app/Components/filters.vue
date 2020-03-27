@@ -20,7 +20,7 @@
             return [...this.$store.state.qualificationFilters];
         };
 
-        public clearFilters() {
+        public clearFilters() : void {
             this.$store.commit('updateFilters', []);
             this.updateDisplay();
         }
