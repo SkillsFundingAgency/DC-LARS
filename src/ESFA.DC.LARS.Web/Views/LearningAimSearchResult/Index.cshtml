@@ -1,4 +1,4 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsSearchResultsViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -7,7 +7,7 @@
 }
 
 <div id="app">
-    @using (Html.BeginForm("Search", "SearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
+    @using (Html.BeginForm("Search", "LearningAimSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
     {
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">

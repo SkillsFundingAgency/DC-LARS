@@ -15,7 +15,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
         [InlineData("   ")]
         public void ApplyFilter_Returns_Empty_String_For_No_Filter(string searchFilter)
         {
-            var searchModel = new SearchModel
+            var searchModel = new LearningAimsSearchModel
             {
                 FundingStreams = new List<string>
                 {
@@ -33,7 +33,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
         [Fact]
         public void ApplyFilter_Returns_Valid_OData()
         {
-            var searchModel = new SearchModel
+            var searchModel = new LearningAimsSearchModel
             {
                 TeachingYears = new List<string>
                 {
@@ -56,7 +56,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
         [Fact]
         public void ApplyFilter_Multiple_Terms_Returns_Valid_OData()
         {
-            var searchModel = new SearchModel
+            var searchModel = new LearningAimsSearchModel
             {
                 TeachingYears = new List<string>
                 {

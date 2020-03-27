@@ -4,6 +4,8 @@ namespace ESFA.DC.LARS.Web.Interfaces.Services
 {
     public interface ISearchModelFactory
     {
-        SearchModel GetSearchModel(BasicSearchModel basicSearchModel);
+        LearningAimsSearchModel GetLearningAimsSearchModel(BasicSearchModel basicSearchModel);
+
+        FrameworkSearchModel GetFrameworkSearchModel(BasicSearchModel basicSearchModel);
     }
 }

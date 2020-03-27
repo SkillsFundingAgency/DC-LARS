@@ -7,7 +7,7 @@ namespace ESFA.DC.LARS.API.Services.ODataFilters
     {
         protected override string FilterODataString => "Level eq '{0}'";
 
-        public string ApplyFilter(SearchModel searchModel)
+        public string ApplyFilter(LearningAimsSearchModel searchModel)
         {
             return ApplyFilter(searchModel.Levels);
         }

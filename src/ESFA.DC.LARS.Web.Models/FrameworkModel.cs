@@ -13,6 +13,8 @@ namespace ESFA.DC.LARS.Web.Models
 
         public string PathwayName { get; set; }
 
+        public string ProgramTypeName { get; set; }
+
         public string FrameworkTitle { get; set; }
 
         public string IssuingAuthority { get; set; }

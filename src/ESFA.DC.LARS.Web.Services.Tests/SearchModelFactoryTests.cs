@@ -18,7 +18,7 @@ namespace ESFA.DC.LARS.Web.Services.Tests
             };
 
             var factory = new SearchModelFactory();
-            var result = factory.GetSearchModel(basicSearchModel);
+            var result = factory.GetLearningAimsSearchModel(basicSearchModel);
 
             result.SearchTerm.Should().Be(basicSearchModel.SearchTerm);
             result.Levels.Single().Should().Be(basicSearchModel.Level);

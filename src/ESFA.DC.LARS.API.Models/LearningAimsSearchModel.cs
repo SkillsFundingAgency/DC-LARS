@@ -2,19 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ESFA.DC.LARS.Web.Models
+namespace ESFA.DC.LARS.API.Models
 {
     [ExcludeFromCodeCoverage]
-    public class SearchModel
+    public class LearningAimsSearchModel
     {
-        public SearchModel()
-        {
-            AwardingBodies = new List<string>();
-            Levels = new List<string>();
-            TeachingYears = new List<string>();
-            FundingStreams = new List<string>();
-        }
-
         public string SearchTerm { get; set; }
 
         public List<string> AwardingBodies { get; set; }

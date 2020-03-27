@@ -18,9 +18,9 @@ namespace ESFA.DC.LARS.Web.Services.Clients
             _clientService = clientService;
         }
 
-        public async Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel content)
+        public async Task<IEnumerable<LearningAimModel>> GetLearningAims(LearningAimsSearchModel content)
         {
-            var response = await _clientService.PostAsync<SearchModel, IEnumerable<LearningAimModel>>(Url, content);
+            var response = await _clientService.PostAsync<LearningAimsSearchModel, IEnumerable<LearningAimModel>>(Url, content);
 
             return response;
         }

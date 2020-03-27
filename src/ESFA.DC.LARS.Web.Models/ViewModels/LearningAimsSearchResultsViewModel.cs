@@ -2,16 +2,16 @@
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
-    public class SearchResultsViewModel
+    public class LearningAimsSearchResultsViewModel
     {
-        public SearchResultsViewModel()
+        public LearningAimsSearchResultsViewModel()
         {
             ValidationErrors = new List<string>();
         }
 
         public List<string> ValidationErrors { get; set; }
 
-        public SearchModel SearchModel { get; set; }
+        public LearningAimsSearchModel SearchModel { get; set; }
 
         public LookUpModel LookUpModel { get; set; }
 

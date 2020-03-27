@@ -47,7 +47,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 return RedirectToAction("Index", model);
             }
 
-            return RedirectToAction("Index", "SearchResult", searchModel);
+            return RedirectToAction("Index", "LearningAimSearchResult", searchModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

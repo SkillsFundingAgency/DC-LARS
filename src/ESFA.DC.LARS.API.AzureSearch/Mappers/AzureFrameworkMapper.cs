@@ -19,6 +19,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             {
                 FrameworkCode = input.FrameworkCode,
                 ProgramType = input.ProgramType,
+                ProgramTypeName = input.ProgramTypeName,
                 PathwayCode = input.PathwayCode,
                 PathwayName = input.PathwayName,
                 FrameworkTitle = input.FrameworkTitle,

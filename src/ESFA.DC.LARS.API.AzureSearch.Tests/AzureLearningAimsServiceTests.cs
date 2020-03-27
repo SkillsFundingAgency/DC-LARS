@@ -30,7 +30,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 LearnAimRef = learnAimRef
             };
 
-            var searchModel = new SearchModel
+            var searchModel = new LearningAimsSearchModel
             {
                 SearchTerm = learnAimRef
             };

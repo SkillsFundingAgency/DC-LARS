@@ -1,0 +1,43 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
+
+@{
+    var resultsFound = Model?.FrameworkModels != null && Model.FrameworkModels.Any();
+}
+
+<hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+@if (!resultsFound)
+{
+    <li>No results found</li>
+}
+else
+{
+    @foreach (var framework in Model.FrameworkModels)
+    {
+        <li>
+            <h3 class="govuk-!-margin-0">
+                @Html.ActionLink(
+                      framework.FrameworkTitle,
+                      "RedirectToDetails",
+                      new { frameworkCode = framework.FrameworkCode, programType = framework.ProgramType, pathwayCode = framework.PathwayCode },
+                      new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline" })
+            </h3>
+            <div class="flex space-between">
+                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                    <span><strong>Framework code:</strong> @framework.FrameworkCode</span>
+                    <span><strong>Pathway:</strong> @framework.PathwayCode</span>
+                </div>
+                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                    <span><strong>Framework type:</strong> @framework.ProgramTypeName</span>
+                    <span><strong>Issuing authority:</strong> @framework.IssuingAuthorityDesc </span>
+                </div>
+            </div>
+            <div class="flex space-between">
+                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                    <span><strong>Pathway effective from:</strong> @framework.EffectiveFrom?.ToString("dd MMMM yyyy")</span>
+                    <span><strong>Pathway effective to:</strong> @framework.EffectiveTo?.ToString("dd MMMM yyyy")</span>
+                </div>
+            </div>
+        </li>
+    }
+}

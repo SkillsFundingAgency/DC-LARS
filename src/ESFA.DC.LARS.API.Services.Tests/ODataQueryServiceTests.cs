@@ -14,7 +14,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
         [Fact]
         public void SetFilters_Returns_Empty_String_For_No_Filter()
         {
-            var searchModel = new SearchModel();
+            var searchModel = new LearningAimsSearchModel();
 
             var oDataQuery = string.Empty;
 
@@ -40,7 +40,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
         [Fact]
         public void SetFilters_ReturnValid_OData_Query_Single_Level()
         {
-            var searchModel = new SearchModel
+            var searchModel = new LearningAimsSearchModel
             {
                 Levels = new List<string>
                 {
@@ -72,7 +72,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
         [Fact]
         public void SetFilters_ReturnValid_OData_Query_Multiple_Levels()
         {
-            var searchModel = new SearchModel
+            var searchModel = new LearningAimsSearchModel
             {
                 Levels = new List<string>
                 {
@@ -106,7 +106,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
         [Fact]
         public void SetFilters_With_Different_Filters_Returns_Valid_OData_Query()
         {
-            var searchModel = new SearchModel
+            var searchModel = new LearningAimsSearchModel
             {
                 Levels = new List<string>
                 {

@@ -13,7 +13,7 @@ using LearningAimModel = ESFA.DC.LARS.Azure.Models.LearningAimModel;
 
 namespace ESFA.DC.LARS.API.AzureSearch
 {
-    public class AzureLearningAimsService : IAzureLearningAimsService
+    public class AzureLearningAimsService : AzureBaseService, IAzureLearningAimsService
     {
         private readonly ITelemetry _telemetryClient;
         private readonly IMapper<LearningAimModel, Models.LearningAimModel> _mapper;
@@ -35,7 +35,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
             _azureService = azureService;
         }
 
-        public async Task<IEnumerable<Models.LearningAimModel>> GetLarsLearningDeliveries(SearchModel searchModel)
+        public async Task<IEnumerable<Models.LearningAimModel>> GetLarsLearningDeliveries(LearningAimsSearchModel searchModel)
         {
             var parameters = GetDefaultParameters();
 
@@ -102,20 +102,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             return learningAim;
         }
 
-        private void SetFilters(SearchModel searchModel, SearchParameters parameters)
+        private void SetFilters(LearningAimsSearchModel searchModel, SearchParameters parameters)
         {
             _oDataQueryService.SetFilters(searchModel, parameters);
-        }
-
-        private SearchParameters GetDefaultParameters()
-        {
-            return new SearchParameters
-            {
-                QueryType = QueryType.Full,
-                SearchMode = SearchMode.Any,
-                IncludeTotalResultCount = true,
-                Top = 10000
-            };
         }
     }
 }

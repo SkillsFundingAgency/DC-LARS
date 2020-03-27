@@ -7,7 +7,7 @@ import { ISearchResults } from '../Interfaces/ISearchResults';
 class SearchService {
 
 	async getResultsAsync(filters: Array<IFilterItem>): Promise<ISearchResults>{
-		var response = await axios.get<ISearchResults>('../SearchResult/Results', {
+		var response = await axios.get<ISearchResults>('../LearningAimSearchResult/Results', {
 			params: this.createRequest(filters), paramsSerializer: p =>  qs.stringify(p)
 		});
 		return response.data;

@@ -14,7 +14,7 @@ namespace ESFA.DC.LARS.API.Tests
         [Fact]
         public async Task GetLearningAimsAsync_Calls_LearningAimService_GetLearningAims()
         {
-            var searchModel = new SearchModel();
+            var searchModel = new LearningAimsSearchModel();
             var learningAimModels = new List<LearningAimModel>();
 
             var serviceMock = new Mock<ILearningAimService>();

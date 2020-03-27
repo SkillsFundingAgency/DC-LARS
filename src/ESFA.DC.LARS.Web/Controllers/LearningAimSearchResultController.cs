@@ -7,19 +7,18 @@ using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.LARS.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
-    [Route("SearchResult")]
-    public class SearchResultController : Controller
+    [Route("LearningAimSearchResult")]
+    public class LearningAimSearchResultController : Controller
     {
         private readonly ISearchModelFactory _searchModelFactory;
         private readonly ILearningAimsApiService _learningAimsApiService;
         private readonly ILookupApiService _lookupApiService;
         private readonly IClientValidationService _clientValidationService;
 
-        public SearchResultController(
+        public LearningAimSearchResultController(
             ISearchModelFactory searchModelFactory,
             ILearningAimsApiService learningAimsApiService,
             ILookupApiService lookupApiService,
@@ -45,9 +44,9 @@ namespace ESFA.DC.LARS.Web.Controllers
         }
 
         [HttpPost("Search")]
-        public async Task<IActionResult> Search([FromForm]SearchModel searchModel)
+        public async Task<IActionResult> Search([FromForm]LearningAimsSearchModel searchModel)
         {
-            var model = new SearchResultsViewModel();
+            var model = new LearningAimsSearchResultsViewModel();
 
             ValidateSearch(searchModel, model);
             if (model.ValidationErrors.Any())
@@ -63,9 +62,9 @@ namespace ESFA.DC.LARS.Web.Controllers
         }
 
         [HttpGet("Results")]
-        public async Task<IActionResult> Results([FromQuery]SearchModel searchModel)
+        public async Task<IActionResult> Results([FromQuery]LearningAimsSearchModel searchModel)
         {
-            var resultsModel = new SearchResultsViewModel
+            var resultsModel = new LearningAimsSearchResultsViewModel
             {
                 SearchModel = searchModel,
                 LearningAimModels = new List<LearningAimModel>()
@@ -86,11 +85,11 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpGet("ClearFilters")]
         public async Task<IActionResult> ClearFilters(string searchTerm, string academicYear)
         {
-            var model = await PopulateViewModel(null, new SearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear } });
+            var model = await PopulateViewModel(null, new LearningAimsSearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear } });
             return View("Index", model);
         }
 
-        private void ValidateSearch(SearchModel searchModel, SearchResultsViewModel viewModel)
+        private void ValidateSearch(LearningAimsSearchModel searchModel, LearningAimsSearchResultsViewModel viewModel)
         {
             var searchTermError = _clientValidationService.SearchTermLengthValid(searchModel.SearchTerm);
             if (!string.IsNullOrEmpty(searchTermError))
@@ -99,13 +98,13 @@ namespace ESFA.DC.LARS.Web.Controllers
             }
         }
 
-        private async Task<SearchResultsViewModel> PopulateViewModel(
+        private async Task<LearningAimsSearchResultsViewModel> PopulateViewModel(
             BasicSearchModel basicSearchModel = null,
-            SearchModel searchModel = null)
+            LearningAimsSearchModel searchModel = null)
         {
             if (searchModel == null)
             {
-                searchModel = _searchModelFactory.GetSearchModel(basicSearchModel);
+                searchModel = _searchModelFactory.GetLearningAimsSearchModel(basicSearchModel);
             }
 
             var learningAimsTask = _learningAimsApiService.GetLearningAims(searchModel);
@@ -116,7 +115,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             var learningAims = learningAimsTask.Result;
             var lookups = lookupsTask.Result;
 
-            return new SearchResultsViewModel
+            return new LearningAimsSearchResultsViewModel
             {
                 SearchModel = searchModel,
                 LearningAimModels = learningAims,

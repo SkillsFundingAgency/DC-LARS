@@ -19,6 +19,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public string PathwayName { get; set; }
 
+        public string ProgramTypeName { get; set; }
+
         public string IssuingAuthority { get; set; }
 
         public string IssuingAuthorityDesc { get; set; }
