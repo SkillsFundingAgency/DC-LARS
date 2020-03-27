@@ -15,6 +15,6 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public LookUpModel LookUpModel { get; set; }
 
-        public IEnumerable<FrameworkModel> FrameworkModels { get; set; }
+        public List<FrameworkModel> FrameworkModels { get; set; }
     }
 }
