@@ -51,9 +51,17 @@ namespace ESFA.DC.LARS.Web.Controllers
         }
 
         [HttpPost("FrameworkSearch")]
-        public IActionResult FrameworkSearch([FromForm]string frameworkSearchTerm)
+        public IActionResult FrameworkSearch([FromForm]BasicSearchModel searchModel)
         {
-            return RedirectToAction("Index", "Home");
+            var model = new HomeViewModel();
+            ValidateSearch(searchModel, model);
+
+            if (model.ValidationErrors.Any())
+            {
+                return RedirectToAction("Index", model);
+            }
+
+            return RedirectToAction("Index", "FrameworkSearchResult", searchModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
