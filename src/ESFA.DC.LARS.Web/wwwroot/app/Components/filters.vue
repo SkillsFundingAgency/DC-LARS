@@ -20,6 +20,11 @@
             return [...this.$store.state.qualificationFilters];
         };
 
+        public clearFilters() : void {
+            this.$store.commit('updateFilters', []);
+            this.updateDisplay();
+        }
+
         public updateCheckboxFilter(key: string, value: string, isChecked: boolean, type: FilterType): void {
             const filters = this.savedfilters; 
             const actionedFilter: IFilterItem = { key, value, type };
