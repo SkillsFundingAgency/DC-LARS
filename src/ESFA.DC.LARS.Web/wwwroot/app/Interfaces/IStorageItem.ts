@@ -5,5 +5,6 @@ export interface IStorageItem {
     learnAimRef: string;
     learningAimTitle: string;
     learningAimDetailsYear: string;
+    teachingYear: string;
     filters: IFilterItem[];
 }
