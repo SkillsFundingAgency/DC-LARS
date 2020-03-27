@@ -88,7 +88,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             return new FrameworkSearchResultsViewModel
             {
                 SearchModel = searchModel,
-                FrameworkModels = frameworks,
+                FrameworkModels = frameworks.ToList(),
                 LookUpModel = lookups
             };
         }

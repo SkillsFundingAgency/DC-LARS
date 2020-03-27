@@ -31,7 +31,7 @@ namespace ESFA.DC.LARS.Web.Services.Builders
         {
             return new FrameworkSearchResultsViewModel
             {
-                FrameworkModels = frameworkModels.Select(ld => _frameworkMapper.Map(ld))
+                FrameworkModels = frameworkModels.Select(ld => _frameworkMapper.Map(ld)).ToList()
             };
         }
     }
