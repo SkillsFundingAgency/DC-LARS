@@ -36,8 +36,8 @@ namespace ESFA.DC.LARS.Web.Controllers
             return View(model);
         }
 
-        [HttpPost("Search")]
-        public IActionResult Search([FromForm]BasicSearchModel searchModel)
+        [HttpPost("AimSearch")]
+        public IActionResult AimSearch([FromForm]BasicSearchModel searchModel)
         {
             var model = new HomeViewModel();
             ValidateSearch(searchModel, model);
@@ -48,6 +48,12 @@ namespace ESFA.DC.LARS.Web.Controllers
             }
 
             return RedirectToAction("Index", "LearningAimSearchResult", searchModel);
+        }
+
+        [HttpPost("FrameworkSearch")]
+        public IActionResult FrameworkSearch([FromForm]string frameworkSearchTerm)
+        {
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

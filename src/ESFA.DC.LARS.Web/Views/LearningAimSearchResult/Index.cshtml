@@ -85,4 +85,10 @@
             var element = document.getElementById("filtersNoScript");
             element.parentNode.removeChild(element);
     </script>
+    <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
+        var storageService = new StorageService(sessionStorage);
+        var storageItem = { searchTerm: "@Model.SearchModel.SearchTerm", teachingYear: "@academicYear" }
+        storageService.store('sessionData', storageItem);
+    </script>
 }

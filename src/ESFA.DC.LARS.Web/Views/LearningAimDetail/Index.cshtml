@@ -3,6 +3,8 @@
     var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
 }
 
+@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">
@@ -48,8 +50,8 @@
                             "View frameworks",
                             "Index",
                             "Framework",
-                            new {@Model.LearningAimModel.LearnAimRef},
-                            new {@class = "govuk-link govuk-link--no-visited-state"})
+                            new { @Model.LearningAimModel.LearnAimRef },
+                            new { @class = "govuk-link govuk-link--no-visited-state" })
                     </li>
                 }
                 <li>
@@ -80,8 +82,8 @@
                         }
                     </select>
                     <noscript>
-                        <br/>
-                        <input type="submit" value="Update" class="govuk-!-margin-top-4 govuk-button"/>
+                        <br />
+                        <input type="submit" value="Update" class="govuk-!-margin-top-4 govuk-button" />
                     </noscript>
                 }
             </div>
@@ -104,7 +106,7 @@
                     if (validityFundingCategory.Any())
                     {
                         funding = academicYear.Fundings
-                            .FirstOrDefault(f => 
+                            .FirstOrDefault(f =>
                                 validityFundingCategory.Any(vfc => f.FundingCategory.Equals(vfc.FundingCategory, StringComparison.OrdinalIgnoreCase)));
                     }
 
@@ -157,3 +159,22 @@
         }
     </div>
 </div>
+
+@section PageScripts
+{
+    <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
+        import LinkService from '/assets/dist/js/Services/linkService.js';
+
+        var storageService = new StorageService(sessionStorage);
+        var linkService = new LinkService();
+
+        var storageItem = storageService.retrieve('sessionData');
+        storageItem.learnAimRef = "@Model.LearningAimModel.LearnAimRef";
+        storageItem.learningAimTitle = "@Model.LearningAimModel.LearningAimTitle";
+        storageItem.learningAimDetailsYear = "@academicYear";
+        storageService.store('sessionData', storageItem);
+
+        linkService.setLinks();
+    </script>
+}

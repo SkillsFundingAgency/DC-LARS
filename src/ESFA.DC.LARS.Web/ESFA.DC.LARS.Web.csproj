@@ -30,6 +30,7 @@
     <Content Remove="wwwroot\app\search.vue" />
     <Content Remove="wwwroot\app\Services\accordionService.ts" />
     <Content Remove="wwwroot\app\Services\filterService.ts" />
+    <Content Remove="wwwroot\app\Services\linkService.ts" />
     <Content Remove="wwwroot\app\Services\storageService.ts" />
     <Content Remove="wwwroot\app\Services\searchService.ts" />
     <Content Remove="wwwroot\app\store.ts" />
@@ -79,6 +80,7 @@
     <TypeScriptCompile Include="wwwroot\app\main.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\accordionService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\linkService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\storageService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\searchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\store.ts" />
