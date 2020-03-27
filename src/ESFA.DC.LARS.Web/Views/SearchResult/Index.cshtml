@@ -76,6 +76,9 @@
     <script id="filtersTemplate" type="text/x-template">
         <div>
             @await Html.PartialAsync("_SearchFilters", Model)
+            <p>
+                <a v-on:click="clearFilters()" class="govuk-link govuk-link--no-visited-state" href="#">Clear filters</a>
+            </p>
         </div>
     </script>
 
