@@ -1,18 +1,6 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
 
-<div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-        <li class="govuk-breadcrumbs__list-item">
-            <a id="searchResultsLink" class="govuk-breadcrumbs__link">Search Results</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            <a id="learningAimDetailLink" class="govuk-breadcrumbs__link">@Model?.LearningAimModel?.LearningAimTitle</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            Category
-        </li>
-    </ol>
-</div>
+@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -35,9 +23,9 @@
             </thead>
             <tbody class="govuk-table__body">
                 @if (Model != null
-                    && Model.LearningAimModel != null
-                    && Model.LearningAimModel.Categories != null
-                    && Model.LearningAimModel.Categories.Any())
+                   && Model.LearningAimModel != null
+                   && Model.LearningAimModel.Categories != null
+                   && Model.LearningAimModel.Categories.Any())
                 {
                     @foreach (var category in Model.LearningAimModel.Categories)
                     {
@@ -65,15 +53,8 @@
 @section PageScripts
 {
     <script type="module">
-        import StorageService from '/assets/dist/js/Services/storageService.js';
         import LinkService from '/assets/dist/js/Services/linkService.js';
-
-        var storageService = new StorageService(sessionStorage);
         var linkService = new LinkService();
-
-        var storageItem = storageService.retrieve('sessionData');
-
-        linkService.setSearchResultsLink('searchResultsLink', storageItem.searchTerm, storageItem.teachingYear);
-        linkService.setLearningAimDetailLink('learningAimDetailLink', '@Model?.LearningAimModel?.LearnAimRef', storageItem.learningAimDetailsYear);
+        linkService.setLinks();
     </script>
 }

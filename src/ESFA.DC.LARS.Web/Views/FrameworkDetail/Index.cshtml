@@ -1,21 +1,6 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
 
-<div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-        <li class="govuk-breadcrumbs__list-item">
-            <a id="searchResultsLink" class="govuk-breadcrumbs__link">Search Results</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            <a id="learningAimDetailLink" class="govuk-breadcrumbs__link"></a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            <a id="frameworksLink" class="govuk-breadcrumbs__link">Frameworks</a>
-        </li>
-        <li class="govuk-breadcrumbs__list-item">
-            Pathways
-        </li>
-    </ol>
-</div>
+@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -77,17 +62,8 @@
 @section PageScripts
 {
     <script type="module">
-        import StorageService from '/assets/dist/js/Services/storageService.js';
         import LinkService from '/assets/dist/js/Services/linkService.js';
-
-        var storageService = new StorageService(sessionStorage);
         var linkService = new LinkService();
-
-        var storageItem = storageService.retrieve('sessionData');
-
-        linkService.setSearchResultsLink('searchResultsLink', storageItem.searchTerm, storageItem.teachingYear);
-        linkService.setLearningAimDetailLink('learningAimDetailLink', storageItem.learnAimRef, storageItem.learningAimDetailsYear);
-        linkService.setFrameworksLink('frameworksLink', storageItem.learnAimRef);
-        document.getElementById("learningAimDetailLink").innerHTML = storageItem.learningAimTitle;
+        linkService.setLinks();
     </script>
 }
