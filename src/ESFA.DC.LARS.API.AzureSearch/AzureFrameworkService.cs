@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.Azure.Search.Models;
@@ -18,22 +19,27 @@ namespace ESFA.DC.LARS.API.AzureSearch
         private readonly IFrameworkIndexService _frameworkIndexService;
         private readonly IMapper<FrameworkModel, Models.FrameworkModel> _mapper;
         private readonly IAzureService _azureService;
+        private readonly IODataQueryService _oDataQueryService;
 
         public AzureFrameworkService(
             ITelemetry telemetry,
             IFrameworkIndexService frameworkIndexService,
             IMapper<FrameworkModel, Models.FrameworkModel> mapper,
-            IAzureService azureService)
+            IAzureService azureService,
+            IODataQueryService oDataQueryService)
         {
             _telemetry = telemetry;
             _frameworkIndexService = frameworkIndexService;
             _mapper = mapper;
             _azureService = azureService;
+            _oDataQueryService = oDataQueryService;
         }
 
         public async Task<IEnumerable<Models.FrameworkModel>> GetFrameworks(FrameworkSearchModel searchModel)
         {
             var parameters = GetDefaultParameters();
+
+            SetFilters(searchModel, parameters);
 
             var searchTerm = string.Empty;
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
@@ -92,6 +98,11 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
 
             return frameworks;
+        }
+
+        private void SetFilters(FrameworkSearchModel searchModel, SearchParameters parameters)
+        {
+            _oDataQueryService.SetFrameworkFilters(searchModel, parameters);
         }
     }
 }

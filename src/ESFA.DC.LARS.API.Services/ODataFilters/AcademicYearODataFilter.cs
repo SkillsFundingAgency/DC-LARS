@@ -3,7 +3,7 @@ using ESFA.DC.LARS.API.Models;
 
 namespace ESFA.DC.LARS.API.Services.ODataFilters
 {
-    public class AcademicYearODataFilter : BaseFilter, IODataFilter
+    public class AcademicYearODataFilter : BaseFilter, ILearningAimsODataFilter
     {
         protected override string FilterODataString => "AcademicYears/any(ay:ay/AcademicYear eq '{0}')";
 

@@ -19,5 +19,9 @@ namespace ESFA.DC.LARS.Azure.Models
         public IEnumerable<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
 
         public IEnumerable<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
+
+        public IEnumerable<FrameworkTypeLookupModel> FrameworkTypeLookups { get; set; }
+
+        public IEnumerable<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
     }
 }
