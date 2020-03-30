@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.LARS.Web.Configuration;
+using ESFA.DC.LARS.Web.CustomFilters;
 using ESFA.DC.LARS.Web.Extensions;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Modules;
@@ -38,17 +39,13 @@ namespace ESFA.DC.LARS.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(options =>
+                            {
+                                options.Filters.Add(typeof(TelemetryActionFilter));
+                            })
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            var insightOptions = new ApplicationInsightsServiceOptions
-            {
-                // Disables adaptive sampling.
-                EnableAdaptiveSampling = false,
-
-                // Disables QuickPulse (Live Metrics stream).
-                EnableQuickPulseMetricStream = false
-            };
-            services.AddApplicationInsightsTelemetry(insightOptions);
+            services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton<Models.IAppVersionService, AppVersionService>();
 
