@@ -5,34 +5,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-@functions {
-    private void RenderSearchButton(string name)
-    {
-        <button id="@name-search" type="search" class="govuk-button govuk-button--start govuk-!-margin-bottom-0">
-            Search <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
-                <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
-            </svg>
-        </button>
-    }
-
-    private void RenderSearchBox(string name)
-    {
-        <div>
-            <label class="govuk-label" for="@name-input">Search by <strong>name</strong> or <strong>reference number</strong></label>
-            <div class="autocomplete-wrapper" aria-label="Search by name or reference number">
-                <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
-                    <div aria-atomic="true" aria-live="polite" role="status" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
-                        No search results.<span>,,</span>
-                    </div>
-                    <input aria-owns="@name-input__listbox" autocomplete="off" class="autocomplete__input autocomplete__input--default" id="@name-input" name="@name" placeholder="" type="text" role="textbox">
-                    <ul class="autocomplete__menu autocomplete__menu--overlay autocomplete__menu--hidden" id="@name-input__listbox" role="listbox">
-                    </ul>
-                </div>
-            </div>
-        </div>
-    }
-}
-
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">
@@ -65,10 +37,9 @@
                     <h2 class="govuk-heading-l">Search for a qualification</h2>
 
                     <form asp-action="@nameof(HomeController.AimSearch)" class="govuk-form-group" id="aimSearchForm">
-                        @{
-                            RenderSearchBox("searchTerm");
-                        }
-                        <br />
+
+                        @await Html.PartialAsync("_SearchBar", "searchTerm")
+                        <br>
 
                         <div class="flex space-between">
                             <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-1">
@@ -113,9 +84,7 @@
                             </div>
                         </div>
                         <br />
-                        @{
-                            RenderSearchButton("qualifications");
-                        }
+                        @await Html.PartialAsync("_SearchButton", "qualifications")
                     </form>
                 </div>
             </div>
@@ -126,13 +95,9 @@
                     <h2 class="govuk-heading-l">Search for a framework</h2>
 
                     <form asp-action="@nameof(HomeController.FrameworkSearch)" class="govuk-form-group" id="frameworkForm">
-                        @{
-                            RenderSearchBox("frameworkSearchTerm");
-                        }
+                        @await Html.PartialAsync("_SearchBar", "frameworkSearchTerm")
                         <br />
-                        @{
-                            RenderSearchButton("frameworks");
-                        }
+                        @await Html.PartialAsync("_SearchButton", "frameworks")
                     </form>
                 </div>
             </div>
