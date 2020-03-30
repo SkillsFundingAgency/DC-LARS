@@ -18,5 +18,10 @@ namespace ESFA.DC.LARS.API.Models
         public List<string> FundingStreams { get; set; }
 
         public DateTime? LastDataForNewStarters { get; set; }
+
+        public override string ToString()
+        {
+            return $" SearchTerm : {SearchTerm} | TeachingYears : {TeachingYears} | AwardingBodies : {AwardingBodies}| Levels : {Levels}";
+        }
     }
 }
