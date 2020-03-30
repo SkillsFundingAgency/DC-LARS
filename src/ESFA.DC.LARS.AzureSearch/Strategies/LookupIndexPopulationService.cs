@@ -2,7 +2,6 @@
 using System.Linq;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
-using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 
@@ -69,6 +68,18 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             FundingCategory = fm.FundingCategory,
                             EffectiveFrom = fm.EffectiveFrom,
                             EffectiveTo = fm.EffectiveTo
+                        }).ToList(),
+                    FrameworkTypeLookups = context.LarsProgTypeLookups
+                        .Select(ft => new FrameworkTypeLookupModel
+                        {
+                            FrameworkType = ft.ProgType.ToString(),
+                            FrameworkTypeDesc = ft.ProgTypeDesc
+                        }).ToList(),
+                    IssuingAuthorityLookups = context.LarsIssuingAuthorityLookups
+                        .Select(ia => new IssuingAuthorityLookupModel
+                        {
+                            IssuingAuthority = ia.IssuingAuthority.ToString(),
+                            IssuingAuthorityDesc = ia.IssuingAuthorityDesc
                         }).ToList()
                 };
             }

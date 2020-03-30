@@ -42,10 +42,13 @@ namespace ESFA.DC.LARS.API.Modules
 
             builder.RegisterType<SearchCleaningService>().As<ISearchCleaningService>();
 
-            builder.RegisterType<LevelODataFilter>().As<IODataFilter>();
-            builder.RegisterType<AwardingBodyODataFilter>().As<IODataFilter>();
-            builder.RegisterType<AcademicYearODataFilter>().As<IODataFilter>();
-            builder.RegisterType<FundingStreamODataFilter>().As<IODataFilter>();
+            builder.RegisterType<LevelODataFilter>().As<ILearningAimsODataFilter>();
+            builder.RegisterType<AwardingBodyODataFilter>().As<ILearningAimsODataFilter>();
+            builder.RegisterType<AcademicYearODataFilter>().As<ILearningAimsODataFilter>();
+            builder.RegisterType<FundingStreamODataFilter>().As<ILearningAimsODataFilter>();
+
+            builder.RegisterType<FrameworkTypeODataFilter>().As<IFrameworkODataFilter>();
+            builder.RegisterType<IssuingAuthorityODataFilter>().As<IFrameworkODataFilter>();
 
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             builder.RegisterType<AzureLearningAimFrameworkMapper>().As<IMapper<LearningAimFrameworkModel, Models.LearningAimFrameworkModel>>();
@@ -60,6 +63,8 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureLookupMapper>().As<IMapper<LookUpModel, Models.LookUpModel>>();
             builder.RegisterType<AzureValidityCategoryLookupMapper>().As<IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel>>();
             builder.RegisterType<AzureValidityFundingMappingLookupMapper>().As<IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel>>();
+            builder.RegisterType<AzureFrameworkTypeLookupMapper>().As<IMapper<FrameworkTypeLookupModel, Models.FrameworkTypeLookupModel>>();
+            builder.RegisterType<AzureIssuingAuthorityLookupMapper>().As<IMapper<IssuingAuthorityLookupModel, Models.IssuingAuthorityLookupModel>>();
 
             builder.RegisterType<AzureFrameworkMapper>().As<IMapper<FrameworkModel, Models.FrameworkModel>>();
             builder.RegisterType<AzureFrameworkAimMapper>().As<IMapper<FrameworkAimModel, Models.FrameworkAimModel>>();
