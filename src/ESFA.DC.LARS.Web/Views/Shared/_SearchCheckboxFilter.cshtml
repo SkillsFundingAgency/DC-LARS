@@ -12,8 +12,8 @@
                 {
                     <div class="govuk-checkboxes__item left-margin">
                         <input class="govuk-checkboxes__input"
-                                id="@Model.Name-@filterItem" name="@Model.Name" type="checkbox" value="@filterItem.Value" checked="@Model.SelectedFilters.Any(l => l.Equals(filterItem.Value, StringComparison.OrdinalIgnoreCase))" />
-                        <label class="govuk-label govuk-checkboxes__label" for="@Model.Name-@filterItem.Value">
+                                id="@($"{Model.Name}-{filterItem.Value}")" name="@Model.Name" type="checkbox" value="@filterItem.Value" checked="@Model.SelectedFilters.Any(l => l.Equals(filterItem.Value, StringComparison.OrdinalIgnoreCase))" />
+                        <label class="govuk-label govuk-checkboxes__label" for="@($"{Model.Name}-{filterItem.Value}")">
                             @filterItem.Description
                         </label>
                     </div>
