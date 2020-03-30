@@ -7,7 +7,7 @@ namespace ESFA.DC.LARS.API.Services.ODataFilters
     {
         protected override string FilterODataString => "AwardingBodyCode eq '{0}' or AwardingBodyName eq '{0}'";
 
-        public string ApplyFilter(SearchModel searchModel)
+        public string ApplyFilter(LearningAimsSearchModel searchModel)
         {
             return ApplyFilter(searchModel.AwardingBodies);
         }

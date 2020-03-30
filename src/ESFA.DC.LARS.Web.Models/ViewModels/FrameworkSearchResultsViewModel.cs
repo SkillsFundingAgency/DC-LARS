@@ -2,19 +2,19 @@
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
-    public class SearchResultsViewModel
+    public class FrameworkSearchResultsViewModel
     {
-        public SearchResultsViewModel()
+        public FrameworkSearchResultsViewModel()
         {
             ValidationErrors = new List<string>();
         }
 
         public List<string> ValidationErrors { get; set; }
 
-        public SearchModel SearchModel { get; set; }
+        public FrameworkSearchModel SearchModel { get; set; }
 
         public LookUpModel LookUpModel { get; set; }
 
-        public IEnumerable<LearningAimModel> LearningAimModels { get; set; }
+        public List<FrameworkModel> FrameworkModels { get; set; }
     }
 }

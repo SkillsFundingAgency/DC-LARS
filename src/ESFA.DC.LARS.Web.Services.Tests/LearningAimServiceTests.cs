@@ -17,19 +17,19 @@ namespace ESFA.DC.LARS.Web.Services.Tests
         public async Task GetLearningAimsCallsClientServicePost()
         {
             var url = "LearningAims";
-            var searchModel = SearchModelFactory.CreateSearchModel();
+            var searchModel = SearchModelFactory.CreateLearningAimsSearchModel();
 
             var learningAims = new List<LearningAimModel> { LearningAimFactory.GetLearningAim() };
 
             var clientServiceMock = new Mock<IClientService>();
             clientServiceMock
-                .Setup(m => m.PostAsync<SearchModel, IEnumerable<LearningAimModel>>(url, searchModel))
+                .Setup(m => m.PostAsync<LearningAimsSearchModel, IEnumerable<LearningAimModel>>(url, searchModel))
                 .ReturnsAsync(learningAims);
 
             var sut = new LearningAimsApiService(clientServiceMock.Object);
             var result = (await sut.GetLearningAims(searchModel)).ToList();
 
-            clientServiceMock.Verify(m => m.PostAsync<SearchModel, IEnumerable<LearningAimModel>>(url, searchModel), Times.Once);
+            clientServiceMock.Verify(m => m.PostAsync<LearningAimsSearchModel, IEnumerable<LearningAimModel>>(url, searchModel), Times.Once);
 
             result.Should().BeEquivalentTo(learningAims);
         }

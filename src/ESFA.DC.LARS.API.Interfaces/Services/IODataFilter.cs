@@ -4,6 +4,6 @@ namespace ESFA.DC.LARS.API.Interfaces.Services
 {
     public interface IODataFilter
     {
-        string ApplyFilter(SearchModel searchModel);
+        string ApplyFilter(LearningAimsSearchModel searchModel);
     }
 }

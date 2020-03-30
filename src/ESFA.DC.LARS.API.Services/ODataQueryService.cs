@@ -16,7 +16,7 @@ namespace ESFA.DC.LARS.API.Services
             _odataFilters = odataFilters;
         }
 
-        public void SetFilters(SearchModel searchModel, SearchParameters parameters)
+        public void SetFilters(LearningAimsSearchModel searchModel, SearchParameters parameters)
         {
             var odataQuery = new StringBuilder();
 

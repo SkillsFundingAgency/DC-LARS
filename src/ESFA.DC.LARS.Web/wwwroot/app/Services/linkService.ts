@@ -16,7 +16,7 @@ export default class LinkService {
         const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.href = `/SearchResult?SearchTerm=${searchTerm}&TeachingYear=${teachingYear}`;
+            anchor.href = `/LearningAimSearchResult?SearchTerm=${searchTerm}&TeachingYear=${teachingYear}`;
         }
     }
 

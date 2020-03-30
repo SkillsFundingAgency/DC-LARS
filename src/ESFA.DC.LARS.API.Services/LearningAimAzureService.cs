@@ -21,7 +21,7 @@ namespace ESFA.DC.LARS.API.Services
             _searchCleaningService = searchCleaningService;
         }
 
-        public Task<IEnumerable<LearningAimModel>> GetLearningAims(SearchModel searchParameters)
+        public Task<IEnumerable<LearningAimModel>> GetLearningAims(LearningAimsSearchModel searchParameters)
         {
             searchParameters.SearchTerm = _searchCleaningService.EscapeSearchSpecialCharacters(searchParameters.SearchTerm);
             searchParameters.FundingStreams = CleanFilter(searchParameters.FundingStreams);

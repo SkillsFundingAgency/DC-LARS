@@ -5,6 +5,6 @@ namespace ESFA.DC.LARS.API.Interfaces.Services
 {
     public interface IODataQueryService
     {
-        void SetFilters(SearchModel searchModel, SearchParameters parameters);
+        void SetFilters(LearningAimsSearchModel searchModel, SearchParameters parameters);
     }
 }

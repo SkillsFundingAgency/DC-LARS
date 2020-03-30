@@ -43,7 +43,7 @@ namespace ESFA.DC.LARS.Web.Services.Tests
                 .ReturnsAsync(framework);
 
             var service = new FrameworkApiService(clientServiceMock.Object);
-            var result = await service.GetLearningAim(frameworkCode, programType, pathwayCode);
+            var result = await service.GetFramework(frameworkCode, programType, pathwayCode);
 
             clientServiceMock.Verify(m => m.GetAsync<FrameworkModel>(Url, parameters), Times.Once);
 

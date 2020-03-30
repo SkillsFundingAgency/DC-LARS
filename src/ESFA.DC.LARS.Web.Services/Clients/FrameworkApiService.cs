@@ -19,7 +19,7 @@ namespace ESFA.DC.LARS.Web.Services.Clients
             _clientService = clientService;
         }
 
-        public async Task<FrameworkModel> GetLearningAim(int frameworkCode, int programType, int pathwayCode)
+        public async Task<FrameworkModel> GetFramework(int frameworkCode, int programType, int pathwayCode)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -29,6 +29,13 @@ namespace ESFA.DC.LARS.Web.Services.Clients
             };
 
             var response = await _clientService.GetAsync<FrameworkModel>(Url, parameters);
+
+            return response;
+        }
+
+        public async Task<IEnumerable<FrameworkModel>> GetFrameworks(FrameworkSearchModel content)
+        {
+            var response = await _clientService.PostAsync<FrameworkSearchModel, IEnumerable<FrameworkModel>>(Url, content);
 
             return response;
         }

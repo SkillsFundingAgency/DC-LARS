@@ -5,9 +5,9 @@ namespace ESFA.DC.LARS.Web.Services.Factories
 {
     public class SearchModelFactory : ISearchModelFactory
     {
-        public SearchModel GetSearchModel(BasicSearchModel basicSearchModel)
+        public LearningAimsSearchModel GetLearningAimsSearchModel(BasicSearchModel basicSearchModel)
         {
-            var searchModel = new SearchModel();
+            var searchModel = new LearningAimsSearchModel();
 
             if (!string.IsNullOrEmpty(basicSearchModel.SearchTerm))
             {
@@ -27,6 +27,18 @@ namespace ESFA.DC.LARS.Web.Services.Factories
             if (!string.IsNullOrEmpty(basicSearchModel.TeachingYear))
             {
                 searchModel.TeachingYears.Add(basicSearchModel.TeachingYear);
+            }
+
+            return searchModel;
+        }
+
+        public FrameworkSearchModel GetFrameworkSearchModel(BasicSearchModel basicSearchModel)
+        {
+            var searchModel = new FrameworkSearchModel();
+
+            if (!string.IsNullOrEmpty(basicSearchModel.SearchTerm))
+            {
+                searchModel.SearchTerm = basicSearchModel.SearchTerm;
             }
 
             return searchModel;

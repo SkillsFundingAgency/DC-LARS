@@ -5,6 +5,8 @@ namespace ESFA.DC.LARS.Web.Interfaces.Services
 {
     public interface ISearchResultsBuilder
     {
-        SearchResultsViewModel BuildSearchResultsViewModel(IEnumerable<API.Models.LearningAimModel> learningAimModels);
+        LearningAimsSearchResultsViewModel BuildLearningAimsSearchResultsViewModel(IEnumerable<API.Models.LearningAimModel> learningAimModels);
+
+        FrameworkSearchResultsViewModel BuildLearningAimsSearchResultsViewModel(IEnumerable<API.Models.FrameworkModel> frameworkModels);
     }
 }

@@ -22,6 +22,8 @@ namespace ESFA.DC.LARS.Web.Modules
             containerBuilder.RegisterType<ClientValidationService>().As<IClientValidationService>();
 
             containerBuilder.RegisterType<LearningAimMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
+            containerBuilder.RegisterType<FrameworkMapper>().As<IMapper<FrameworkModel, Models.FrameworkModel>>();
+
             containerBuilder.RegisterType<SearchResultsBuilder>().As<ISearchResultsBuilder>();
 
             containerBuilder.RegisterType<SearchModelFactory>().As<ISearchModelFactory>();

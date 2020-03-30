@@ -18,7 +18,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         [Route("{frameworkCode}/{programType}/{pathwayCode}")]
         public async Task<IActionResult> Index(int frameworkCode, int programType, int pathwayCode)
         {
-            var framework = await _frameworkApiService.GetLearningAim(frameworkCode, programType, pathwayCode);
+            var framework = await _frameworkApiService.GetFramework(frameworkCode, programType, pathwayCode);
 
             var model = new FrameworkDetailViewModel
             {

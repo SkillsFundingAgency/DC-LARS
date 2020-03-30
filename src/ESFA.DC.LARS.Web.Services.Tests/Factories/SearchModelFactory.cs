@@ -6,9 +6,9 @@ namespace ESFA.DC.LARS.Web.Services.Tests.Factories
 {
     public class SearchModelFactory
     {
-        public static SearchModel CreateSearchModel()
+        public static LearningAimsSearchModel CreateLearningAimsSearchModel()
         {
-            return new SearchModel
+            return new LearningAimsSearchModel
             {
                 SearchTerm = "maths",
                 AwardingBodies = new List<string> { "test", "another" },

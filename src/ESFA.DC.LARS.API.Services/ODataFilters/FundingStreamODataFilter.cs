@@ -9,7 +9,7 @@ namespace ESFA.DC.LARS.API.Services.ODataFilters
     {
         private static string FilterODataString => "AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{0}') and ay/AcademicYear eq '{1}')";
 
-        public string ApplyFilter(SearchModel searchModel)
+        public string ApplyFilter(LearningAimsSearchModel searchModel)
         {
             var searchFilter = searchModel.FundingStreams;
 
