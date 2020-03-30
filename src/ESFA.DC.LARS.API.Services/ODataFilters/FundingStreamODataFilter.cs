@@ -5,7 +5,7 @@ using ESFA.DC.LARS.API.Models;
 
 namespace ESFA.DC.LARS.API.Services.ODataFilters
 {
-    public class FundingStreamODataFilter : IODataFilter
+    public class FundingStreamODataFilter : ILearningAimsODataFilter
     {
         private static string FilterODataString => "AcademicYears/any(ay:ay/Validities/any(v:v/ValidityCategory eq '{0}') and ay/AcademicYear eq '{1}')";
 

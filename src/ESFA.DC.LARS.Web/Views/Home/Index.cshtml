@@ -95,7 +95,7 @@
                     <h2 class="govuk-heading-l">Search for a framework</h2>
 
                     <form asp-action="@nameof(HomeController.FrameworkSearch)" class="govuk-form-group" id="frameworkForm">
-                        @await Html.PartialAsync("_SearchBar", "frameworkSearchTerm")
+                        @await Html.PartialAsync("_SearchBar", "searchTerm")
                         <br />
                         @await Html.PartialAsync("_SearchButton", "frameworks")
                     </form>

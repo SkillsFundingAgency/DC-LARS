@@ -15,5 +15,9 @@ namespace ESFA.DC.LARS.API.Models
         public List<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
 
         public List<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
+
+        public IEnumerable<FrameworkTypeLookupModel> FrameworkTypeLookups { get; set; }
+
+        public IEnumerable<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
     }
 }

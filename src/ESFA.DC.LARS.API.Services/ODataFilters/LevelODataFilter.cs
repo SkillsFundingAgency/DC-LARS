@@ -3,7 +3,7 @@ using ESFA.DC.LARS.API.Models;
 
 namespace ESFA.DC.LARS.API.Services.ODataFilters
 {
-    public class LevelODataFilter : BaseFilter, IODataFilter
+    public class LevelODataFilter : BaseFilter, ILearningAimsODataFilter
     {
         protected override string FilterODataString => "Level eq '{0}'";
 

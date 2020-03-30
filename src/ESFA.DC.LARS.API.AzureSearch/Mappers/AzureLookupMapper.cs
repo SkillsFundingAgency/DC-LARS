@@ -11,19 +11,25 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
         private readonly IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel> _mappingMapper;
         private readonly IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel> _validityMapper;
         private readonly IMapper<AwardingBodyLookupModel, Models.AwardingBodyLookupModel> _awardingBodyMapper;
+        private readonly IMapper<FrameworkTypeLookupModel, Models.FrameworkTypeLookupModel> _frameworkTypeMapper;
+        private readonly IMapper<IssuingAuthorityLookupModel, Models.IssuingAuthorityLookupModel> _issuingAuthorityMapper;
 
         public AzureLookupMapper(
             IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel> yearMapper,
             IMapper<NotionalNVQLevel2LookupModel, Models.NotionalNVQLevel2Model> nvqMapper,
             IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel> mappingMapper,
             IMapper<ValidityCategoryLookupModel, Models.ValidityCategoryLookupModel> validityMapper,
-            IMapper<AwardingBodyLookupModel, Models.AwardingBodyLookupModel> awardingBodyMapper)
+            IMapper<AwardingBodyLookupModel, Models.AwardingBodyLookupModel> awardingBodyMapper,
+            IMapper<FrameworkTypeLookupModel, Models.FrameworkTypeLookupModel> frameworkTypeMapper,
+            IMapper<IssuingAuthorityLookupModel, Models.IssuingAuthorityLookupModel> issuingAuthorityMapper)
         {
             _yearMapper = yearMapper;
             _nvqMapper = nvqMapper;
             _mappingMapper = mappingMapper;
             _validityMapper = validityMapper;
             _awardingBodyMapper = awardingBodyMapper;
+            _frameworkTypeMapper = frameworkTypeMapper;
+            _issuingAuthorityMapper = issuingAuthorityMapper;
         }
 
         public Models.LookUpModel Map(LookUpModel input)
@@ -35,7 +41,9 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 NotionalNvqLevel2Lookups = input.NotionalNvqLevel2Lookups?.Select(_nvqMapper.Map).ToList(),
                 ValidityCategoryLookups = input.ValidityCategoryLookups?.Select(_validityMapper.Map).ToList(),
                 ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map).ToList(),
-                AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map).ToList()
+                AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map).ToList(),
+                FrameworkTypeLookups = input.FrameworkTypeLookups?.Select(_frameworkTypeMapper.Map).ToList(),
+                IssuingAuthorityLookups = input.IssuingAuthorityLookups?.Select(_issuingAuthorityMapper.Map).ToList()
             };
         }
     }

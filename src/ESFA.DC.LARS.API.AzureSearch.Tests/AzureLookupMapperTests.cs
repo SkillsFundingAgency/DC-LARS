@@ -39,6 +39,16 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .Setup(m => m.Map(It.IsAny<AwardingBodyLookupModel>()))
                 .Returns(new Models.AwardingBodyLookupModel());
 
+            var frameworkTypeMapperMock = new Mock<IMapper<FrameworkTypeLookupModel, Models.FrameworkTypeLookupModel>>();
+            frameworkTypeMapperMock
+                .Setup(m => m.Map(It.IsAny<FrameworkTypeLookupModel>()))
+                .Returns(new Models.FrameworkTypeLookupModel());
+
+            var issuingAuthorityMapperMock = new Mock<IMapper<IssuingAuthorityLookupModel, Models.IssuingAuthorityLookupModel>>();
+            issuingAuthorityMapperMock
+                .Setup(m => m.Map(It.IsAny<IssuingAuthorityLookupModel>()))
+                .Returns(new Models.IssuingAuthorityLookupModel());
+
             var model = new LookUpModel
             {
                 LookUpKey = "1",
@@ -61,6 +71,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 AwardingBodyLookups = new List<AwardingBodyLookupModel>
                 {
                     new AwardingBodyLookupModel()
+                },
+                FrameworkTypeLookups = new List<FrameworkTypeLookupModel>
+                {
+                    new FrameworkTypeLookupModel()
+                },
+                IssuingAuthorityLookups = new List<IssuingAuthorityLookupModel>
+                {
+                    new IssuingAuthorityLookupModel()
                 }
             };
 
@@ -69,7 +87,9 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 nvqMapperMock.Object,
                 mappingMapperMock.Object,
                 validityMapperMock.Object,
-                awardingBodyMapperMock.Object);
+                awardingBodyMapperMock.Object,
+                frameworkTypeMapperMock.Object,
+                issuingAuthorityMapperMock.Object);
             var result = mapper.Map(model);
 
             result.LookUpKey.Should().Be(model.LookUpKey);
@@ -78,6 +98,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.AwardingBodyLookups.Should().HaveCount(model.AwardingBodyLookups.Count());
             result.ValidityCategoryLookups.Should().HaveCount(model.ValidityCategoryLookups.Count());
             result.ValidityFundingMappingLookups.Should().HaveCount(model.ValidityFundingMappingLookups.Count());
+            result.FrameworkTypeLookups.Should().HaveCount(model.FrameworkTypeLookups.Count());
+            result.IssuingAuthorityLookups.Should().HaveCount(model.IssuingAuthorityLookups.Count());
         }
     }
 }

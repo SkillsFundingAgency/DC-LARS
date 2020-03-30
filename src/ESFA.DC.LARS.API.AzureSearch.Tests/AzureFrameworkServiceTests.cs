@@ -2,6 +2,7 @@
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using FluentAssertions;
@@ -46,11 +47,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .Setup(m => m.GetAsync<FrameworkModel>(It.IsAny<IFrameworkIndexService>(), key))
                 .ReturnsAsync(azureFramework);
 
+            var queryServiceMock = new Mock<IODataQueryService>();
+
             var service = new AzureFrameworkService(
                 telemetryMock.Object,
                 indexServiceMock.Object,
                 mapperMock.Object,
-                azureServiceMock.Object);
+                azureServiceMock.Object,
+                queryServiceMock.Object);
 
             var result = await service.GetFramework(frameworkCode, programType, pathwayCode);
 
