@@ -98,16 +98,17 @@
             <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
                 @foreach (var category in academicYear.Validities)
                 {
-                    FundingModel funding = null;
+                    var fundings = new List<FundingModel>();
 
                     var validityFundingCategory = Model.LookUpModel.ValidityFundingMappingLookups
                         .Where(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase))
                         .ToList();
                     if (validityFundingCategory.Any())
                     {
-                        funding = academicYear.Fundings
-                            .FirstOrDefault(f =>
-                                validityFundingCategory.Any(vfc => f.FundingCategory.Equals(vfc.FundingCategory, StringComparison.OrdinalIgnoreCase)));
+                        fundings = academicYear.Fundings
+                            .Where(f =>
+                                validityFundingCategory.Any(vfc => f.FundingCategory.Equals(vfc.FundingCategory, StringComparison.OrdinalIgnoreCase)))
+                            .ToList();
                     }
 
                     <div class="govuk-accordion__section">
@@ -129,7 +130,7 @@
                             <p> <strong>Course Validity:</strong> </p>
                             <p> <strong> From:</strong> @category.StartDate.ToString("dd MMMM yyyy") <strong>to</strong> @category.EndDate?.ToString("dd MMMM yyyy")</p>
 
-                            @if (funding != null)
+                            @foreach (var funding in fundings)
                             {
                                 <ul class="govuk-list">
                                     <li>
