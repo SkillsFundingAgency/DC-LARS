@@ -30,9 +30,19 @@
 
 
     <div class="govuk-grid-row govuk-!-margin-top-6">
+        <div class="govuk-grid-column-one-third">
+            @await Html.PartialAsync("_SearchFilters", Model)
+
+            <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+
+            @Html.ActionLink(
+            "Clear Filters",
+            "ClearFilters",
+            new { searchTerm = Model.SearchModel.SearchTerm },
+            new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
+        </div>
 
         <div class="govuk-grid-column-two-thirds">
-
             <ul id="resultList" class="govuk-list">
                 
                 <p class="govuk-body flex space-between">
@@ -42,9 +52,7 @@
                 <div ref="Results">
                     @await Html.PartialAsync("_SearchResults", Model)
                 </div>
-
             </ul>
-
         </div>
     </div>
 }
