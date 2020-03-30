@@ -6,8 +6,8 @@ namespace ESFA.DC.LARS.Web.Models
     {
         public string SearchTerm { get; set; }
 
-        public List<string> FrameworkTypes { get; set; }
+        public List<string> FrameworkTypes { get; set; } = new List<string>();
 
-        public List<string> IssuingAuthorities { get; set; }
+        public List<string> IssuingAuthorities { get; set; } = new List<string>();
     }
 }

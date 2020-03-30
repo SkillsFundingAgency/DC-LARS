@@ -59,6 +59,13 @@ namespace ESFA.DC.LARS.Web.Controllers
             return RedirectToAction("Index", "FrameworkDetail", new { frameworkCode, programType, pathwayCode });
         }
 
+        [HttpGet("ClearFilters")]
+        public async Task<IActionResult> ClearFilters(string searchTerm)
+        {
+            var model = await PopulateViewModel(null, new FrameworkSearchModel { SearchTerm = searchTerm });
+            return View("Index", model);
+        }
+
         private void ValidateSearch(FrameworkSearchModel searchModel, FrameworkSearchResultsViewModel viewModel)
         {
             var searchTermError = _clientValidationService.SearchTermLengthValid(searchModel.SearchTerm);
