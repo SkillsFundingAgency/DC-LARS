@@ -45,7 +45,7 @@
                     @Html.ActionLink(
                     "Clear Filters",
                     "ClearFilters",
-                    new { searchTerm = Model.SearchModel.SearchTerm },
+                    new { searchTerm = Model.SearchModel.SearchTerm, academicYear = academicYear},
                     new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
                 </noscript>
                 <filters></filters>
