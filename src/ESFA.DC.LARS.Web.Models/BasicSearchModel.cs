@@ -16,7 +16,7 @@ namespace ESFA.DC.LARS.Web.Models
         //////Used by Application Insight Customer Filter to capture values passed in.
         public override string ToString()
         {
-            return $" SearchTerm : {SearchTerm} | TeachingYear : {TeachingYear} | AwardingBody : {AwardingBody}| Level : {Level}";
+            return $"SearchTerm : {SearchTerm} | TeachingYear : {TeachingYear} | AwardingBody : {AwardingBody}| Level : {Level}";
         }
     }
 }

@@ -19,8 +19,6 @@ namespace ESFA.DC.LARS.Web.CustomFilters
             var telemetryArgs = new Dictionary<string, string>();
             foreach (var arg in context.ActionArguments)
             {
-                //var argValue = arg.Value;
-                //var x1 = argValue.ToString();
                 telemetryArgs.Add(arg.Key, arg.Value.ToString());
             }
 
