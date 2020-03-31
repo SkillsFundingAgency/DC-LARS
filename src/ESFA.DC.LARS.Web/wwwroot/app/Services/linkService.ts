@@ -18,7 +18,7 @@ export default class LinkService {
         const anchor = document.getElementById("breadcrumbs") as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.style.visibility = "visible";
+            anchor.removeAttribute("style");
         }
     }
 
