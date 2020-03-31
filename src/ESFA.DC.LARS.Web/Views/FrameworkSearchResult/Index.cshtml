@@ -1,5 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
 
+@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+
 @using (Html.BeginForm("Search", "FrameworkSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
 {
     <div class="govuk-grid-row">
@@ -44,7 +46,7 @@
 
         <div class="govuk-grid-column-two-thirds">
             <ul id="resultList" class="govuk-list">
-                
+
                 <p class="govuk-body flex space-between">
                     <span ref="ResultsCount">@Model.FrameworkModels.Count() results</span>
                 </p>
@@ -55,4 +57,13 @@
             </ul>
         </div>
     </div>
+}
+
+@section PageScripts
+{
+    <script type="module">
+        import LinkService from '/assets/dist/js/Services/linkService.js';
+        var linkService = new LinkService();
+        linkService.setLinks();
+    </script>
 }
