@@ -12,5 +12,11 @@ namespace ESFA.DC.LARS.Web.Models
         public string Level { get; set; }
 
         public string TeachingYear { get; set; }
+
+        //////Used by Application Insight Customer Filter to capture values passed in.
+        public override string ToString()
+        {
+            return $"SearchTerm : {SearchTerm} | TeachingYear : {TeachingYear} | AwardingBody : {AwardingBody} | Level : {Level}";
+        }
     }
 }

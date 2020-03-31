@@ -3,6 +3,7 @@ using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.LARS.API.Configuration;
+using ESFA.DC.LARS.API.CustomFilters;
 using ESFA.DC.LARS.API.Extensions;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Modules;
@@ -32,7 +33,11 @@ namespace ESFA.DC.LARS.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc(options =>
+                    {
+                        options.Filters.Add(typeof(TelemetryActionFilter));
+                    })
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddApiVersioning(options =>
             {
@@ -49,15 +54,7 @@ namespace ESFA.DC.LARS.API
                 options.SubstituteApiVersionInUrl = true;
             });
 
-            var insightOptions = new ApplicationInsightsServiceOptions
-            {
-                // Disables adaptive sampling.
-                EnableAdaptiveSampling = false,
-
-                // Disables QuickPulse (Live Metrics stream).
-                EnableQuickPulseMetricStream = false
-            };
-            services.AddApplicationInsightsTelemetry(insightOptions);
+            services.AddApplicationInsightsTelemetry();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
