@@ -1,0 +1,13 @@
+[
+  {
+    "outputFileName": "wwwroot/assets/dist/minified/govuk/all.min.js",
+    "inputFiles": [
+      "wwwroot/assets/dist/govuk/js/all.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  }
+]
