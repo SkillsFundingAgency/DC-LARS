@@ -7,9 +7,27 @@ export default class LinkService {
         const storageService = new StorageService(sessionStorage);
         const storageItem = storageService.retrieve('sessionData') as IStorageItem;
 
+        this.renderBreadcrumbs();
+        this.setHomeLink();
         this.setSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear);
         this.setLearningAimDetailLink(storageItem.learnAimRef, storageItem.learningAimDetailsYear);
         this.setFrameworksLink(storageItem.learnAimRef, storageItem.learningAimTitle);
+    }
+
+    private renderBreadcrumbs() {
+        const anchor = document.getElementById("breadcrumbs") as HTMLAnchorElement;
+
+        if (anchor != null) {
+            anchor.style.visibility = "visible";
+        }
+    }
+
+    private setHomeLink() {
+        const anchor = document.getElementById("homeLink") as HTMLAnchorElement;
+
+        if (anchor != null) {
+            anchor.href = `/`;
+        }
     }
 
     private setSearchResultsLink(searchTerm: string, teachingYear: string) {

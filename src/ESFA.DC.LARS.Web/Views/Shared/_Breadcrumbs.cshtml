@@ -1,7 +1,17 @@
 ﻿
 @model System.Collections.Generic.List<ESFA.DC.LARS.Web.Models.BreadcrumbsModel>
 
-<div class="govuk-breadcrumbs">
+<noscript>
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a href="/" class="govuk-breadcrumbs__link">Start a new search</a>
+            </li>
+        </ol>
+    </div>
+</noscript>
+
+<div id="breadcrumbs" class="govuk-breadcrumbs" style="visibility: hidden">
     <ol class="govuk-breadcrumbs__list">
         @foreach (var breadcrumb in Model)
         {
