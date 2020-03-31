@@ -52,6 +52,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         PathwayCode = fr.PwayCode,
                         PathwayName = fr.PathwayName,
                         ProgramTypeName = fr.ProgTypeNavigation.ProgTypeDesc,
+                        SearchableFrameworkCode = fr.FworkCode.ToString(),
                         FrameworkTitle = fr.IssuingAuthorityTitle,
                         EffectiveFrom = fr.EffectiveFrom,
                         EffectiveTo = fr.EffectiveTo,
