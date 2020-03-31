@@ -12,6 +12,9 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public int FrameworkCode { get; set; }
 
+        [IsSearchable]
+        public string SearchableFrameworkCode { get; set; }
+
         [IsFilterable]
         public int ProgramType { get; set; }
 
