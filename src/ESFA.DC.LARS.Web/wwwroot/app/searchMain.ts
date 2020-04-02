@@ -8,6 +8,7 @@ const vue = new Vue({
     mounted() {
         const storageService = new StorageService(sessionStorage);
         storageService.clearAll();
+        (<any>window).GOVUKFrontend.initAll();
     },
     methods: {
         updateFilters: function() {
