@@ -6,7 +6,9 @@
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
-<div id="app">
+@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+
+<div id="resultsApp">
     @using (Html.BeginForm("Search", "LearningAimSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
     {
         <div class="govuk-grid-row">
@@ -45,7 +47,7 @@
                     @Html.ActionLink(
                     "Clear Filters",
                     "ClearFilters",
-                    new { searchTerm = Model.SearchModel.SearchTerm, academicYear = academicYear},
+                    new { searchTerm = Model.SearchModel.SearchTerm, academicYear = academicYear },
                     new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
                 </noscript>
                 <filters search-type="Qualifications"></filters>
@@ -82,16 +84,22 @@
         </div>
     </script>
 
-    <script type="module" src="/assets/dist/js/app.js"></script>
+    <script type="module" src="/assets/dist/js/learningAimSearchResults.js"></script>
 
     <script>
         var element = document.getElementById("filtersNoScript");
         element.parentNode.removeChild(element);
     </script>
+
     <script type="module">
         import StorageService from '/assets/dist/js/Services/storageService.js';
+        import LinkService from '/assets/dist/js/Services/linkService.js';
+
         var storageService = new StorageService(sessionStorage);
         var storageItem = { searchTerm: "@Model.SearchModel.SearchTerm", teachingYear: "@academicYear" }
         storageService.store('sessionData', storageItem);
+
+        var linkService = new LinkService();
+        linkService.setLinks();
     </script>
 }

@@ -18,9 +18,10 @@ module.exports = {
     entry: {
         './assets/dist/js/site': './wwwroot/assets/js/site.js',
         site : ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss'],
-        './assets/dist/js/app': './wwwroot/app/main.ts',
-        './assets/dist/js/frameworkSearchResults': './wwwroot/app/frameworkSearchResultsMain.ts',
-        './assets/dist/minified/govuk/all.min' : './wwwroot/assets/dist/govuk/js/all.js'
+
+        './assets/dist/js/search': './wwwroot/app/search.ts', 
+        './assets/dist/js/learningAimSearchResults' : './wwwroot/app/learningAimSearchResults.ts',
+        './assets/dist/js/frameworkSearchResults': './wwwroot/app/frameworkSearchResultsMain.ts'
     },
     // This is where we define the path where Webpack will place
     // a bundled JS file.
