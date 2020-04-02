@@ -1,7 +1,8 @@
 ﻿@model  ESFA.DC.LARS.Web.Models.SearchFilterModel
 
 <section class="filter-section">
-    <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button" id="@Model.Name-Button">
+    <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button" 
+       id="@Model.Name-Button" v-on:click="updateAccordion($event.target.id)">
         @Model.Description
     </a>
     <div class="filter-box expanded">
@@ -12,7 +13,10 @@
                 {
                     <div class="govuk-checkboxes__item left-margin">
                         <input class="govuk-checkboxes__input"
-                                id="@($"{Model.Name}-{filterItem.Value}")" name="@Model.Name" type="checkbox" value="@filterItem.Value" checked="@Model.SelectedFilters.Any(l => l.Equals(filterItem.Value, StringComparison.OrdinalIgnoreCase))" />
+                                id="@($"{Model.Name}-{filterItem.Value}")" name="@Model.Name" type="checkbox" 
+                                value="@filterItem.Value" checked="@Model.SelectedFilters.Any(l => l.Equals(filterItem.Value, StringComparison.OrdinalIgnoreCase))" 
+                                v-on:change="updateCheckboxFilter('@filterItem.Value',  '@filterItem.Description', $event.target.checked, '@Model.Name')"
+                               />
                         <label class="govuk-label govuk-checkboxes__label" for="@($"{Model.Name}-{filterItem.Value}")">
                             @filterItem.Description
                         </label>

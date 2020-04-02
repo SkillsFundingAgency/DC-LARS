@@ -1,27 +1,29 @@
 ﻿<script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
+    import { Component, Vue, Prop } from 'vue-property-decorator';
     import { IFilterItem, FilterType } from '../../app/Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
     import { accordionService } from '../Services/accordionService';
+    import { SearchType } from '../SearchType';
 
     @Component({
         template: "#filtersTemplate"
     })
     export default class Filters extends Vue {
+        @Prop() public searchType!: SearchType;
         private currentDisplayFilters: Array<IFilterItem> = [];
 
         mounted() {
             this.currentDisplayFilters = this.savedfilters;
-            filterService.watchQualificationFilters(this, this.updateDisplay, false, true);
+            filterService.watchFilters(this, this.searchType, this.updateDisplay, false, true);
             accordionService.initialiseAccordion();
         }
 
         get savedfilters(): Array<IFilterItem> {
-            return [...this.$store.state.qualificationFilters];
+            return filterService.savedFilters(this, this.searchType);
         };
 
-        public clearFilters() : void {
-            this.$store.commit('updateFilters', []);
+        public clearFilters(): void {
+            filterService.updateStore(this, this.searchType, []);
             this.updateDisplay();
         }
 
@@ -51,11 +53,11 @@
         }
 
         private updateStore(filters: Array<IFilterItem>) {
-            this.$store.commit('updateFilters', filters);
+            filterService.updateStore(this, this.searchType, filters);
             this.currentDisplayFilters = this.savedfilters;
         }
 
-        private updateDisplay() {
+        public updateDisplay() {
             const addedFilters = this.savedfilters.filter(filter => this.currentDisplayFilters.indexOf(filter) < 0);
             const removedFilters = this.currentDisplayFilters.filter(filter => this.savedfilters.indexOf(filter) < 0);
 
@@ -91,7 +93,7 @@
             const select = typeContainer.querySelector("select") as HTMLSelectElement;
 
             if (select) {
-                isAdded ? select.value = key : select.selectedIndex = 1; //TODO:  Not sure how this filter will work.
+                isAdded ? select.value = key : select.selectedIndex = 1;
                 return true;
             }
             return false;

@@ -17,15 +17,17 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
+    import { Component, Vue, Prop } from 'vue-property-decorator';
     import { IFilterItem } from '../Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
+    import { SearchType } from '../SearchType';
 
     @Component
     export default class FilterFeedback extends Vue {
+         @Prop() public searchType!: SearchType;
 
         get savedfilters(): Array<IFilterItem> {
-            return this.$store.state.qualificationFilters;
+            return filterService.savedFilters(this, this.searchType);
         };
 
         private filters: Array<IFilterItem>;
@@ -36,17 +38,17 @@
         }
 
         mounted() {
-            filterService.watchQualificationFilters(this, this.refreshFilters, true, true);
+            filterService.watchFilters(this, this.searchType, this.refreshFilters, true, true);
         }
 
         removeFilter(filter: IFilterItem): void {
             this.filters = filterService.removeFilterFromArray(this.savedfilters, filter);
-            this.$store.commit('updateFilters', this.filters);
+            filterService.updateStore(this, this.searchType, this.filters);
         }
 
-        private refreshFilters() : void {
-            //clone so we are not changing the store in the sort and triggering the watch ... recursion
+        private refreshFilters(): void {
             let filtersToSort  = [...this.savedfilters]; 
+            console.dir(filtersToSort);
 
             this.filters = filterService.sortFilters(filtersToSort);
         }

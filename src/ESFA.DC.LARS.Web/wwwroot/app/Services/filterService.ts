@@ -1,4 +1,5 @@
 ﻿import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+import { SearchType } from '../SearchType';
 
  class FilterService {
     removeFilterFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
@@ -52,11 +53,16 @@
             return 0;
         });
     }
-
-     watchQualificationFilters(classScope: Vue, callback: Function, immediate: boolean, deep: boolean ) {
+    watchFilters(classScope: Vue, searchType: SearchType, callback: Function, immediate: boolean, deep: boolean ) {
         classScope.$store.watch(
             function (state) {
-                return state.qualificationFilters;
+                if (searchType === SearchType.Qualifications) {
+                    return state.qualificationFilters;
+                }
+
+                if (searchType === SearchType.Frameworks) {
+                    return state.frameworkFilters;
+                }
             },
             function () {
                 callback()
@@ -65,7 +71,28 @@
                 immediate: immediate,
                 deep: deep
             });
-    }
+     }
+     updateStore(classScope: Vue, searchType: SearchType, filters: Array<IFilterItem>) {
+         if (searchType === SearchType.Qualifications) {
+             classScope.$store.commit('updateQualificationFilters', filters);
+         }
+
+         if (searchType === SearchType.Frameworks) {
+             classScope.$store.commit('updateFrameworkFilters', filters);
+         }
+     }
+     savedFilters(classScope: Vue, searchType: SearchType): Array<IFilterItem>{
+         if (searchType === SearchType.Qualifications) {
+             return classScope.$store.state.qualificationFilters;
+         }
+
+         if (searchType === SearchType.Frameworks) {
+             return classScope.$store.state.frameworkFilters;
+         }
+
+         return [];
+     }
+     filterValuesForType = (filters: Array<IFilterItem>, type: FilterType): Array<string> => filters.filter(f => f.type.toString() === FilterType[type].toString()).map(f => f.key);
 }
 
 export const filterService = new FilterService();

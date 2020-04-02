@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using ESFA.DC.LARS.Web.Extensions;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
@@ -51,6 +53,28 @@ namespace ESFA.DC.LARS.Web.Controllers
             model = await PopulateViewModel(null, searchModel);
 
             return View("Index", model);
+        }
+
+        [HttpGet("Results")]
+        public async Task<IActionResult> Results([FromQuery]FrameworkSearchModel searchModel)
+        {
+            var resultsModel = new FrameworkSearchResultsViewModel
+            {
+                SearchModel = searchModel,
+                FrameworkModels = new List<FrameworkModel>()
+            };
+
+            ValidateSearch(searchModel, resultsModel);
+
+            if (!resultsModel.ValidationErrors.Any())
+            {
+                var frameworks = await _frameworkApiService.GetFrameworks(searchModel);
+                resultsModel.FrameworkModels = frameworks.ToList();
+            }
+
+            var partialViewHtml = await this.RenderViewAsync("_SearchResults", resultsModel, true);
+
+            return Json(new { data = partialViewHtml, count = resultsModel.FrameworkModels.Count(), validationErrors = resultsModel.ValidationErrors });
         }
 
         [HttpGet("RedirectToDetails")]
