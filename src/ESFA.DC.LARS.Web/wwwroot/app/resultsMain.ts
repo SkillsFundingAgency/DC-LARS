@@ -5,7 +5,6 @@ import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { searchService } from './Services/searchService';
 import { filterService } from '../app/Services/filterService';
-import StorageService from "./Services/storageService";
 
 const resultsContainer = document.getElementById('resultsApp');
 
@@ -19,10 +18,7 @@ if (resultsContainer) {
         },
         mounted() {
             const classScope = this;
-            const storageService = new StorageService(sessionStorage);
-
-            const foo = storageService.retrieve('sessionData');
-
+            
             const callback = async function() {
                 const resultsContainer = <HTMLElement>classScope.$refs["Results"];
                 const resultCount = <HTMLElement>classScope.$refs["ResultsCount"];
