@@ -7,7 +7,7 @@
     </a>
     <div class="filter-box expanded">
         <div class="govuk-form-group">
-            <div class="govuk-checkboxes govuk-checkboxes--small">
+            <div class="govuk-checkboxes govuk-checkboxes--small" ref="@Model.FilterType">
 
                 @foreach (var filterItem in Model?.FilterItems)
                 {

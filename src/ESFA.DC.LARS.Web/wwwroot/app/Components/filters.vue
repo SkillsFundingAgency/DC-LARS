@@ -2,6 +2,7 @@
     import { Component, Vue, Prop } from 'vue-property-decorator';
     import { IFilterItem, FilterType } from '../../app/Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
+    import { filterStoreService } from '../Services/filterStoreService';
     import { accordionService } from '../Services/accordionService';
     import { SearchType } from '../SearchType';
 
@@ -14,16 +15,16 @@
 
         mounted() {
             this.currentDisplayFilters = this.savedfilters;
-            filterService.watchFilters(this, this.searchType, this.updateDisplay, false, true);
+            filterStoreService.watchFilters(this.searchType, this.updateDisplay, false, true);
             accordionService.initialiseAccordion();
         }
 
         get savedfilters(): Array<IFilterItem> {
-            return filterService.savedFilters(this, this.searchType);
+            return [...filterStoreService.getSavedFilters(this.searchType)];
         };
 
         public clearFilters(): void {
-            filterService.updateStore(this, this.searchType, []);
+            filterStoreService.updateStore(this.searchType, []);
             this.updateDisplay();
         }
 
@@ -53,14 +54,13 @@
         }
 
         private updateStore(filters: Array<IFilterItem>) {
-            filterService.updateStore(this, this.searchType, filters);
+            filterStoreService.updateStore(this.searchType, filters);
             this.currentDisplayFilters = this.savedfilters;
         }
 
         public updateDisplay() {
             const addedFilters = this.savedfilters.filter(filter => this.currentDisplayFilters.indexOf(filter) < 0);
             const removedFilters = this.currentDisplayFilters.filter(filter => this.savedfilters.indexOf(filter) < 0);
-
             this.setFilterDisplay(addedFilters, true);
             this.setFilterDisplay(removedFilters, false);
         }

@@ -20,6 +20,7 @@
     import { Component, Vue, Prop } from 'vue-property-decorator';
     import { IFilterItem } from '../Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
+    import { filterStoreService } from '../Services/filterStoreService';
     import { SearchType } from '../SearchType';
 
     @Component
@@ -27,7 +28,7 @@
          @Prop() public searchType!: SearchType;
 
         get savedfilters(): Array<IFilterItem> {
-            return filterService.savedFilters(this, this.searchType);
+            return filterStoreService.getSavedFilters(this.searchType);
         };
 
         private filters: Array<IFilterItem>;
@@ -38,18 +39,16 @@
         }
 
         mounted() {
-            filterService.watchFilters(this, this.searchType, this.refreshFilters, true, true);
+            filterStoreService.watchFilters(this.searchType, this.refreshFilters, true, true);
         }
 
         removeFilter(filter: IFilterItem): void {
             this.filters = filterService.removeFilterFromArray(this.savedfilters, filter);
-            filterService.updateStore(this, this.searchType, this.filters);
+            filterStoreService.updateStore(this.searchType, this.filters);
         }
 
         private refreshFilters(): void {
             let filtersToSort  = [...this.savedfilters]; 
-            console.dir(filtersToSort);
-
             this.filters = filterService.sortFilters(filtersToSort);
         }
     }

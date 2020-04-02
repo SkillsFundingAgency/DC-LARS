@@ -5,7 +5,7 @@ import PortalVue from 'portal-vue';
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { qualificationSearchService } from './Services/qualificationSearchService';
-import { filterService } from '../app/Services/filterService';
+import { filterStoreService } from '../app/Services/filterStoreService';
 import { SearchType } from '../app/SearchType';
 
 Vue.use(PortalVue);
@@ -36,6 +36,6 @@ let vue = new Vue({
             validationErrorContainer.innerHTML = response.validationErrors.map(v => `<li class="govuk-error-message">${v}</li>`).join();
         }
 
-        filterService.watchFilters(this, SearchType.Qualifications ,callback, false, true);
+        filterStoreService.watchFilters(SearchType.Qualifications ,callback, false, true);
     }
 });

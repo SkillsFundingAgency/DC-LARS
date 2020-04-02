@@ -1,14 +1,11 @@
 ﻿import Vue from "vue";
 import store from "./store"
-import PortalVue from 'portal-vue';
 
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { frameworkSearchService } from './Services/frameworkSearchService';
-import { filterService } from './Services/filterService';
+import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
-
-Vue.use(PortalVue);
 
 let vue = new Vue({
     el: "#frameworkResults",
@@ -27,13 +24,13 @@ let vue = new Vue({
 
             resultsContainer.innerHTML = "Loading";
 
-            var response = await frameworkSearchService.getResultsAsync(classScope.$store.state.frameworkFilters, searchTerm);
+            var response = await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
 
             resultsContainer.innerHTML = response.data;
             resultCount.innerHTML = `${response.count} results`;
             validationErrorContainer.innerHTML = response.validationErrors.map(v => `<li class="govuk-error-message">${v}</li>`).join();
         }
 
-        filterService.watchFilters(this, SearchType.Frameworks ,callback, false, true);
+        filterStoreService.watchFilters(SearchType.Frameworks ,callback, false, true);
     }
 });
