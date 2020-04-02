@@ -8,7 +8,7 @@
 
 @await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
 
-<div id="app">
+<div id="resultsApp">
     @using (Html.BeginForm("Search", "LearningAimSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
     {
         <div class="govuk-grid-row">
@@ -84,7 +84,7 @@
         </div>
     </script>
 
-    <script type="module" src="/assets/dist/js/app.js"></script>
+    <script type="module" src="/assets/dist/js/learningAimSearchResults.js"></script>
 
     <script>
         var element = document.getElementById("filtersNoScript");

@@ -26,7 +26,8 @@
     <Content Remove="wwwroot\app\Interfaces\ISearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\ISearchResults.ts" />
     <Content Remove="wwwroot\app\Interfaces\IStorageItem.ts" />
-    <Content Remove="wwwroot\app\main.ts" />
+    <Content Remove="wwwroot\app\learningAimSearchResults.ts" />
+    <Content Remove="wwwroot\app\search.ts" />
     <Content Remove="wwwroot\app\search.vue" />
     <Content Remove="wwwroot\app\Services\accordionService.ts" />
     <Content Remove="wwwroot\app\Services\filterService.ts" />
@@ -74,11 +75,12 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\search.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStorageItem.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\ISearchResults.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\ISearchRequest.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
-    <TypeScriptCompile Include="wwwroot\app\main.ts" />
+    <TypeScriptCompile Include="wwwroot\app\learningAimSearchResults.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\accordionService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\linkService.ts" />

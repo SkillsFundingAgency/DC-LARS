@@ -1,16 +1,13 @@
 ﻿import Vue from "vue";
-import store from "../app/store"
-import PortalVue from 'portal-vue';
+import store from "./store"
 
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { searchService } from './Services/searchService';
-import { filterService } from '../app/Services/filterService';
+import { filterService } from './Services/filterService';
 
-Vue.use(PortalVue);
-
-let vue = new Vue({
-    el: "#app",
+const vue = new Vue({
+    el: "#resultsApp",
     store,
     components: {
         'filter-feedback': FilterFeedback,
@@ -19,7 +16,7 @@ let vue = new Vue({
     mounted() {
         const classScope = this;
         
-        const callback = async function () {
+        const callback = async function() {
             const resultsContainer = <HTMLElement>classScope.$refs["Results"];
             const resultCount = <HTMLElement>classScope.$refs["ResultsCount"];
             const validationErrorContainer = <HTMLElement>classScope.$refs["ValidationErrors"];
@@ -30,7 +27,8 @@ let vue = new Vue({
 
             resultsContainer.innerHTML = response.data;
             resultCount.innerHTML = `${response.count} results`;
-            validationErrorContainer.innerHTML = response.validationErrors.map(v => `<li class="govuk-error-message">${v}</li>`).join();
+            validationErrorContainer.innerHTML = response.validationErrors
+                .map(error => `<li class="govuk-error-message">${error}</li>`).join();
         }
 
         filterService.watchQualificationFilters(this, callback, false, true);
