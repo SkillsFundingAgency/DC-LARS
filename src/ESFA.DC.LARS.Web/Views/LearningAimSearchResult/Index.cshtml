@@ -8,7 +8,7 @@
 
 @await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
 
-<div id="app">
+<div id="resultsApp">
     @using (Html.BeginForm("Search", "LearningAimSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
     {
         <div class="govuk-grid-row">

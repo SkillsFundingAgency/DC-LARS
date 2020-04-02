@@ -7,7 +7,7 @@ const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
-const devMode = process.env.NODE_ENV !== 'production';
+const devMode = true;//process.env.NODE_ENV !== 'production';
 module.exports = {
     // Tells Webpack which built-in optimizations to use
     // If you leave this out, Webpack will default to 'production'
@@ -18,8 +18,7 @@ module.exports = {
     entry: {
         './assets/dist/js/site': './wwwroot/assets/js/site.js',
         site : ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss'],
-        './assets/dist/js/app': './wwwroot/app/main.ts',
-        //'./assets/dist/minified/govuk/all.min' : './wwwroot/assets/dist/govuk/js/all.js'
+        './assets/dist/js/app': ['./wwwroot/app/homeMain.ts', './wwwroot/app/resultsMain.ts']
     },
     // This is where we define the path where Webpack will place
     // a bundled JS file.
