@@ -6,14 +6,14 @@ import store from "../store"
     watchFilters(searchType: SearchType, callback: Function, immediate: boolean, deep: boolean ) {
         store.watch(
             function (state) {
-                if (searchType === SearchType.Qualifications) {
-                    return state.qualificationFilters;
+                switch (searchType) {
+                    case SearchType.Qualifications:
+                        return state.qualificationFilters;
+                    case SearchType.Frameworks:
+                        return state.frameworkFilters;
+                    default:
+                        return [];
                 }
-
-                if (searchType === SearchType.Frameworks) {
-                    return state.frameworkFilters;
-                }
-                return [];
             },
             function () {
                 callback()
@@ -24,24 +24,22 @@ import store from "../store"
             });
      }
      updateStore(searchType: SearchType, filters: Array<IFilterItem>) {
-         if (searchType === SearchType.Qualifications) {
-             store.commit('updateQualificationFilters', filters);
-         }
-
-         if (searchType === SearchType.Frameworks) {
-             store.commit('updateFrameworkFilters', filters);
+         switch (searchType) {
+             case SearchType.Qualifications:
+                 store.commit('updateQualificationFilters', filters);
+             case SearchType.Frameworks:
+                 store.commit('updateFrameworkFilters', filters);
          }
      }
      getSavedFilters(searchType: SearchType): Array<IFilterItem>{
-         if (searchType === SearchType.Qualifications) {
-             return store.state.qualificationFilters;
+         switch (searchType) {
+             case SearchType.Qualifications:
+                 return store.state.qualificationFilters;
+             case SearchType.Frameworks:
+                 return store.state.frameworkFilters;
+             default:
+                 return [];
          }
-
-         if (searchType === SearchType.Frameworks) {
-             return store.state.frameworkFilters;
-         }
-
-         return [];
      }
 }
 
