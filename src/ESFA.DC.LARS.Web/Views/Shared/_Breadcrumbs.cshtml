@@ -1,5 +1,4 @@
-﻿
-@model System.Collections.Generic.List<ESFA.DC.LARS.Web.Models.BreadcrumbsModel>
+﻿@model BreadcrumbsModel
 
 <noscript>
     <div class="govuk-breadcrumbs">
@@ -11,17 +10,17 @@
     </div>
 </noscript>
 
-<div id="breadcrumbs" class="govuk-breadcrumbs" style="display: none" >
+<div id="@Model.Id" class="govuk-breadcrumbs" style="display: none" >
     <ol class="govuk-breadcrumbs__list">
-        @foreach (var breadcrumb in Model)
+        @foreach (var breadcrumb in Model.Breadcrumbs)
         {
             <li class="govuk-breadcrumbs__list-item">
-                @if (!breadcrumb.Equals(Model.Last())){
-                <a id="@breadcrumb.Id" class="govuk-breadcrumbs__link">@breadcrumb.Text</a>
+                @if (!breadcrumb.Key.Equals(Model.Breadcrumbs.Last().Key)){
+                <a id="@breadcrumb.Key" class="govuk-breadcrumbs__link">@breadcrumb.Value</a>
                 }
                 else
                 {
-                @breadcrumb.Text
+                @breadcrumb.Value
                 }
             </li>
         }

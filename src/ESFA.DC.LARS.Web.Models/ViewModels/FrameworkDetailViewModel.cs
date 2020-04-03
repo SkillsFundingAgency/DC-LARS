@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
@@ -6,13 +7,28 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
     {
         public FrameworkModel Framework { get; set; }
 
-        public List<BreadcrumbsModel> Breadcrumbs => new List<BreadcrumbsModel>
+        public BreadcrumbsModel LearningAimBreadcrumbs => new BreadcrumbsModel()
         {
-            new BreadcrumbsModel { Id = "homeLink", Text = "Home" },
-            new BreadcrumbsModel { Id = "searchResultsLink", Text = "Search Results" },
-            new BreadcrumbsModel { Id = "learningAimDetailLink" }, // Text property is set client side.
-            new BreadcrumbsModel { Id = "frameworksLink", Text = "Frameworks" },
-            new BreadcrumbsModel { Text = "Pathways" },
+            Id = "learningAimBreadcrumbs",
+            Breadcrumbs = new Dictionary<string, string>()
+            {
+                { "homeLink", "Home" },
+                { "searchResultsLink", "Search Results" },
+                { "learningAimDetailLink", string.Empty },
+                { "frameworksLink", "Frameworks" },
+                { "pathwaysLink", "Pathways" },
+            },
+        };
+
+        public BreadcrumbsModel FrameworksBreadcrumbs => new BreadcrumbsModel()
+        {
+            Id = "frameworksBreadcrumbs",
+            Breadcrumbs = new Dictionary<string, string>()
+            {
+                { "homeLink", "Home" },
+                { "frameworksSearchResultsLink", "Search Results" },
+                { "pathwaysLink", "Pathways" },
+            },
         };
     }
 }

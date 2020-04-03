@@ -18,7 +18,10 @@ export default class StorageService {
             return JSON.parse(item) as IStorageItem;
         }
 
-        return { searchTerm: '', learnAimRef: '', learningAimTitle: '', learningAimDetailsYear: '', teachingYear: '', filters: [] };
+        return {
+            searchTerm: '', learnAimRef: '', learningAimTitle: '', learningAimDetailsYear: '',
+            teachingYear: '', frameworkSearch: false, frameworkCode: '', programType: '', pathwayCode: '', filters: []
+        };
     }
 
     store(key: string, value: IStorageItem) : void {

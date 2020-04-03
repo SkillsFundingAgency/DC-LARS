@@ -7,18 +7,35 @@ export default class LinkService {
         const storageService = new StorageService(sessionStorage);
         const storageItem = storageService.retrieve('sessionData') as IStorageItem;
 
-        this.renderBreadcrumbs();
+        this.renderBreadcrumbs(storageItem.frameworkSearch);
         this.setHomeLink();
-        this.setSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear);
-        this.setLearningAimDetailLink(storageItem.learnAimRef, storageItem.learningAimDetailsYear);
+        this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear);
+        this.setFrameworksSearchResultsLink(storageItem.searchTerm);
+        this.setLearningAimDetailLink(storageItem.learnAimRef, storageItem.teachingYear);
         this.setFrameworksLink(storageItem.learnAimRef, storageItem.learningAimTitle);
+        this.setPathwaysLink(storageItem.frameworkCode, storageItem.programType, storageItem.pathwayCode);
     }
 
-    private renderBreadcrumbs() {
-        const anchor = document.getElementById("breadcrumbs") as HTMLAnchorElement;
+    private renderBreadcrumbs(frameworkSearch: boolean) {
+        const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
+        const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
 
-        if (anchor != null) {
-            anchor.removeAttribute("style");
+        if (frameworkSearch && frameworkAnchor != null) {
+            frameworkAnchor.removeAttribute("style");
+            if (learningAimAnchor != null) {
+                const parent = learningAimAnchor.parentNode as Node;
+                parent.removeChild(learningAimAnchor);
+            }
+
+            return;
+        }
+
+        if (learningAimAnchor != null) {
+            learningAimAnchor.removeAttribute("style");
+            if (frameworkAnchor != null) {
+                const parent = frameworkAnchor.parentNode as Node;
+                parent.removeChild(frameworkAnchor);
+            }
         }
     }
 
@@ -30,11 +47,19 @@ export default class LinkService {
         }
     }
 
-    private setSearchResultsLink(searchTerm: string, teachingYear: string) {
+    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string) {
         const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
 
         if (anchor != null) {
             anchor.href = `/LearningAimSearchResult?SearchTerm=${searchTerm}&TeachingYear=${teachingYear}`;
+        }
+    }
+
+    private setFrameworksSearchResultsLink(searchTerm: string) {
+        const anchor = document.getElementById("frameworksSearchResultsLink") as HTMLAnchorElement;
+
+        if (anchor != null) {
+            anchor.href = `/FrameworkSearchResult?SearchTerm=${searchTerm}`;
         }
     }
 
@@ -54,7 +79,14 @@ export default class LinkService {
             frameworksAnchor.href = `/Frameworks/${learnAimRef}`;
             learningAimDetailAnchor.innerHTML = learningAimTitle;
         }
-        
+    }
+
+    private setPathwaysLink(frameworkCode: string, programType: string, pathwayCode: string) {
+        const anchor = document.getElementById("pathwaysLink") as HTMLAnchorElement;
+
+        if (anchor != null) {
+            anchor.href = `/FrameworkDetails/${frameworkCode}/${programType}/${pathwayCode}`;
+        }
     }
 
 }
