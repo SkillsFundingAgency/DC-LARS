@@ -14,7 +14,7 @@ class FrameworkSearchService {
 		return response.data;
 	}
 
-	private createRequest(filters: Array<IFilterItem>, searchTerm:string): any {
+	private createRequest(filters: Array<IFilterItem>, searchTerm: string): IFrameworksSearchRequest {
 		var request: IFrameworksSearchRequest = {
 			searchTerm: searchTerm,
 			frameworkTypes: filterService.filterValuesForType(filters, FilterType.FrameworkTypes),

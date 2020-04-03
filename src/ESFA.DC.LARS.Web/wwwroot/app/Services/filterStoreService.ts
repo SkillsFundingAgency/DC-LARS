@@ -3,7 +3,7 @@ import { SearchType } from '../SearchType';
 import store from "../store"
 
  class FilterStoreService {
-    watchFilters(searchType: SearchType, callback: Function, immediate: boolean, deep: boolean ) {
+    watchFilters(searchType: SearchType, callback: Function, immediate: boolean, deep: boolean ): void {
         store.watch(
             function (state) {
                 switch (searchType) {
@@ -23,7 +23,7 @@ import store from "../store"
                 deep: deep
             });
      }
-     updateStore(searchType: SearchType, filters: Array<IFilterItem>) {
+     updateStore(searchType: SearchType, filters: Array<IFilterItem>): void {
          switch (searchType) {
              case SearchType.Qualifications:
                  store.commit('updateQualificationFilters', filters);
