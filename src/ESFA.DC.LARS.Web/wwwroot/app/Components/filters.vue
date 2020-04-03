@@ -180,7 +180,7 @@
         }
 
         private updateAccordionByFilter(filterType : FilterType) : void {
-            this.updateAccordion(FilterType[filterType] + 'Button');
+            this.updateAccordion(FilterType[filterType] + '-Button');
         }
     }
 </script>

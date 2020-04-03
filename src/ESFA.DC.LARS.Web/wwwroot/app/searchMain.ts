@@ -22,7 +22,7 @@ const vue = new Vue({
                 const filter: IFilterItem = {
                     key: '',
                     value: awardingBodyFilterElement.innerHTML,
-                    type: FilterType.AwardingBody
+                    type: FilterType.AwardingBodies
                 };
                 storageItem.filters.push(filter);
             }
