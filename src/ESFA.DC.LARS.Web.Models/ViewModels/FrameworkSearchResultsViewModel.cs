@@ -17,10 +17,14 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public List<FrameworkModel> FrameworkModels { get; set; }
 
-        public List<BreadcrumbsModel> Breadcrumbs => new List<BreadcrumbsModel>
+        public BreadcrumbsModel FrameworksBreadcrumbs => new BreadcrumbsModel()
         {
-            new BreadcrumbsModel { Id = "homeLink", Text = "Home" },
-            new BreadcrumbsModel { Id = "searchResultsLink", Text = "Search Results" }
+            Id = "frameworksBreadcrumbs",
+            Breadcrumbs = new Dictionary<string, string>()
+            {
+                { "homeLink", "Home" },
+                { "searchResultsLink", "Search Results" }
+            },
         };
     }
 }

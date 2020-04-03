@@ -1,6 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", Model?.LearningAimBreadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", Model?.FrameworksBreadcrumbs)
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">

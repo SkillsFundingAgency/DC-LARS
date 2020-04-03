@@ -6,7 +6,7 @@
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
-@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", Model?.LearningAimBreadcrumbs)
 
 <div id="resultsApp">
     @using (Html.BeginForm("Search", "LearningAimSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))

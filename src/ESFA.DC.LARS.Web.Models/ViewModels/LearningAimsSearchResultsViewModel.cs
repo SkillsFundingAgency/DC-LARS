@@ -17,10 +17,14 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public IEnumerable<LearningAimModel> LearningAimModels { get; set; }
 
-        public List<BreadcrumbsModel> Breadcrumbs => new List<BreadcrumbsModel>
+        public BreadcrumbsModel LearningAimBreadcrumbs => new BreadcrumbsModel()
         {
-            new BreadcrumbsModel { Id = "homeLink", Text = "Home" },
-            new BreadcrumbsModel { Id = "searchResultsLink", Text = "Search Results" },
+            Id = "learningAimBreadcrumbs",
+            Breadcrumbs = new Dictionary<string, string>()
+            {
+                { "homeLink", "Home" },
+                { "searchResultsLink", "Search Results" }
+            },
         };
     }
 }
