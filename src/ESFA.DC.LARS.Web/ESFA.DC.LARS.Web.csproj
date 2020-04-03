@@ -22,18 +22,23 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\app\cookieService.ts" />
+    <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
-    <Content Remove="wwwroot\app\Interfaces\ISearchRequest.ts" />
-    <Content Remove="wwwroot\app\Interfaces\ISearchResults.ts" />
+    <Content Remove="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
+    <Content Remove="wwwroot\app\Interfaces\IQualificationsSearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\IStorageItem.ts" />
-    <Content Remove="wwwroot\app\learningAimSearchResults.ts" />
-    <Content Remove="wwwroot\app\search.ts" />
+    <Content Remove="wwwroot\app\learningAimSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\search.vue" />
+    <Content Remove="wwwroot\app\searchMain.ts" />
+    <Content Remove="wwwroot\app\SearchType.ts" />
     <Content Remove="wwwroot\app\Services\accordionService.ts" />
     <Content Remove="wwwroot\app\Services\filterService.ts" />
+    <Content Remove="wwwroot\app\Services\filterStoreService.ts" />
+    <Content Remove="wwwroot\app\Services\frameworkSearchService.ts" />
     <Content Remove="wwwroot\app\Services\linkService.ts" />
+    <Content Remove="wwwroot\app\Services\qualificationSearchService.ts" />
+    <Content Remove="wwwroot\app\Services\resultsDisplayService.ts" />
     <Content Remove="wwwroot\app\Services\storageService.ts" />
-    <Content Remove="wwwroot\app\Services\searchService.ts" />
     <Content Remove="wwwroot\app\store.ts" />
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
     <Content Remove="wwwroot\blank.js" />
@@ -62,7 +67,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\app\Tests\" />
-    <Folder Include="wwwroot\assets\dist\govuk\js\" />
     <Folder Include="wwwroot\assets\dist\minified\govuk\" />
     <Folder Include="wwwroot\assets\dist\css\" />
   </ItemGroup>
@@ -75,17 +79,22 @@
 
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\app\search.ts" />
+    <TypeScriptCompile Include="wwwroot\app\searchMain.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStorageItem.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Interfaces\ISearchResults.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Interfaces\ISearchRequest.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IQualificationsSearchRequest.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IFilterItem.ts" />
-    <TypeScriptCompile Include="wwwroot\app\learningAimSearchResults.ts" />
+    <TypeScriptCompile Include="wwwroot\app\learningAimSearchResultsMain.ts" />
+    <TypeScriptCompile Include="wwwroot\app\frameworkSearchResultsMain.ts" />
+    <TypeScriptCompile Include="wwwroot\app\SearchType.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\accordionService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\filterStoreService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Helpers\resultsDisplayHelper.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\linkService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\frameworkSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\storageService.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Services\searchService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\qualificationSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\store.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\filterService.test.ts" />
   </ItemGroup>

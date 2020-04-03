@@ -9,6 +9,7 @@
         {
             Name = nameof(Model.SearchModel.FrameworkTypes),
             Description = "Framework Type",
+            FilterType = FilterType.FrameworkTypes,
             SelectedFilters = Model.SearchModel.FrameworkTypes,
             FilterItems = Model.LookUpModel.FrameworkTypeLookups.Select(f => new FilterItemModel { Value = f.FrameworkType, Description = f.FrameworkTypeDesc }).ToList()
         })
@@ -18,6 +19,7 @@
         {
             Name = nameof(Model.SearchModel.IssuingAuthorities),
             Description = "Issuing authority",
+            FilterType = FilterType.IssuingAuthorities,
             SelectedFilters = Model.SearchModel.IssuingAuthorities,
             FilterItems = Model.LookUpModel.IssuingAuthorityLookups.Select(f => new FilterItemModel { Value = f.IssuingAuthority, Description = f.IssuingAuthorityDesc }).ToList()
         })

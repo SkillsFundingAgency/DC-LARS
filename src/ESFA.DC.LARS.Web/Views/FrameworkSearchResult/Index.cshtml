@@ -1,69 +1,94 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+    <div id="frameworkResults">
+        @await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
 
-@using (Html.BeginForm("Search", "FrameworkSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
-{
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <div class="standard-search">
-                <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search</h1>
-                <div class="govuk-form-group">
-                    <div id="tt-overlay" class="autocomplete-wrapper second">
-                        <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
-                            <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
-                                   type="text" value="@Model.SearchModel.SearchTerm" maxlength="200" />
+        @using (Html.BeginForm("Search", "FrameworkSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
+        {
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <div class="standard-search">
+                        <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search</h1>
+                        <div class="govuk-form-group">
+                            <div id="tt-overlay" class="autocomplete-wrapper second">
+                                <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                                    <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
+                                           type="text" value="@Model.SearchModel.SearchTerm" maxlength="200" />
+                                </div>
+                            </div>
+                            <button id="searchProviders" type="submit" class="govuk-button">
+                                <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
+                            </button>
                         </div>
                     </div>
-                    <button id="searchProviders" type="submit" class="govuk-button">
-                        <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
-                    </button>
+
+                    <ul ref="ValidationErrors" class="govuk-list">
+                        @foreach (var error in Model.ValidationErrors)
+                        {
+                            <li class="govuk-error-message">@error</li>
+                        }
+                    </ul>
                 </div>
             </div>
 
-            <ul ref="ValidationErrors" class="govuk-list">
-                @foreach (var error in Model.ValidationErrors)
-                {
-                    <li class="govuk-error-message">@error</li>
-                }
-            </ul>
-        </div>
-    </div>
 
+            <div class="govuk-grid-row govuk-!-margin-top-6">
+                <div class="govuk-grid-column-one-third">
 
-    <div class="govuk-grid-row govuk-!-margin-top-6">
-        <div class="govuk-grid-column-one-third">
-            @await Html.PartialAsync("_SearchFilters", Model)
+                    <noscript id="filtersNoScript">
+                        @await Html.PartialAsync("_SearchFilters", Model)
 
-            <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+                        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
 
-            @Html.ActionLink(
-            "Clear Filters",
-            "ClearFilters",
-            new { searchTerm = Model.SearchModel.SearchTerm },
-            new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
-        </div>
+                        @Html.ActionLink(
+                        "Clear Filters",
+                        "ClearFilters",
+                        new { searchTerm = Model.SearchModel.SearchTerm },
+                        new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
+                    </noscript>
 
-        <div class="govuk-grid-column-two-thirds">
-            <ul id="resultList" class="govuk-list">
-
-                <p class="govuk-body flex space-between">
-                    <span ref="ResultsCount">@Model.FrameworkModels.Count() results</span>
-                </p>
-
-                <div ref="Results">
-                    @await Html.PartialAsync("_SearchResults", Model)
+                    <filters search-type="Frameworks"></filters>
                 </div>
-            </ul>
-        </div>
-    </div>
-}
 
+                <div class="govuk-grid-column-two-thirds">
+                    <ul id="resultList" class="govuk-list">
+
+                        <p class="govuk-body flex space-between">
+                            <span ref="ResultsCount">@Model.FrameworkModels.Count() results</span>
+                        </p>
+
+                        <filter-feedback search-type="Frameworks"></filter-feedback>
+
+                        <div ref="Results">
+                            @await Html.PartialAsync("_SearchResults", Model)
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        }
+
+    </div>
 @section PageScripts
 {
     <script type="module">
         import LinkService from '/assets/dist/js/Services/linkService.js';
         var linkService = new LinkService();
         linkService.setLinks();
+    </script>
+
+    <script id="filtersTemplate" type="text/x-template">
+        <div>
+            @await Html.PartialAsync("_SearchFilters", Model)
+            <p>
+                <a v-on:click="clearFilters()" class="govuk-link govuk-link--no-visited-state" href="#">Clear filters</a>
+            </p>
+        </div>
+    </script>
+
+    <script type="module" src="/assets/dist/js/frameworkSearchResults.js"></script>
+
+    <script>
+        var element = document.getElementById("filtersNoScript");
+        element.parentNode.removeChild(element);
     </script>
 }

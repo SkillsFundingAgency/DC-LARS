@@ -1,6 +1,6 @@
 ﻿import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
- class FilterService {
+class FilterService {
     removeFilterFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
         const found = this.findFilterItem(item.key, item.type, filters);
 
@@ -52,20 +52,7 @@
             return 0;
         });
     }
-
-     watchQualificationFilters(classScope: Vue, callback: Function, immediate: boolean, deep: boolean ) {
-        classScope.$store.watch(
-            function (state) {
-                return state.qualificationFilters;
-            },
-            function () {
-                callback()
-            },
-            {
-                immediate: immediate,
-                deep: deep
-            });
-    }
+    filterValuesForType = (filters: Array<IFilterItem>, type: FilterType): Array<string> => filters.filter(f => f.type.toString() === FilterType[type].toString()).map(f => f.key);
 }
 
 export const filterService = new FilterService();
