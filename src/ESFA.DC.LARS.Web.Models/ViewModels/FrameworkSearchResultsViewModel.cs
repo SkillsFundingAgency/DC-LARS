@@ -17,9 +17,9 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public List<FrameworkModel> FrameworkModels { get; set; }
 
-        public BreadcrumbsModel LearningAimBreadcrumbs => new BreadcrumbsModel()
+        public BreadcrumbsModel FrameworksBreadcrumbs => new BreadcrumbsModel()
         {
-            Id = "learningAimBreadcrumbs",
+            Id = "frameworksBreadcrumbs",
             Breadcrumbs = new Dictionary<string, string>()
             {
                 { "homeLink", "Home" },
