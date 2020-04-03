@@ -8,7 +8,7 @@
 
 @await Html.PartialAsync("_breadcrumbs", Model?.LearningAimBreadcrumbs)
 
-<div id="app">
+<div id="resultsApp">
     @using (Html.BeginForm("Search", "LearningAimSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
     {
         <div class="govuk-grid-row">
@@ -50,7 +50,7 @@
                     new { searchTerm = Model.SearchModel.SearchTerm, academicYear = academicYear },
                     new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
                 </noscript>
-                <filters></filters>
+                <filters search-type="Qualifications"></filters>
             </div>
 
             <div class="govuk-grid-column-two-thirds">
@@ -60,7 +60,7 @@
                         <span ref="ResultsCount">@Model.LearningAimModels.Count() results</span>
                     </p>
 
-                    <filter-feedback></filter-feedback>
+                    <filter-feedback search-type="Qualifications"></filter-feedback>
 
                     <div ref="Results">
                         @await Html.PartialAsync("_SearchResults", Model)
@@ -84,7 +84,7 @@
         </div>
     </script>
 
-    <script type="module" src="/assets/dist/js/app.js"></script>
+    <script type="module" src="/assets/dist/js/learningAimSearchResults.js"></script>
 
     <script>
         var element = document.getElementById("filtersNoScript");
