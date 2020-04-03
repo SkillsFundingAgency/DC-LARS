@@ -96,7 +96,9 @@
         import LinkService from '/assets/dist/js/Services/linkService.js';
 
         var storageService = new StorageService(sessionStorage);
-        var storageItem = { searchTerm: "@Model.SearchModel.SearchTerm", teachingYear: "@academicYear" }
+        var storageItem = storageService.retrieve('sessionData');
+        storageItem.searchTerm = "@Model.SearchModel.SearchTerm";
+        storageItem.teachingYear = "@academicYear";
         storageService.store('sessionData', storageItem);
 
         var linkService = new LinkService();

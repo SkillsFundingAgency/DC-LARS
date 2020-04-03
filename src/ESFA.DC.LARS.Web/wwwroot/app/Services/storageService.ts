@@ -1,4 +1,5 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
+import { IFilterItem } from '../Interfaces/IFilterItem';
 
 export default class StorageService {
 
@@ -20,15 +21,28 @@ export default class StorageService {
         return { searchTerm: '', learnAimRef: '', learningAimTitle: '', learningAimDetailsYear: '', teachingYear: '', filters: [] };
     }
 
-    store(key: string, value: IStorageItem) {
+    store(key: string, value: IStorageItem) : void {
         this.storage.setItem(key, JSON.stringify(value));
     }
 
-    clear(key: string) {
+    updateFilters(key: string, filters: Array<IFilterItem>) : void {
+        const item = this.retrieve(key);
+
+        item.filters = filters;
+        this.store(key, item);
+    }
+
+    clearFilters(key: string) : void {
+        const item = this.retrieve(key);
+        item.filters = [];
+        this.store(key, item);
+    }
+
+    clear(key: string) : void {
         this.storage.removeItem(key);
     }
 
-    clearAll() {
+    clearAll() : void {
         this.storage.clear();
     }
 }

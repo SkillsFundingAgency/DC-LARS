@@ -3,14 +3,26 @@
     import { IFilterItem, FilterType } from '../../app/Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
     import { accordionService } from '../Services/accordionService';
+    import StorageService from '../Services/storageService';
+    import { IStorageItem } from '../Interfaces/IStorageItem';
 
     @Component({
         template: "#filtersTemplate"
     })
     export default class Filters extends Vue {
         private currentDisplayFilters: Array<IFilterItem> = [];
+        private storageService : StorageService;
+        private storageKey : string = 'sessionData';
+
+        constructor() {
+            super();
+
+            this.storageService = new StorageService(sessionStorage);
+        }
 
         mounted() {
+            this.getFilterHistory();
+
             this.currentDisplayFilters = this.savedfilters;
             filterService.watchQualificationFilters(this, this.updateDisplay, false, true);
             accordionService.initialiseAccordion();
@@ -22,6 +34,7 @@
 
         public clearFilters() : void {
             this.$store.commit('updateFilters', []);
+            this.storageService.clearFilters(this.storageKey);
             this.updateDisplay();
         }
 
@@ -30,6 +43,8 @@
             const actionedFilter: IFilterItem = { key, value, type };
 
             isChecked ? filters.push(actionedFilter) : filterService.removeFilterFromArray(filters, actionedFilter);
+
+            this.storageService.updateFilters(this.storageKey, filters);
             this.updateStore(filters);
         }
 
@@ -38,7 +53,8 @@
             let filter = filterService.findFilterItemByType(type, filters);
 
             filter ? filter = Object.assign(filter, {key: key, value: value}) : filters.push({ key, value, type });
-
+            
+            this.storageService.updateFilters(this.storageKey, filters);
             this.updateStore(filters);
         }
 
@@ -70,10 +86,12 @@
             Array.from(new Set(filters.map(filter => filter.type))).forEach(type => {
                 const typeContainer = classScope.$refs[type.toString()] as HTMLElement;
 
-                filters.filter(i => i.type === type).forEach(filter => {
-                    !classScope.updateCheckboxDisplay(typeContainer, filter.key, isAdded)
-                        && classScope.updateSelectDisplay(typeContainer, filter.key, isAdded);
-                });
+                if (typeContainer) {
+                    filters.filter(i => i.type === type).forEach(filter => {
+                        !classScope.updateCheckboxDisplay(typeContainer, filter.key, isAdded)
+                            && classScope.updateSelectDisplay(typeContainer, filter.key, isAdded);
+                    });
+                }
             });
         }
 
@@ -95,6 +113,72 @@
                 return true;
             }
             return false;
+        }
+
+        private getFilterHistory() : void {
+            const sessionData = this.storageService.retrieve(this.storageKey) as IStorageItem;
+
+            if (sessionData) {
+                const filters = sessionData.filters;
+                const storeFilters = new Array<IFilterItem>();
+
+                if (filters) {
+                    for (let filter of filters) {
+                        
+                        //empty homepage filter
+                        if (filter.key === '' && filter.value === '') {
+                            continue;
+                        }
+
+                        if (filter.type !== FilterType.TeachingYears) {
+                            let checkbox = null;
+
+                            //try to handle free text input from home page :(
+                            if (filter.key === '') { 
+                                const checkboxes = document.querySelectorAll("input[type='checkbox']");
+                                checkboxes.forEach(cbox => {
+                                    const cboxElement = cbox as HTMLInputElement;
+                                    if (cboxElement.value.includes(filter.value)) {
+                                        checkbox = cboxElement;
+                                    }
+                                });
+                            }
+                            else {
+                                checkbox = document.querySelector("input[type='checkbox'][value='" + filter.key + "']") as HTMLInputElement;
+                            }
+
+                            if (checkbox) {
+                                if (!this.storeContainsFilter(filter)) {
+                                    storeFilters.push(filter);
+                                }
+                                this.updateAccordionByFilter(filter.type);
+                            }
+                        }
+                        else { //handle teaching year select
+                            const teachingYearElement = document.getElementById(filter.key) as HTMLOptionElement;
+
+                            if (teachingYearElement) {
+                                if (!this.storeContainsFilter(filter)) {
+                                    storeFilters.push(filter);
+                                }
+                                this.updateAccordionByFilter(filter.type);
+                            }
+                        }
+                    }
+
+                    this.currentDisplayFilters = storeFilters;
+                    this.updateDisplay();
+                    this.updateStore(storeFilters);
+                }
+            }
+        }
+
+        private storeContainsFilter(filter : IFilterItem): boolean {
+            return this.savedfilters.includes(filter);
+        }
+
+        private updateAccordionByFilter(filterType : FilterType) : void {
+            this.updateAccordion(FilterType[filterType] + 'Button');
         }
     }
 </script>

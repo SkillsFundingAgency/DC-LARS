@@ -6,6 +6,8 @@ import StorageService from "./Services/storageService";
 const vue = new Vue({
     el: "#homeApp",
     mounted() {
+        (<any>window).GOVUKFrontend.initAll();
+
         const storageService = new StorageService(sessionStorage);
 
         storageService.clearAll();
