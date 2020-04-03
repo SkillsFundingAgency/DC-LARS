@@ -1,6 +1,6 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", Model?.LearningAimBreadcrumbs)
 
 @using (Html.BeginForm("Search", "FrameworkSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
 {
@@ -62,8 +62,14 @@
 @section PageScripts
 {
     <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
         import LinkService from '/assets/dist/js/Services/linkService.js';
+
+        var storageService = new StorageService(sessionStorage);
+        var storageItem = { searchTerm: "@Model.SearchModel.SearchTerm", frameworkSearch: true }
+        storageService.store('sessionData', storageItem);
+
         var linkService = new LinkService();
-        linkService.setLinks();
+        linkService.setLinks();    
     </script>
 }

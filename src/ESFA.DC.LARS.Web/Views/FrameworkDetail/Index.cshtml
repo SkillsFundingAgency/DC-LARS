@@ -1,6 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", Model?.LearningAimBreadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", Model?.FrameworksBreadcrumbs)
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -62,8 +63,19 @@
 @section PageScripts
 {
     <script type="module">
+        import StorageService from '/assets/dist/js/Services/storageService.js';
         import LinkService from '/assets/dist/js/Services/linkService.js';
+
+        var storageService = new StorageService(sessionStorage);
         var linkService = new LinkService();
+
+        var storageItem = storageService.retrieve('sessionData');
+        storageItem.frameworkCode = "@Model.Framework.FrameworkCode";
+        storageItem.programType = "@Model.Framework.ProgramType";
+        storageItem.pathwayCode = "@Model.Framework.PathwayCode";
+        storageService.store('sessionData', storageItem);
+        
         linkService.setLinks();
+    
     </script>
 }

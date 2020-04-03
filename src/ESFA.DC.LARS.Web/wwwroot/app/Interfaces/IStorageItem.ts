@@ -6,5 +6,9 @@ export interface IStorageItem {
     learningAimTitle: string;
     learningAimDetailsYear: string;
     teachingYear: string;
+    frameworkSearch: boolean;
+    frameworkCode: string;
+    programType: string;
+    pathwayCode: string;
     filters: IFilterItem[];
 }

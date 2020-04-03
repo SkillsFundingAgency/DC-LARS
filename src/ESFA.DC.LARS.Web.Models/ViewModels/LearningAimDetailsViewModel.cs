@@ -10,11 +10,27 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public LearningAimModel LearningAimModel { get; set; }
 
-        public List<BreadcrumbsModel> Breadcrumbs => new List<BreadcrumbsModel>
+        public BreadcrumbsModel LearningAimBreadcrumbs => new BreadcrumbsModel()
         {
-            new BreadcrumbsModel { Id = "homeLink", Text = "Home" },
-            new BreadcrumbsModel { Id = "searchResultsLink", Text = "Search Results" },
-            new BreadcrumbsModel { Text = LearningAimModel.LearningAimTitle },
+            Id = "learningAimBreadcrumbs",
+            Breadcrumbs = new Dictionary<string, string>()
+            {
+                { "homeLink", "Home" },
+                { "searchResultsLink", "Search Results" },
+                { "learningAimDetailLink", LearningAimModel.LearningAimTitle }
+            },
+        };
+
+        public BreadcrumbsModel FrameworksBreadcrumbs => new BreadcrumbsModel()
+        {
+            Id = "frameworksBreadcrumbs",
+            Breadcrumbs = new Dictionary<string, string>()
+            {
+                { "homeLink", "Home" },
+                { "frameworksSearchResultsLink", "Search Results" },
+                { "pathwaysLink", "Pathways" },
+                { "learningAimDetailLink", LearningAimModel.LearningAimTitle }
+            },
         };
     }
 }
