@@ -17,11 +17,11 @@ const vue = new Vue({
             const storageService = new StorageService(sessionStorage);
             const storageItem = storageService.retrieve('');
 
-            const awardingBodyFilterElement = document.getElementById('AwardingBody');
+            const awardingBodyFilterElement = document.getElementById('AwardingBody') as HTMLInputElement;
             if (awardingBodyFilterElement) {
                 const filter: IFilterItem = {
                     key: '',
-                    value: awardingBodyFilterElement.innerHTML,
+                    value: awardingBodyFilterElement.value,
                     type: FilterType.AwardingBodies
                 };
                 storageItem.filters.push(filter);

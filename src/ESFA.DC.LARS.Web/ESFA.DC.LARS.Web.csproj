@@ -32,6 +32,7 @@
     <Content Remove="wwwroot\app\searchMain.ts" />
     <Content Remove="wwwroot\app\SearchType.ts" />
     <Content Remove="wwwroot\app\Services\accordionService.ts" />
+    <Content Remove="wwwroot\app\Services\filterHistoryService.ts" />
     <Content Remove="wwwroot\app\Services\filterService.ts" />
     <Content Remove="wwwroot\app\Services\filterStoreService.ts" />
     <Content Remove="wwwroot\app\Services\frameworkSearchService.ts" />
@@ -88,6 +89,7 @@
     <TypeScriptCompile Include="wwwroot\app\frameworkSearchResultsMain.ts" />
     <TypeScriptCompile Include="wwwroot\app\SearchType.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\accordionService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\filterHistoryService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterStoreService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Helpers\resultsDisplayHelper.ts" />

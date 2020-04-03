@@ -6,7 +6,7 @@
     import { accordionService } from '../Services/accordionService';
     import { SearchType } from '../SearchType';
     import StorageService from '../Services/storageService';
-    import { IStorageItem } from '../Interfaces/IStorageItem';
+    import FilterHistoryService from '../Services/filterHistoryService';
 
     @Component({
         template: "#filtersTemplate"
@@ -15,11 +15,13 @@
         @Prop() public searchType!: SearchType;
         private currentDisplayFilters: Array<IFilterItem> = [];
         private storageService : StorageService;
+        private filterHistoryService : FilterHistoryService;
         private storageKey : string = 'sessionData';
+        private filterTypes : Array<FilterType> = [ FilterType.AwardingBodies, FilterType.Levels, FilterType.FundingStreams, FilterType.TeachingYears ];
 
         constructor() {
             super();
-
+            this.filterHistoryService = new FilterHistoryService(this.searchType);
             this.storageService = new StorageService(sessionStorage);
         }
 
@@ -118,65 +120,26 @@
         }
 
         private getFilterHistory() : void {
-            const sessionData = this.storageService.retrieve(this.storageKey) as IStorageItem;
+            const filters : Array<IFilterItem> = [];
 
-            if (sessionData) {
-                const filters = sessionData.filters;
-                const storeFilters = new Array<IFilterItem>();
+            const storageItem = this.storageService.retrieve(this.storageKey);
 
-                if (filters) {
-                    for (let filter of filters) {
-                        
-                        //empty homepage filter
-                        if (filter.key === '' && filter.value === '') {
-                            continue;
-                        }
-
-                        if (filter.type !== FilterType.TeachingYears) {
-                            let checkbox = null;
-
-                            //try to handle free text input from home page :(
-                            if (filter.key === '') { 
-                                const checkboxes = document.querySelectorAll("input[type='checkbox']");
-                                checkboxes.forEach(cbox => {
-                                    const cboxElement = cbox as HTMLInputElement;
-                                    if (cboxElement.value.includes(filter.value)) {
-                                        checkbox = cboxElement;
-                                    }
-                                });
-                            }
-                            else {
-                                checkbox = document.querySelector("input[type='checkbox'][value='" + filter.key + "']") as HTMLInputElement;
-                            }
-
-                            if (checkbox) {
-                                if (!this.storeContainsFilter(filter)) {
-                                    storeFilters.push(filter);
-                                }
-                                this.updateAccordionByFilter(filter.type);
-                            }
-                        }
-                        else { //handle teaching year select
-                            const teachingYearElement = document.getElementById(filter.key) as HTMLOptionElement;
-
-                            if (teachingYearElement) {
-                                if (!this.storeContainsFilter(filter)) {
-                                    storeFilters.push(filter);
-                                }
-                                this.updateAccordionByFilter(filter.type);
-                            }
-                        }
-                    }
-
-                    this.currentDisplayFilters = storeFilters;
-                    this.updateDisplay();
-                    this.updateStore(storeFilters);
+            for (let filter of storageItem.filters) {
+                if (this.filterTypes.includes(filter.type)) {
+                    filters.push(filter);
                 }
             }
-        }
 
-        private storeContainsFilter(filter : IFilterItem): boolean {
-            return this.savedfilters.includes(filter);
+            const storeFilters = this.filterHistoryService.getFilterHistory(filters);
+
+            const distinctTypes = [...new Set(storeFilters.map(sf => sf.type))];
+            for (let type of distinctTypes) {
+                this.updateAccordionByFilter(type);
+            }
+
+            this.currentDisplayFilters = storeFilters;
+            this.updateDisplay();
+            this.updateStore(storeFilters);
         }
 
         private updateAccordionByFilter(filterType : FilterType) : void {
