@@ -11,83 +11,35 @@
 
 <div id="allFilters" class="filter-container">
 
-    <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
-           v-on:click="updateAccordion($event.target.id)" id="AwardingBodyButton">
-            Awarding Body
-        </a>
-        <div class="filter-box expanded">
-            <div class="govuk-form-group">
-                <div class="govuk-checkboxes govuk-checkboxes--small" ref="AwardingBody">
-                    @if (Model?.LookUpModel?.AwardingBodyLookups != null)
-                    {
-                        @foreach (var awardingBody in Model.LookUpModel.AwardingBodyLookups)
-                        {
-                            <div class="govuk-checkboxes__item left-margin">
-                                <input v-on:change="updateCheckboxFilter('@awardingBody.AwardingBodyCode',  '@awardingBody.AwardingBodyName', $event.target.checked, 'AwardingBody')" class="govuk-checkboxes__input" id="AwardingBody-@awardingBody.AwardingBodyCode" name="AwardingBodies" type="checkbox" value="@awardingBody.AwardingBodyCode"
-                                       @if (Model.SearchModel.AwardingBodies.Any(l => l.Equals(awardingBody.AwardingBodyCode, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
-                                <label class="govuk-label govuk-checkboxes__label" for="AwardingBody-@awardingBody.AwardingBodyCode">
-                                    @awardingBody.AwardingBodyName
-                                </label>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.AwardingBodies),
+            Description = "Awarding Body",
+            FilterType = FilterType.AwardingBody,
+            SelectedFilters = Model.SearchModel.AwardingBodies,
+            FilterItems = Model.LookUpModel?.AwardingBodyLookups.Select(f => new FilterItemModel { Value = f.AwardingBodyCode, Description = f.AwardingBodyName }).ToList()
+        })
 
-    <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
-           v-on:click="updateAccordion($event.target.id)" id="LevelsButton">
-            Level
-        </a>
-        <div class="filter-box expanded">
-            <div class="govuk-form-group">
-                <div class="govuk-checkboxes govuk-checkboxes--small" ref="Levels">
-                    @if (Model?.LookUpModel?.NotionalNvqLevel2Lookups != null)
-                    {
-                        @foreach (var level in Model.LookUpModel.NotionalNvqLevel2Lookups)
-                        {
-                            <div class="govuk-checkboxes__item left-margin">
-                                <input v-on:change="updateCheckboxFilter('@level.NotionalNVQLevelV2', '@level.NotionalNVQLevelV2Desc', $event.target.checked, 'Levels')" class="govuk-checkboxes__input" id="Levels-@level.NotionalNVQLevelV2" name="Levels" type="checkbox" value="@level.NotionalNVQLevelV2"
-                                       @if (Model.SearchModel.Levels.Any(l => l.Equals(level.NotionalNVQLevelV2, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
-                                <label class="govuk-label govuk-checkboxes__label" for="Levels-@level.NotionalNVQLevelV2">
-                                    @level.NotionalNVQLevelV2Desc
-                                </label>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.Levels),
+            Description = "Level",
+            FilterType = FilterType.Levels,
+            SelectedFilters = Model.SearchModel.Levels,
+            FilterItems = Model.LookUpModel?.NotionalNvqLevel2Lookups.Select(f => new FilterItemModel { Value = f.NotionalNVQLevelV2, Description = f.NotionalNVQLevelV2Desc }).ToList()
+        })
 
-    <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
-           v-on:click="updateAccordion($event.target.id)" id="FundingStreamsButton">
-            Funding Stream
-        </a>
-        <div class="filter-box expanded">
-            <div class="govuk-form-group">
-                <div class="govuk-checkboxes govuk-checkboxes--small" ref="FundingStreams">
-                    @if (Model?.LookUpModel?.ValidityCategoryLookups != null)
-                    {
-                        @foreach (var validity in Model.LookUpModel.ValidityCategoryLookups)
-                        {
-                            <div class="govuk-checkboxes__item left-margin">
-                                <input v-on:change="updateCheckboxFilter('@validity.ValidityCategory', '@validity.ValidityCategoryDescription', $event.target.checked, 'FundingStreams')" class="govuk-checkboxes__input" id="FundingStreams-@validity.ValidityCategory" name="FundingStreams" type="checkbox" value="@validity.ValidityCategory"
-                                       @if (Model.SearchModel.FundingStreams.Any(f => f.Equals(validity.ValidityCategory, StringComparison.OrdinalIgnoreCase))) { @Html.Raw("checked") } />
-                                <label class="govuk-label govuk-checkboxes__label" for="FundingStreams-@validity.ValidityCategory">
-                                    @validity.ValidityCategoryDescription
-                                </label>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.FundingStreams),
+            Description = "Funding Stream",
+            FilterType = FilterType.FundingStreams,
+            SelectedFilters = Model.SearchModel.FundingStreams,
+            FilterItems = Model.LookUpModel?.ValidityCategoryLookups.Select(f => new FilterItemModel { Value = f.ValidityCategory, Description = f.ValidityCategoryDescription }).ToList()
+        })
 
     <section id="level" class="filter-section">
         <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"

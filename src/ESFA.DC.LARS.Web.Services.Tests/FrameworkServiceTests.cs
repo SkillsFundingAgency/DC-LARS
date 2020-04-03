@@ -17,7 +17,7 @@ namespace ESFA.DC.LARS.Web.Services.Tests
         private const string PathwayCodeParameterName = "pathwayCode";
 
         [Fact]
-        public async Task GetLearningAim_Calls_Client_Get()
+        public async Task GetFramework_Calls_Client_Get()
         {
             var frameworkCode = 1;
             var programType = 2;

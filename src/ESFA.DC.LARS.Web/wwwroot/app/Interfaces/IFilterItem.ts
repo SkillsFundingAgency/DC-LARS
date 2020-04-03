@@ -2,7 +2,9 @@
     AwardingBody,
     Levels,
     FundingStreams,
-    TeachingYears
+    TeachingYears,
+    FrameworkTypes,
+    IssuingAuthorities
 }
 
 export interface IFilterItem {

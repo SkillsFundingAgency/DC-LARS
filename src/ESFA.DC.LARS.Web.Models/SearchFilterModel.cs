@@ -6,6 +6,8 @@ namespace ESFA.DC.LARS.Web.Models
     {
         public string Name { get; set; }
 
+        public FilterType FilterType { get; set; }
+
         public string Description { get; set; }
 
         public List<FilterItemModel> FilterItems { get; set; } = new List<FilterItemModel>();

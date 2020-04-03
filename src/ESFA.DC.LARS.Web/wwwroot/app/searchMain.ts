@@ -9,12 +9,11 @@ const vue = new Vue({
         (<any>window).GOVUKFrontend.initAll();
 
         const storageService = new StorageService(sessionStorage);
-
         storageService.clearAll();
+        (<any>window).GOVUKFrontend.initAll();
     },
     methods: {
         updateFilters: function() {
-
             const storageService = new StorageService(sessionStorage);
             const storageItem = storageService.retrieve('');
 
