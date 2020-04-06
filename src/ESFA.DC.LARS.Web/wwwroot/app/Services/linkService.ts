@@ -11,7 +11,7 @@ export default class LinkService {
         this.renderBreadcrumbs(storageItem.frameworkSearch);
         this.setHomeLink();
         this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters);
-        this.setFrameworksSearchResultsLink(storageItem.searchTerm);
+        this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
         this.setLearningAimDetailLink(storageItem.learnAimRef, storageItem.teachingYear);
         this.setFrameworksLink(storageItem.learnAimRef, storageItem.learningAimTitle);
         this.setPathwaysLink(storageItem.frameworkCode, storageItem.programType, storageItem.pathwayCode);
@@ -52,40 +52,43 @@ export default class LinkService {
         const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.href ="#";
+            anchor.href = "#";
+            const that = this;
+            anchor.addEventListener("click", function () {
+                const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
+                form.action = '/LearningAimSearchResult/Search';
+
+                that.addElement("SearchTerm", searchTerm, form);
+                that.addElement("TeachingYears", teachingYear, form);
+                filters.forEach(f => that.addElement(f.type.toString(), f.key, form));
+
+                form.submit();
+            });
         }
-
-        var that = this;
-
-        anchor.addEventListener("click", function () {
-            const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
-            form.action = '/LearningAimSearchResult/Search';
-
-            that.addPostElement("searchTerm", searchTerm, form);
-            that.addPostElement("teachingYear", teachingYear, form);
-
-            filters.forEach(f => {
-                that.addPostElement(f.type.toString(), f.value, form);
-            })
-
-            form.submit();
-        });
-
     }
 
-    private addPostElement(name: string, value: string, form: HTMLFormElement) {
-        const postElement = <HTMLInputElement>(document.createElement('input'));
-        postElement.name = name;
-        postElement.value = value;
-        form.appendChild(postElement);
-    }
-
-    private setFrameworksSearchResultsLink(searchTerm: string) {
+    private setFrameworksSearchResultsLink(searchTerm: string, filters: IFilterItem[]) {
         const anchor = document.getElementById("frameworksSearchResultsLink") as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.href = `/FrameworkSearchResult?SearchTerm=${searchTerm}`;
+            anchor.href = "#";
+            const that = this;
+
+            anchor.addEventListener("click", function () {
+                const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
+                form.action = '/FrameworkSearchResult/Search';
+                that.addElement("SearchTerm", searchTerm, form);
+
+                filters.forEach(f => that.addElement(f.type.toString(), f.key, form));
+                form.submit();
+            });
         }
+    }
+
+    private addElement(name: string, value: string, form: HTMLFormElement) {
+        const element = <HTMLInputElement>(document.createElement('input'));
+        Object.assign(element, { name, value });
+        form.appendChild(element);
     }
 
     private setLearningAimDetailLink(learnAimRef: string, academicYear: string) {
