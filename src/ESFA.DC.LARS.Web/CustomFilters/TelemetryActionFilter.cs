@@ -19,16 +19,27 @@ namespace ESFA.DC.LARS.Web.CustomFilters
             try
             {
                 var telemetryArgs = new Dictionary<string, string>();
-                foreach (var arg in context.ActionArguments)
+                if (context.ActionArguments != null)
                 {
-                    telemetryArgs.Add(arg.Key, arg.Value.ToString());
+                    foreach (var arg in context.ActionArguments)
+                    {
+                        if (arg.Value != null)
+                        {
+                            telemetryArgs.Add(arg.Key, arg.Value.ToString());
+                        }
+                        else
+                        {
+                            telemetryArgs.Add(arg.Key, "NULL");
+                        }
+                    }
+                    _telemetryClient.TrackTrace(context.ActionDescriptor.DisplayName, telemetryArgs);
                 }
-
-                _telemetryClient.TrackTrace(context.ActionDescriptor.DisplayName, telemetryArgs);
             }
             catch { }
-
-            var resultContext = await next();
+            finally
+            {
+                var resultContext = await next();
+            }
         }
     }
 }
