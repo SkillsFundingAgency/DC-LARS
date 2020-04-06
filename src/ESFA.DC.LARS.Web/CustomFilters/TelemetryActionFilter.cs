@@ -23,15 +23,9 @@ namespace ESFA.DC.LARS.Web.CustomFilters
                 {
                     foreach (var arg in context.ActionArguments)
                     {
-                        if (arg.Value != null)
-                        {
-                            telemetryArgs.Add(arg.Key, arg.Value.ToString());
-                        }
-                        else
-                        {
-                            telemetryArgs.Add(arg.Key, "NULL");
-                        }
+                        telemetryArgs.Add(arg.Key, arg.Value?.ToString());
                     }
+
                     _telemetryClient.TrackTrace(context.ActionDescriptor.DisplayName, telemetryArgs);
                 }
             }
