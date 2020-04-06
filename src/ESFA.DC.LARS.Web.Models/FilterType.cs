@@ -2,7 +2,7 @@
 {
     public enum FilterType
     {
-        AwardingBody,
+        AwardingBodies,
         Levels,
         FundingStreams,
         TeachingYears,

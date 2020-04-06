@@ -16,7 +16,7 @@
         {
             Name = nameof(Model.SearchModel.AwardingBodies),
             Description = "Awarding Body",
-            FilterType = FilterType.AwardingBody,
+            FilterType = FilterType.AwardingBodies,
             SelectedFilters = Model.SearchModel.AwardingBodies,
             FilterItems = Model.LookUpModel?.AwardingBodyLookups.Select(f => new FilterItemModel { Value = f.AwardingBodyCode, Description = f.AwardingBodyName }).ToList()
         })
