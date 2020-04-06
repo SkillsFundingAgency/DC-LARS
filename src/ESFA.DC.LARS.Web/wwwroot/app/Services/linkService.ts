@@ -53,14 +53,14 @@ export default class LinkService {
 
         if (anchor != null) {
             anchor.href = "#";
-            const that = this;
+            const classScope = this;
             anchor.addEventListener("click", function () {
                 const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
                 form.action = '/LearningAimSearchResult/Search';
 
-                that.addElement("SearchTerm", searchTerm, form);
-                that.addElement("TeachingYears", teachingYear, form);
-                filters.forEach(f => that.addElement(f.type.toString(), f.key, form));
+                classScope.addElement("SearchTerm", searchTerm, form);
+                classScope.addElement("TeachingYears", teachingYear, form);
+                filters.forEach(f => classScope.addElement(f.type.toString(), f.key, form));
 
                 form.submit();
             });
@@ -72,14 +72,14 @@ export default class LinkService {
 
         if (anchor != null) {
             anchor.href = "#";
-            const that = this;
+            const classScope = this;
 
             anchor.addEventListener("click", function () {
                 const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
                 form.action = '/FrameworkSearchResult/Search';
-                that.addElement("SearchTerm", searchTerm, form);
+                classScope.addElement("SearchTerm", searchTerm, form);
 
-                filters.forEach(f => that.addElement(f.type.toString(), f.key, form));
+                filters.forEach(f => classScope.addElement(f.type.toString(), f.key, form));
                 form.submit();
             });
         }
