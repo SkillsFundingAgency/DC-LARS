@@ -1,5 +1,6 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import StorageService from './storageService.js';
+import { IFilterItem } from '../Interfaces/IFilterItem';
 
 export default class LinkService {
 
@@ -9,7 +10,7 @@ export default class LinkService {
 
         this.renderBreadcrumbs(storageItem.frameworkSearch);
         this.setHomeLink();
-        this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear);
+        this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters);
         this.setFrameworksSearchResultsLink(storageItem.searchTerm);
         this.setLearningAimDetailLink(storageItem.learnAimRef, storageItem.teachingYear);
         this.setFrameworksLink(storageItem.learnAimRef, storageItem.learningAimTitle);
@@ -47,12 +48,36 @@ export default class LinkService {
         }
     }
 
-    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string) {
+    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string, filters : IFilterItem[]) {
         const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.href = `/LearningAimSearchResult?SearchTerm=${searchTerm}&TeachingYear=${teachingYear}`;
+            anchor.href ="#";
         }
+
+        var that = this;
+
+        anchor.addEventListener("click", function () {
+            const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
+            form.action = '/LearningAimSearchResult/Search';
+
+            that.addPostElement("searchTerm", searchTerm, form);
+            that.addPostElement("teachingYear", teachingYear, form);
+
+            filters.forEach(f => {
+                that.addPostElement(f.type.toString(), f.value, form);
+            })
+
+            form.submit();
+        });
+
+    }
+
+    private addPostElement(name: string, value: string, form: HTMLFormElement) {
+        const postElement = <HTMLInputElement>(document.createElement('input'));
+        postElement.name = name;
+        postElement.value = value;
+        form.appendChild(postElement);
     }
 
     private setFrameworksSearchResultsLink(searchTerm: string) {
@@ -88,5 +113,6 @@ export default class LinkService {
             anchor.href = `/FrameworkDetails/${frameworkCode}/${programType}/${pathwayCode}`;
         }
     }
+
 
 }
