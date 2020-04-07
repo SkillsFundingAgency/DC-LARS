@@ -7,18 +7,18 @@ test('removeFilterFromArray should remove filter item from array of filter items
         {
             key: 'foo',
             value: 'bar',
-            type: FilterType.AwardingBody
+            type: FilterType.AwardingBodies
         },
         {
             key: 'keep',
             value: 'this',
-            type: FilterType.AwardingBody
+            type: FilterType.AwardingBodies
         }];
 
     const filterToRemove: IFilterItem = {
         key: 'foo',
         value: 'bar',
-        type: FilterType.AwardingBody
+        type: FilterType.AwardingBodies
     };
 
     const result = filterService.removeFilterFromArray(filters, filterToRemove);
@@ -64,10 +64,10 @@ test('findFilterItemByType should find filter by type', () => {
         {
             key: 'found',
             value: 'find',
-            type: FilterType.AwardingBody
+            type: FilterType.AwardingBodies
         }];
 
-    const found = filterService.findFilterItemByType(FilterType.AwardingBody, filters);
+    const found = filterService.findFilterItemByType(FilterType.AwardingBodies, filters);
 
     expect(found?.key).toBe('found');
 });

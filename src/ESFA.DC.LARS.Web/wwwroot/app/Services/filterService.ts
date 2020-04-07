@@ -1,7 +1,7 @@
 ﻿import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
 class FilterService {
-    removeFilterFromArray(filters: Array<IFilterItem>, item: IFilterItem) : Array<IFilterItem> {
+    removeFilterFromArray(filters: Array<IFilterItem>, item: IFilterItem): Array<IFilterItem> {
         const found = this.findFilterItem(item.key, item.type, filters);
 
         if (found !== undefined) {
@@ -30,16 +30,26 @@ class FilterService {
      }
 
     sortFilters(filters: Array<IFilterItem>): Array<IFilterItem> {
+        
         return filters.sort((f1, f2) => {
-            if (f1.type > f2.type) {
+            let type1Ordinal = 0;
+            let type2Ordinal = 0;
+            const keys = Object.keys(FilterType);
+
+            keys.forEach((key, i) => {
+                if (key === FilterType[f1.type]) type1Ordinal = i;
+                if (key === FilterType[f2.type]) type2Ordinal = i;
+            });
+            
+            if (type1Ordinal > type2Ordinal) {
                 return 1;
             }
 
-            if (f1.type < f2.type) {
+            if (type1Ordinal < type2Ordinal) {
                 return -1;
             }
 
-            if (f1.type === f2.type) {
+            if (type1Ordinal === type2Ordinal) {
                 if (f1.value > f2.value) {
                     return 1;
                 }

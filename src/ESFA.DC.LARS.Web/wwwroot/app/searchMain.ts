@@ -6,6 +6,8 @@ import StorageService from "./Services/storageService";
 const vue = new Vue({
     el: "#homeApp",
     mounted() {
+        (<any>window).GOVUKFrontend.initAll();
+
         const storageService = new StorageService(sessionStorage);
         storageService.clearAll();
         (<any>window).GOVUKFrontend.initAll();
@@ -15,18 +17,18 @@ const vue = new Vue({
             const storageService = new StorageService(sessionStorage);
             const storageItem = storageService.retrieve('');
 
-            const awardingBodyFilterElement = document.getElementById('AwardingBody');
-            if (awardingBodyFilterElement) {
+            const awardingBodyFilterElement = document.getElementById('AwardingBody') as HTMLInputElement;
+            if (awardingBodyFilterElement && awardingBodyFilterElement.value) {
                 const filter: IFilterItem = {
                     key: '',
-                    value: awardingBodyFilterElement.innerHTML,
-                    type: FilterType.AwardingBody
+                    value: awardingBodyFilterElement.value,
+                    type: FilterType.AwardingBodies
                 };
                 storageItem.filters.push(filter);
             }
 
             const levelElement = document.getElementById('Level') as HTMLSelectElement;
-            if (levelElement) {
+            if (levelElement && levelElement.value) {
                 const filter: IFilterItem = {
                     key: levelElement.options[levelElement.selectedIndex].value,
                     value: levelElement.options[levelElement.selectedIndex].text,
@@ -36,7 +38,7 @@ const vue = new Vue({
             }
 
             const teachingYearElement = document.getElementById('TeachingYear') as HTMLSelectElement;
-            if (teachingYearElement) {
+            if (teachingYearElement && teachingYearElement.value) {
                 const filter: IFilterItem = {
                     key: teachingYearElement.options[teachingYearElement.selectedIndex].value,
                     value: teachingYearElement.options[teachingYearElement.selectedIndex].text,

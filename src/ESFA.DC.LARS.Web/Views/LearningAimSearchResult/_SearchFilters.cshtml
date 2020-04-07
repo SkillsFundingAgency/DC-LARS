@@ -16,7 +16,7 @@
         {
             Name = nameof(Model.SearchModel.AwardingBodies),
             Description = "Awarding Body",
-            FilterType = FilterType.AwardingBody,
+            FilterType = FilterType.AwardingBodies,
             SelectedFilters = Model.SearchModel.AwardingBodies,
             FilterItems = Model.LookUpModel?.AwardingBodyLookups.Select(f => new FilterItemModel { Value = f.AwardingBodyCode, Description = f.AwardingBodyName }).ToList()
         })
@@ -43,7 +43,7 @@
 
     <section id="level" class="filter-section">
         <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
-           v-on:click="updateAccordion($event.target.id)" id="teachingYearButton">
+           v-on:click="updateAccordion($event.target.id)" id="TeachingYearsButton">
             Teaching Year
         </a>
         <div class="filter-box expanded">

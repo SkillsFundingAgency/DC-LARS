@@ -17,7 +17,7 @@ class QualificationSearchService {
 
 	private createRequest(filters: Array<IFilterItem>, searchTerm: string, teachingYears: Array<string>): IQualificationsSearchRequest {
 		var request: IQualificationsSearchRequest = {
-			awardingBodies: filterService.filterValuesForType(filters, FilterType.AwardingBody),
+			awardingBodies: filterService.filterValuesForType(filters, FilterType.AwardingBodies),
 			levels: filterService.filterValuesForType(filters, FilterType.Levels),
 			fundingStreams: filterService.filterValuesForType(filters, FilterType.FundingStreams),
 			searchTerm: searchTerm,

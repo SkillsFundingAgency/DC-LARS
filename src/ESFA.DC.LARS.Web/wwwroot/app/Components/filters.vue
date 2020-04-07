@@ -5,6 +5,8 @@
     import { filterStoreService } from '../Services/filterStoreService';
     import { accordionService } from '../Services/accordionService';
     import { SearchType } from '../SearchType';
+    import StorageService from '../Services/storageService';
+    import FilterHistoryService from '../Services/filterHistoryService';
 
     @Component({
         template: "#filtersTemplate"
@@ -12,11 +14,22 @@
     export default class Filters extends Vue {
         @Prop() public searchType!: SearchType;
         private currentDisplayFilters: Array<IFilterItem> = [];
+        private storageService : StorageService;
+        private filterHistoryService : FilterHistoryService;
+        private storageKey : string = 'sessionData';
+
+        constructor() {
+            super();
+            this.filterHistoryService = new FilterHistoryService(this.searchType);
+            this.storageService = new StorageService(sessionStorage);
+        }
 
         mounted() {
+            accordionService.initialiseAccordion();
+            this.getFilterHistory();
+
             this.currentDisplayFilters = this.savedfilters;
             filterStoreService.watchFilters(this.searchType, this.updateDisplay, false, true);
-            accordionService.initialiseAccordion();
         }
 
         get savedfilters(): Array<IFilterItem> {
@@ -25,6 +38,7 @@
 
         public clearFilters(): void {
             filterStoreService.updateStore(this.searchType, []);
+            this.storageService.clearFilters(this.storageKey);
             this.updateDisplay();
         }
 
@@ -33,6 +47,8 @@
             const actionedFilter: IFilterItem = { key, value, type };
 
             isChecked ? filters.push(actionedFilter) : filterService.removeFilterFromArray(filters, actionedFilter);
+
+            this.storageService.updateFilters(this.storageKey, filters);
             this.updateStore(filters);
         }
 
@@ -41,7 +57,8 @@
             let filter = filterService.findFilterItemByType(type, filters);
 
             filter ? filter = Object.assign(filter, {key: key, value: value}) : filters.push({ key, value, type });
-
+            
+            this.storageService.updateFilters(this.storageKey, filters);
             this.updateStore(filters);
         }
 
@@ -72,10 +89,12 @@
             Array.from(new Set(filters.map(filter => filter.type))).forEach(type => {
                 const typeContainer = classScope.$refs[type.toString()] as HTMLElement;
 
-                filters.filter(i => i.type === type).forEach(filter => {
-                    !classScope.updateCheckboxDisplay(typeContainer, filter.key, isAdded)
-                        && classScope.updateSelectDisplay(typeContainer, filter.key, isAdded);
-                });
+                if (typeContainer) {
+                    filters.filter(i => i.type === type).forEach(filter => {
+                        !classScope.updateCheckboxDisplay(typeContainer, filter.key, isAdded)
+                            && classScope.updateSelectDisplay(typeContainer, filter.key, isAdded);
+                    });
+                }
             });
         }
 
@@ -97,6 +116,30 @@
                 return true;
             }
             return false;
+        }
+
+        private getFilterHistory() : void {
+            const filters : Array<IFilterItem> = [];
+
+            const storageItem = this.storageService.retrieve(this.storageKey);
+            if (storageItem && storageItem.filters) {
+                
+                const storeFilters = this.filterHistoryService.getFilterHistory();
+                if (storeFilters) {
+                    const distinctTypes = [...new Set(storeFilters.map(sf => sf.type))];
+                    for (let type of distinctTypes) {
+                        this.updateAccordionByFilter(type);
+                    }
+
+                    this.currentDisplayFilters = storeFilters;
+                    this.updateStore(storeFilters);
+                    this.updateDisplay();
+                }
+            }
+        }
+
+        private updateAccordionByFilter(filterType : FilterType) : void {
+            this.updateAccordion(FilterType[filterType] + '-Button');
         }
     }
 </script>

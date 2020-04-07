@@ -1,11 +1,11 @@
 ﻿import Vue from "vue";
 import store from "./store"
 
-import Filters from "./Components/filters.vue";
-import FilterFeedback from './Components/filterFeedback.vue';
-import { qualificationSearchService } from './Services/qualificationSearchService';
+import Filters from "../app/Components/filters.vue";
+import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
+import { qualificationSearchService } from './Services/qualificationSearchService';
 import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
 
 const vue = new Vue({
