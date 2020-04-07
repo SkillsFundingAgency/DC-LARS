@@ -18,7 +18,6 @@
         const panelButtons = document.querySelectorAll('.filter-box-button');
 
         if (button) {
-
             if (button.classList.contains('close-all')) {
                 panels.forEach(panel => {
                     panel.classList.remove('expanded');
@@ -56,6 +55,7 @@
                 if (!init) {
                     button.classList.toggle('rotate');
                 }
+
                 panel.classList.toggle('expanded');
             }
         }

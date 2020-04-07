@@ -8,14 +8,14 @@ import { filterService } from '../Services/filterService';
 class FrameworkSearchService {
 
 	async getResultsAsync(filters: Array<IFilterItem>, searchTerm: string): Promise<ISearchResults>{
-		var response = await axios.get<ISearchResults>('../FrameworkSearchResult/Results', {
+		const response = await axios.get<ISearchResults>('../FrameworkSearchResult/Results', {
 			params: this.createRequest(filters, searchTerm), paramsSerializer: p =>  qs.stringify(p)
 		});
 		return response.data;
 	}
 
 	private createRequest(filters: Array<IFilterItem>, searchTerm: string): IFrameworksSearchRequest {
-		var request: IFrameworksSearchRequest = {
+		const request: IFrameworksSearchRequest = {
 			searchTerm: searchTerm,
 			frameworkTypes: filterService.filterValuesForType(filters, FilterType.FrameworkTypes),
 			issuingAuthorities: filterService.filterValuesForType(filters, FilterType.IssuingAuthorities)

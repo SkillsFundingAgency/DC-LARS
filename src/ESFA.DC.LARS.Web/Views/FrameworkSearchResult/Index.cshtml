@@ -73,9 +73,13 @@
     <script type="module">
         import StorageService from '/assets/dist/js/Services/storageService.js';
         import LinkService from '/assets/dist/js/Services/linkService.js';
-
+        
         var storageService = new StorageService(sessionStorage);
-        var storageItem = { searchTerm: "@Model.SearchModel.SearchTerm", frameworkSearch: true }
+        
+        var storageItem = storageService.retrieve('sessionData');
+        storageItem.searchTerm = "@Model.SearchModel.SearchTerm";
+        storageItem.frameworkSearch = true;
+
         storageService.store('sessionData', storageItem);
 
         var linkService = new LinkService();

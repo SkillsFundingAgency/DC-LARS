@@ -17,7 +17,6 @@
         private storageService : StorageService;
         private filterHistoryService : FilterHistoryService;
         private storageKey : string = 'sessionData';
-        private filterTypes : Array<FilterType> = [ FilterType.AwardingBodies, FilterType.Levels, FilterType.FundingStreams, FilterType.TeachingYears ];
 
         constructor() {
             super();
@@ -26,11 +25,11 @@
         }
 
         mounted() {
+            accordionService.initialiseAccordion();
             this.getFilterHistory();
 
             this.currentDisplayFilters = this.savedfilters;
             filterStoreService.watchFilters(this.searchType, this.updateDisplay, false, true);
-            accordionService.initialiseAccordion();
         }
 
         get savedfilters(): Array<IFilterItem> {
@@ -123,26 +122,25 @@
             const filters : Array<IFilterItem> = [];
 
             const storageItem = this.storageService.retrieve(this.storageKey);
+            if (storageItem && storageItem.filters) {
+                
+                const storeFilters = this.filterHistoryService.getFilterHistory();
+                if (storeFilters) {
+                    const distinctTypes = [...new Set(storeFilters.map(sf => sf.type))];
+                    for (let type of distinctTypes) {
+                        this.updateAccordionByFilter(type);
+                    }
 
-            for (let filter of storageItem.filters) {
-                if (this.filterTypes.includes(filter.type)) {
-                    filters.push(filter);
+                    this.currentDisplayFilters = storeFilters;
+                    this.updateDisplay();
+                    this.updateStore(storeFilters);
                 }
             }
-
-            const storeFilters = this.filterHistoryService.getFilterHistory(filters);
-
-            const distinctTypes = [...new Set(storeFilters.map(sf => sf.type))];
-            for (let type of distinctTypes) {
-                this.updateAccordionByFilter(type);
-            }
-
-            this.currentDisplayFilters = storeFilters;
-            this.updateDisplay();
-            this.updateStore(storeFilters);
         }
 
         private updateAccordionByFilter(filterType : FilterType) : void {
+            alert('filter type: ' + filterType);
+            alert('button: ' + FilterType[filterType] + '-Button');
             this.updateAccordion(FilterType[filterType] + '-Button');
         }
     }

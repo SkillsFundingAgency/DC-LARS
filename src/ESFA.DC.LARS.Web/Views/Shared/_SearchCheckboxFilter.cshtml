@@ -14,7 +14,8 @@
                     <div class="govuk-checkboxes__item left-margin">
                         <input class="govuk-checkboxes__input"
                                 id="@($"{Model.Name}-{filterItem.Value}")" name="@Model.Name" type="checkbox" 
-                                value="@filterItem.Value" checked="@Model.SelectedFilters.Any(l => l.Equals(filterItem.Value, StringComparison.OrdinalIgnoreCase))" 
+                                value="@filterItem.Value" data-description="@filterItem.Description"
+                                checked="@Model.SelectedFilters.Any(l => l.Equals(filterItem.Value, StringComparison.OrdinalIgnoreCase))" 
                                 v-on:change="updateCheckboxFilter('@filterItem.Value',  '@filterItem.Description', $event.target.checked, '@Model.Name')"
                                />
                         <label class="govuk-label govuk-checkboxes__label" for="@($"{Model.Name}-{filterItem.Value}")">
