@@ -23,9 +23,9 @@ export default class LinkService {
         const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
         const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
 
-        if (frameworkSearch && frameworkAnchor != null) {
+        if (frameworkSearch && frameworkAnchor) {
             frameworkAnchor.removeAttribute("style");
-            if (learningAimAnchor != null) {
+            if (learningAimAnchor) {
                 const parent = learningAimAnchor.parentNode as Node;
                 parent.removeChild(learningAimAnchor);
             }
@@ -33,9 +33,9 @@ export default class LinkService {
             return;
         }
 
-        if (learningAimAnchor != null) {
+        if (learningAimAnchor) {
             learningAimAnchor.removeAttribute("style");
-            if (frameworkAnchor != null) {
+            if (frameworkAnchor) {
                 const parent = frameworkAnchor.parentNode as Node;
                 parent.removeChild(frameworkAnchor);
             }
@@ -45,7 +45,7 @@ export default class LinkService {
     private setAnchorLinkById(linkId: string, href: string) {
         const anchor = document.getElementById(linkId) as HTMLAnchorElement;
 
-        if (anchor != null) {
+        if (anchor) {
             anchor.href = href;
         }
     }
@@ -54,7 +54,7 @@ export default class LinkService {
         const frameworksAnchor = document.getElementById("frameworksLink") as HTMLAnchorElement;
         const learningAimDetailAnchor = document.getElementById("learningAimDetailLink") as HTMLAnchorElement;
 
-        if (frameworksAnchor != null && learningAimDetailAnchor != null) {
+        if (frameworksAnchor && learningAimDetailAnchor) {
             learningAimDetailAnchor.innerHTML = learningAimTitle;
         }
     }
