@@ -1,5 +1,6 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import StorageService from './storageService.js';
+import { IFilterItem } from '../Interfaces/IFilterItem';
 
 export default class LinkService {
 
@@ -9,8 +10,8 @@ export default class LinkService {
 
         this.renderBreadcrumbs(storageItem.frameworkSearch);
         this.setHomeLink();
-        this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear);
-        this.setFrameworksSearchResultsLink(storageItem.searchTerm);
+        this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters);
+        this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
         this.setLearningAimDetailLink(storageItem.learnAimRef, storageItem.teachingYear);
         this.setFrameworksLink(storageItem.learnAimRef, storageItem.learningAimTitle);
         this.setPathwaysLink(storageItem.frameworkCode, storageItem.programType, storageItem.pathwayCode);
@@ -47,20 +48,47 @@ export default class LinkService {
         }
     }
 
-    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string) {
+    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string, filters : IFilterItem[]) {
         const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.href = `/LearningAimSearchResult?SearchTerm=${searchTerm}&TeachingYear=${teachingYear}`;
+            anchor.href = "#";
+            const classScope = this;
+            anchor.addEventListener("click", function () {
+                const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
+                form.action = '/LearningAimSearchResult/Search';
+
+                classScope.addElement("SearchTerm", searchTerm, form);
+                classScope.addElement("TeachingYears", teachingYear, form);
+                filters.forEach(f => classScope.addElement(f.type.toString(), f.key, form));
+
+                form.submit();
+            });
         }
     }
 
-    private setFrameworksSearchResultsLink(searchTerm: string) {
+    private setFrameworksSearchResultsLink(searchTerm: string, filters: IFilterItem[]) {
         const anchor = document.getElementById("frameworksSearchResultsLink") as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.href = `/FrameworkSearchResult?SearchTerm=${searchTerm}`;
+            anchor.href = "#";
+            const classScope = this;
+
+            anchor.addEventListener("click", function () {
+                const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
+                form.action = '/FrameworkSearchResult/Search';
+                classScope.addElement("SearchTerm", searchTerm, form);
+
+                filters.forEach(f => classScope.addElement(f.type.toString(), f.key, form));
+                form.submit();
+            });
         }
+    }
+
+    private addElement(name: string, value: string, form: HTMLFormElement) {
+        const element = <HTMLInputElement>(document.createElement('input'));
+        Object.assign(element, { name, value });
+        form.appendChild(element);
     }
 
     private setLearningAimDetailLink(learnAimRef: string, academicYear: string) {
@@ -88,5 +116,6 @@ export default class LinkService {
             anchor.href = `/FrameworkDetails/${frameworkCode}/${programType}/${pathwayCode}`;
         }
     }
+
 
 }
