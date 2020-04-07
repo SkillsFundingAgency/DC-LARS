@@ -18,7 +18,7 @@ const vue = new Vue({
             const storageItem = storageService.retrieve('');
 
             const awardingBodyFilterElement = document.getElementById('AwardingBody') as HTMLInputElement;
-            if (awardingBodyFilterElement) {
+            if (awardingBodyFilterElement && awardingBodyFilterElement.value) {
                 const filter: IFilterItem = {
                     key: '',
                     value: awardingBodyFilterElement.value,
@@ -28,7 +28,7 @@ const vue = new Vue({
             }
 
             const levelElement = document.getElementById('Level') as HTMLSelectElement;
-            if (levelElement) {
+            if (levelElement && levelElement.value) {
                 const filter: IFilterItem = {
                     key: levelElement.options[levelElement.selectedIndex].value,
                     value: levelElement.options[levelElement.selectedIndex].text,
@@ -38,7 +38,7 @@ const vue = new Vue({
             }
 
             const teachingYearElement = document.getElementById('TeachingYear') as HTMLSelectElement;
-            if (teachingYearElement) {
+            if (teachingYearElement && teachingYearElement.value) {
                 const filter: IFilterItem = {
                     key: teachingYearElement.options[teachingYearElement.selectedIndex].value,
                     value: teachingYearElement.options[teachingYearElement.selectedIndex].text,
