@@ -132,8 +132,8 @@
                     }
 
                     this.currentDisplayFilters = storeFilters;
-                    this.updateDisplay();
                     this.updateStore(storeFilters);
+                    this.updateDisplay();
                 }
             }
         }
