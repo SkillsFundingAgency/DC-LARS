@@ -8,12 +8,15 @@ export default class LinkService {
         const storageItem = storageService.retrieve('sessionData') as IStorageItem;
 
         this.renderBreadcrumbs(storageItem.frameworkSearch);
-        this.setHomeLink();
-        this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear);
-        this.setFrameworksSearchResultsLink(storageItem.searchTerm);
-        this.setLearningAimDetailLink(storageItem.learnAimRef, storageItem.teachingYear);
-        this.setFrameworksLink(storageItem.learnAimRef, storageItem.learningAimTitle);
-        this.setPathwaysLink(storageItem.frameworkCode, storageItem.programType, storageItem.pathwayCode);
+
+        this.setAnchorLinkById("homeLink", "/");
+        this.setAnchorLinkById("searchResultsLink", `/LearningAimSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${storageItem.teachingYear}`);
+        this.setAnchorLinkById("frameworksSearchResultsLink", `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}`);
+        this.setAnchorLinkById("learningAimDetailLink", `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`);
+        this.setAnchorLinkById("frameworksLink", `/Frameworks/${storageItem.learnAimRef}`);
+        this.setAnchorLinkById("pathwaysLink", `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`);
+
+        this.setLearningAimDetailText(storageItem.learningAimTitle);
     }
 
     private renderBreadcrumbs(frameworkSearch: boolean) {
@@ -39,54 +42,20 @@ export default class LinkService {
         }
     }
 
-    private setHomeLink() {
-        const anchor = document.getElementById("homeLink") as HTMLAnchorElement;
+    private setAnchorLinkById(linkId: string, href: string) {
+        const anchor = document.getElementById(linkId) as HTMLAnchorElement;
 
         if (anchor != null) {
-            anchor.href = `/`;
+            anchor.href = href;
         }
     }
 
-    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string) {
-        const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
-
-        if (anchor != null) {
-            anchor.href = `/LearningAimSearchResult?SearchTerm=${searchTerm}&TeachingYear=${teachingYear}`;
-        }
-    }
-
-    private setFrameworksSearchResultsLink(searchTerm: string) {
-        const anchor = document.getElementById("frameworksSearchResultsLink") as HTMLAnchorElement;
-
-        if (anchor != null) {
-            anchor.href = `/FrameworkSearchResult?SearchTerm=${searchTerm}`;
-        }
-    }
-
-    private setLearningAimDetailLink(learnAimRef: string, academicYear: string) {
-        const anchor = document.getElementById("learningAimDetailLink") as HTMLAnchorElement;
-
-        if (anchor != null) {
-            anchor.href = `/LearningAimDetails/${learnAimRef}?academicYear=${academicYear}`;
-        }
-    }
-
-    private setFrameworksLink(learnAimRef: string, learningAimTitle: string) {
+    private setLearningAimDetailText(learningAimTitle: string) {
         const frameworksAnchor = document.getElementById("frameworksLink") as HTMLAnchorElement;
         const learningAimDetailAnchor = document.getElementById("learningAimDetailLink") as HTMLAnchorElement;
 
         if (frameworksAnchor != null && learningAimDetailAnchor != null) {
-            frameworksAnchor.href = `/Frameworks/${learnAimRef}`;
             learningAimDetailAnchor.innerHTML = learningAimTitle;
         }
     }
-
-    private setPathwaysLink(frameworkCode: string, programType: string, pathwayCode: string) {
-        const anchor = document.getElementById("pathwaysLink") as HTMLAnchorElement;
-
-        if (anchor != null) {
-            anchor.href = `/FrameworkDetails/${frameworkCode}/${programType}/${pathwayCode}`;
-        }
-    }
-
 }
