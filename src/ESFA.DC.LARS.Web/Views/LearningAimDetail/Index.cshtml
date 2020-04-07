@@ -165,18 +165,8 @@
 @section PageScripts
 {
     <script type="module">
-        import StorageService from '/assets/dist/js/Services/storageService.js';
-        import LinkService from '/assets/dist/js/Services/linkService.js';
-
-        var storageService = new StorageService(sessionStorage);
-        var linkService = new LinkService();
-
-        var storageItem = storageService.retrieve('sessionData');
-        storageItem.learnAimRef = "@Model.LearningAimModel.LearnAimRef";
-        storageItem.learningAimTitle = "@Model.LearningAimModel.LearningAimTitle";
-        storageItem.learningAimDetailsYear = "@academicYear";
-        storageService.store('sessionData', storageItem);
-
-        linkService.setLinks();
+        import ViewService from '/assets/dist/js/Services/viewService.js';
+        const viewService = new ViewService();
+        viewService.setupLearningAimDetailView("@Model.LearningAimModel.LearnAimRef", "@Model.LearningAimModel.LearningAimTitle", "@academicYear")
     </script>
 }

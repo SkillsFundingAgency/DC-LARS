@@ -51,8 +51,8 @@
 @section PageScripts
 {
     <script type="module">
-        import LinkService from '/assets/dist/js/Services/linkService.js';
-        var linkService = new LinkService();
-        linkService.setLinks();
+        import ViewService from '/assets/dist/js/Services/viewService.js';
+        const viewService = new ViewService();
+        viewService.setupLearningAimCategoryView();
     </script>
 }
