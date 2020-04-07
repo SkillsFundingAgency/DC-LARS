@@ -14,7 +14,9 @@ export default class ViewService {
     }
 
     setupLearningAimSearchResultView(searchTerm: string, teachingYear: string) {
-        const storageItem = { searchTerm: searchTerm, teachingYear:teachingYear } as IStorageItem;
+        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
+        storageItem.searchTerm = searchTerm;
+        storageItem.teachingYear = teachingYear;
 
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();
@@ -40,7 +42,9 @@ export default class ViewService {
     }
 
     setupFrameworkSearchResultView(searchTerm: string) {
-        const storageItem = { searchTerm: searchTerm, frameworkSearch: true } as IStorageItem;
+        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
+        storageItem.searchTerm = searchTerm;
+        storageItem.frameworkSearch = true;
 
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();
