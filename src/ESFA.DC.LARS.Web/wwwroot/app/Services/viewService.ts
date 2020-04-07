@@ -17,6 +17,7 @@ export default class ViewService {
         const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
         storageItem.searchTerm = searchTerm;
         storageItem.teachingYear = teachingYear;
+        storageItem.frameworkSearch = false;
 
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();
