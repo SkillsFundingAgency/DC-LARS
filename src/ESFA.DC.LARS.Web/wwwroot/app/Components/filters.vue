@@ -139,8 +139,6 @@
         }
 
         private updateAccordionByFilter(filterType : FilterType) : void {
-            alert('filter type: ' + filterType);
-            alert('button: ' + FilterType[filterType] + '-Button');
             this.updateAccordion(FilterType[filterType] + '-Button');
         }
     }
