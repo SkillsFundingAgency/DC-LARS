@@ -40,6 +40,7 @@
     <Content Remove="wwwroot\app\Services\qualificationSearchService.ts" />
     <Content Remove="wwwroot\app\Services\resultsDisplayService.ts" />
     <Content Remove="wwwroot\app\Services\storageService.ts" />
+    <Content Remove="wwwroot\app\Services\viewService.ts" />
     <Content Remove="wwwroot\app\store.ts" />
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
     <Content Remove="wwwroot\blank.js" />
@@ -97,6 +98,7 @@
     <TypeScriptCompile Include="wwwroot\app\Services\frameworkSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\storageService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\qualificationSearchService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\viewService.ts" />
     <TypeScriptCompile Include="wwwroot\app\store.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\filterService.test.ts" />
   </ItemGroup>

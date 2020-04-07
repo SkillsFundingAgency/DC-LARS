@@ -92,16 +92,8 @@
     </script>
 
     <script type="module">
-        import StorageService from '/assets/dist/js/Services/storageService.js';
-        import LinkService from '/assets/dist/js/Services/linkService.js';
-
-        var storageService = new StorageService(sessionStorage);
-        var storageItem = storageService.retrieve('sessionData');
-        storageItem.searchTerm = "@Model.SearchModel.SearchTerm";
-        storageItem.teachingYear = "@academicYear";
-        storageService.store('sessionData', storageItem);
-
-        var linkService = new LinkService();
-        linkService.setLinks();
+        import ViewService from '/assets/dist/js/Services/viewService.js';
+        const viewService = new ViewService();
+        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear")
     </script>
 }
