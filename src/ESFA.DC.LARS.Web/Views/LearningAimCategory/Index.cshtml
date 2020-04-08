@@ -24,9 +24,9 @@
             </thead>
             <tbody class="govuk-table__body">
                 @if (Model != null
-                  && Model.LearningAimModel != null
-                  && Model.LearningAimModel.Categories != null
-                  && Model.LearningAimModel.Categories.Any())
+                 && Model.LearningAimModel != null
+                 && Model.LearningAimModel.Categories != null
+                 && Model.LearningAimModel.Categories.Any())
                 {
                     @foreach (var category in Model.LearningAimModel.Categories)
                     {
@@ -53,9 +53,10 @@
 
 @section PageScripts
 {
-    <script type="module">
-        import ViewService from '/assets/dist/js/Services/viewService.js';
-        const viewService = new ViewService();
+    <script src="/assets/dist/js/esfa.js"></script>
+
+    <script>
+        var viewService = new ESFA.ViewService();
         viewService.setupFrameworkView();
     </script>
 }

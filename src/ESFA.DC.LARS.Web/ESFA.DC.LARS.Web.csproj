@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\app\cookieService.ts" />
+    <Content Remove="wwwroot\app\ESFAGlobals.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
@@ -81,6 +82,7 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ESFAGlobals.ts" />
     <TypeScriptCompile Include="wwwroot\app\searchMain.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStorageItem.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IQualificationsSearchRequest.ts" />

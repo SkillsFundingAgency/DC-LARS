@@ -85,15 +85,13 @@
     </script>
 
     <script src="/assets/dist/js/learningAimSearchResults.js"></script>
+    <script src="/assets/dist/js/esfa.js"></script>
 
     <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear")
+
         var element = document.getElementById("filtersNoScript");
         element.parentNode.removeChild(element);
-    </script>
-
-    <script type="module">
-        import ViewService from '/assets/dist/js/Services/viewService.js';
-        const viewService = new ViewService();
-        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear")
     </script>
 }

@@ -17,10 +17,12 @@ module.exports = {
     // and the script file under '/js' directory
     entry: {
         './assets/dist/js/site': './wwwroot/assets/js/site.js',
+        './assets/dist/js/pollyfills' : ['babel-polyfill', './wwwroot/pollyfills.js'],
         site : ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss'],
-        './assets/dist/js/search': ['babel-polyfill', './wwwroot/pollyfills.js', './wwwroot/app/searchMain.ts'],
-        './assets/dist/js/learningAimSearchResults': ['babel-polyfill', './wwwroot/pollyfills.js', './wwwroot/app/learningAimSearchResultsMain.ts'],
-        './assets/dist/js/frameworkSearchResults': ['babel-polyfill', './wwwroot/pollyfills.js', './wwwroot/app/frameworkSearchResultsMain.ts']
+        './assets/dist/js/search': './wwwroot/app/searchMain.ts',
+        './assets/dist/js/learningAimSearchResults': './wwwroot/app/learningAimSearchResultsMain.ts',
+        './assets/dist/js/frameworkSearchResults': './wwwroot/app/frameworkSearchResultsMain.ts',
+        './assets/dist/js/ESFA': './wwwroot/ESFAGlobals.ts'
     },
     // This is where we define the path where Webpack will place
     // a bundled JS file.
@@ -126,6 +128,16 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: require.resolve('./wwwroot/ESFAGlobals.ts'),
+                use: [{
+                    loader: 'expose-loader',
+                    options: 'ESFA'
+                }, {
+                    loader: 'ts-loader'
+                }],
+                exclude: /node_modules/
             }
         ]
     },

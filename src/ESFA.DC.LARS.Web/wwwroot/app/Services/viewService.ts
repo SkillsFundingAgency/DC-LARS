@@ -1,8 +1,8 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
-import StorageService from './storageService.js';
-import LinkService from './linkService.js';
+import StorageService from './storageService';
+import LinkService from './linkService';
 
-export default class ViewService {
+export class ViewService {
 
     private readonly storageService: StorageService;
     private readonly linkService: LinkService;
