@@ -164,9 +164,10 @@
 
 @section PageScripts
 {
-    <script type="module">
-        import ViewService from '/assets/dist/js/Services/viewService.js';
-        const viewService = new ViewService();
+    <script src="/assets/dist/js/esfa.js"></script>
+
+    <script>
+        var viewService = new ESFA.ViewService();
         viewService.setupLearningAimDetailView("@Model.LearningAimModel.LearnAimRef", "@Model.LearningAimModel.LearningAimTitle", "@academicYear")
     </script>
 }

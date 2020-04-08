@@ -50,9 +50,10 @@
 
 @section PageScripts
 {
-    <script type="module">
-        import ViewService from '/assets/dist/js/Services/viewService.js';
-        const viewService = new ViewService();
-        viewService.setupLearningAimCategoryView();
+    <script src="/assets/dist/js/esfa.js"></script>
+
+    <script>
+        var viewService = new ESFA.ViewService();
+         viewService.setupLearningAimCategoryView();
     </script>
 }

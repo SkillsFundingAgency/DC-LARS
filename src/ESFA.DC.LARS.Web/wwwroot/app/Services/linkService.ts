@@ -1,5 +1,5 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
-import StorageService from './storageService.js';
+import StorageService from './storageService';
 import { IFilterItem } from '../Interfaces/IFilterItem';
 
 export default class LinkService {

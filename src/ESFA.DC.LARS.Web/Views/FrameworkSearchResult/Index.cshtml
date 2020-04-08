@@ -70,10 +70,14 @@
 </div>
 @section PageScripts
 {
-    <script type="module">
-        import ViewService from '/assets/dist/js/Services/viewService.js';
-        const viewService = new ViewService();
-        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm")
+    <script src="/assets/dist/js/esfa.js"></script>
+
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
+
+        var element = document.getElementById("filtersNoScript");
+        element.parentNode.removeChild(element);
     </script>
 
     <script id="filtersTemplate" type="text/x-template">
@@ -85,10 +89,5 @@
         </div>
     </script>
 
-    <script type="module" src="/assets/dist/js/frameworkSearchResults.js"></script>
-
-    <script>
-        var element = document.getElementById("filtersNoScript");
-        element.parentNode.removeChild(element);
-    </script>
+    <script src="/assets/dist/js/frameworkSearchResults.js"></script>
 }
