@@ -16,21 +16,25 @@ import store from "../store"
                 }
             },
             function () {
-                callback()
+                callback();
             },
             {
                 immediate: immediate,
                 deep: deep
             });
      }
+
      updateStore(searchType: SearchType, filters: Array<IFilterItem>): void {
          switch (searchType) {
              case SearchType.Qualifications:
                  store.commit('updateQualificationFilters', filters);
+                 break;
              case SearchType.Frameworks:
                  store.commit('updateFrameworkFilters', filters);
+                 break;
          }
      }
+
      getSavedFilters(searchType: SearchType): Array<IFilterItem>{
          switch (searchType) {
              case SearchType.Qualifications:
