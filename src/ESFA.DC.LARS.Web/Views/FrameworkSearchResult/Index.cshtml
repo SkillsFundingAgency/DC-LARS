@@ -1,6 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model?.FrameworksBreadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", new[] { Model?.FrameworksBreadcrumbs })
+
 <div id="frameworkResults">
 
     @using (Html.BeginForm("Search", "FrameworkSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
