@@ -1,7 +1,6 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model?.LearningAimBreadcrumbs)
-@await Html.PartialAsync("_breadcrumbs", Model?.FrameworksBreadcrumbs)
+@await Html.PartialAsync("_breadcrumbs", new[] { Model?.LearningAimBreadcrumbs, Model?.FrameworksBreadcrumbs })
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -24,9 +23,9 @@
             </thead>
             <tbody class="govuk-table__body">
                 @if (Model != null
-                 && Model.LearningAimModel != null
-                 && Model.LearningAimModel.Categories != null
-                 && Model.LearningAimModel.Categories.Any())
+              && Model.LearningAimModel != null
+              && Model.LearningAimModel.Categories != null
+              && Model.LearningAimModel.Categories.Any())
                 {
                     @foreach (var category in Model.LearningAimModel.Categories)
                     {
