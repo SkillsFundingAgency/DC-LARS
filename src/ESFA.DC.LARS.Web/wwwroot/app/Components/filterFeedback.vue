@@ -7,7 +7,7 @@
                     <a href="#" class="filter-feedback" v-on:click="removeFilter(filter)">
                         <span class="filter-name">
                             <span class="close" v-bind:id="filter.key"></span>
-                            {{ filter.value }}
+                            <span v-html="filter.value"></span>
                         </span>
                     </a>
                 </template>
