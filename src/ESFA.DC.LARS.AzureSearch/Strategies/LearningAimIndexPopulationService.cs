@@ -49,6 +49,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 var componentTypes = _componentTypeService.GetComponentTypes(context);
 
                 var frameworkAims = context.LarsFrameworkAims
+                    .Where(fa => fa.LearnAimRefNavigation.LearnAimRefType != UnitLearnAimRefType)
                     .Select(fa => new LearningAimFrameworkModel
                         {
                             LearnAimRef = fa.LearnAimRef,
@@ -86,6 +87,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 {
                     var queryStartTime = DateTime.Now;
                     var learningAims = context.LarsLearningDeliveries
+                        .Where(ld => ld.LearnAimRefType != UnitLearnAimRefType)
                         .Select(ld => new LearningAimModel
                         {
                             LearnAimRef = ld.LearnAimRef,
