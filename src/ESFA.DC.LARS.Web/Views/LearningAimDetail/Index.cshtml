@@ -28,11 +28,11 @@
                     <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBodyName
                 </li>
                 <li>
-                    <span class="govuk-!-font-weight-bold">Level 2 Category:</span>
+                    <span class="govuk-!-font-weight-bold">Level 2 Entitlement:</span>
                     @Model.LearningAimModel.AcademicYears.Where(ay => ay.AcademicYear == academicYear?.AcademicYear).Select(ay => ay.Level2Category).FirstOrDefault()
                 </li>
                 <li>
-                    <span class="govuk-!-font-weight-bold">Level 3 Category:</span>
+                    <span class="govuk-!-font-weight-bold">Level 3 Entitlement:</span>
                     @Model.LearningAimModel.AcademicYears.Where(ay => ay.AcademicYear == academicYear?.AcademicYear).Select(ay => ay.Level3Category).FirstOrDefault()
                 </li>
                 <li>
