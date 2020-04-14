@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 // We are getting 'process.env.NODE_ENV' from the NPM scripts
 // Remember the 'dev' script?
@@ -146,8 +145,7 @@ module.exports = {
             filename: devMode ? './assets/dist/css/[name].css' : './assets/dist/minified/[name].min.css',
             chunkFilename: "[name].css"
         }),
-        new VueLoaderPlugin(),
-        new MinifyPlugin()
+        new VueLoaderPlugin()
     ],
     resolve: {
         extensions : ['.ts', '.js', '.vue', '.json'],

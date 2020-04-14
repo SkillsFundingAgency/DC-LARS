@@ -37,53 +37,9 @@
                     <h2 class="govuk-heading-l">Search for a qualification</h2>
 
                     <form asp-action="@nameof(HomeController.AimSearch)" class="govuk-form-group" id="aimSearchForm">
-
+                        <input id="TeachingYear" type="hidden" name="TeachingYear" value="@Model.Lookups.AcademicYearLookups.Single(y => y.IsCurrentAcademicYear).AcademicYear"/>
                         @await Html.PartialAsync("_SearchBar", "searchTerm")
                         <br>
-
-                        <div class="flex space-between">
-                            <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-1">
-                                <label class="govuk-label" for="width-10">
-                                    Awarding body
-                                </label>
-                                <input class="govuk-input govuk-input--width-10 home-black-border" id="AwardingBody" name="AwardingBody" type="text" maxlength="150" />
-
-                            </div>
-
-                            <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-1 home-control-left-margin">
-                                <label class="govuk-label" for="Level">
-                                    Level
-                                </label>
-
-                                <select id="Level" class="govuk-select" name="Level">
-                                    <option value="" selected></option>
-                                    @foreach (var level in Model.Lookups.NotionalNvqLevel2Lookups)
-                                    {
-                                        <option value="@level.NotionalNVQLevelV2">@level.NotionalNVQLevelV2Desc</option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="govuk-form-group govuk-!-margin-top-3 govuk-!-margin-bottom-1 home-control-left-margin">
-                                <label class="govuk-label" for="TeachingYear">
-                                    Teaching year
-                                </label>
-                                <select id="TeachingYear" class="govuk-select" name="TeachingYear">
-                                    @foreach (var year in Model.Lookups.AcademicYearLookups)
-                                    {
-                                        if (year.IsCurrentAcademicYear)
-                                        {
-                                            <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <br />
                         @await Html.PartialAsync("_SearchButton", "qualifications")
                     </form>
                 </div>
