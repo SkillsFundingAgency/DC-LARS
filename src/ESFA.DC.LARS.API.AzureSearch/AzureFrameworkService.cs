@@ -89,7 +89,12 @@ namespace ESFA.DC.LARS.API.AzureSearch
             {
                 var result = await _azureService.SearchIndexAsync<FrameworkModel>(_frameworkIndexService, searchTerm, parameters);
 
-                frameworks = result.Results.Select(r => r.Document).Select(d => _mapper.Map(d));
+                frameworks = result.Results
+                    .Select(r => r.Document)
+                    .Select(d => _mapper.Map(d))
+                    .OrderBy(f => f.IssuingAuthorityDesc)
+                    .ThenBy(f => f.ProgramType)
+                    .ThenByDescending(f => f.PathwayCode);
             }
             catch (Exception ex)
             {
