@@ -60,17 +60,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
                         IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
-                        LearningAims = fr.LarsFrameworkAims.Select(fa => new FrameworkAimModel
-                        {
-                            LearnAimRef = fa.LearnAimRef,
-                            LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
-                            AwardingBodyCode = fa.LearnAimRefNavigation.AwardOrgCode,
-                            Level = fa.LearnAimRefNavigation.NotionalNvqlevelv2,
-                            EffectiveFrom = fa.EffectiveFrom,
-                            EffectiveTo = fa.EffectiveTo,
-                            ComponentType = fa.FrameworkComponentType,
-                            ComponentTypeDesc = fa.FrameworkComponentType != null ? componentTypes[fa.FrameworkComponentType.Value] : null
-                        }).ToList()
+                        LearningAims = fr.LarsFrameworkAims
+                            .Where(fa => fa.LearnAimRefNavigation.LearnAimRefType != UnitLearnAimRefType)
+                            .Select(fa => new FrameworkAimModel
+                            {
+                                LearnAimRef = fa.LearnAimRef,
+                                LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
+                                AwardingBodyCode = fa.LearnAimRefNavigation.AwardOrgCode,
+                                Level = fa.LearnAimRefNavigation.NotionalNvqlevelv2,
+                                EffectiveFrom = fa.EffectiveFrom,
+                                EffectiveTo = fa.EffectiveTo,
+                                ComponentType = fa.FrameworkComponentType,
+                                ComponentTypeDesc = fa.FrameworkComponentType != null ? componentTypes[fa.FrameworkComponentType.Value] : null
+                            }).ToList()
                     }).ToList();
             }
 

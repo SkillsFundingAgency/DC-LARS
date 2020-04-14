@@ -6,6 +6,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
     public abstract class AbstractPopulationService<T> : IIndexPopulationService
     {
+        protected const string UnitLearnAimRefType = "1448";
+
         protected readonly IPopulationConfiguration _populationConfiguration;
         private readonly ISearchServiceClient _searchServiceClient;
 
