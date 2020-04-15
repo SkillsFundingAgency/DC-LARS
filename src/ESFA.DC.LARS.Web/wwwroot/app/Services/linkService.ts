@@ -1,6 +1,6 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import StorageService from './storageService';
-import { IFilterItem } from '../Interfaces/IFilterItem';
+import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
 export default class LinkService {
 
@@ -71,8 +71,12 @@ export default class LinkService {
                 form.action = '/LearningAimSearchResult/Search';
 
                 classScope.addElement("SearchTerm", searchTerm, form);
-                classScope.addElement("TeachingYears", teachingYear, form);
                 filters.forEach(f => classScope.addElement(f.type.toString(), f.key, form));
+
+                // If no Teaching year filter selected then set to teaching year.
+                if (!filters.find(f => f.type === FilterType.TeachingYears)) {
+                    classScope.addElement("TeachingYears", teachingYear, form);
+                }
 
                 form.submit();
             });
