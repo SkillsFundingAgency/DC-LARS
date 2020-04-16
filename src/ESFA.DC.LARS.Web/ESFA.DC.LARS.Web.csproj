@@ -24,8 +24,10 @@
     <Content Remove="wwwroot\app\cookieService.ts" />
     <Content Remove="wwwroot\app\ESFAGlobals.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
+    <Content Remove="wwwroot\app\Helpers\formHelper.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
+    <Content Remove="wwwroot\app\Interfaces\INameValue.ts" />
     <Content Remove="wwwroot\app\Interfaces\IQualificationsSearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\IStorageItem.ts" />
     <Content Remove="wwwroot\app\learningAimSearchResultsMain.ts" />
@@ -82,6 +84,8 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\Helpers\formHelper.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\INameValue.ts" />
     <TypeScriptCompile Include="wwwroot\ESFAGlobals.ts" />
     <TypeScriptCompile Include="wwwroot\app\searchMain.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStorageItem.ts" />

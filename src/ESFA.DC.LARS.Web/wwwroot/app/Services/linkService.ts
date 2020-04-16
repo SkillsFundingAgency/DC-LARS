@@ -1,6 +1,8 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import StorageService from './storageService';
 import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+import { formHelper } from '../Helpers/formHelper';
+import { INameValue } from '../Interfaces/INameValue';
 
 export default class LinkService {
 
@@ -63,47 +65,37 @@ export default class LinkService {
     private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string, filters : IFilterItem[]) {
         const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
 
-        if (anchor != null) {
+        if (anchor) {
             anchor.href = "#";
-            const classScope = this;
-            anchor.addEventListener("click", function () {
-                const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
-                form.action = '/LearningAimSearchResult/Search';
-
-                classScope.addElement("SearchTerm", searchTerm, form);
-                filters.forEach(f => classScope.addElement(f.type.toString(), f.key, form));
-
-                // If no Teaching year filter selected then set to teaching year.
-                if (!filters.find(f => f.type === FilterType.TeachingYears)) {
-                    classScope.addElement("TeachingYears", teachingYear, form);
-                }
-
-                form.submit();
-            });
+            const formElements = this.getSearchAndFilterElements(searchTerm, filters);
+            // If no teaching year filter applied then use default.
+            if (!formElements.find(f => f.name === FilterType.TeachingYears)) {
+                formElements.push({ name: FilterType.TeachingYears, value: teachingYear });
+            }
+            this.addAnchorSubmitEvent(anchor, '/LearningAimSearchResult/Search', formElements);
         }
     }
 
     private setFrameworksSearchResultsLink(searchTerm: string, filters: IFilterItem[]) {
         const anchor = document.getElementById("frameworksSearchResultsLink") as HTMLAnchorElement;
-
-        if (anchor != null) {
+        if (anchor) {
             anchor.href = "#";
-            const classScope = this;
-
-            anchor.addEventListener("click", function () {
-                const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
-                form.action = '/FrameworkSearchResult/Search';
-                classScope.addElement("SearchTerm", searchTerm, form);
-
-                filters.forEach(f => classScope.addElement(f.type.toString(), f.key, form));
-                form.submit();
-            });
+            this.addAnchorSubmitEvent(anchor, '/FrameworkSearchResult/Search', this.getSearchAndFilterElements(searchTerm, filters));
         }
     }
 
-    private addElement(name: string, value: string, form: HTMLFormElement) {
-        const element = <HTMLInputElement>(document.createElement('input'));
-        Object.assign(element, { name, value });
-        form.appendChild(element);
+    private getSearchAndFilterElements(searchTerm: string, filters: IFilterItem[]): Array<INameValue<string>> {
+        const formElements: Array<INameValue<string>> = filters.map(f => ({ name:f.type, value: f.key } as INameValue<string>));
+        formElements.push({ name: "SearchTerm", value: searchTerm });
+        return formElements;
+    }
+
+    private addAnchorSubmitEvent(anchor: HTMLAnchorElement, formAction: string, formElements: Array<INameValue<string>>) : void {
+        anchor.addEventListener("click", function () {
+            const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
+            form.action = formAction;
+            formHelper.addInputElements(form, formElements);
+            form.submit();
+        });
     }
 }
