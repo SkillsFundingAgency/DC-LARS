@@ -92,7 +92,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
                 frameworks = result.Results
                     .Select(r => r.Document)
                     .Select(d => _mapper.Map(d))
-                    .OrderBy(f => f.IssuingAuthorityDesc)
+                    .OrderBy(f => f.FrameworkTitle)
                     .ThenBy(f => f.ProgramType)
                     .ThenByDescending(f => f.PathwayCode);
             }
