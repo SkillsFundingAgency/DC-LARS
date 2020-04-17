@@ -6,8 +6,6 @@ import StorageService from "./Services/storageService";
 const vue = new Vue({
     el: "#homeApp",
     mounted() {
-        (<any>window).GOVUKFrontend.initAll();
-
         const storageService = new StorageService(sessionStorage);
         storageService.clearAll();
         (<any>window).GOVUKFrontend.initAll();
@@ -37,16 +35,16 @@ const vue = new Vue({
                 storageItem.filters.push(filter);
             }
 
-            const teachingYearElement = document.getElementById('TeachingYear') as HTMLSelectElement;
+            const teachingYearElement = document.getElementById('TeachingYear') as HTMLInputElement;
+
             if (teachingYearElement && teachingYearElement.value) {
                 const filter: IFilterItem = {
-                    key: teachingYearElement.options[teachingYearElement.selectedIndex].value,
-                    value: teachingYearElement.options[teachingYearElement.selectedIndex].text,
+                    key: teachingYearElement.value,
+                    value: '',
                     type: FilterType.TeachingYears
                 };
                 storageItem.filters.push(filter);
             }
-
             storageService.store('sessionData', storageItem);
         }
     }
