@@ -22,14 +22,14 @@ const vue = new Vue({
 
             if (resultsContainer) {
                 const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
-                displayHelper.SetIsLoading();
+                displayHelper.setIsLoading();
 
                 const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
                 const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
 
                 var response = await qualificationSearchService.getResultsAsync(classScope.$store.state.qualificationFilters, searchTerm, teachingYears);
 
-                displayHelper.UpdateForResponse(response);
+                displayHelper.updateForResponse(response);
             }
         }
         filterStoreService.watchFilters(SearchType.Qualifications, callback, false, true);

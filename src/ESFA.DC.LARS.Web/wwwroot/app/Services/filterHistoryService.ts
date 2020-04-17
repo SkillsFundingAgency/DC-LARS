@@ -24,50 +24,44 @@ export default class FilterHistoryService {
 
         const sessionData = this.storageService.retrieve(this.storageKey) as IStorageItem;
         const storeFilters = new Array<IFilterItem>();
+      
+        if (sessionData && filters) {
+           
+            for (const filter of filters) {
 
-        if (sessionData) {
-            if (filters) {
-                for (const filter of filters) {
+                //empty homepage filter
+                if (filter.key === '' && filter.value === '') {
+                    continue;
+                }
 
-                    //empty homepage filter
-                    if (filter.key === '' && filter.value === '') {
-                        continue;
-                    }
+                if (filter.type !== FilterType.TeachingYears) {
+                    let checkbox!: HTMLInputElement;
 
-                    if (filter.type !== FilterType.TeachingYears) {
-                        let checkbox!: HTMLInputElement;
-
-                        //try to handle free text input from home page :(
-                        if (filter.key === '') {
-                            const checkboxes = document.querySelectorAll("input[type='checkbox']");
+                    //try to handle free text input from home page :(
+                    if (filter.key === '') {
+                        const checkboxes = document.querySelectorAll("input[type='checkbox']");
                             
-                            checkboxes.forEach(cbox => {
-                                const cboxElement = cbox as HTMLInputElement;
-                                const description = cbox.getAttribute('data-description');
+                        checkboxes.forEach(cbox => {
+                            const cboxElement = cbox as HTMLInputElement;
+                            const description = cbox.getAttribute('data-description');
 
-                                if (cboxElement.value.includes(filter.value) || (description && description.includes(filter.value))) {
-                                    checkbox = cboxElement;
-                                }
-                            });
-                        }
-                        else {
-                            checkbox = document.querySelector("input[type='checkbox'][value='" + filter.key + "']") as HTMLInputElement;
-                        }
-
-                        if (checkbox) {
-                            if (!this.storeContainsFilter(filter)) {
-                                storeFilters.push(filter);
+                            if (cboxElement.value.includes(filter.value) || (description && description.includes(filter.value))) {
+                                checkbox = cboxElement;
                             }
-                        }
+                        });
                     }
-                    else { //handle teaching year select
-                        const teachingYearElement = document.getElementById(filter.key) as HTMLOptionElement;
+                    else {
+                        checkbox = document.querySelector(`input[type='checkbox'][value='${filter.key}']`) as HTMLInputElement;
+                    }
 
-                        if (teachingYearElement) {
-                            if (!this.storeContainsFilter(filter)) {
-                                storeFilters.push(filter);
-                            }
-                        }
+                    if (checkbox && !this.storeContainsFilter(filter)) {
+                        storeFilters.push(filter);
+                    }
+                }
+                else if (filter.type === FilterType.TeachingYears) { 
+                    const teachingYearElement = document.querySelector(`select#TeachingYears option[value='${filter.key}']`) as HTMLOptionElement;
+                    if (teachingYearElement && !this.storeContainsFilter(filter)) {
+                        storeFilters.push(filter);
                     }
                 }
             }

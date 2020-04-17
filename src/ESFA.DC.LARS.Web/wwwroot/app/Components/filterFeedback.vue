@@ -18,7 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator';
-    import { IFilterItem } from '../Interfaces/IFilterItem';
+    import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
     import { filterStoreService } from '../Services/filterStoreService';
     import { SearchType } from '../SearchType';
@@ -48,7 +48,9 @@
         }
 
         private refreshFilters(): void {
-            let filtersToSort  = [...this.savedfilters]; 
+            let filtersToSort = [...this.savedfilters]; 
+            // Don't display teaching years as filter for now.  This could be reversed so if required just remove this code.
+            filtersToSort = filtersToSort.filter(f => f.type !== FilterType.TeachingYears);
             this.filters = filterService.sortFilters(filtersToSort);
         }
     }

@@ -22,13 +22,13 @@ let vue = new Vue({
 
             if (resultsContainer) {
                 const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
-                displayHelper.SetIsLoading();
+                displayHelper.setIsLoading();
 
                 const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
                
                 var response = await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
 
-                displayHelper.UpdateForResponse(response);
+                displayHelper.updateForResponse(response);
             }
         }
         filterStoreService.watchFilters(SearchType.Frameworks, callback, false, true);
