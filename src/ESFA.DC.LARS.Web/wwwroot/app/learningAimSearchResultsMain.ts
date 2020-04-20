@@ -7,6 +7,7 @@ import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
 import { qualificationSearchService } from './Services/qualificationSearchService';
 import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
+import { debounce } from 'vue-debounce'
 
 const vue = new Vue({
     el: "#resultsApp",
@@ -19,7 +20,6 @@ const vue = new Vue({
         const classScope = this;
         const callback = async function () {
             const resultsContainer = classScope.$refs["Results"] as HTMLElement;
-
             if (resultsContainer) {
                 const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
                 displayHelper.setIsLoading();
@@ -32,6 +32,9 @@ const vue = new Vue({
                 displayHelper.updateForResponse(response);
             }
         }
-        filterStoreService.watchFilters(SearchType.Qualifications, callback, false, true);
+
+        const debouncedCallback = debounce(callback, '600ms');
+
+        filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, false, true);
     }
 });
