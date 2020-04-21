@@ -7,6 +7,7 @@
     import { SearchType } from '../SearchType';
     import StorageService from '../Services/storageService';
     import FilterHistoryService from '../Services/filterHistoryService';
+    import { constants } from '../constants';
 
     @Component({
         template: "#filtersTemplate"
@@ -18,7 +19,6 @@
         private currentDisplayFilters: Array<IFilterItem> = [];
         private storageService: StorageService;
         private filterHistoryService: FilterHistoryService;
-        private storageKey: string = 'sessionData';
 
         constructor() {
             super();
@@ -39,7 +39,7 @@
 
         public clearFilters(): void {
             filterStoreService.updateStore(this.searchType, []);
-            this.storageService.clearFilters(this.storageKey);
+            this.storageService.clearFilters(constants.storageKey);
             this.updateDisplay(this.savedfilters, this.currentDisplayFilters);
             this.currentDisplayFilters = [];
         }
@@ -50,7 +50,7 @@
 
             isChecked ? filters.push(actionedFilter) : filterService.removeFilterFromArray(filters, actionedFilter);
 
-            this.storageService.updateFilters(this.storageKey, filters);
+            this.storageService.updateFilters(constants.storageKey, filters);
             this.updateStore(filters);
         }
 
@@ -60,7 +60,7 @@
 
             filter ? filter = Object.assign(filter, { key: key, value: value }) : filters.push({ key, value, type });
 
-            this.storageService.updateFilters(this.storageKey, filters);
+            this.storageService.updateFilters(constants.storageKey, filters);
             this.updateStore(filters);
         }
 
@@ -78,8 +78,8 @@
         }
 
         public updateDisplay(newFilters: IFilterItem[], oldFilters: IFilterItem[]) {
-            const addedFilters = newFilters.filter(filter => oldFilters.indexOf(filter) < 0);
-            const removedFilters = oldFilters.filter(filter => newFilters.indexOf(filter) < 0);
+            const addedFilters = newFilters.filter(filter => !oldFilters.find(f => f.key === filter.key && f.type === filter.type));
+            const removedFilters = oldFilters.filter(filter => !newFilters.find(f => f.key === filter.key && f.type === filter.type));
             this.setFilterDisplay(addedFilters, true);
             this.setFilterDisplay(removedFilters, false);
         }
@@ -121,26 +121,19 @@
         }
 
         private getFilterHistory(): void {
-            const storageItem = this.storageService.retrieve(this.storageKey);
-            if (storageItem && storageItem.filters) {
-                const storeFilters = this.filterHistoryService.getFilterHistory();
-                const unappliedFilters = this.filterHistoryService.hasUnappliedFilters();
+            const storageItem = this.storageService.retrieve(constants.storageKey);
 
-                if (unappliedFilters && this.setImmediateRefreshRequired) {
-                    this.setImmediateRefreshRequired(true);
-                } 
-
-                if (storeFilters) {
-                    const distinctTypes = [...new Set(storeFilters.map(sf => sf.type))];
-                    for (let type of distinctTypes) {
-                        this.updateAccordionByFilter(type);
-                    }
-
-                    this.updateDisplay(storeFilters, this.savedfilters);
-                    this.updateStore(storeFilters);
-                    this.currentDisplayFilters = storeFilters;
-                }
+            if (this.filterHistoryService.hasMismatchedFilters()) {
+                this.setImmediateRefreshRequired(true);
+                this.updateDisplay(storageItem.filters, this.filterHistoryService.serverFilters);
             }
+
+            const distinctTypes = [...new Set(storageItem.filters.map(sf => sf.type))];
+            for (let type of distinctTypes) {
+                this.updateAccordionByFilter(type);
+            }
+
+            this.updateStore(storageItem.filters);
         }
 
         private updateAccordionByFilter(filterType: FilterType): void {

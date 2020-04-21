@@ -1,6 +1,7 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import StorageService from './storageService';
 import LinkService from './linkService';
+import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
 export class ViewService {
 
@@ -60,6 +61,26 @@ export class ViewService {
 
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();
+    }
+
+    getLearningAimFilters(awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): IFilterItem[] {
+        let filters: IFilterItem[] = [];
+
+        filters = filters.concat(awardingBodies.map(f => ({ type: FilterType.AwardingBodies, key: f, value: '' } as IFilterItem)));
+        filters = filters.concat(levels.map(f => ({ type: FilterType.Levels, key: f, value: '' } as IFilterItem)));
+        filters = filters.concat(teachingYears.map(f => ({ type: FilterType.TeachingYears, key: f, value: '' } as IFilterItem)));
+        filters = filters.concat(fundingStreams.map(f => ({ type: FilterType.FundingStreams, key: f, value: '' } as IFilterItem)));
+
+        return filters;
+    }
+
+    getFrameworkFilters(frameworkTypes: string[], issuingAuthorities: string[]): IFilterItem[] {
+        let filters: IFilterItem[] = [];
+
+        filters = filters.concat(frameworkTypes.map(f => ({ type: FilterType.FrameworkTypes, key: f, value: '' } as IFilterItem)));
+        filters = filters.concat(issuingAuthorities.map(f => ({ type: FilterType.IssuingAuthorities, key: f, value: '' } as IFilterItem)));
+
+        return filters;
     }
 
 }

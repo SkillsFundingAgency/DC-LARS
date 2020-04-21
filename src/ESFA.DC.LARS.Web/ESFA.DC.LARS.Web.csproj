@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\app\constants.ts" />
     <Content Remove="wwwroot\app\cookieService.ts" />
     <Content Remove="wwwroot\app\ESFAGlobals.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\Helpers\formHelper.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\INameValue.ts" />
+    <TypeScriptCompile Include="wwwroot\app\constants.ts" />
     <TypeScriptCompile Include="wwwroot\ESFAGlobals.ts" />
     <TypeScriptCompile Include="wwwroot\app\searchMain.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStorageItem.ts" />

@@ -79,6 +79,9 @@
 
         var viewService = new ESFA.ViewService();
         viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
+
+        var serverFilters = viewService.getFrameworkFilters(@Json.Serialize(Model.SearchModel.FrameworkTypes), @Json.Serialize(Model.SearchModel.IssuingAuthorities));
+
     </script>
 
     <script id="filtersTemplate" type="text/x-template">

@@ -91,7 +91,13 @@
         element.parentNode.removeChild(element);
 
         var viewService = new ESFA.ViewService();
-        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear")
+        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear");
+
+        var serverFilters = viewService.getLearningAimFilters(@Json.Serialize(Model.SearchModel.AwardingBodies),
+                                                        @Json.Serialize(Model.SearchModel.Levels),
+                                                        @Json.Serialize(Model.SearchModel.TeachingYears),
+                                                        @Json.Serialize(Model.SearchModel.FundingStreams));
+
     </script>
 
     @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
