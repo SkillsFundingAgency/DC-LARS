@@ -28,11 +28,11 @@
                     <span class="govuk-!-font-weight-bold">Awarding body:</span> @Model.LearningAimModel.AwardingBodyName
                 </li>
                 <li>
-                    <span class="govuk-!-font-weight-bold">Level 2 Entitlement:</span>
+                    <span class="govuk-!-font-weight-bold">Level 2 entitlement:</span>
                     @Model.LearningAimModel.AcademicYears.Where(ay => ay.AcademicYear == academicYear?.AcademicYear).Select(ay => ay.Level2Category).FirstOrDefault()
                 </li>
                 <li>
-                    <span class="govuk-!-font-weight-bold">Level 3 Entitlement:</span>
+                    <span class="govuk-!-font-weight-bold">Level 3 entitlement:</span>
                     @Model.LearningAimModel.AcademicYears.Where(ay => ay.AcademicYear == academicYear?.AcademicYear).Select(ay => ay.Level3Category).FirstOrDefault()
                 </li>
                 <li>
@@ -127,7 +127,7 @@
                         </div>
 
                         <div id="accordion-with-summary-sections-content-2" class="govuk-body govuk-accordion__section-content category-no-top-padding" aria-labelledby="accordion-with-summary-sections-heading-2">
-                            <p> <strong>Course Validity:</strong> </p>
+                            <p> <strong>Course validity:</strong> </p>
                             <p> <strong> From:</strong> @category.StartDate.ToString("dd MMMM yyyy") <strong>to</strong> @category.EndDate?.ToString("dd MMMM yyyy")</p>
 
                             @foreach (var funding in fundings)
