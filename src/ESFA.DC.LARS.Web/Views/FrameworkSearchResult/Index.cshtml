@@ -48,7 +48,7 @@
                     new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
                 </noscript>
 
-                <filters search-type="Frameworks"></filters>
+                <filters search-type="Frameworks" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
             </div>
 
             <div class="govuk-grid-column-two-thirds">
@@ -74,11 +74,11 @@
     <script src="/assets/dist/js/esfa.js"></script>
 
     <script>
-        var viewService = new ESFA.ViewService();
-        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
-
         var element = document.getElementById("filtersNoScript");
         element.parentNode.removeChild(element);
+
+        var viewService = new ESFA.ViewService();
+        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
     </script>
 
     <script id="filtersTemplate" type="text/x-template">
@@ -90,5 +90,6 @@
         </div>
     </script>
 
+    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
     <script src="/assets/dist/js/frameworkSearchResults.js"></script>
 }

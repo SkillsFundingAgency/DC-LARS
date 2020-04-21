@@ -13,10 +13,12 @@
     })
     export default class Filters extends Vue {
         @Prop() public searchType!: SearchType;
+        @Prop() public setImmediateRefreshRequired!: Function;
+
         private currentDisplayFilters: Array<IFilterItem> = [];
-        private storageService : StorageService;
-        private filterHistoryService : FilterHistoryService;
-        private storageKey : string = 'sessionData';
+        private storageService: StorageService;
+        private filterHistoryService: FilterHistoryService;
+        private storageKey: string = 'sessionData';
 
         constructor() {
             super();
@@ -27,9 +29,8 @@
         mounted() {
             accordionService.initialiseAccordion();
             this.getFilterHistory();
-
             this.currentDisplayFilters = this.savedfilters;
-            filterStoreService.watchFilters(this.searchType, this.updateDisplay, false, true);
+            filterStoreService.watchFilters(this.searchType, () => this.updateDisplay(this.savedfilters, this.currentDisplayFilters), false, true);
         }
 
         get savedfilters(): Array<IFilterItem> {
@@ -39,11 +40,12 @@
         public clearFilters(): void {
             filterStoreService.updateStore(this.searchType, []);
             this.storageService.clearFilters(this.storageKey);
-            this.updateDisplay();
+            this.updateDisplay(this.savedfilters, this.currentDisplayFilters);
+            this.currentDisplayFilters = [];
         }
 
         public updateCheckboxFilter(key: string, value: string, isChecked: boolean, type: FilterType): void {
-            const filters = this.savedfilters; 
+            const filters = this.savedfilters;
             const actionedFilter: IFilterItem = { key, value, type };
 
             isChecked ? filters.push(actionedFilter) : filterService.removeFilterFromArray(filters, actionedFilter);
@@ -52,17 +54,17 @@
             this.updateStore(filters);
         }
 
-         public updateSelectFilter(key: string, value: string, type: FilterType): void {
-            const filters = this.savedfilters; 
+        public updateSelectFilter(key: string, value: string, type: FilterType): void {
+            const filters = this.savedfilters;
             let filter = filterService.findFilterItemByType(type, filters);
 
-            filter ? filter = Object.assign(filter, {key: key, value: value}) : filters.push({ key, value, type });
-            
+            filter ? filter = Object.assign(filter, { key: key, value: value }) : filters.push({ key, value, type });
+
             this.storageService.updateFilters(this.storageKey, filters);
             this.updateStore(filters);
         }
 
-        public updateAccordion(id: string) : void {
+        public updateAccordion(id: string): void {
             accordionService.toggleSection(id, false);
         }
 
@@ -75,9 +77,9 @@
             this.currentDisplayFilters = this.savedfilters;
         }
 
-        public updateDisplay() {
-            const addedFilters = this.savedfilters.filter(filter => this.currentDisplayFilters.indexOf(filter) < 0);
-            const removedFilters = this.currentDisplayFilters.filter(filter => this.savedfilters.indexOf(filter) < 0);
+        public updateDisplay(newFilters: IFilterItem[], oldFilters: IFilterItem[]) {
+            const addedFilters = newFilters.filter(filter => oldFilters.indexOf(filter) < 0);
+            const removedFilters = oldFilters.filter(filter => newFilters.indexOf(filter) < 0);
             this.setFilterDisplay(addedFilters, true);
             this.setFilterDisplay(removedFilters, false);
         }
@@ -98,17 +100,17 @@
             });
         }
 
-        private updateCheckboxDisplay(typeContainer :HTMLElement, key:string, isAdded: boolean) : boolean {
+        private updateCheckboxDisplay(typeContainer: HTMLElement, key: string, isAdded: boolean): boolean {
             const input = typeContainer.querySelector(`input[value='${key}']`) as HTMLInputElement;
 
-            if (input && input.checked) {
+            if (input && input.type.toLowerCase() === "checkbox") {
                 input.checked = isAdded;
                 return true;
             }
             return false;
         }
 
-        private updateSelectDisplay(typeContainer :HTMLElement, key:string, isAdded: boolean) : boolean {
+        private updateSelectDisplay(typeContainer: HTMLElement, key: string, isAdded: boolean): boolean {
             const select = typeContainer.querySelector("select") as HTMLSelectElement;
 
             if (select) {
@@ -118,27 +120,30 @@
             return false;
         }
 
-        private getFilterHistory() : void {
-            const filters : Array<IFilterItem> = [];
-
+        private getFilterHistory(): void {
             const storageItem = this.storageService.retrieve(this.storageKey);
             if (storageItem && storageItem.filters) {
-                
                 const storeFilters = this.filterHistoryService.getFilterHistory();
+                const unappliedFilters = this.filterHistoryService.hasUnappliedFilters();
+
+                if (unappliedFilters && this.setImmediateRefreshRequired) {
+                    this.setImmediateRefreshRequired(true);
+                } 
+
                 if (storeFilters) {
                     const distinctTypes = [...new Set(storeFilters.map(sf => sf.type))];
                     for (let type of distinctTypes) {
                         this.updateAccordionByFilter(type);
                     }
 
-                    this.currentDisplayFilters = storeFilters;
+                    this.updateDisplay(storeFilters, this.savedfilters);
                     this.updateStore(storeFilters);
-                    this.updateDisplay();
+                    this.currentDisplayFilters = storeFilters;
                 }
             }
         }
 
-        private updateAccordionByFilter(filterType : FilterType) : void {
+        private updateAccordionByFilter(filterType: FilterType): void {
             this.updateAccordion(FilterType[filterType] + '-Button');
         }
     }

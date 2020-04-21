@@ -50,7 +50,7 @@
                     new { searchTerm = Model.SearchModel.SearchTerm, academicYear = academicYear },
                     new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
                 </noscript>
-                <filters search-type="Qualifications"></filters>
+                <filters search-type="Qualifications" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
             </div>
 
             <div class="govuk-grid-column-two-thirds">
@@ -84,14 +84,16 @@
         </div>
     </script>
 
-    <script src="/assets/dist/js/learningAimSearchResults.js"></script>
     <script src="/assets/dist/js/esfa.js"></script>
 
     <script>
-        var viewService = new ESFA.ViewService();
-        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear")
-
         var element = document.getElementById("filtersNoScript");
         element.parentNode.removeChild(element);
+
+        var viewService = new ESFA.ViewService();
+        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear")
     </script>
+
+    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
+    <script src="/assets/dist/js/learningAimSearchResults.js"></script>
 }

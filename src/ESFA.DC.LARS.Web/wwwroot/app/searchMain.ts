@@ -38,13 +38,9 @@ const vue = new Vue({
             const teachingYearElement = document.getElementById('TeachingYear') as HTMLInputElement;
 
             if (teachingYearElement && teachingYearElement.value) {
-                const filter: IFilterItem = {
-                    key: teachingYearElement.value,
-                    value: '',
-                    type: FilterType.TeachingYears
-                };
-                storageItem.filters.push(filter);
+                storageItem.teachingYear = teachingYearElement.value;
             }
+
             storageService.store('sessionData', storageItem);
         }
     }
