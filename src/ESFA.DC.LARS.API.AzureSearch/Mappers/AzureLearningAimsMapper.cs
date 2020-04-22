@@ -33,7 +33,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 GuidedLearningHours = input.GuidedLearningHours,
                 Categories = input.Categories?.Select(cat => _categoryMapper.Map(cat)).ToList(),
                 AcademicYears = input.AcademicYears?.Select(ay => _academicYearMapper.Map(ay)).ToList(),
-                Frameworks = input.Frameworks?.Select(fr => _frameworkMapper.Map(fr)).ToList()
+                Frameworks = input.Frameworks?.Select(fr => _frameworkMapper.Map(fr))
+                                                .OrderBy(f => f.FrameworkTitle)
+                                                .ThenBy(f => f.ProgramType)
+                                                .ThenByDescending(f => f.PathwayCode)
+                                                .ToList()
             };
         }
     }
