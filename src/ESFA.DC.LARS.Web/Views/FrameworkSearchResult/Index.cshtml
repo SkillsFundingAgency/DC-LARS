@@ -80,8 +80,8 @@
         var viewService = new ESFA.ViewService();
         viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
 
-        var serverFilters = viewService.getFrameworkFilters(@Json.Serialize(Model.SearchModel.FrameworkTypes), @Json.Serialize(Model.SearchModel.IssuingAuthorities));
-
+        @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
+        serverFilters = viewService.getFrameworkFilters(@Json.Serialize(Model.SearchModel.FrameworkTypes), @Json.Serialize(Model.SearchModel.IssuingAuthorities));
     </script>
 
     <script id="filtersTemplate" type="text/x-template">
