@@ -121,21 +121,21 @@
         }
 
         private syncFiltersAndUpdateDisplay(): void {
-            const storageItem = this.storageService.retrieve(constants.storageKey);
+            const storageItemFilters = this.storageService.retrieve(constants.storageKey)?.filters || [];
 
             // Check if storage filters and filters used to render page are the same. 
             //  If not (can happen on f5 refresh) then refresh results.
             if (this.filterHistoryService.hasMismatchedFilters()) {
                 this.setImmediateRefreshRequired(true);
-                this.updateDisplay(storageItem.filters, this.filterHistoryService.serverFilters);
+                this.updateDisplay(storageItemFilters, this.filterHistoryService.serverFilters);
             }
 
-            const distinctTypes = [...new Set(storageItem.filters.map(sf => sf.type))];
+            const distinctTypes = [...new Set(storageItemFilters.map(sf => sf.type))];
             for (let type of distinctTypes) {
                 this.updateAccordionByFilter(type);
             }
 
-            this.updateStore(storageItem.filters);
+            this.updateStore(storageItemFilters);
         }
 
         private updateAccordionByFilter(filterType: FilterType): void {
