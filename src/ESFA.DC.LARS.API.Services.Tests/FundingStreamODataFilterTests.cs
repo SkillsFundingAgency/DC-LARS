@@ -41,7 +41,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
                 },
                 FundingStreams = new List<string>
                 {
-                    "Test"
+                    "TEST"
                 }
             };
             var fundingStreamOData =
@@ -64,8 +64,8 @@ namespace ESFA.DC.LARS.API.Services.Tests
                 },
                 FundingStreams = new List<string>
                 {
-                    "Test1",
-                    "Test2"
+                    "TEST1",
+                    "TEST2"
                 }
             };
             var fundingStreamOData =

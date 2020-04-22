@@ -123,7 +123,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                     StartDate = lv.StartDate,
                                     EndDate = lv.EndDate,
                                     LastNewStartDate = lv.LastNewStartDate,
-                                    ValidityCategory = lv.ValidityCategory,
+                                    ValidityCategory = lv.ValidityCategory.ToUpper(),
                                     ValidityCategoryDescription = lv.ValidityCategoryNavigation.ValidityCategoryDesc2
                                 }).ToList(),
                             FundingModels = ld.LarsFundings
