@@ -22,13 +22,13 @@
 
         constructor() {
             super();
-            this.filterHistoryService = new FilterHistoryService(this.searchType);
+            this.filterHistoryService = new FilterHistoryService();
             this.storageService = new StorageService(sessionStorage);
         }
 
         mounted() {
             accordionService.initialiseAccordion();
-            this.getFilterHistory();
+            this.syncFiltersAndUpdateDisplay();
             this.currentDisplayFilters = this.savedfilters;
             filterStoreService.watchFilters(this.searchType, () => this.updateDisplay(this.savedfilters, this.currentDisplayFilters), false, true);
         }
@@ -120,9 +120,11 @@
             return false;
         }
 
-        private getFilterHistory(): void {
+        private syncFiltersAndUpdateDisplay(): void {
             const storageItem = this.storageService.retrieve(constants.storageKey);
 
+            // Check if storage filters and filters used to render page are the same. 
+            //  If not (can happen on f5 refresh) then refresh results.
             if (this.filterHistoryService.hasMismatchedFilters()) {
                 this.setImmediateRefreshRequired(true);
                 this.updateDisplay(storageItem.filters, this.filterHistoryService.serverFilters);

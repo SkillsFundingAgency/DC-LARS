@@ -1,23 +1,15 @@
 ﻿import { IFilterItem } from '../../app/Interfaces/IFilterItem';
 import StorageService from '../Services/storageService';
-import { filterStoreService } from '../Services/filterStoreService';
-import { SearchType } from '../SearchType';
 import { constants } from '../constants';
 declare var serverFilters: IFilterItem[];
 
 export default class FilterHistoryService {
 
     private storageService: StorageService;
-    private searchType!: SearchType;
 
-    constructor(searchType: SearchType) {
+    constructor() {
         this.storageService = new StorageService(sessionStorage);
-        this.searchType = searchType;
     }
-
-    get savedfilters(): Array<IFilterItem> {
-        return [...filterStoreService.getSavedFilters(this.searchType)];
-    };
 
     get serverFilters(): Array<IFilterItem> {
         return [...serverFilters]; 
