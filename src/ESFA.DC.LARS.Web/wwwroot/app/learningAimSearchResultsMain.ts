@@ -1,5 +1,6 @@
 ﻿import Vue from "vue";
 import store from "./store"
+import { debounce } from 'vue-debounce';
 
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
@@ -7,7 +8,6 @@ import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
 import { qualificationSearchService } from './Services/qualificationSearchService';
 import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
-import { debounce } from 'vue-debounce'
 
 const vue = new Vue({
     el: "#resultsApp",
@@ -15,6 +15,11 @@ const vue = new Vue({
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
+    },
+    data() {
+        return {
+            immediateRefresh: false
+        };
     },
     mounted() {
         const classScope = this;
@@ -34,7 +39,11 @@ const vue = new Vue({
         }
 
         const debouncedCallback = debounce(callback, '600ms');
-
-        filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, false, true);
+        filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, this.immediateRefresh, true);
+    },
+    methods: {
+        setImmediateRefreshRequired: function (refreshRequired: boolean) {
+            this.immediateRefresh = refreshRequired;
+        }
     }
 });

@@ -7,29 +7,30 @@
     import { SearchType } from '../SearchType';
     import StorageService from '../Services/storageService';
     import FilterHistoryService from '../Services/filterHistoryService';
+    import { constants } from '../constants';
 
     @Component({
         template: "#filtersTemplate"
     })
     export default class Filters extends Vue {
         @Prop() public searchType!: SearchType;
+        @Prop() public setImmediateRefreshRequired!: Function;
+
         private currentDisplayFilters: Array<IFilterItem> = [];
-        private storageService : StorageService;
-        private filterHistoryService : FilterHistoryService;
-        private storageKey : string = 'sessionData';
+        private storageService: StorageService;
+        private filterHistoryService: FilterHistoryService;
 
         constructor() {
             super();
-            this.filterHistoryService = new FilterHistoryService(this.searchType);
+            this.filterHistoryService = new FilterHistoryService();
             this.storageService = new StorageService(sessionStorage);
         }
 
         mounted() {
             accordionService.initialiseAccordion();
-            this.getFilterHistory();
-
+            this.syncFiltersAndUpdateDisplay();
             this.currentDisplayFilters = this.savedfilters;
-            filterStoreService.watchFilters(this.searchType, this.updateDisplay, false, true);
+            filterStoreService.watchFilters(this.searchType, () => this.updateDisplay(this.savedfilters, this.currentDisplayFilters), false, true);
         }
 
         get savedfilters(): Array<IFilterItem> {
@@ -38,31 +39,32 @@
 
         public clearFilters(): void {
             filterStoreService.updateStore(this.searchType, []);
-            this.storageService.clearFilters(this.storageKey);
-            this.updateDisplay();
+            this.storageService.clearFilters(constants.storageKey);
+            this.updateDisplay(this.savedfilters, this.currentDisplayFilters);
+            this.currentDisplayFilters = [];
         }
 
         public updateCheckboxFilter(key: string, value: string, isChecked: boolean, type: FilterType): void {
-            const filters = this.savedfilters; 
+            const filters = this.savedfilters;
             const actionedFilter: IFilterItem = { key, value, type };
 
             isChecked ? filters.push(actionedFilter) : filterService.removeFilterFromArray(filters, actionedFilter);
 
-            this.storageService.updateFilters(this.storageKey, filters);
+            this.storageService.updateFilters(constants.storageKey, filters);
             this.updateStore(filters);
         }
 
-         public updateSelectFilter(key: string, value: string, type: FilterType): void {
-            const filters = this.savedfilters; 
+        public updateSelectFilter(key: string, value: string, type: FilterType): void {
+            const filters = this.savedfilters;
             let filter = filterService.findFilterItemByType(type, filters);
 
-            filter ? filter = Object.assign(filter, {key: key, value: value}) : filters.push({ key, value, type });
-            
-            this.storageService.updateFilters(this.storageKey, filters);
+            filter ? filter = Object.assign(filter, { key: key, value: value }) : filters.push({ key, value, type });
+
+            this.storageService.updateFilters(constants.storageKey, filters);
             this.updateStore(filters);
         }
 
-        public updateAccordion(id: string) : void {
+        public updateAccordion(id: string): void {
             accordionService.toggleSection(id, false);
         }
 
@@ -75,9 +77,9 @@
             this.currentDisplayFilters = this.savedfilters;
         }
 
-        public updateDisplay() {
-            const addedFilters = this.savedfilters.filter(filter => this.currentDisplayFilters.indexOf(filter) < 0);
-            const removedFilters = this.currentDisplayFilters.filter(filter => this.savedfilters.indexOf(filter) < 0);
+        public updateDisplay(newFilters: IFilterItem[], oldFilters: IFilterItem[]) {
+            const addedFilters = newFilters.filter(filter => !oldFilters.find(f => f.key === filter.key && f.type === filter.type));
+            const removedFilters = oldFilters.filter(filter => !newFilters.find(f => f.key === filter.key && f.type === filter.type));
             this.setFilterDisplay(addedFilters, true);
             this.setFilterDisplay(removedFilters, false);
         }
@@ -98,17 +100,17 @@
             });
         }
 
-        private updateCheckboxDisplay(typeContainer :HTMLElement, key:string, isAdded: boolean) : boolean {
+        private updateCheckboxDisplay(typeContainer: HTMLElement, key: string, isAdded: boolean): boolean {
             const input = typeContainer.querySelector(`input[value='${key}']`) as HTMLInputElement;
 
-            if (input && input.checked) {
+            if (input && input.type.toLowerCase() === "checkbox") {
                 input.checked = isAdded;
                 return true;
             }
             return false;
         }
 
-        private updateSelectDisplay(typeContainer :HTMLElement, key:string, isAdded: boolean) : boolean {
+        private updateSelectDisplay(typeContainer: HTMLElement, key: string, isAdded: boolean): boolean {
             const select = typeContainer.querySelector("select") as HTMLSelectElement;
 
             if (select) {
@@ -118,27 +120,25 @@
             return false;
         }
 
-        private getFilterHistory() : void {
-            const filters : Array<IFilterItem> = [];
+        private syncFiltersAndUpdateDisplay(): void {
+            const storageItemFilters = this.storageService.retrieve(constants.storageKey)?.filters || [];
 
-            const storageItem = this.storageService.retrieve(this.storageKey);
-            if (storageItem && storageItem.filters) {
-                
-                const storeFilters = this.filterHistoryService.getFilterHistory();
-                if (storeFilters) {
-                    const distinctTypes = [...new Set(storeFilters.map(sf => sf.type))];
-                    for (let type of distinctTypes) {
-                        this.updateAccordionByFilter(type);
-                    }
-
-                    this.currentDisplayFilters = storeFilters;
-                    this.updateStore(storeFilters);
-                    this.updateDisplay();
-                }
+            // Check if storage filters and filters used to render page are the same. 
+            //  If not (can happen on f5 refresh) then refresh results.
+            if (this.filterHistoryService.hasMismatchedFilters()) {
+                this.setImmediateRefreshRequired(true);
+                this.updateDisplay(storageItemFilters, this.filterHistoryService.serverFilters);
             }
+
+            const distinctTypes = [...new Set(storageItemFilters.map(sf => sf.type))];
+            for (let type of distinctTypes) {
+                this.updateAccordionByFilter(type);
+            }
+
+            this.updateStore(storageItemFilters);
         }
 
-        private updateAccordionByFilter(filterType : FilterType) : void {
+        private updateAccordionByFilter(filterType: FilterType): void {
             this.updateAccordion(FilterType[filterType] + '-Button');
         }
     }

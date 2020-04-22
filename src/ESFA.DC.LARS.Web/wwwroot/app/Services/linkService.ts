@@ -3,12 +3,13 @@ import StorageService from './storageService';
 import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 import { formHelper } from '../Helpers/formHelper';
 import { INameValue } from '../Interfaces/INameValue';
+import { constants } from '../constants';
 
 export default class LinkService {
 
     setLinks() {
         const storageService = new StorageService(sessionStorage);
-        const storageItem = storageService.retrieve('sessionData') as IStorageItem;
+        const storageItem = storageService.retrieve(constants.storageKey) as IStorageItem;
 
         this.renderBreadcrumbs(storageItem.frameworkSearch);
 

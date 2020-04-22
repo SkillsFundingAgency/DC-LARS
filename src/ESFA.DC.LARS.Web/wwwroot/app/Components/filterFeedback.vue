@@ -22,10 +22,13 @@
     import { filterService } from '../Services/filterService';
     import { filterStoreService } from '../Services/filterStoreService';
     import { SearchType } from '../SearchType';
+    import StorageService from '../Services/storageService';
+    import { constants } from '../constants';
 
     @Component
     export default class FilterFeedback extends Vue {
-         @Prop() public searchType!: SearchType;
+        @Prop() public searchType!: SearchType;
+        private storageService: StorageService;
 
         get savedfilters(): Array<IFilterItem> {
             return filterStoreService.getSavedFilters(this.searchType);
@@ -36,6 +39,7 @@
         constructor() {
             super();
             this.filters = [];
+            this.storageService = new StorageService(sessionStorage);
         }
 
         mounted() {
@@ -45,6 +49,7 @@
         removeFilter(filter: IFilterItem): void {
             this.filters = filterService.removeFilterFromArray(this.savedfilters, filter);
             filterStoreService.updateStore(this.searchType, this.filters);
+            this.storageService.updateFilters(constants.storageKey, this.filters);
         }
 
         private refreshFilters(): void {
