@@ -7,7 +7,7 @@ import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
 import { qualificationSearchService } from './Services/qualificationSearchService';
-import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
+import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
 
 const vue = new Vue({
@@ -23,28 +23,16 @@ const vue = new Vue({
         };
     },
     mounted() {
-        const classScope = this;
-        let latestRequestId = 0;
+        const getDataAsync = async function () {
+            const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
+            const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
+            return await qualificationSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Qualifications), searchTerm, teachingYears);
+        }
+        
+        const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
 
         const callback = async function () {
-            const resultsContainer = classScope.$refs["Results"] as HTMLElement;
-            if (resultsContainer) {
-                const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
-                displayHelper.setIsLoading();
-                const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-                const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-
-                latestRequestId++;
-
-                const getResults = async function (requestId: number) {
-                    const response = await qualificationSearchService.getResultsAsync(classScope.$store.state.qualificationFilters, searchTerm, teachingYears);
-                    // Only update results if no subsequent requests have been made.
-                    if (requestId === latestRequestId) {
-                        displayHelper.updateForResponse(response);
-                    }
-                };
-                await getResults(latestRequestId);
-            }
+            await resultsHelper.getResultsAsync(getDataAsync);
         }
 
         const debouncedCallback = debounce(callback, constants.debounceTime);

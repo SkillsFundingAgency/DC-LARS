@@ -7,7 +7,7 @@ import FilterFeedback from './Components/filterFeedback.vue';
 import { frameworkSearchService } from './Services/frameworkSearchService';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
-import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
+import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
 
 let vue = new Vue({
@@ -23,28 +23,18 @@ let vue = new Vue({
         };
     },
     mounted() {
-        const classScope = this;
-        let latestRequestId = 0;
+
+        const getDataAsync = async function () {
+            const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
+            return await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
+        };
+
+        const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
+
         const callback = async function () {
-            const resultsContainer = classScope.$refs["Results"] as HTMLElement;
-            if (resultsContainer) {
-                const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
-                displayHelper.setIsLoading();
+            await resultsHelper.getResultsAsync(getDataAsync);
+        };
 
-                const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-
-                latestRequestId++;
-                const getResults = async function (requestId: number) {
-                    var response = await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
-                    // Only update results if no subsequent requests have been made.
-                    if (requestId === latestRequestId) {
-                        displayHelper.updateForResponse(response);
-                    }
-                }
-
-                await getResults(latestRequestId);
-            }
-        }
         const debouncedCallback = debounce(callback, constants.debounceTime);
         filterStoreService.watchFilters(SearchType.Frameworks, debouncedCallback, this.immediateRefresh, true);
     },
