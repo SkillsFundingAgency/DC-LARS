@@ -23,6 +23,7 @@ let vue = new Vue({
     },
     mounted() {
         const classScope = this;
+        let latestRequestId = 0;
         const callback = async function () {
             const resultsContainer = classScope.$refs["Results"] as HTMLElement;
             if (resultsContainer) {
@@ -30,13 +31,20 @@ let vue = new Vue({
                 displayHelper.setIsLoading();
 
                 const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-               
-                var response = await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
 
-                displayHelper.updateForResponse(response);
+                latestRequestId++;
+                const getResults = async function (requestId: number) {
+                    var response = await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
+                    // Only update results if no subsequent requests have been made.
+                    if (requestId === latestRequestId) {
+                        displayHelper.updateForResponse(response);
+                    }
+                }
+
+                await getResults(latestRequestId);
             }
         }
-        const debouncedCallback = debounce(callback, '600ms');
+        const debouncedCallback = debounce(callback, '400ms');
         filterStoreService.watchFilters(SearchType.Frameworks, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {

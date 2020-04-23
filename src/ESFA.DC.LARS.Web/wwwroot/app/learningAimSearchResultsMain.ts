@@ -23,22 +23,30 @@ const vue = new Vue({
     },
     mounted() {
         const classScope = this;
+        let latestRequestId = 0;
+
         const callback = async function () {
             const resultsContainer = classScope.$refs["Results"] as HTMLElement;
             if (resultsContainer) {
                 const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
                 displayHelper.setIsLoading();
-
                 const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
                 const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
 
-                var response = await qualificationSearchService.getResultsAsync(classScope.$store.state.qualificationFilters, searchTerm, teachingYears);
+                latestRequestId++;
 
-                displayHelper.updateForResponse(response);
+                const getResults = async function (requestId: number) {
+                    const response = await qualificationSearchService.getResultsAsync(classScope.$store.state.qualificationFilters, searchTerm, teachingYears);
+                    // Only update results if no subsequent requests have been made.
+                    if (requestId === latestRequestId) {
+                        displayHelper.updateForResponse(response);
+                    }
+                };
+                await getResults(latestRequestId);
             }
         }
 
-        const debouncedCallback = debounce(callback, '600ms');
+        const debouncedCallback = debounce(callback, '400ms');
         filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {
