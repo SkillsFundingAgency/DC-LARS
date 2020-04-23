@@ -8,6 +8,7 @@ import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
 import { qualificationSearchService } from './Services/qualificationSearchService';
 import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
+import { constants } from './constants';
 
 const vue = new Vue({
     el: "#resultsApp",
@@ -46,7 +47,7 @@ const vue = new Vue({
             }
         }
 
-        const debouncedCallback = debounce(callback, '400ms');
+        const debouncedCallback = debounce(callback, constants.debounceTime);
         filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {

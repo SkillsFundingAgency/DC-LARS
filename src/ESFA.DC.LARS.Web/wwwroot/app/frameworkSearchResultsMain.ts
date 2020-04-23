@@ -8,6 +8,7 @@ import { frameworkSearchService } from './Services/frameworkSearchService';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
 import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
+import { constants } from './constants';
 
 let vue = new Vue({
     el: "#frameworkResults",
@@ -44,7 +45,7 @@ let vue = new Vue({
                 await getResults(latestRequestId);
             }
         }
-        const debouncedCallback = debounce(callback, '400ms');
+        const debouncedCallback = debounce(callback, constants.debounceTime);
         filterStoreService.watchFilters(SearchType.Frameworks, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {
