@@ -7,7 +7,8 @@ import FilterFeedback from './Components/filterFeedback.vue';
 import { frameworkSearchService } from './Services/frameworkSearchService';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
-import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
+import { ResultsHelper } from './Helpers/resultsHelper';
+import { constants } from './constants';
 
 let vue = new Vue({
     el: "#frameworkResults",
@@ -22,21 +23,15 @@ let vue = new Vue({
         };
     },
     mounted() {
-        const classScope = this;
-        const callback = async function () {
-            const resultsContainer = classScope.$refs["Results"] as HTMLElement;
-            if (resultsContainer) {
-                const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
-                displayHelper.setIsLoading();
 
-                const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-               
-                var response = await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
+        const getDataAsync = async function () {
+            const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
+            return await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
+        };
 
-                displayHelper.updateForResponse(response);
-            }
-        }
-        const debouncedCallback = debounce(callback, '600ms');
+        const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
+
+        const debouncedCallback = debounce(async () => { await resultsHelper.getResultsAsync(getDataAsync) }, constants.debounceTime);
         filterStoreService.watchFilters(SearchType.Frameworks, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {

@@ -101,7 +101,7 @@
     <TypeScriptCompile Include="wwwroot\app\Services\filterHistoryService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterStoreService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\filterService.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Helpers\resultsDisplayHelper.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Helpers\resultsHelper.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\linkService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\frameworkSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\storageService.ts" />

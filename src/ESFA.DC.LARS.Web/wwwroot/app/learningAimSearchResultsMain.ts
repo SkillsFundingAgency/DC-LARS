@@ -7,7 +7,8 @@ import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
 import { qualificationSearchService } from './Services/qualificationSearchService';
-import { ResultsDisplayHelper } from './Helpers/resultsDisplayHelper';
+import { ResultsHelper } from './Helpers/resultsHelper';
+import { constants } from './constants';
 
 const vue = new Vue({
     el: "#resultsApp",
@@ -22,23 +23,15 @@ const vue = new Vue({
         };
     },
     mounted() {
-        const classScope = this;
-        const callback = async function () {
-            const resultsContainer = classScope.$refs["Results"] as HTMLElement;
-            if (resultsContainer) {
-                const displayHelper = new ResultsDisplayHelper(resultsContainer, classScope.$refs["ResultsCount"] as HTMLElement, classScope.$refs["ValidationErrors"] as HTMLElement);
-                displayHelper.setIsLoading();
-
-                const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-                const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-
-                var response = await qualificationSearchService.getResultsAsync(classScope.$store.state.qualificationFilters, searchTerm, teachingYears);
-
-                displayHelper.updateForResponse(response);
-            }
+        const getDataAsync = async function () {
+            const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
+            const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
+            return await qualificationSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Qualifications), searchTerm, teachingYears);
         }
+        
+        const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
 
-        const debouncedCallback = debounce(callback, '600ms');
+        const debouncedCallback = debounce(async () => { await resultsHelper.getResultsAsync(getDataAsync) }, constants.debounceTime);
         filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {

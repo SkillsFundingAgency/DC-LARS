@@ -1,3 +1,4 @@
 ﻿export const constants = {
-    storageKey: 'sessionData'
+    storageKey: 'sessionData',
+    debounceTime: '600ms'
 };
