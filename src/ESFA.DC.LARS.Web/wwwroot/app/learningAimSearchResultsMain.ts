@@ -31,11 +31,7 @@ const vue = new Vue({
         
         const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
 
-        const callback = async function () {
-            await resultsHelper.getResultsAsync(getDataAsync);
-        }
-
-        const debouncedCallback = debounce(callback, constants.debounceTime);
+        const debouncedCallback = debounce(async () => { await resultsHelper.getResultsAsync(getDataAsync) }, constants.debounceTime);
         filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {
