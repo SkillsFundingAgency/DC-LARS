@@ -9,6 +9,7 @@ namespace ESFA.DC.LARS.API.Modules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<LearningAimAzureService>().As<ILearningAimService>();
+            builder.RegisterType<UnitService>().As<IUnitService>();
             builder.RegisterType<LookupService>().As<ILookupService>();
             builder.RegisterType<FrameworkService>().As<IFrameworkService>();
         }

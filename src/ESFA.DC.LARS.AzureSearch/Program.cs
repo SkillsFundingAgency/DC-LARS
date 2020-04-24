@@ -103,6 +103,7 @@ namespace ESFA.DC.LARS.AzureSearch
 
             containerBuilder.RegisterType<LookupIndexPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<LearningAimIndexPopulationService>().As<IIndexPopulationService>();
+            containerBuilder.RegisterType<UnitPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<FrameworkPopulationService>().As<IIndexPopulationService>();
 
             containerBuilder.RegisterType<IndexService>().As<IIndexService>();

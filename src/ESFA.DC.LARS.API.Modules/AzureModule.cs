@@ -24,6 +24,11 @@ namespace ESFA.DC.LARS.API.Modules
                 .SingleInstance();
 
             builder
+                .Register(c => new UnitsClient(AzureSettings))
+                .As<IUnitIndexService>()
+                .SingleInstance();
+
+            builder
                 .Register(c => new LookupClient(AzureSettings))
                 .As<ILookupIndexService>()
                 .SingleInstance();
@@ -34,6 +39,7 @@ namespace ESFA.DC.LARS.API.Modules
                 .SingleInstance();
 
             builder.RegisterType<AzureLearningAimsService>().As<IAzureLearningAimsService>();
+            builder.RegisterType<AzureUnitsService>().As<IAzureUnitsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<AzureFrameworkService>().As<IAzureFrameworkService>();
 
