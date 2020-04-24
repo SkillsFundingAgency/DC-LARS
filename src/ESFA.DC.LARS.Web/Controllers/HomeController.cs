@@ -64,6 +64,20 @@ namespace ESFA.DC.LARS.Web.Controllers
             return RedirectToAction("Index", "FrameworkSearchResult", searchModel);
         }
 
+        [HttpPost("UnitSearch")]
+        public IActionResult UnitSearch([FromForm]BasicSearchModel searchModel)
+        {
+            var model = new HomeViewModel();
+            ValidateSearch(searchModel, model);
+
+            if (model.ValidationErrors.Any())
+            {
+                return RedirectToAction("Index", model);
+            }
+
+            return RedirectToAction("Index", "UnitSearchResult", searchModel);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

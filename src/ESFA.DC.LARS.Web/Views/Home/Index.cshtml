@@ -29,6 +29,13 @@
                         Frameworks
                     </a>
                 </li>
+
+                <li class="govuk-tabs__list-item" role="presentation">
+                    <a class="govuk-tabs__tab" href="#units" id="tab_units" role="tab" aria-controls="units" aria-selected="false" tabindex="-1">
+                        Units
+                    </a>
+                </li>
+
             </ul>
 
             <div class="govuk-tabs__panel" id="qualifications" role="tabpanel" aria-labelledby="tab_qualifications">
@@ -37,7 +44,7 @@
                     <h2 class="govuk-heading-l">Search for a qualification</h2>
 
                     <form asp-action="@nameof(HomeController.AimSearch)" class="govuk-form-group" id="aimSearchForm">
-                        <input id="TeachingYear" type="hidden" name="TeachingYear" value="@Model.Lookups.AcademicYearLookups.Single(y => y.IsCurrentAcademicYear).AcademicYear"/>
+                        <input id="TeachingYear" type="hidden" name="TeachingYear" value="@Model.Lookups.AcademicYearLookups.Single(y => y.IsCurrentAcademicYear).AcademicYear" />
                         @await Html.PartialAsync("_SearchBar", "searchTerm")
                         <br>
                         @await Html.PartialAsync("_SearchButton", "qualifications")
@@ -46,7 +53,6 @@
             </div>
 
             <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="frameworks" role="tabpanel" aria-labelledby="tab_frameworks">
-
                 <div class="app-masthead-v2">
                     <h2 class="govuk-heading-l">Search for a framework</h2>
 
@@ -57,6 +63,19 @@
                     </form>
                 </div>
             </div>
+
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="units" role="tabpanel" aria-labelledby="tab_units">
+                <div class="app-masthead-v2">
+                    <h2 class="govuk-heading-l">Search for a unit</h2>
+
+                    <form asp-action="@nameof(HomeController.UnitSearch)" class="govuk-form-group" id="unitSearchForm">
+                        @await Html.PartialAsync("_SearchBar", "searchTerm")
+                        <br>
+                        @await Html.PartialAsync("_SearchButton", "units")
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="govuk-grid-column-one-third">&nbsp;</div>
