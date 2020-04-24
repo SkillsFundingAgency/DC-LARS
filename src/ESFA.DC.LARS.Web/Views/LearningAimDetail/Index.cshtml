@@ -69,7 +69,7 @@
                 {
                     <input type="hidden" name="learnAimRef" value="@Model.LearningAimModel.LearnAimRef">
                     <select class="govuk-select" id="academicYear" name="AcademicYear" onchange="this.form.submit()">
-                        @foreach (var year in Model.LookUpModel.AcademicYearLookups)
+                        @foreach (var year in Model.AcademicYearsForLearningAim)
                         {
                             @if (Model.AcademicYear.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase))
                             {
@@ -167,6 +167,6 @@
 
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupLearningAimDetailView("@Model.LearningAimModel.LearnAimRef", "@Model.LearningAimModel.LearningAimTitle", "@academicYear.AcademicYear")
+        viewService.setupLearningAimDetailView("@Model.LearningAimModel.LearnAimRef", "@Model.LearningAimModel.LearningAimTitle", "@academicYear?.AcademicYear")
     </script>
 }

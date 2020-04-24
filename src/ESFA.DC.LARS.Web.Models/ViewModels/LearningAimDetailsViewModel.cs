@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
@@ -32,5 +33,13 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
                 { "learningAimDetailLink", LearningAimModel.LearningAimTitle }
             },
         };
+
+        public IEnumerable<AcademicYearLookupModel> AcademicYearsForLearningAim
+        {
+            get
+            {
+                return LookUpModel.AcademicYearLookups.Where(a => LearningAimModel.AcademicYears.Any(y => y.AcademicYear == a.AcademicYear));
+            }
+        }
     }
 }
