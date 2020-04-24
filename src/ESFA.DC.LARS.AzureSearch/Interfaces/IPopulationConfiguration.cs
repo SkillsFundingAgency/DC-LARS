@@ -9,5 +9,7 @@
         string LookupsIndexName { get; }
 
         string FrameworkIndexName { get; set; }
+
+        string UnitIndexName { get; set; }
     }
 }
