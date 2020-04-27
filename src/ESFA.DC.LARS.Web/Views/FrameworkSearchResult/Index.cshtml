@@ -22,16 +22,9 @@
                         </button>
                     </div>
                 </div>
-
-                <ul ref="ValidationErrors" class="govuk-list">
-                    @foreach (var error in Model.ValidationErrors)
-                    {
-                        <li class="govuk-error-message">@error</li>
-                    }
-                </ul>
+                <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
             </div>
         </div>
-
 
         <div class="govuk-grid-row govuk-!-margin-top-6">
             <div class="govuk-grid-column-one-third">

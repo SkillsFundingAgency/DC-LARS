@@ -77,7 +77,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 resultsModel.LearningAimModels = await _learningAimsApiService.GetLearningAims(searchModel);
             }
 
-            var partialViewHtml = await this.RenderViewAsync("_SearchResults", resultsModel, true);
+            var partialViewHtml = await this.RenderViewAsync("_LearningAimsResults", resultsModel, true);
 
             return Json(new { data= partialViewHtml, count= resultsModel.LearningAimModels.Count(), validationErrors= resultsModel.ValidationErrors });
         }

@@ -18,6 +18,7 @@ namespace ESFA.DC.LARS.Web.Modules
             containerBuilder.RegisterType<LearningAimsApiService>().As<ILearningAimsApiService>();
             containerBuilder.RegisterType<LookupApiService>().As<ILookupApiService>();
             containerBuilder.RegisterType<FrameworkApiService>().As<IFrameworkApiService>();
+            containerBuilder.RegisterType<UnitsApiService>().As<IUnitsApiService>();
 
             containerBuilder.RegisterType<ClientValidationService>().As<IClientValidationService>();
 

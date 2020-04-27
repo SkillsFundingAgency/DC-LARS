@@ -2,14 +2,14 @@
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
-    public class LearningAimsSearchResultsViewModel : LearningAimsResultsViewModel
+    public class UnitsSearchResultsViewModel : LearningAimsResultsViewModel
     {
-        public LearningAimsSearchResultsViewModel()
+        public UnitsSearchResultsViewModel()
             : base()
         {
             LearningAimBreadcrumbs = new BreadcrumbsModel()
             {
-                Id = "learningAimBreadcrumbs",
+                Id = "unitsBreadcrumbs",
                 Breadcrumbs = new Dictionary<string, string>()
                 {
                     { "homeLink", "Home" },
