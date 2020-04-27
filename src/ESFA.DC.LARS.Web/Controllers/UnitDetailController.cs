@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             ILookupApiService lookupApiService)
         : base(unitsApiService, lookupApiService)
         {
-            FormContoller = "UnitDetail";
+            FormController = "UnitDetail";
             CategoryController = "UnitCategory";
         }
     }
