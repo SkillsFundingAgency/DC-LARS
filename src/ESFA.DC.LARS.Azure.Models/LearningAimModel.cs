@@ -24,7 +24,7 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public string Type { get; set; }
 
-        public int GuidedLearningHours { get; set; }
+        public string GuidedLearningHours { get; set; }
 
         [IsFilterable]
         public string AwardingBodyCode { get; set; }
