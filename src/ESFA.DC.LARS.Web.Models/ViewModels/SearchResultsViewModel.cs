@@ -2,7 +2,7 @@
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
-    public class SearchResultsViewModel<TSearch, TResults>
+    public class SearchResultsViewModel<TSearchModel, TResultsModel>
     {
         public SearchResultsViewModel()
         {
@@ -15,8 +15,8 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public BreadcrumbsModel Breadcrumbs { get; set; }
 
-        public TSearch SearchModel { get; set; }
+        public TSearchModel SearchModel { get; set; }
 
-        public IEnumerable<TResults> Results { get; set; }
+        public IEnumerable<TResultsModel> Results { get; set; }
     }
 }

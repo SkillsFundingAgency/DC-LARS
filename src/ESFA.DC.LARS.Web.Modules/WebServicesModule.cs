@@ -4,7 +4,6 @@ using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Mappers;
 using ESFA.DC.LARS.Web.Services;
-using ESFA.DC.LARS.Web.Services.Builders;
 using ESFA.DC.LARS.Web.Services.Clients;
 using ESFA.DC.LARS.Web.Services.Factories;
 
@@ -24,8 +23,6 @@ namespace ESFA.DC.LARS.Web.Modules
 
             containerBuilder.RegisterType<LearningAimMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             containerBuilder.RegisterType<FrameworkMapper>().As<IMapper<FrameworkModel, Models.FrameworkModel>>();
-
-            containerBuilder.RegisterType<SearchResultsBuilder>().As<ISearchResultsBuilder>();
 
             containerBuilder.RegisterType<SearchModelFactory>().As<ISearchModelFactory>();
         }
