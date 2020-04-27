@@ -9,6 +9,9 @@ namespace ESFA.DC.LARS.Web.Controllers
     [Route("LearningAimDetails")]
     public class LearningAimDetailController : Controller
     {
+        protected string FormContoller;
+        protected string CategoryController;
+
         private readonly ILearningAimsApiService _learningAimsApiService;
         private readonly ILookupApiService _lookupApiService;
 
@@ -16,6 +19,9 @@ namespace ESFA.DC.LARS.Web.Controllers
             ILearningAimsApiService learningAimsApiService,
             ILookupApiService lookupApiService)
         {
+            FormContoller = "LearningAimDetail";
+            CategoryController = "LearningAimCategory";
+
             _learningAimsApiService = learningAimsApiService;
             _lookupApiService = lookupApiService;
         }
@@ -51,7 +57,9 @@ namespace ESFA.DC.LARS.Web.Controllers
             {
                 AcademicYear = selectedYear,
                 LookUpModel = lookups,
-                LearningAimModel = learningAim
+                LearningAimModel = learningAim,
+                FormController = FormContoller,
+                CategoryController = CategoryController
             };
         }
     }
