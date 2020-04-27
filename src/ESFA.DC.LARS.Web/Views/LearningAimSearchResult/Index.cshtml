@@ -1,11 +1,11 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsSearchResultsViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<LearningAimsSearchModel, LearningAimModel>
 
 @{
     ViewData["Title"] = "Index";
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
-@await Html.PartialAsync("_breadcrumbs", new[] { Model?.LearningAimBreadcrumbs })
+@await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
 
 <div id="resultsApp">
     @using (Html.BeginForm("Search", "LearningAimSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
@@ -50,7 +50,7 @@
 
                 <ul id="resultList" class="govuk-list">
                     <p class="govuk-body flex space-between">
-                        <span ref="ResultsCount">@Model.LearningAimModels.Count() results</span>
+                        <span ref="ResultsCount">@Model.Results.Count() results</span>
                     </p>
 
                     <filter-feedback search-type="Qualifications"></filter-feedback>

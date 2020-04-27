@@ -1,56 +1,47 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.LARS.Web.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
-    public class UnitSearchResultController : Controller
+    public class UnitSearchResultController : BaseResultsController<LearningAimsSearchModel, LearningAimModel>
     {
         private readonly ISearchModelFactory _searchModelFactory;
         private readonly IUnitsApiService _unitsApiService;
-        private readonly ILookupApiService _lookupApiService;
+        private readonly IClientValidationService _clientValidationService;
 
         public UnitSearchResultController(
             ISearchModelFactory searchModelFactory,
             IUnitsApiService unitsApiService,
-            ILookupApiService lookupApiService)
+            ILookupApiService lookupApiService,
+            IClientValidationService clientValidationService)
+            : base(lookupApiService, "_LearningAimsResults")
         {
             _searchModelFactory = searchModelFactory;
             _unitsApiService = unitsApiService;
-            _lookupApiService = lookupApiService;
+            _clientValidationService = clientValidationService;
         }
 
-        public async Task<IActionResult> Index(BasicSearchModel basicSearchModel = null)
+        protected override LearningAimsSearchModel GetSearchModel(BasicSearchModel basicSearchModel)
         {
-            var model = await PopulateViewModel(basicSearchModel);
-            return View(model);
+            return _searchModelFactory.GetLearningAimsSearchModel(basicSearchModel);
         }
 
-        private async Task<UnitsSearchResultsViewModel> PopulateViewModel(
-                             BasicSearchModel basicSearchModel = null,
-                             LearningAimsSearchModel searchModel = null)
+        protected override Task<IEnumerable<LearningAimModel>> GetSearchResults(LearningAimsSearchModel searchModel)
         {
-            if (searchModel == null)
+            return _unitsApiService.GetLearningAims(searchModel);
+        }
+
+        protected override void ValidateSearch(LearningAimsSearchModel searchModel, SearchResultsViewModel<LearningAimsSearchModel, LearningAimModel> viewModel)
+        {
+            var searchTermError = _clientValidationService.SearchTermLengthValid(searchModel.SearchTerm);
+            if (!string.IsNullOrEmpty(searchTermError))
             {
-                searchModel = _searchModelFactory.GetLearningAimsSearchModel(basicSearchModel);
+                viewModel.ValidationErrors.Add(searchTermError);
             }
-
-            var learningAimsTask = _unitsApiService.GetLearningAims(searchModel);
-            var lookupsTask = _lookupApiService.GetLookups();
-
-            await Task.WhenAll(learningAimsTask, lookupsTask);
-
-            var learningAims = learningAimsTask.Result;
-            var lookups = lookupsTask.Result;
-
-            return new UnitsSearchResultsViewModel
-            {
-                SearchModel = searchModel,
-                LearningAimModels = learningAims,
-                LookUpModel = lookups
-            };
         }
     }
 }

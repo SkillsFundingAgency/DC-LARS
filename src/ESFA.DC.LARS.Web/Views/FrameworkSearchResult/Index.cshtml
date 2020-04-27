@@ -1,6 +1,6 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
 
-@await Html.PartialAsync("_breadcrumbs", new[] { Model?.FrameworksBreadcrumbs })
+@await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
 
 <div id="frameworkResults">
 
@@ -48,7 +48,7 @@
                 <ul id="resultList" class="govuk-list">
 
                     <p class="govuk-body flex space-between">
-                        <span ref="ResultsCount">@Model.FrameworkModels.Count() results</span>
+                        <span ref="ResultsCount">@Model.Results.Count() results</span>
                     </p>
 
                     <filter-feedback search-type="Frameworks"></filter-feedback>

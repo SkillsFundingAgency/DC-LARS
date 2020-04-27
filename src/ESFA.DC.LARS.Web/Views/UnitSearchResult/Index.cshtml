@@ -1,4 +1,4 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.UnitsSearchResultsViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<LearningAimsSearchModel, LearningAimModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -29,7 +29,7 @@
     <div class="govuk-grid-column-two-thirds">
         <ul id="resultList" class="govuk-list">
             <p class="govuk-body flex space-between">
-                <span ref="ResultsCount">@Model.LearningAimModels.Count() results</span>
+                <span ref="ResultsCount">@Model.Results.Count() results</span>
             </p>
 
             <div ref="Results">
