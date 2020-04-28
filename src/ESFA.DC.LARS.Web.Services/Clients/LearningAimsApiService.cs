@@ -7,7 +7,7 @@ namespace ESFA.DC.LARS.Web.Services.Clients
 {
     public class LearningAimsApiService : ILearningAimsApiService
     {
-        public string Url = "LearningAims";
+        protected string Url;
         private const string LearnAimRefParameterName = "learnAimRef";
 
         private readonly IClientService _clientService;
@@ -15,6 +15,8 @@ namespace ESFA.DC.LARS.Web.Services.Clients
         public LearningAimsApiService(
             IClientService clientService)
         {
+            Url = "LearningAims";
+
             _clientService = clientService;
         }
 

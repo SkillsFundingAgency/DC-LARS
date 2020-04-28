@@ -1,4 +1,5 @@
-﻿using ESFA.DC.LARS.API.AzureSearch.Mappers;
+﻿using System;
+using ESFA.DC.LARS.API.AzureSearch.Mappers;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.Azure.Models;
 using FluentAssertions;
@@ -40,7 +41,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 Type = "testType",
                 AwardingBodyName = "testAwardingBody",
                 LevelDescription = "testLevel",
-                GuidedLearningHours = 12
+                GuidedLearningHours = "12"
             };
 
             var result = mapper.Map(azureModel);
@@ -51,7 +52,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.AwardingBodyCode.Should().Be(azureModel.AwardingBodyCode);
             result.AwardingBodyName.Should().Be(azureModel.AwardingBodyName);
             result.Level.Should().Be(azureModel.LevelDescription);
-            result.GuidedLearningHours.Should().Be(azureModel.GuidedLearningHours);
+            result.GuidedLearningHours.Should().Be(Convert.ToInt32(azureModel.GuidedLearningHours));
         }
     }
 }
