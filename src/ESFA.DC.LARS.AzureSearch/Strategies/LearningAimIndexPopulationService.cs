@@ -107,7 +107,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             LevelDescription = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2desc,
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
-                            GuidedLearningHours = ld.GuidedLearningHours ?? 0,
+                            GuidedLearningHours = ld.GuidedLearningHours.ToString(),
                             Categories = ld.LarsLearningDeliveryCategories
                                 .Select(cat => new CategoryModel
                                 {
