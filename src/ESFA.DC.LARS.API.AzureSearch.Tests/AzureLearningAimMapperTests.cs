@@ -52,7 +52,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.AwardingBodyCode.Should().Be(azureModel.AwardingBodyCode);
             result.AwardingBodyName.Should().Be(azureModel.AwardingBodyName);
             result.Level.Should().Be(azureModel.LevelDescription);
-            result.GuidedLearningHours.Should().Be(Convert.ToInt32(azureModel.GuidedLearningHours));
+            result.GuidedLearningHours.Should().Be(azureModel.GuidedLearningHours);
         }
     }
 }

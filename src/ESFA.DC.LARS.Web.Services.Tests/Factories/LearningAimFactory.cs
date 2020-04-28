@@ -16,7 +16,7 @@ namespace ESFA.DC.LARS.Web.Services.Tests.Factories
                 LearningAimTitle = "Learning Aim 1",
                 Level = "1",
                 Type = "Test type",
-                GuidedLearningHours = 5,
+                GuidedLearningHours = "5",
                 Level2Category = string.Empty,
                 Level3Category = string.Empty,
                 Categories = new List<CategoryModel>
