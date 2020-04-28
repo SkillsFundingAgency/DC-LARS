@@ -11,6 +11,8 @@ namespace ESFA.DC.LARS.Web.Controllers
     [Route("LearningAimSearchResult")]
     public class LearningAimSearchResultController : BaseResultsController<LearningAimsSearchModel, LearningAimModel>
     {
+        private const string ResultsTemplate = "_LearningAimsResults";
+
         private readonly ISearchModelFactory _searchModelFactory;
         private readonly ILearningAimsApiService _learningAimsApiService;
         private readonly IClientValidationService _clientValidationService;
@@ -20,7 +22,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             ILearningAimsApiService learningAimsApiService,
             ILookupApiService lookupApiService,
             IClientValidationService clientValidationService)
-            : base(lookupApiService, "_LearningAimsResults")
+            : base(lookupApiService, ResultsTemplate)
         {
             _searchModelFactory = searchModelFactory;
             _learningAimsApiService = learningAimsApiService;

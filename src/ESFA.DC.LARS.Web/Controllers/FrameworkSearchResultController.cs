@@ -11,6 +11,8 @@ namespace ESFA.DC.LARS.Web.Controllers
     [Route("FrameworkSearchResult")]
     public class FrameworkSearchResultController : BaseResultsController<FrameworkSearchModel, FrameworkModel>
     {
+        private const string ResultsTemplate = "_SearchResults";
+
         private readonly IFrameworkApiService _frameworkApiService;
         private readonly ISearchModelFactory _searchModelFactory;
         private readonly IClientValidationService _clientValidationService;
@@ -20,7 +22,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             ISearchModelFactory searchModelFactory,
             ILookupApiService lookupApiService,
             IClientValidationService clientValidationService)
-            : base(lookupApiService, "_SearchResults")
+            : base(lookupApiService, ResultsTemplate)
         {
             _frameworkApiService = frameworkApiService;
             _searchModelFactory = searchModelFactory;
