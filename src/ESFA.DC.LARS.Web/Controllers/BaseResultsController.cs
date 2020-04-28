@@ -66,7 +66,12 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             var partialViewHtml = await this.RenderViewAsync(_resultsTemplate, resultsModel, true);
 
-            return Json(new { data = partialViewHtml, count = resultsModel.Results.Count(), validationErrors = resultsModel.ValidationErrors });
+            return Json(new
+            {
+                data = partialViewHtml,
+                count = resultsModel.Results.Count(),
+                validationErrors = resultsModel.ValidationErrors
+            });
         }
 
         protected async Task<SearchResultsViewModel<TSearchModel, TResults>> PopulateViewModel(BasicSearchModel basicSearchModel = null, TSearchModel searchModel = null)
