@@ -5,6 +5,10 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
     public class LearningAimDetailsViewModel
     {
+        public string FormController { get; set; }
+
+        public string CategoryController { get; set; }
+
         public string AcademicYear { get; set; }
 
         public LookUpModel LookUpModel { get; set; }
