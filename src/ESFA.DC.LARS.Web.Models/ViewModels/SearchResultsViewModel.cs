@@ -17,6 +17,6 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public TSearchModel SearchModel { get; set; }
 
-        public IEnumerable<TResultsModel> Results { get; set; }
+        public List<TResultsModel> Results { get; set; }
     }
 }

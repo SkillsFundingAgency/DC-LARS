@@ -61,7 +61,8 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             if (!resultsModel.ValidationErrors.Any())
             {
-                resultsModel.Results = await GetSearchResults(searchModel);
+                var results = await GetSearchResults(searchModel);
+                resultsModel.Results = results.ToList();
             }
 
             var partialViewHtml = await this.RenderViewAsync(_resultsTemplate, resultsModel, true);
@@ -86,7 +87,7 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             await Task.WhenAll(learningAimsTask, lookupsTask);
 
-            var learningAims = learningAimsTask.Result;
+            var learningAims = learningAimsTask.Result.ToList();
             var lookups = lookupsTask.Result;
 
             return new SearchResultsViewModel<TSearchModel, TResults>
