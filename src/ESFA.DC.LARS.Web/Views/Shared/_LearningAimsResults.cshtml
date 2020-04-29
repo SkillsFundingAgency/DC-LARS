@@ -1,7 +1,7 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsSearchResultsViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<LearningAimsSearchModel, LearningAimModel>
 
 @{
-    var resultsFound = Model?.LearningAimModels != null && Model.LearningAimModels.Any();
+    var resultsFound = Model?.Results != null && Model.Results.Any();
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
@@ -12,7 +12,7 @@
 }
 else
 {
-    @foreach (var learningAim in Model.LearningAimModels)
+    @foreach (var learningAim in Model.Results)
     {
         <li>
             <h3 class="govuk-!-margin-0">

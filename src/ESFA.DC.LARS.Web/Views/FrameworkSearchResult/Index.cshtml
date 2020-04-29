@@ -1,6 +1,6 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
 
-@await Html.PartialAsync("_breadcrumbs", new[] { Model?.FrameworksBreadcrumbs })
+@await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
 
 <div id="frameworkResults">
 
@@ -22,16 +22,9 @@
                         </button>
                     </div>
                 </div>
-
-                <ul ref="ValidationErrors" class="govuk-list">
-                    @foreach (var error in Model.ValidationErrors)
-                    {
-                        <li class="govuk-error-message">@error</li>
-                    }
-                </ul>
+                <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
             </div>
         </div>
-
 
         <div class="govuk-grid-row govuk-!-margin-top-6">
             <div class="govuk-grid-column-one-third">
@@ -55,7 +48,7 @@
                 <ul id="resultList" class="govuk-list">
 
                     <p class="govuk-body flex space-between">
-                        <span ref="ResultsCount">@Model.FrameworkModels.Count() results</span>
+                        <span ref="ResultsCount">@Model.Results.Count() results</span>
                     </p>
 
                     <filter-feedback search-type="Frameworks"></filter-feedback>
