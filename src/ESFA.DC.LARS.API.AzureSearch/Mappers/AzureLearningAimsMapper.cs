@@ -31,7 +31,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 AwardingBodyCode = input.AwardingBodyCode,
                 AwardingBodyName = input.AwardingBodyName,
                 Level = input.LevelDescription,
-                GuidedLearningHours = Convert.ToInt32(input.GuidedLearningHours),
+                GuidedLearningHours = input.GuidedLearningHours,
                 Categories = input.Categories?.Select(cat => _categoryMapper.Map(cat)).ToList(),
                 AcademicYears = input.AcademicYears?.Select(ay => _academicYearMapper.Map(ay)).ToList(),
                 Frameworks = input.Frameworks?.Select(fr => _frameworkMapper.Map(fr))

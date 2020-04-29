@@ -14,7 +14,7 @@ namespace ESFA.DC.LARS.Web.Models
 
         public string Type { get; set; }
 
-        public int GuidedLearningHours { get; set; }
+        public string GuidedLearningHours { get; set; }
 
         public string AwardingBodyCode { get; set; }
 
