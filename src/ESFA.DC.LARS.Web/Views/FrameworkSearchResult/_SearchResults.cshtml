@@ -1,7 +1,7 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkSearchResultsViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
 
 @{
-    var resultsFound = Model?.FrameworkModels != null && Model.FrameworkModels.Any();
+    var resultsFound = Model?.Results != null && Model.Results.Any();
 }
 
 <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
@@ -12,7 +12,7 @@
 }
 else
 {
-    @foreach (var framework in Model.FrameworkModels)
+    @foreach (var framework in Model.Results)
     {
         <li>
             <h3 class="govuk-!-margin-0">

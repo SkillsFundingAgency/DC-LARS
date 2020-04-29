@@ -1,0 +1,40 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<LearningAimsSearchModel, LearningAimModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="standard-search">
+            <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search units</h1>
+            <div class="govuk-form-group">
+                <div id="tt-overlay" class="autocomplete-wrapper second">
+                    <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                        <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
+                                placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchModel.SearchTerm" maxlength="200" />
+                    </div>
+                </div>
+                <button id="searchProviders" type="submit" class="govuk-button">
+                    <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
+                </button>
+            </div>
+        </div>
+
+        <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
+    </div>
+</div>
+
+<div class="govuk-grid-row govuk-!-margin-top-6">
+    <div class="govuk-grid-column-two-thirds">
+        <ul id="resultList" class="govuk-list">
+            <p class="govuk-body flex space-between">
+                <span ref="ResultsCount">@Model.Results.Count() results</span>
+            </p>
+
+            <div ref="Results">
+                @await Html.PartialAsync("_LearningAimsResults", Model)
+            </div
+        </ul>
+    </div>
+</div>
