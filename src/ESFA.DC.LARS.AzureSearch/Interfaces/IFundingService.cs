@@ -7,7 +7,5 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
     public interface IFundingService
     {
         Dictionary<string, List<FundingModel>> GetFundings(LarsContext context);
-
-        List<FundingModel> GetFundingsByLearnRef(Dictionary<string, List<FundingModel>> fundings, string learnRef);
     }
 }

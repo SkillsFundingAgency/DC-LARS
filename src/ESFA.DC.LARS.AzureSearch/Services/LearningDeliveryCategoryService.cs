@@ -34,10 +34,5 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 v => v.Select(l => l).ToList(),
                 StringComparer.OrdinalIgnoreCase);
         }
-
-        public List<CategoryModel> GetCategoryByLearnRef(Dictionary<string, List<CategoryModel>> categories, string learnRef)
-        {
-            return categories?.ContainsKey(learnRef) == true ? categories[learnRef] : new List<CategoryModel>();
-        }
     }
 }

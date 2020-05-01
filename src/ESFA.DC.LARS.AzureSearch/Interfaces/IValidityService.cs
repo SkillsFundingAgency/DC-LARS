@@ -7,7 +7,5 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
     public interface IValidityService
     {
         Dictionary<string, List<ValidityModel>> GetValidities(LarsContext context);
-
-        List<ValidityModel> GetValidityByLearnRef(Dictionary<string, List<ValidityModel>> validities, string learnRef);
     }
 }

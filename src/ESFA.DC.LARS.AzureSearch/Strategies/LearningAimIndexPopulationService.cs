@@ -107,11 +107,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                     foreach (var learningDelivery in learningAims)
                     {
                         PopulateFrameworks(learningDelivery, frameworkAims, issuingAuthorities, componentTypes);
+                        learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef);
 
-                        var fundingForDelivery = _fundingService.GetFundingsByLearnRef(fundings, learningDelivery.LearnAimRef);
-                        var validityForDelivery = _validityService.GetValidityByLearnRef(validities, learningDelivery.LearnAimRef);
-                        learningDelivery.Categories = _learningDeliveryCategoryService.GetCategoryByLearnRef(categories, learningDelivery.LearnAimRef);
-                        entitlementCategories.TryGetValue(learningDelivery.LearnAimRef, out var entitlementCategory);
+                        var fundingForDelivery = fundings.GetValueOrDefault(learningDelivery.LearnAimRef, new List<FundingModel>());
+                        var validityForDelivery = validities.GetValueOrDefault(learningDelivery.LearnAimRef, new List<ValidityModel>());
+                        var entitlementCategory = entitlementCategories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<EntitlementCategoryModel>());
                         PopulateAcademicYears(learningDelivery, academicYears.ToList(), fundingForDelivery, entitlementCategory, validityForDelivery);
                     }
 
@@ -151,7 +151,9 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         private void PopulateFrameworks(LearningAimModel learningAim, Dictionary<string, List<LearningAimFrameworkModel>> frameworkAims, IDictionary<string, string> issuingAuthorities, IDictionary<int, string> componentTypes)
         {
-            if (frameworkAims.TryGetValue(learningAim.LearnAimRef, out var frameworks))
+            var frameworks = frameworkAims.GetValueOrDefault(learningAim.LearnAimRef);
+
+            if (frameworks != null)
             {
                 learningAim.Frameworks = frameworks;
                 foreach (var framework in learningAim.Frameworks)

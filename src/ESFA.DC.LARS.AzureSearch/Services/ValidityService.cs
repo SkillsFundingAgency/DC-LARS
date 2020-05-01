@@ -30,10 +30,5 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 v => v.Select(l => l).ToList(),
                 StringComparer.OrdinalIgnoreCase);
         }
-
-        public List<ValidityModel> GetValidityByLearnRef(Dictionary<string, List<ValidityModel>> validities, string learnRef)
-        {
-            return validities?.ContainsKey(learnRef) == true ? validities[learnRef] : new List<ValidityModel>();
-        }
     }
 }

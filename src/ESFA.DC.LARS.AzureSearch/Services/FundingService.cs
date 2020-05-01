@@ -32,10 +32,5 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 v => v.Select(l => l).ToList(),
                 StringComparer.OrdinalIgnoreCase);
         }
-
-        public List<FundingModel> GetFundingsByLearnRef(Dictionary<string, List<FundingModel>> fundings, string learnRef)
-        {
-            return fundings?.ContainsKey(learnRef) == true ? fundings[learnRef] : new List<FundingModel>();
-        }
     }
 }

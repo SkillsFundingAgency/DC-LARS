@@ -7,7 +7,5 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
     public interface ILearningDeliveryCategoryService
     {
         Dictionary<string, List<CategoryModel>> GetLearningDeliveryCategories(LarsContext context);
-
-        List<CategoryModel> GetCategoryByLearnRef(Dictionary<string, List<CategoryModel>> categories, string learnRef);
     }
 }
