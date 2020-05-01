@@ -107,7 +107,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                     foreach (var learningDelivery in learningAims)
                     {
                         PopulateFrameworks(learningDelivery, frameworkAims, issuingAuthorities, componentTypes);
-                        learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef);
+                        learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>());
 
                         var fundingForDelivery = fundings.GetValueOrDefault(learningDelivery.LearnAimRef, new List<FundingModel>());
                         var validityForDelivery = validities.GetValueOrDefault(learningDelivery.LearnAimRef, new List<ValidityModel>());

@@ -27,7 +27,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
             .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(
                 k => k.Key,
-                v => v.Select(l => l).ToList(),
+                v => v.ToList(),
                 StringComparer.OrdinalIgnoreCase);
         }
     }
