@@ -27,10 +27,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 
             return fundingList
             .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(
-                k => k.Key,
-                v => v.ToList(),
-                StringComparer.OrdinalIgnoreCase);
+            .ToDictionary(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

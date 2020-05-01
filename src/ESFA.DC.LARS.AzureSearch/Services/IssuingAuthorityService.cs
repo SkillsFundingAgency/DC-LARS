@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
@@ -14,7 +15,8 @@ namespace ESFA.DC.LARS.AzureSearch.Services
             issuingAuthorities = context.LarsIssuingAuthorityLookups
                 .ToDictionary(
                     ia => ia.IssuingAuthority.ToString(), // field is different type between tables...
-                    ia => ia.IssuingAuthorityDesc);
+                    ia => ia.IssuingAuthorityDesc,
+                    StringComparer.OrdinalIgnoreCase);
 
             return issuingAuthorities;
         }

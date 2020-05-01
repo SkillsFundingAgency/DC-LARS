@@ -29,10 +29,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 
             return larsLearningDeliveryCategoriesList
             .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(
-                k => k.Key,
-                v => v.ToList(),
-                StringComparer.OrdinalIgnoreCase);
+            .ToDictionary(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }
