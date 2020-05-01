@@ -40,7 +40,7 @@ namespace ESFA.DC.LARS.AzureSearch
 
                 var indexService = container.Resolve<IIndexService>();
 
-                indexService.UpdateIndexes();
+                await indexService.UpdateIndexesAsync();
 
                 var end = DateTime.Now;
                 Console.WriteLine($"Starting {end}");

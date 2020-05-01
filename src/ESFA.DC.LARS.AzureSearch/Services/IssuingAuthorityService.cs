@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class IssuingAuthorityService : IIssuingAuthorityService
     {
-        public IDictionary<string, string> GetIssuingAuthorities(LarsContext context)
+        public async Task<IDictionary<string, string>> GetIssuingAuthoritiesAsync(LarsContext context)
         {
-            IDictionary<string, string> issuingAuthorities;
-
-            issuingAuthorities = context.LarsIssuingAuthorityLookups
-                .ToDictionary(
-                    ia => ia.IssuingAuthority.ToString(), // field is different type between tables...
-                    ia => ia.IssuingAuthorityDesc,
-                    StringComparer.OrdinalIgnoreCase);
-
-            return issuingAuthorities;
+            return await context.LarsIssuingAuthorityLookups
+            .ToDictionaryAsync(
+                ia => ia.IssuingAuthority.ToString(), // field is different type between tables...
+                ia => ia.IssuingAuthorityDesc,
+                StringComparer.OrdinalIgnoreCase);
         }
     }
 }

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class ValidityService : IValidityService
     {
-        public Dictionary<string, List<ValidityModel>> GetValidities(LarsContext context)
+        public async Task<Dictionary<string, List<ValidityModel>>> GetValiditiesAsync(LarsContext context)
         {
-            var larsValiditiesList = context.LarsValidities
+            return await context.LarsValidities
             .Select(lv => new ValidityModel
             {
                 LearnAimRef = lv.LearnAimRef,
@@ -21,11 +23,8 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 ValidityCategory = lv.ValidityCategory.ToUpper(),
                 ValidityCategoryDescription = lv.ValidityCategoryNavigation.ValidityCategoryDesc2
             })
-            .ToList();
-
-            return larsValiditiesList
             .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
+            .ToDictionaryAsync(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

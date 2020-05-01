@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class EntitlementCategoryService : IEntitlementCategoryService
     {
-        public Dictionary<string, List<EntitlementCategoryModel>> GetEntitlementCategories(LarsContext context)
+        public async Task<Dictionary<string, List<EntitlementCategoryModel>>> GetEntitlementCategoriesAsync(LarsContext context)
         {
-            var entitlementCategoryList = context.LarsAnnualValues
+            return await context.LarsAnnualValues
             .Select(av => new EntitlementCategoryModel
             {
                 LearnAimRef = av.LearnAimRef,
@@ -22,11 +24,8 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 Category3Description =
                     av.FullLevel3EntitlementCategoryNavigation.FullLevel3EntitlementCategoryDesc
             })
-            .ToList();
-
-            return entitlementCategoryList
             .GroupBy(gb => gb.LearnAimRef)
-            .ToDictionary(av => av.Key, em => em.Select(x => x).ToList(), StringComparer.OrdinalIgnoreCase);
+            .ToDictionaryAsync(av => av.Key, em => em.Select(x => x).ToList(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

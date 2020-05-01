@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
@@ -30,16 +32,38 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 IssuingAuthority = fa.LarsFramework.IssuingAuthority,
                 ComponentType = fa.FrameworkComponentType
             })
-            .AsEnumerable()
             .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
         }
 
-        public Dictionary<string, List<FrameworkAimModel>> GetFrameworkLearningAims(LarsContext context, bool units)
+        public async Task<Dictionary<string, List<LearningAimFrameworkModel>>> GetLearningAimFrameworkAimsAsync(LarsContext context, bool units)
         {
             var frameworkQuerable = GetQuerable(context, units);
 
-            return frameworkQuerable.Select(fa => new FrameworkAimModel
+            return await frameworkQuerable.Select(fa => new LearningAimFrameworkModel
+            {
+                LearnAimRef = fa.LearnAimRef,
+                LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
+                FrameworkTitle = fa.LarsFramework.IssuingAuthorityTitle,
+                FrameworkCode = fa.FworkCode,
+                PathwayCode = fa.PwayCode,
+                ProgramType = fa.ProgType,
+                EffectiveFrom = fa.LarsFramework.EffectiveFrom,
+                EffectiveTo = fa.LarsFramework.EffectiveTo,
+                PathwayName = fa.LarsFramework.PathwayName,
+                ProgramTypeDesc = fa.LarsFramework.ProgTypeNavigation.ProgTypeDesc,
+                IssuingAuthority = fa.LarsFramework.IssuingAuthority,
+                ComponentType = fa.FrameworkComponentType
+            })
+            .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
+            .ToDictionaryAsync(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
+        }
+
+        public async Task<Dictionary<string, List<FrameworkAimModel>>> GetFrameworkLearningAimsAsync(LarsContext context, bool units)
+        {
+            var frameworkQuerable = GetQuerable(context, units);
+
+            return await frameworkQuerable.Select(fa => new FrameworkAimModel
             {
                 LearnAimRef = fa.LearnAimRef,
                 LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
@@ -49,9 +73,8 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 EffectiveTo = fa.EffectiveTo,
                 ComponentType = fa.FrameworkComponentType,
             })
-            .AsEnumerable()
             .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
+            .ToDictionaryAsync(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
         }
 
         private IQueryable<LarsFrameworkAim> GetQuerable(LarsContext context, bool units)

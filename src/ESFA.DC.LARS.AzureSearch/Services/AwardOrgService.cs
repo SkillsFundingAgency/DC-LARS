@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class AwardOrgService : IAwardOrgService
     {
-        public Dictionary<string, string> GetAwardingOrgNames(LarsContext context)
+        public async Task<Dictionary<string, string>> GetAwardingOrgNamesAsync(LarsContext context)
         {
-            return context.LarsAwardOrgCodeLookups
-                 .ToDictionary(
+            return await context.LarsAwardOrgCodeLookups
+                 .ToDictionaryAsync(
                      ab => ab.AwardOrgCode,
                      ab => ab.AwardOrgName,
                      StringComparer.OrdinalIgnoreCase);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
@@ -53,7 +54,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.LearningAimsIndexName;
 
-        public override void PopulateIndex()
+        public async override Task PopulateIndexAsync()
         {
             var indexClient = GetIndexClient();
 
@@ -63,14 +64,14 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 // drop data.  Not sure why but advised approach is to preload data and query
                 // that rather than do all in single EF query.
                 var academicYears = _academicYearService.GetAcademicYears(context);
-                var issuingAuthorities = _issuingAuthorityService.GetIssuingAuthorities(context);
-                var componentTypes = _componentTypeService.GetComponentTypes(context);
-                var fundings = _fundingService.GetFundings(context);
-                var categories = _learningDeliveryCategoryService.GetLearningDeliveryCategories(context);
-                var validities = _validityService.GetValidities(context);
-                var entitlementCategories = _entitlementCategoryService.GetEntitlementCategories(context);
-                var frameworkAims = _frameworkAimService.GetLearningAimFrameworkAims(context, false);
-                var awardBodyCodes = _awardOrgService.GetAwardingOrgNames(context);
+                var issuingAuthorities = await _issuingAuthorityService.GetIssuingAuthoritiesAsync(context);
+                var componentTypes = await _componentTypeService.GetComponentTypesAsync(context);
+                var fundings = await _fundingService.GetFundingsAsync(context);
+                var categories = await _learningDeliveryCategoryService.GetLearningDeliveryCategoriesAsync(context);
+                var validities = await _validityService.GetValiditiesAsync(context);
+                var entitlementCategories = await _entitlementCategoryService.GetEntitlementCategoriesAsync(context);
+                var frameworkAims = await _frameworkAimService.GetLearningAimFrameworkAimsAsync(context, false);
+                var awardBodyCodes = await _awardOrgService.GetAwardingOrgNamesAsync(context);
 
                 var page = 0;
                 var next = true;
