@@ -111,6 +111,13 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<IssuingAuthorityService>().As<IIssuingAuthorityService>();
             containerBuilder.RegisterType<LarsContextFactory>().As<ILarsContextFactory>();
 
+            containerBuilder.RegisterType<FundingService>().As<IFundingService>();
+            containerBuilder.RegisterType<AwardOrgService>().As<IAwardOrgService>();
+            containerBuilder.RegisterType<ValidityService>().As<IValidityService>();
+            containerBuilder.RegisterType<FrameworkAimService>().As<IFrameworkAimService>();
+            containerBuilder.RegisterType<EntitlementCategoryService>().As<IEntitlementCategoryService>();
+            containerBuilder.RegisterType<LearningDeliveryCategoryService>().As<ILearningDeliveryCategoryService>();
+
             return containerBuilder;
         }
     }
