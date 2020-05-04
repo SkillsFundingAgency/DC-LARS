@@ -90,7 +90,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         {
                             LearnAimRef = ld.LearnAimRef,
                             AwardingBodyCode = ld.AwardOrgCode,
-                            AwardingBodyName = awardBodyCodes.ContainsKey(ld.AwardOrgCode) ? awardBodyCodes[ld.AwardOrgCode] : null,
                             EffectiveFrom = ld.EffectiveFrom,
                             EffectiveTo = ld.EffectiveTo,
                             Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2,
@@ -109,6 +108,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                     {
                         PopulateFrameworks(learningDelivery, frameworkAims, issuingAuthorities, componentTypes);
                         learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>());
+                        learningDelivery.AwardingBodyName = awardBodyCodes.GetValueOrDefault(learningDelivery.AwardingBodyCode);
 
                         var fundingForDelivery = fundings.GetValueOrDefault(learningDelivery.LearnAimRef, new List<FundingModel>());
                         var validityForDelivery = validities.GetValueOrDefault(learningDelivery.LearnAimRef, new List<ValidityModel>());
