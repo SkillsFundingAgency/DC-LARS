@@ -13,20 +13,23 @@ namespace ESFA.DC.LARS.AzureSearch.Services
     {
         public async Task<Dictionary<string, List<FundingModel>>> GetFundingsAsync(LarsContext context)
         {
-            return await context.LarsFundings
-             .Select(lf => new FundingModel
-             {
-                 LearnAimRef = lf.LearnAimRef,
-                 EffectiveFrom = lf.EffectiveFrom,
-                 EffectiveTo = lf.EffectiveTo,
-                 FundingCategory = lf.FundingCategory,
-                 FundingCategoryDescription = lf.FundingCategoryNavigation.FundingCategoryDesc2,
-                 RateWeighted = lf.RateWeighted.ToString(),
-                 RateUnWeighted = lf.RateUnWeighted.ToString(),
-                 WeightingFactor = lf.WeightingFactor
-             })
-             .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-             .ToDictionaryAsync(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
+            var fundingList = await context.LarsFundings
+            .Select(lf => new FundingModel
+            {
+                LearnAimRef = lf.LearnAimRef,
+                EffectiveFrom = lf.EffectiveFrom,
+                EffectiveTo = lf.EffectiveTo,
+                FundingCategory = lf.FundingCategory,
+                FundingCategoryDescription = lf.FundingCategoryNavigation.FundingCategoryDesc2,
+                RateWeighted = lf.RateWeighted.ToString(),
+                RateUnWeighted = lf.RateUnWeighted.ToString(),
+                WeightingFactor = lf.WeightingFactor
+            })
+            .ToListAsync();
+
+            return fundingList
+                .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

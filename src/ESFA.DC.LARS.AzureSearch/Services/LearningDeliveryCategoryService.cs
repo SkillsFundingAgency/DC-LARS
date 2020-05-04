@@ -13,7 +13,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
     {
         public async Task<Dictionary<string, List<CategoryModel>>> GetLearningDeliveryCategoriesAsync(LarsContext context)
         {
-            return await context.LarsLearningDeliveryCategories.Select(cat => new CategoryModel
+            var catergoryList = await context.LarsLearningDeliveryCategories.Select(cat => new CategoryModel
             {
                 LearnAimRef = cat.LearnAimRef,
                 Reference = cat.CategoryRef,
@@ -27,8 +27,11 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 .Select(l => l.CategoryName)
                 .FirstOrDefault()
             })
-            .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionaryAsync(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
+            .ToListAsync();
+
+            return catergoryList
+               .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
+               .ToDictionary(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

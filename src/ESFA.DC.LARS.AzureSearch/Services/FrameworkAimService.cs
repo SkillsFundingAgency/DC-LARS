@@ -40,7 +40,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
         {
             var frameworkQuerable = GetQuerable(context, units);
 
-            return await frameworkQuerable.Select(fa => new LearningAimFrameworkModel
+            var frameworks = await frameworkQuerable.Select(fa => new LearningAimFrameworkModel
             {
                 LearnAimRef = fa.LearnAimRef,
                 LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
@@ -55,15 +55,18 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 IssuingAuthority = fa.LarsFramework.IssuingAuthority,
                 ComponentType = fa.FrameworkComponentType
             })
-            .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionaryAsync(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
+            .ToListAsync();
+
+            return frameworks
+                .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
         }
 
         public async Task<Dictionary<string, List<FrameworkAimModel>>> GetFrameworkLearningAimsAsync(LarsContext context, bool units)
         {
             var frameworkQuerable = GetQuerable(context, units);
 
-            return await frameworkQuerable.Select(fa => new FrameworkAimModel
+            var frameworks = await frameworkQuerable.Select(fa => new FrameworkAimModel
             {
                 LearnAimRef = fa.LearnAimRef,
                 LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
@@ -73,8 +76,11 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 EffectiveTo = fa.EffectiveTo,
                 ComponentType = fa.FrameworkComponentType,
             })
-            .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionaryAsync(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
+            .ToListAsync();
+
+            return frameworks
+                .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
         }
 
         private IQueryable<LarsFrameworkAim> GetQuerable(LarsContext context, bool units)

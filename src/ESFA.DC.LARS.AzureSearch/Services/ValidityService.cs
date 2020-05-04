@@ -13,7 +13,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
     {
         public async Task<Dictionary<string, List<ValidityModel>>> GetValiditiesAsync(LarsContext context)
         {
-            return await context.LarsValidities
+            var validities = await context.LarsValidities
             .Select(lv => new ValidityModel
             {
                 LearnAimRef = lv.LearnAimRef,
@@ -23,8 +23,11 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 ValidityCategory = lv.ValidityCategory.ToUpper(),
                 ValidityCategoryDescription = lv.ValidityCategoryNavigation.ValidityCategoryDesc2
             })
-            .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-            .ToDictionaryAsync(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
+            .ToListAsync();
+
+            return validities
+                .GroupBy(l => l.LearnAimRef, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(k => k.Key, v => v.ToList(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }
