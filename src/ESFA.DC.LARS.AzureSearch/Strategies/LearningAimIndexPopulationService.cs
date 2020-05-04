@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
+using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 
@@ -15,6 +18,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
         private readonly IAcademicYearService _academicYearService;
         private readonly IIssuingAuthorityService _issuingAuthorityService;
         private readonly IComponentTypeService _componentTypeService;
+        private readonly IFundingService _fundingService;
+        private readonly IValidityService _validityService;
+        private readonly ILearningDeliveryCategoryService _learningDeliveryCategoryService;
+        private readonly IFrameworkAimService _frameworkAimService;
+        private readonly IEntitlementCategoryService _entitlementCategoryService;
+        private readonly IAwardOrgService _awardOrgService;
 
         public LearningAimIndexPopulationService(
             ISearchServiceClient searchServiceClient,
@@ -22,80 +31,65 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             ILarsContextFactory contextFactory,
             IAcademicYearService academicYearService,
             IIssuingAuthorityService issuingAuthorityService,
-            IComponentTypeService componentTypeService)
+            IComponentTypeService componentTypeService,
+            IFundingService fundingService,
+            IValidityService validityService,
+            ILearningDeliveryCategoryService learningDeliveryCategoryService,
+            IFrameworkAimService frameworkAimService,
+            IEntitlementCategoryService entitlementCategoryService,
+            IAwardOrgService awardOrgService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
             _issuingAuthorityService = issuingAuthorityService;
             _componentTypeService = componentTypeService;
+            _fundingService = fundingService;
+            _validityService = validityService;
+            _learningDeliveryCategoryService = learningDeliveryCategoryService;
+            _frameworkAimService = frameworkAimService;
+            _entitlementCategoryService = entitlementCategoryService;
+            _awardOrgService = awardOrgService;
         }
 
         protected override string IndexName => _populationConfiguration.LearningAimsIndexName;
 
-        public override void PopulateIndex()
+        public async override Task PopulateIndexAsync()
         {
-            var next = true;
             var indexClient = GetIndexClient();
 
             using (var context = _contextFactory.GetLarsContext())
             {
-                var page = 0;
-
+                // For an unknown reason large datasets with complex joins appear to randomly
+                // drop data.  Not sure why but advised approach is to preload data and query
+                // that rather than do all in single EF query.
                 var academicYears = _academicYearService.GetAcademicYears(context);
+                var issuingAuthorities = await _issuingAuthorityService.GetIssuingAuthoritiesAsync(context);
+                var componentTypes = await _componentTypeService.GetComponentTypesAsync(context);
+                var fundings = await _fundingService.GetFundingsAsync(context);
+                var categories = await _learningDeliveryCategoryService.GetLearningDeliveryCategoriesAsync(context);
+                var validities = await _validityService.GetValiditiesAsync(context);
+                var entitlementCategories = await _entitlementCategoryService.GetEntitlementCategoriesAsync(context);
+                var frameworkAims = await _frameworkAimService.GetLearningAimFrameworkAimsAsync(context, false);
+                var awardBodyCodes = await _awardOrgService.GetAwardingOrgNamesAsync(context);
 
-                var issuingAuthorities = _issuingAuthorityService.GetIssuingAuthorities(context);
-
-                var componentTypes = _componentTypeService.GetComponentTypes(context);
-
-                var frameworkAims = context.LarsFrameworkAims
-                    .Where(fa => fa.LearnAimRefNavigation.LearnAimRefType != UnitLearnAimRefType)
-                    .Select(fa => new LearningAimFrameworkModel
-                        {
-                            LearnAimRef = fa.LearnAimRef,
-                            LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
-                            FrameworkTitle = fa.LarsFramework.IssuingAuthorityTitle,
-                            FrameworkCode = fa.FworkCode,
-                            PathwayCode = fa.PwayCode,
-                            ProgramType = fa.ProgType,
-                            EffectiveFrom = fa.LarsFramework.EffectiveFrom,
-                            EffectiveTo = fa.LarsFramework.EffectiveTo,
-                            PathwayName = fa.LarsFramework.PathwayName,
-                            ProgramTypeDesc = fa.LarsFramework.ProgTypeNavigation.ProgTypeDesc,
-                            IssuingAuthority = fa.LarsFramework.IssuingAuthority,
-                            ComponentType = fa.FrameworkComponentType
-                        })
-                    .AsEnumerable()
-                    .GroupBy(gb => gb.LearnAimRef, StringComparer.OrdinalIgnoreCase)
-                    .ToDictionary(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
-
-                var entitlementCategories = context.LarsAnnualValues
-                    .Select(av => new EntitlementCategoryModel
-                    {
-                        LearnAimRef = av.LearnAimRef,
-                        EffectiveFrom = av.EffectiveFrom,
-                        EffectiveTo = av.EffectiveTo,
-                        Category2Description =
-                            av.FullLevel2EntitlementCategoryNavigation.FullLevel2EntitlementCategoryDesc,
-                        Category3Description =
-                            av.FullLevel3EntitlementCategoryNavigation.FullLevel3EntitlementCategoryDesc
-                    })
-                    .GroupBy(gb => gb.LearnAimRef)
-                    .ToDictionary(av => av.Key, em => em.Select(x => x).ToList());
+                var page = 0;
+                var next = true;
 
                 while (next)
                 {
                     var queryStartTime = DateTime.Now;
-                    var learningAims = context.LarsLearningDeliveries
-                        .Where(ld => ld.LearnAimRefType != UnitLearnAimRefType)
+                    var learningAimsQueryable = context.LarsLearningDeliveries.AsQueryable();
+
+                    var learningAims = learningAimsQueryable.Where(ld => ld.LearnAimRefType != UnitLearnAimRefType)
+                        .OrderBy(ld => ld.LearnAimRef)
+                        .ThenBy(ld => ld.EffectiveFrom)
+                        .Skip(page * PageSize)
+                        .Take(PageSize)
                         .Select(ld => new LearningAimModel
                         {
                             LearnAimRef = ld.LearnAimRef,
                             AwardingBodyCode = ld.AwardOrgCode,
-                            AwardingBodyName = context.LarsAwardOrgCodeLookups
-                                .Where(l => l.AwardOrgCode == ld.AwardOrgCode)
-                                .Select(l => l.AwardOrgName)
-                                .FirstOrDefault(),
                             EffectiveFrom = ld.EffectiveFrom,
                             EffectiveTo = ld.EffectiveTo,
                             Level = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2,
@@ -103,86 +97,23 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
                             GuidedLearningHours = ld.GuidedLearningHours ?? 0,
-                            Categories = ld.LarsLearningDeliveryCategories
-                                .Select(cat => new CategoryModel
-                                {
-                                    Reference = cat.CategoryRef,
-                                    EffectiveTo = cat.EffectiveTo,
-                                    EffectiveFrom = cat.EffectiveFrom,
-                                    Title = cat.CategoryRefNavigation.CategoryName,
-                                    Description = cat.CategoryRefNavigation.CategoryName,
-                                    ParentReference = cat.CategoryRefNavigation.ParentCategoryRef,
-                                    ParentDescription = context.LarsCategoryLookups
-                                        .Where(l => l.CategoryRef == cat.CategoryRefNavigation.ParentCategoryRef)
-                                        .Select(l => l.CategoryName)
-                                        .FirstOrDefault()
-                                }).ToList(),
-                            ValidityModels = ld.LarsValidities
-                                .Select(lv => new ValidityModel
-                                {
-                                    StartDate = lv.StartDate,
-                                    EndDate = lv.EndDate,
-                                    LastNewStartDate = lv.LastNewStartDate,
-                                    ValidityCategory = lv.ValidityCategory.ToUpper(),
-                                    ValidityCategoryDescription = lv.ValidityCategoryNavigation.ValidityCategoryDesc2
-                                }).ToList(),
-                            FundingModels = ld.LarsFundings
-                               .Select(lf => new FundingModel
-                               {
-                                   EffectiveFrom = lf.EffectiveFrom,
-                                   EffectiveTo = lf.EffectiveTo,
-                                   FundingCategory = lf.FundingCategory,
-                                   FundingCategoryDescription = lf.FundingCategoryNavigation.FundingCategoryDesc2,
-                                   RateWeighted = lf.RateWeighted.ToString(),
-                                   RateUnWeighted = lf.RateUnWeighted.ToString(),
-                                   WeightingFactor = lf.WeightingFactor
-                               }).ToList()
                         })
-                        .OrderBy(ld => ld.LearnAimRef)
-                        .ThenBy(ld => ld.EffectiveFrom)
-                        .Skip(page * PageSize)
-                        .Take(PageSize)
                         .ToArray();
+
                     var queryEndTime = DateTime.Now;
 
                     var postProcessStartTime = DateTime.Now;
+
                     foreach (var learningDelivery in learningAims)
                     {
-                        entitlementCategories.TryGetValue(learningDelivery.LearnAimRef, out var entitlementCategory);
+                        PopulateFrameworks(learningDelivery, frameworkAims, issuingAuthorities, componentTypes);
+                        learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>());
+                        learningDelivery.AwardingBodyName = awardBodyCodes.GetValueOrDefault(learningDelivery.AwardingBodyCode);
 
-                        if (frameworkAims.TryGetValue(learningDelivery.LearnAimRef, out var frameworks))
-                        {
-                            learningDelivery.Frameworks = frameworks;
-                            foreach (var framework in learningDelivery.Frameworks)
-                            {
-                                framework.ComponentTypeDesc = framework.ComponentType != null
-                                    ? componentTypes[framework.ComponentType.Value]
-                                    : null;
-
-                                framework.IssuingAuthorityDesc = issuingAuthorities[framework.IssuingAuthority];
-                            }
-                        }
-
-                        learningDelivery.AcademicYears =
-                            academicYears.Select(ay =>
-                            {
-                                var selectedEntitlementCategory = entitlementCategory?
-                                    .FirstOrDefault(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate);
-
-                                return new AcademicYearModel
-                                    {
-                                        AcademicYear = ay.AcademicYear,
-                                        Validities = learningDelivery.ValidityModels.Where(lv => lv.StartDate <= ay.EndDate && (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                        Fundings = learningDelivery.FundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate && (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
-                                        Level2Category = selectedEntitlementCategory?.Category2Description,
-                                        Level3Category = selectedEntitlementCategory?.Category3Description
-                                    };
-                            }).ToList();
-
-                        learningDelivery.AcademicYears.RemoveAll(ay => !ay.Validities.Any());
-
-                        learningDelivery.ValidityModels = null;
-                        learningDelivery.FundingModels = null;
+                        var fundingForDelivery = fundings.GetValueOrDefault(learningDelivery.LearnAimRef, new List<FundingModel>());
+                        var validityForDelivery = validities.GetValueOrDefault(learningDelivery.LearnAimRef, new List<ValidityModel>());
+                        var entitlementCategory = entitlementCategories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<EntitlementCategoryModel>());
+                        PopulateAcademicYears(learningDelivery, academicYears.ToList(), fundingForDelivery, entitlementCategory, validityForDelivery);
                     }
 
                     var postProcessEndTime = DateTime.Now;
@@ -217,6 +148,45 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
             Console.WriteLine("Waiting for indexing...\n");
             Thread.Sleep(2000);
+        }
+
+        private void PopulateFrameworks(LearningAimModel learningAim, Dictionary<string, List<LearningAimFrameworkModel>> frameworkAims, IDictionary<string, string> issuingAuthorities, IDictionary<int, string> componentTypes)
+        {
+            var frameworks = frameworkAims.GetValueOrDefault(learningAim.LearnAimRef);
+
+            if (frameworks != null)
+            {
+                learningAim.Frameworks = frameworks;
+                foreach (var framework in learningAim.Frameworks)
+                {
+                    framework.ComponentTypeDesc = framework.ComponentType != null
+                        ? componentTypes[framework.ComponentType.Value]
+                        : null;
+
+                    framework.IssuingAuthorityDesc = issuingAuthorities[framework.IssuingAuthority];
+                }
+            }
+        }
+
+        private void PopulateAcademicYears(LearningAimModel learningAim, List<LarsAcademicYearLookup> academicYears, List<FundingModel> fundingModels, List<EntitlementCategoryModel> entitlementCategory, List<ValidityModel> validityModels)
+        {
+            learningAim.AcademicYears =
+                academicYears.Select(ay =>
+                {
+                    var selectedEntitlementCategory = entitlementCategory?
+                        .FirstOrDefault(cat => cat.EffectiveFrom <= ay.EndDate && (cat.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate);
+
+                    return new AcademicYearModel
+                    {
+                        AcademicYear = ay.AcademicYear,
+                        Validities = validityModels.Where(lv => lv.StartDate <= ay.EndDate && (lv.EndDate ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                        Fundings = fundingModels.Where(lf => lf.EffectiveFrom <= ay.EndDate && (lf.EffectiveTo ?? DateTime.MaxValue) >= ay.StartDate).ToList(),
+                        Level2Category = selectedEntitlementCategory?.Category2Description,
+                        Level3Category = selectedEntitlementCategory?.Category3Description
+                    };
+                }).ToList();
+
+            learningAim.AcademicYears.RemoveAll(ay => !ay.Validities.Any());
         }
     }
 }

@@ -6,6 +6,8 @@ namespace ESFA.DC.LARS.Azure.Models
     [ExcludeFromCodeCoverage]
     public class CategoryModel
     {
+        public string LearnAimRef { get; set; }
+
         public int Reference { get; set; }
 
         public string Title { get; set; }
