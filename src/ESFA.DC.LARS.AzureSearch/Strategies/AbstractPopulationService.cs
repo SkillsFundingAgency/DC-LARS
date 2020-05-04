@@ -1,4 +1,5 @@
-﻿using ESFA.DC.LARS.AzureSearch.Interfaces;
+﻿using System.Threading.Tasks;
+using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 using Index = Microsoft.Azure.Search.Models.Index;
 
@@ -19,7 +20,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected abstract string IndexName { get; }
 
-        public abstract void PopulateIndex();
+        public abstract Task PopulateIndexAsync();
 
         public void CreateIndex()
         {

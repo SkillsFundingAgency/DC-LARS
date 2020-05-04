@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
@@ -28,7 +30,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.FrameworkIndexName;
 
-        public override void PopulateIndex()
+        public async override Task PopulateIndexAsync()
         {
             var indexClient = GetIndexClient();
 
@@ -39,11 +41,10 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
             using (var context = _contextFactory.GetLarsContext())
             {
-                issuingAuthorities = _issuingAuthorityService.GetIssuingAuthorities(context);
+                issuingAuthorities = await _issuingAuthorityService.GetIssuingAuthoritiesAsync(context);
+                componentTypes = await _componentTypeService.GetComponentTypesAsync(context);
 
-                componentTypes = _componentTypeService.GetComponentTypes(context);
-
-                frameworks = context.LarsFrameworks
+                frameworks = await context.LarsFrameworks
                     .Select(fr => new FrameworkModel
                     {
                         Id = string.Concat(fr.FworkCode, "-", fr.ProgType, "-", fr.PwayCode), // azure search index must have 1 key field
@@ -73,7 +74,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                 ComponentType = fa.FrameworkComponentType,
                                 ComponentTypeDesc = fa.FrameworkComponentType != null ? componentTypes[fa.FrameworkComponentType.Value] : null
                             }).ToList()
-                    }).ToList();
+                    }).ToListAsync();
             }
 
             var indexActions = frameworks.Select(IndexAction.Upload);
