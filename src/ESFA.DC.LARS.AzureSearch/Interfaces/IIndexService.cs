@@ -1,7 +1,9 @@
-﻿namespace ESFA.DC.LARS.AzureSearch.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IIndexService
     {
-        void UpdateIndexes();
+        Task UpdateIndexesAsync();
     }
 }

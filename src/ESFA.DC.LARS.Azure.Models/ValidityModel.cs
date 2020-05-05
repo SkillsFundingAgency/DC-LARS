@@ -5,6 +5,8 @@ namespace ESFA.DC.LARS.Azure.Models
 {
     public class ValidityModel
     {
+        public string LearnAimRef { get; set; }
+
         [IsFilterable]
         public string ValidityCategory { get; set; }
 
