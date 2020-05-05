@@ -69,6 +69,7 @@
                     <h2 class="govuk-heading-l">Search for a unit</h2>
 
                     <form asp-action="@nameof(HomeController.UnitSearch)" class="govuk-form-group" id="unitSearchForm">
+                        <input id="TeachingYear" type="hidden" name="TeachingYear" value="@Model.Lookups.AcademicYearLookups.Single(y => y.IsCurrentAcademicYear).AcademicYear" />
                         @await Html.PartialAsync("_SearchBar", "searchTerm")
                         <br>
                         @await Html.PartialAsync("_SearchButton", "units")
