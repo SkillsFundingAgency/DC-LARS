@@ -17,7 +17,8 @@ const vue = new Vue({
             const storageService = new StorageService(sessionStorage);
             const storageItem = storageService.retrieve('');
 
-            if (searchType === 'qualifications') {
+            if (searchType === 'qualifications'
+                || searchType === 'units') {
                 const awardingBodyFilterElement = document.getElementById('AwardingBody') as HTMLInputElement;
                 if (awardingBodyFilterElement && awardingBodyFilterElement.value) {
                     const filter: IFilterItem = {

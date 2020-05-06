@@ -26,13 +26,12 @@ const vue = new Vue({
         const getDataAsync = async function () {
             const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
             const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-            return await learningAimSearchService.getQualificationsResultsAsync(filterStoreService.getSavedFilters(SearchType.Qualifications), searchTerm, teachingYears);
+            return await learningAimSearchService.getUnitsResultsAsync(filterStoreService.getSavedFilters(SearchType.Units), searchTerm, teachingYears);
         }
-        
         const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
 
         const debouncedCallback = debounce(async () => { await resultsHelper.getResultsAsync(getDataAsync) }, constants.debounceTime);
-        filterStoreService.watchFilters(SearchType.Qualifications, debouncedCallback, this.immediateRefresh, true);
+        filterStoreService.watchFilters(SearchType.Units, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {
         setImmediateRefreshRequired: function (refreshRequired: boolean) {

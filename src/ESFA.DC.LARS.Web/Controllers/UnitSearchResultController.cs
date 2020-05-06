@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
+    [Route("UnitSearchResult")]
     public class UnitSearchResultController : BaseResultsController<LearningAimsSearchModel, LearningAimModel>
     {
         private const string ResultsTemplate = "_LearningAimsResults";
