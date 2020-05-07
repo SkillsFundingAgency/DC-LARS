@@ -15,11 +15,11 @@ export class ViewService {
     }
 
     setupLearningAimSearchResultView(searchTerm: string, teachingYear: string) {
+        this.removeFilterNonScriptTag();
         const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
         storageItem.searchTerm = searchTerm;
         storageItem.teachingYear = teachingYear;
         storageItem.frameworkSearch = false;
-
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();
     }
@@ -44,6 +44,7 @@ export class ViewService {
     }
 
     setupFrameworkSearchResultView(searchTerm: string) {
+        this.removeFilterNonScriptTag();
         const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
         storageItem.searchTerm = searchTerm;
         storageItem.frameworkSearch = true;
@@ -83,4 +84,10 @@ export class ViewService {
         return filters;
     }
 
+    removeFilterNonScriptTag() {
+        const element = document.getElementById("filtersNoScript") as HTMLElement;
+        if (element && element.parentNode) {
+            element.parentNode.removeChild(element);
+        }
+    }
 }

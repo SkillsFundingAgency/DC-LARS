@@ -1,40 +1,50 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<LearningAimsSearchModel, LearningAimModel>
-
 @{
+    Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
     ViewData["Title"] = "Index";
+    ViewData["SearchTitle"] = "Search units";
+    var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <div class="standard-search">
-            <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search units</h1>
-            <div class="govuk-form-group">
-                <div id="tt-overlay" class="autocomplete-wrapper second">
-                    <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
-                        <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
-                                placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchModel.SearchTerm" maxlength="200" />
-                    </div>
-                </div>
-                <button id="searchProviders" type="submit" class="govuk-button">
-                    <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
-                </button>
-            </div>
-        </div>
+@section Filters
+{
+    <noscript id="filtersNoScript">
+        @await Html.PartialAsync("_LearningAimsFilters", Model)
+        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" asp-route-academicYear="@academicYear" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+    </noscript>
+    <filters search-type="Units" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
+}
 
-        <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
+@section Results
+{
+    <p class="govuk-body flex space-between">
+        <span ref="ResultsCount">@Model.Results.Count() results</span>
+    </p>
+
+    <filter-feedback search-type="Units"></filter-feedback>
+
+    <div ref="Results">
+        @await Html.PartialAsync("_LearningAimsResults", Model)
     </div>
-</div>
+}
 
-<div class="govuk-grid-row govuk-!-margin-top-6">
-    <div class="govuk-grid-column-two-thirds">
-        <ul id="resultList" class="govuk-list">
-            <p class="govuk-body flex space-between">
-                <span ref="ResultsCount">@Model.Results.Count() results</span>
-            </p>
+@section PageScripts
+{
+    <filter-template>
+        @await Html.PartialAsync("_LearningAimsFilters", Model)
+    </filter-template>
 
-            <div ref="Results">
-                @await Html.PartialAsync("_LearningAimsResults", Model)
-            </div
-        </ul>
-    </div>
-</div>
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear");
+        @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
+        var serverFilters = viewService.getLearningAimFilters(@Json.Serialize(Model.SearchModel.AwardingBodies),
+                                                        @Json.Serialize(Model.SearchModel.Levels),
+                                                        @Json.Serialize(Model.SearchModel.TeachingYears),
+                                                        @Json.Serialize(Model.SearchModel.FundingStreams));
+    </script>
+
+    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
+    <script src="/assets/dist/js/UnitsSearchResults.js" asp-append-version="true"></script>
+}

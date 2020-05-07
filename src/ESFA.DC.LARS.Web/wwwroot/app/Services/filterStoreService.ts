@@ -11,6 +11,8 @@ import store from "../store"
                         return state.qualificationFilters;
                     case SearchType.Frameworks:
                         return state.frameworkFilters;
+                    case SearchType.Units:
+                        return state.unitFilters;
                     default:
                         return [];
                 }
@@ -32,6 +34,9 @@ import store from "../store"
              case SearchType.Frameworks:
                  store.commit('updateFrameworkFilters', filters);
                  break;
+             case SearchType.Units:
+                 store.commit('updateUnitFilters', filters);
+                 break;
          }
      }
 
@@ -41,6 +46,8 @@ import store from "../store"
                  return store.state.qualificationFilters;
              case SearchType.Frameworks:
                  return store.state.frameworkFilters;
+             case SearchType.Units:
+                 return store.state.unitFilters;
              default:
                  return [];
          }

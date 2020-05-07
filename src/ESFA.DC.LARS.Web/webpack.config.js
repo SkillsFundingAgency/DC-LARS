@@ -21,6 +21,7 @@ module.exports = {
         './assets/dist/js/search': './wwwroot/app/searchMain.ts',
         './assets/dist/js/learningAimSearchResults': './wwwroot/app/learningAimSearchResultsMain.ts',
         './assets/dist/js/frameworkSearchResults': './wwwroot/app/frameworkSearchResultsMain.ts',
+        './assets/dist/js/unitsSearchResults': './wwwroot/app/unitsSearchResultsMain.ts',
         './assets/dist/js/ESFA': './wwwroot/ESFAGlobals.ts'
     },
     // This is where we define the path where Webpack will place
