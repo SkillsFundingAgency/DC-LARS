@@ -2,74 +2,51 @@
 
 @await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
 
-<div id="frameworkResults">
+@{
+    Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
+    ViewData["Title"] = "Index";
+    ViewData["SearchTitle"] = "Search Qualifications";
+    ViewData["SearchTerm"] = Model.SearchModel.SearchTerm;
+    ViewData["ValidationErrors"] = Model.ValidationErrors;
+}
 
-    @using (Html.BeginForm("Search", "FrameworkSearchResult", FormMethod.Post, new { @id = "filterForm", @class = "govuk-form-group" }))
-    {
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <div class="standard-search">
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Search frameworks</h1>
-                    <div class="govuk-form-group">
-                        <div id="tt-overlay" class="autocomplete-wrapper second">
-                            <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
-                                <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
-                                       type="text" value="@Model.SearchModel.SearchTerm" maxlength="200" />
-                            </div>
-                        </div>
-                        <button id="searchProviders" type="submit" class="govuk-button">
-                            <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
-                        </button>
-                    </div>
-                </div>
-                <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
-            </div>
-        </div>
+@section Breadcrumbs
+{
+    @await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
+}
 
-        <div class="govuk-grid-row govuk-!-margin-top-6">
-            <div class="govuk-grid-column-one-third">
+@section Filters
+{
+    <noscript id="filtersNoScript">
+        @await Html.PartialAsync("_SearchFilters", Model)
+        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+    </noscript>
+    <filters search-type="Frameworks" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
+}
 
-                <noscript id="filtersNoScript">
-                    @await Html.PartialAsync("_SearchFilters", Model)
+@section Results
+{
+    <p class="govuk-body flex space-between">
+        <span ref="ResultsCount">@Model.Results.Count() results</span>
+    </p>
 
-                    <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+    <filter-feedback search-type="Frameworks"></filter-feedback>
 
-                    @Html.ActionLink(
-                    "Clear Filters",
-                    "ClearFilters",
-                    new { searchTerm = Model.SearchModel.SearchTerm },
-                    new { @class = "govuk-!-margin-top-4 govuk-button govuk-button--secondary" })
-                </noscript>
+    <div ref="Results">
+        @await Html.PartialAsync("_SearchResults", Model)
+    </div>
+}
 
-                <filters search-type="Frameworks" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
-            </div>
-
-            <div class="govuk-grid-column-two-thirds">
-                <ul id="resultList" class="govuk-list">
-
-                    <p class="govuk-body flex space-between">
-                        <span ref="ResultsCount">@Model.Results.Count() results</span>
-                    </p>
-
-                    <filter-feedback search-type="Frameworks"></filter-feedback>
-
-                    <div ref="Results">
-                        @await Html.PartialAsync("_SearchResults", Model)
-                    </div>
-                </ul>
-            </div>
-        </div>
-    }
-
-</div>
 @section PageScripts
 {
-    <script src="/assets/dist/js/esfa.js"></script>
+    <filter-template>
+        @await Html.PartialAsync("_SearchFilters", Model)
+    </filter-template>
+
+    <script src="/assets/dist/js/esfa.js" asp-append-version="true"></script>
 
     <script>
-        var element = document.getElementById("filtersNoScript");
-        element.parentNode.removeChild(element);
-
         var viewService = new ESFA.ViewService();
         viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
 
@@ -77,15 +54,6 @@
         serverFilters = viewService.getFrameworkFilters(@Json.Serialize(Model.SearchModel.FrameworkTypes), @Json.Serialize(Model.SearchModel.IssuingAuthorities));
     </script>
 
-    <script id="filtersTemplate" type="text/x-template">
-        <div>
-            @await Html.PartialAsync("_SearchFilters", Model)
-            <p>
-                <a v-on:click="clearFilters()" class="govuk-link govuk-link--no-visited-state" href="#">Clear filters</a>
-            </p>
-        </div>
-    </script>
-
     @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
-    <script src="/assets/dist/js/frameworkSearchResults.js"></script>
+    <script src="/assets/dist/js/frameworkSearchResults.js" asp-append-version="true"></script>
 }

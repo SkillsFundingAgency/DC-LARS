@@ -11,7 +11,7 @@ import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
 
 let vue = new Vue({
-    el: "#frameworkResults",
+    el: "#resultsApp",
     store,
     components: {
         'filter-feedback': FilterFeedback,

@@ -97,6 +97,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 LookUpModel = lookups,
                 Breadcrumbs = new BreadcrumbsModel()
                 {
+                    Id = "ResultsBreadcrumb",
                     Breadcrumbs = new Dictionary<string, string>()
                     {
                         { "homeLink", "Home" },

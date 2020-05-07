@@ -21,9 +21,12 @@ namespace ESFA.DC.LARS.Web.TagHelpers
 
             var errorsHtml = string.Empty;
 
-            foreach (var error in Errors)
+            if (Errors != null)
             {
-                errorsHtml += $"<li class='govuk-error-message'>{error}</li>";
+                foreach (var error in Errors)
+                {
+                    errorsHtml += $"<li class='govuk-error-message'>{error}</li>";
+                }
             }
 
             output.Content.SetHtmlContent(errorsHtml);
