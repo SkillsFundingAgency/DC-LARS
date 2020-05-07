@@ -6,7 +6,7 @@ import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
-import { qualificationSearchService } from './Services/qualificationSearchService';
+import { learningAimSearchService } from './Services/learningAimSearchService';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
 
@@ -26,7 +26,7 @@ const vue = new Vue({
         const getDataAsync = async function () {
             const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
             const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-            return await qualificationSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Qualifications), searchTerm, teachingYears);
+            return await learningAimSearchService.getQualificationsResultsAsync(filterStoreService.getSavedFilters(SearchType.Qualifications), searchTerm, teachingYears);
         }
         
         const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);

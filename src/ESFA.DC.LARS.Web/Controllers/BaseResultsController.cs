@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ESFA.DC.LARS.Web.Controllers
 {
     public abstract class BaseResultsController<TSearchModel, TResults> : Controller
-        where TSearchModel : class
+        where TSearchModel : BaseSearchModel
         where TResults : class
     {
         private readonly ILookupApiService _lookupApiService;
@@ -97,6 +97,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 LookUpModel = lookups,
                 Breadcrumbs = new BreadcrumbsModel()
                 {
+                    Id = "ResultsBreadcrumb",
                     Breadcrumbs = new Dictionary<string, string>()
                     {
                         { "homeLink", "Home" },

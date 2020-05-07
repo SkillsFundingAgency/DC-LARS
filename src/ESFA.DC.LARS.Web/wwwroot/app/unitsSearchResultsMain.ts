@@ -1,16 +1,16 @@
 ﻿import Vue from "vue";
-import store from "./store";
+import store from "./store"
 import { debounce } from 'vue-debounce';
 
-import Filters from "./Components/filters.vue";
-import FilterFeedback from './Components/filterFeedback.vue';
-import { frameworkSearchService } from './Services/frameworkSearchService';
+import Filters from "../app/Components/filters.vue";
+import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
+import { learningAimSearchService } from './Services/learningAimSearchService';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
 
-let vue = new Vue({
+const vue = new Vue({
     el: "#resultsApp",
     store,
     components: {
@@ -23,16 +23,15 @@ let vue = new Vue({
         };
     },
     mounted() {
-
         const getDataAsync = async function () {
             const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-            return await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
-        };
-
+            const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
+            return await learningAimSearchService.getUnitsResultsAsync(filterStoreService.getSavedFilters(SearchType.Units), searchTerm, teachingYears);
+        }
         const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
 
         const debouncedCallback = debounce(async () => { await resultsHelper.getResultsAsync(getDataAsync) }, constants.debounceTime);
-        filterStoreService.watchFilters(SearchType.Frameworks, debouncedCallback, this.immediateRefresh, true);
+        filterStoreService.watchFilters(SearchType.Units, debouncedCallback, this.immediateRefresh, true);
     },
     methods: {
         setImmediateRefreshRequired: function (refreshRequired: boolean) {
