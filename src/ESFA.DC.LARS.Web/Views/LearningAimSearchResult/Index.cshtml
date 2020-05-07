@@ -3,14 +3,7 @@
     Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
     ViewData["Title"] = "Index";
     ViewData["SearchTitle"] = "Search Qualifications";
-    ViewData["SearchTerm"] = Model.SearchModel.SearchTerm;
-    ViewData["ValidationErrors"] = Model.ValidationErrors;
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
-}
-
-@section Breadcrumbs
-{
-    @await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
 }
 
 @section Filters
@@ -39,8 +32,6 @@
     <filter-template>
         @await Html.PartialAsync("_LearningAimsFilters", Model)
     </filter-template>
-
-    <script src="/assets/dist/js/esfa.js" asp-append-version="true"></script>
 
     <script>
         var viewService = new ESFA.ViewService();

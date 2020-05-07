@@ -1,8 +1,9 @@
-﻿@{
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.BaseSearchResultsViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@RenderSection("Breadcrumbs", required: false)
+@await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
 
 <div id="resultsApp">
     <form id="filterForm" asp-action="Search" method="post" class="govuk-form-group">
@@ -13,8 +14,8 @@
                     <div class="govuk-form-group">
                         <div id="tt-overlay" class="autocomplete-wrapper second">
                             <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
-                                <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm" 
-                                       placeholder="e.g Maths or 40010740" type="text" value="@ViewData["SearchTerm"]" maxlength="200" />
+                                <input class="autocomplete__input autocomplete__input--default" id="autocomplete-overlay" name="SearchTerm"
+                                       placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchTerm" maxlength="200" />
                             </div>
                         </div>
                         <button id="searchProviders" type="submit" class="govuk-button">
@@ -22,7 +23,7 @@
                         </button>
                     </div>
                 </div>
-                <validation-errors errors="@ViewData["ValidationErrors"] as List<string>" ref="ValidationErrors"></validation-errors>
+                <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
             </div>
         </div>
 
@@ -37,6 +38,11 @@
                 </ul>
             </div>
         </div>
-        @RenderSection("PageScripts", required: false)
     </form>
 </div>
+
+@section PageScripts{
+    <script src="/assets/dist/js/esfa.js" asp-append-version="true"></script>
+    @RenderSection("PageScripts", required: true)
+}
+
