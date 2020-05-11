@@ -7,12 +7,16 @@ import { constants } from '../constants';
 
 export default class LinkService {
 
-    setLinks() {
-        const storageService = new StorageService(sessionStorage);
-        const storageItem = storageService.retrieve(constants.storageKey) as IStorageItem;
+    private storageService: StorageService;
+
+    constructor() {
+        this.storageService = new StorageService(sessionStorage);
+    }
+
+    public setLinks(): void {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
 
         this.renderBreadcrumbs(storageItem.frameworkSearch);
-
         this.setAnchorLinkById("homeLink", "/");
         this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters);
         this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
@@ -21,6 +25,29 @@ export default class LinkService {
         this.setAnchorLinkById("pathwaysLink", `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`);
 
         this.setLearningAimDetailText(storageItem.learningAimTitle);
+    }
+
+    public getLearningAimSearchResultsLink(): string {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        return `/LearningAimSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
+    }
+
+    public getUnitsSearchResultsLink(): string {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        return `/UnitSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
+    }
+
+    public getFrameworksSearchResultsLink(): string {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        return `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}`;
+    }
+
+    private getTeachingYear(storageItem: IStorageItem): string {
+        const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
+        if (teachingFilter) {
+            return teachingFilter.key;
+        }
+        return storageItem.teachingYear;
     }
 
     private renderBreadcrumbs(frameworkSearch: boolean) {

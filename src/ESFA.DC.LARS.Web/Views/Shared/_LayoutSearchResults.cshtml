@@ -25,6 +25,19 @@
                 </div>
                 <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
             </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group flex-col">
+                    <label id="learningTypeLabel" class="govuk-label" for="learningType">
+                        Type of learning
+                    </label>
+                    <select class="govuk-select" id="learningType" name="learningType" v-on:change="learningTypeChanged($event.target.value)">
+                        <option value="Qualifications">Qualifications</option>
+                        <option value="Frameworks">Frameworks</option>
+                        <option value="Units">Units</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="govuk-grid-row govuk-!-margin-top-6">

@@ -9,6 +9,8 @@ import { SearchType } from './SearchType';
 import { learningAimSearchService } from './Services/learningAimSearchService';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
+import StorageService from './Services/storageService';
+import LinkService from './Services/LinkService';
 
 const vue = new Vue({
     el: "#resultsApp",
@@ -37,6 +39,21 @@ const vue = new Vue({
     methods: {
         setImmediateRefreshRequired: function (refreshRequired: boolean) {
             this.immediateRefresh = refreshRequired;
+        },
+        learningTypeChanged: function (value:string) {
+            const storageService = new StorageService(sessionStorage);
+
+            const linkService = new LinkService();
+            if (value === SearchType.Frameworks) {
+                window.location.href = linkService.getFrameworksSearchResultsLink();
+            }
+            if (value === SearchType.Units) {
+                window.location.href = linkService.getUnitsSearchResultsLink();
+            }
+            if (value === SearchType.Qualifications) {
+                window.location.href = linkService.getLearningAimSearchResultsLink();
+            }
+            storageService.clearFilters(constants.storageKey);
         }
     }
 });
