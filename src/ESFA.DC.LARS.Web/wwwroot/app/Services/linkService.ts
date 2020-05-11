@@ -4,6 +4,8 @@ import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 import { formHelper } from '../Helpers/formHelper';
 import { INameValue } from '../Interfaces/INameValue';
 import { constants } from '../constants';
+import { SearchType } from '../SearchType';
+import { filterStoreService } from './filterStoreService';
 
 export default class LinkService {
 
@@ -27,17 +29,33 @@ export default class LinkService {
         this.setLearningAimDetailText(storageItem.learningAimTitle);
     }
 
-    public getLearningAimSearchResultsLink(): string {
+    public redirectToResults(newSearchResults: SearchType, oldSearchResults: SearchType): void {
+        const linkService = new LinkService();
+        if (newSearchResults === SearchType.Frameworks) {
+            window.location.href = linkService.getFrameworksSearchResultsLink();
+        }
+        if (newSearchResults === SearchType.Units) {
+            window.location.href = linkService.getUnitsSearchResultsLink();
+        }
+        if (newSearchResults === SearchType.Qualifications) {
+            window.location.href = linkService.getLearningAimSearchResultsLink();
+        }
+        // Clear all filters except Teaching years if present.
+        const filters = filterStoreService.getSavedFilters(oldSearchResults);
+        this.storageService.updateFilters(constants.storageKey, filters.filter(f => f.type === FilterType.TeachingYears));
+    }
+
+    private getLearningAimSearchResultsLink(): string {
         const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
         return `/LearningAimSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
     }
 
-    public getUnitsSearchResultsLink(): string {
+    private getUnitsSearchResultsLink(): string {
         const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
         return `/UnitSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
     }
 
-    public getFrameworksSearchResultsLink(): string {
+    private getFrameworksSearchResultsLink(): string {
         const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
         return `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}`;
     }
