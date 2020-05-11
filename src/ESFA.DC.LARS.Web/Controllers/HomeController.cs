@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using ESFA.DC.LARS.Web.Helpers;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
@@ -33,7 +32,6 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             var lookups = await _lookupApiService.GetLookups();
             model.Lookups = lookups;
-            model.SearchTypeList = EnumHelper.EnumToSelectList<LearningType>();
             return View(model);
         }
 

@@ -17,7 +17,7 @@
             <form asp-action="Index" asp-controller="Home" class="govuk-form-group" id="searchForm">
                 <div class="govuk-grid-row">
                     <input id="TeachingYear" type="hidden" name="TeachingYear" value="@Model.Lookups.AcademicYearLookups.Single(y => y.IsCurrentAcademicYear).AcademicYear" />
-                    <div class="govuk-grid-column-two-thirds-from-desktop">
+                    <div class="govuk-grid-column-two-thirds">
                         <label class="govuk-label">Search by <strong>learning aim</strong> or <strong>reference number</strong></label>
                         <div id="tt-overlay" class="autocomplete-wrapper" aria-label="Search by name or reference number">
                             <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="typeOfLearning" class="govuk-grid-column-one-third-from-desktop">
+                    <div id="typeOfLearning" class="govuk-grid-column-one-third">
                         <label class="govuk-label" for="searchType">
                             Type of learning
                         </label>

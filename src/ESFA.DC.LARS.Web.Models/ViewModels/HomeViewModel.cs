@@ -15,7 +15,5 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
         public LookUpModel Lookups { get; set; }
 
         public LearningType SearchType { get; set; }
-
-        public List<SelectListItem> SearchTypeList { get; set; }
     }
 }

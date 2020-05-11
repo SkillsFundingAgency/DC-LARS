@@ -24,7 +24,6 @@ const vue = new Vue({
                const teachingYearElement = document.getElementById('TeachingYear') as HTMLInputElement;
 
                 if (teachingYearElement && teachingYearElement.value) {
-                    console.log('in teachingYearElement' + teachingYearElement.value);
                     const filter: IFilterItem = {
                         key: teachingYearElement.value,
                         value: '',
