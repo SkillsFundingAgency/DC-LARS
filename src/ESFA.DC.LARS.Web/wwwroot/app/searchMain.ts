@@ -19,7 +19,7 @@ const vue = new Vue({
             const searchTypeElement = document.getElementById('searchType') as HTMLSelectElement;
             const searchType = searchTypeElement.options[searchTypeElement.selectedIndex].text;
            
-            if (searchType === 'Qualifications') {
+            if (searchType === 'Qualifications' || searchType === 'Units') {
 
                const teachingYearElement = document.getElementById('TeachingYear') as HTMLInputElement;
 
