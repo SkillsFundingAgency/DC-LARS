@@ -4,8 +4,8 @@ using ESFA.DC.ReferenceData.LARS.Model;
 
 namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
-    public interface IComponentTypeService
+    public interface IAwardOrgService
     {
-        Task<IDictionary<int, string>> GetComponentTypesAsync(LarsContext context);
+        Task<Dictionary<string, string>> GetAwardingOrgNamesAsync(LarsContext context);
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace ESFA.DC.LARS.AzureSearch.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IIndexPopulationService
     {
-        void PopulateIndex();
+        Task PopulateIndexAsync();
 
         void CreateIndex();
 

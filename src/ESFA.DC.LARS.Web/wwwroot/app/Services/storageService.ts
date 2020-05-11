@@ -1,5 +1,5 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
-import { IFilterItem } from '../Interfaces/IFilterItem';
+import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
 
 export default class StorageService {
 
@@ -36,8 +36,13 @@ export default class StorageService {
     }
 
     clearFilters(key: string) : void {
-        const item = this.retrieve(key);
+        const item = this.retrieve(key) as IStorageItem;
+        const hasTeachingYear = item.filters.some(f => f.type === FilterType.TeachingYears);
         item.filters = [];
+        // Set default teaching year if required.
+        if (hasTeachingYear) {
+            item.filters.push({ type: FilterType.TeachingYears, key: item.teachingYear, value:''})
+        }
         this.store(key, item);
     }
 

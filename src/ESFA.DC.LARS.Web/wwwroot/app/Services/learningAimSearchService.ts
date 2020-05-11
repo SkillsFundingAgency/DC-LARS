@@ -6,11 +6,18 @@ import { IQualificationsSearchRequest } from '../Interfaces/IQualificationsSearc
 import { ISearchResults } from '../Interfaces/ISearchResults';
 import { filterService } from '../Services/filterService';
 
-class QualificationSearchService {
+class LearningAimSearchService {
 
-	async getResultsAsync(filters: Array<IFilterItem>, searchTerm: string, teachingYears: Array<string>): Promise<ISearchResults>{
+	async getQualificationsResultsAsync(filters: Array<IFilterItem>, searchTerm: string, teachingYears: Array<string>): Promise<ISearchResults>{
 		var response = await axios.get<ISearchResults>('../LearningAimSearchResult/Results', {
 			params: this.createRequest(filters, searchTerm, teachingYears), paramsSerializer: p =>  qs.stringify(p)
+		});
+		return response.data;
+	}
+
+	async getUnitsResultsAsync(filters: Array<IFilterItem>, searchTerm: string, teachingYears: Array<string>): Promise<ISearchResults> {
+		var response = await axios.get<ISearchResults>('../UnitSearchResult/Results', {
+			params: this.createRequest(filters, searchTerm, teachingYears), paramsSerializer: p => qs.stringify(p)
 		});
 		return response.data;
 	}
@@ -28,4 +35,4 @@ class QualificationSearchService {
 	}
 }
 
-export const qualificationSearchService = new QualificationSearchService();
+export const learningAimSearchService = new LearningAimSearchService();

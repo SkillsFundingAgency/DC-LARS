@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
@@ -25,7 +27,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
 
-        public override void PopulateIndex()
+        public async override Task PopulateIndexAsync()
         {
             var indexClient = GetIndexClient();
 
@@ -36,12 +38,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 lookups = new LookUpModel
                 {
                     LookUpKey = "1",
-                    NotionalNvqLevel2Lookups = context.LarsNotionalNvqlevelv2Lookups
+                    NotionalNvqLevel2Lookups = await context.LarsNotionalNvqlevelv2Lookups
                         .Select(lvl => new NotionalNVQLevel2LookupModel
                         {
                             NotionalNVQLevelV2 = lvl.NotionalNvqlevelV2,
                             NotionalNVQLevelV2Desc = lvl.NotionalNvqlevelV2desc
-                        }).ToList(),
+                        }).ToListAsync(),
                     AcademicYearLookups = _academicYearService.GetAcademicYears(context)
                         .Select(ay => new AcademicYearLookupModel
                         {
@@ -49,38 +51,38 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             AcademicYear = ay.AcademicYear,
                             AcademicYearDesc = ay.AcademicYearDesc
                         }).ToList(),
-                    AwardingBodyLookups = context.LarsAwardOrgCodeLookups
+                    AwardingBodyLookups = await context.LarsAwardOrgCodeLookups
                         .Select(ab => new AwardingBodyLookupModel
                         {
                             AwardingBodyCode = ab.AwardOrgCode,
                             AwardingBodyName = ab.AwardOrgName
-                        }).ToList(),
-                    ValidityCategoryLookups = context.LarsValidityCategoryLookups
+                        }).ToListAsync(),
+                    ValidityCategoryLookups = await context.LarsValidityCategoryLookups
                         .Select(vc => new ValidityCategoryLookupModel
                         {
                             ValidityCategory = vc.ValidityCategory,
                             ValidityCategoryDescription = vc.ValidityCategoryDesc2
-                        }).ToList(),
-                    ValidityFundingMappingLookups = context.LarsValidityFundingMappings
+                        }).ToListAsync(),
+                    ValidityFundingMappingLookups = await context.LarsValidityFundingMappings
                         .Select(fm => new ValidityFundingMappingLookupModel
                         {
                             ValidityCategory = fm.ValidityCategory,
                             FundingCategory = fm.FundingCategory,
                             EffectiveFrom = fm.EffectiveFrom,
                             EffectiveTo = fm.EffectiveTo
-                        }).ToList(),
-                    FrameworkTypeLookups = context.LarsProgTypeLookups
+                        }).ToListAsync(),
+                    FrameworkTypeLookups = await context.LarsProgTypeLookups
                         .Select(ft => new FrameworkTypeLookupModel
                         {
                             FrameworkType = ft.ProgType.ToString(),
                             FrameworkTypeDesc = ft.ProgTypeDesc
-                        }).ToList(),
-                    IssuingAuthorityLookups = context.LarsIssuingAuthorityLookups
+                        }).ToListAsync(),
+                    IssuingAuthorityLookups = await context.LarsIssuingAuthorityLookups
                         .Select(ia => new IssuingAuthorityLookupModel
                         {
                             IssuingAuthority = ia.IssuingAuthority.ToString(),
                             IssuingAuthorityDesc = ia.IssuingAuthorityDesc
-                        }).ToList()
+                        }).ToListAsync()
                 };
             }
 

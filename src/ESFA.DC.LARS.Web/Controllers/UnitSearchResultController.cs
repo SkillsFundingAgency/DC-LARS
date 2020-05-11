@@ -4,9 +4,11 @@ using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.LARS.Web.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
+    [Route("UnitSearchResult")]
     public class UnitSearchResultController : BaseResultsController<LearningAimsSearchModel, LearningAimModel>
     {
         private const string ResultsTemplate = "_LearningAimsResults";
@@ -25,6 +27,12 @@ namespace ESFA.DC.LARS.Web.Controllers
             _searchModelFactory = searchModelFactory;
             _unitsApiService = unitsApiService;
             _clientValidationService = clientValidationService;
+        }
+
+        [HttpGet("RedirectToDetails")]
+        public IActionResult RedirectToDetails(string learnAimRef, string academicYear)
+        {
+            return RedirectToAction(nameof(UnitDetailController.Index), "UnitDetail", new { learnAimRef, academicYear });
         }
 
         protected override LearningAimsSearchModel GetSearchModel(BasicSearchModel basicSearchModel)

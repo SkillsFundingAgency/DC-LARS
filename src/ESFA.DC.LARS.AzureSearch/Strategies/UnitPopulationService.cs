@@ -1,4 +1,4 @@
-﻿using ESFA.DC.LARS.Azure.Models;
+﻿using System.Threading.Tasks;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 
@@ -12,16 +12,34 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             ILarsContextFactory contextFactory,
             IAcademicYearService academicYearService,
             IIssuingAuthorityService issuingAuthorityService,
-            IComponentTypeService componentTypeService)
-            : base(searchServiceClient, populationConfiguration, contextFactory, academicYearService, issuingAuthorityService, componentTypeService)
+            IComponentTypeService componentTypeService,
+            IFundingService fundingService,
+            IValidityService validityService,
+            ILearningDeliveryCategoryService learningDeliveryCategoryService,
+            IFrameworkAimService frameworkAimService,
+            IEntitlementCategoryService entitlementCategoryService,
+            IAwardOrgService awardOrgService)
+            : base(
+                  searchServiceClient,
+                  populationConfiguration,
+                  contextFactory,
+                  academicYearService,
+                  issuingAuthorityService,
+                  componentTypeService,
+                  fundingService,
+                  validityService,
+                  learningDeliveryCategoryService,
+                  frameworkAimService,
+                  entitlementCategoryService,
+                  awardOrgService)
         {
         }
 
         protected override string IndexName => _populationConfiguration.UnitIndexName;
 
-        public override void PopulateIndex()
+        public async override Task PopulateIndexAsync()
         {
-            PopulateIndex(true);
+            await PopulateIndexAsync(true);
         }
     }
 }

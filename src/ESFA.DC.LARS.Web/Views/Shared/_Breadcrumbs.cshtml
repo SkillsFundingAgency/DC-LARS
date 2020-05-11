@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<BreadcrumbsModel>
+@{
+    @*If more than one breadcrumb leave to clientside code to decide which to display*@
+    var hideBreadcumbs = Model.Count() > 1;
+}
 
 <noscript>
     <div class="govuk-breadcrumbs">
@@ -12,7 +16,8 @@
 
 @foreach (var breadcrumbType in Model)
 {
-    <div id="@breadcrumbType.Id" class="govuk-breadcrumbs" style="display: none">
+
+    <div id="@breadcrumbType.Id" class="govuk-breadcrumbs" @(hideBreadcumbs? "style='display: none'" : string.Empty)>
         <ol class="govuk-breadcrumbs__list">
             @foreach (var breadcrumb in breadcrumbType.Breadcrumbs)
             {
