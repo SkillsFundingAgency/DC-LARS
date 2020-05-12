@@ -39,7 +39,7 @@ const vue = new Vue({
         setImmediateRefreshRequired: function (refreshRequired: boolean) {
             this.immediateRefresh = refreshRequired;
         },
-        learningTypeChanged: function (value: SearchType) {
+        learningTypeChanged: function (value: string) {
             const linkService = new LinkService();
             linkService.redirectToResults(value, SearchType.Qualifications);
         }

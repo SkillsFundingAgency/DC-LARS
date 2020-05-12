@@ -37,7 +37,9 @@ namespace ESFA.DC.LARS.Web.Controllers
 
         protected override LearningAimsSearchModel GetSearchModel(BasicSearchModel basicSearchModel)
         {
-            return _searchModelFactory.GetLearningAimsSearchModel(basicSearchModel);
+            var searchModel = _searchModelFactory.GetLearningAimsSearchModel(basicSearchModel);
+            searchModel.SearchType = LearningType.Units;
+            return searchModel;
         }
 
         protected override Task<IEnumerable<LearningAimModel>> GetSearchResults(LearningAimsSearchModel searchModel)

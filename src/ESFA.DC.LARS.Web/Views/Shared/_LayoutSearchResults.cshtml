@@ -31,10 +31,8 @@
                     <label id="learningTypeLabel" class="govuk-label" for="learningType">
                         Type of learning
                     </label>
-                    <select class="govuk-select" id="learningType" name="learningType" v-on:change="learningTypeChanged($event.target.value)">
-                        <option value="Qualifications">Qualifications</option>
-                        <option value="Frameworks">Frameworks</option>
-                        <option value="Units">Units</option>
+                    <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType" 
+                            asp-items="Html.GetEnumSelectList<LearningType>()" v-on:change="learningTypeChanged($event.target.value)">
                     </select>
                 </div>
             </div>

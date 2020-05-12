@@ -6,6 +6,7 @@ import { INameValue } from '../Interfaces/INameValue';
 import { constants } from '../constants';
 import { SearchType } from '../SearchType';
 import { filterStoreService } from './filterStoreService';
+import { enumHelper } from '../Helpers/enumHelper';
 
 export default class LinkService {
 
@@ -29,15 +30,18 @@ export default class LinkService {
         this.setLearningAimDetailText(storageItem.learningAimTitle);
     }
 
-    public redirectToResults(newSearchResults: SearchType, oldSearchResults: SearchType): void {
+    public redirectToResults(serverSearchType: string, oldSearchResults: SearchType): void {
         const linkService = new LinkService();
-        if (newSearchResults === SearchType.Frameworks) {
+
+        const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(serverSearchType);
+
+        if (clientSearchType === SearchType.Frameworks) {
             window.location.href = linkService.getFrameworksSearchResultsLink();
         }
-        if (newSearchResults === SearchType.Units) {
+        if (clientSearchType === SearchType.Units) {
             window.location.href = linkService.getUnitsSearchResultsLink();
         }
-        if (newSearchResults === SearchType.Qualifications) {
+        if (clientSearchType === SearchType.Qualifications) {
             window.location.href = linkService.getLearningAimSearchResultsLink();
         }
         // Clear all filters except Teaching years if present.
