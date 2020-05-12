@@ -32,21 +32,31 @@ export default class LinkService {
 
     public redirectToResults(serverSearchType: string, oldSearchResults: SearchType): void {
         const linkService = new LinkService();
-
         const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(serverSearchType);
+        let updatedFilters: Array<IFilterItem> = [];
 
         if (clientSearchType === SearchType.Frameworks) {
             window.location.href = linkService.getFrameworksSearchResultsLink();
         }
-        if (clientSearchType === SearchType.Units) {
-            window.location.href = linkService.getUnitsSearchResultsLink();
+        else {
+            if (clientSearchType === SearchType.Units) {
+                window.location.href = linkService.getUnitsSearchResultsLink();
+            }
+
+            if (clientSearchType === SearchType.Qualifications) {
+                window.location.href = linkService.getLearningAimSearchResultsLink();
+            }
+            const filters = filterStoreService.getSavedFilters(oldSearchResults);
+
+            if (filters.some(f => f.type === FilterType.TeachingYears)) {
+                updatedFilters = filters.filter(f => f.type === FilterType.TeachingYears);
+            } else {
+                const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.teachingYear, value: '' });
+            }
         }
-        if (clientSearchType === SearchType.Qualifications) {
-            window.location.href = linkService.getLearningAimSearchResultsLink();
-        }
-        // Clear all filters except Teaching years if present.
-        const filters = filterStoreService.getSavedFilters(oldSearchResults);
-        this.storageService.updateFilters(constants.storageKey, filters.filter(f => f.type === FilterType.TeachingYears));
+
+        this.storageService.updateFilters(constants.storageKey, updatedFilters);
     }
 
     private getLearningAimSearchResultsLink(): string {
@@ -64,7 +74,7 @@ export default class LinkService {
         return `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}`;
     }
 
-    private getTeachingYear(storageItem: IStorageItem): string {
+    public getTeachingYear(storageItem: IStorageItem): string {
         const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
         if (teachingFilter) {
             return teachingFilter.key;
@@ -82,7 +92,6 @@ export default class LinkService {
                 const parent = learningAimAnchor.parentNode as Node;
                 parent.removeChild(learningAimAnchor);
             }
-
             return;
         }
 
@@ -97,7 +106,6 @@ export default class LinkService {
 
     private setAnchorLinkById(linkId: string, href: string) {
         const anchor = document.getElementById(linkId) as HTMLAnchorElement;
-
         if (anchor) {
             anchor.href = href;
         }

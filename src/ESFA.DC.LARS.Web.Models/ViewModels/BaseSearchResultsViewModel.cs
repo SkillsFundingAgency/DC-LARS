@@ -6,7 +6,7 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
     {
         public abstract string SearchTerm { get; }
 
-        public abstract LearningType SearchType { get; }
+        public abstract LearningType? SearchType { get; }
 
         public List<string> ValidationErrors { get; set; }
 

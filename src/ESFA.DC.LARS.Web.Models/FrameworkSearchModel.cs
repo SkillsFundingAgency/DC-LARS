@@ -13,6 +13,6 @@ namespace ESFA.DC.LARS.Web.Models
 
         public List<string> IssuingAuthorities { get; set; } = new List<string>();
 
-        public override LearningType SearchType { get; set; }
+        public override LearningType? SearchType { get; set; }
     }
 }

@@ -38,6 +38,10 @@ $govuk-global-styles: true;
     }
 }
 
+#searchTypeLabel {
+    margin-top: 44px;
+}
+
 .flex {
     display: flex;
     flex-direction: column

@@ -22,7 +22,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             ILearningAimsApiService learningAimsApiService,
             ILookupApiService lookupApiService,
             IClientValidationService clientValidationService)
-            : base(lookupApiService, ResultsTemplate)
+            : base(lookupApiService, ResultsTemplate, LearningType.Qualifications)
         {
             _searchModelFactory = searchModelFactory;
             _learningAimsApiService = learningAimsApiService;

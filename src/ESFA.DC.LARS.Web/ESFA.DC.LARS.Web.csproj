@@ -75,6 +75,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\app\Tests\" />
+    <Folder Include="wwwroot\assets\dist\minified\assets\dist\css\" />
     <Folder Include="wwwroot\assets\dist\minified\govuk\" />
     <Folder Include="wwwroot\assets\dist\css\" />
   </ItemGroup>

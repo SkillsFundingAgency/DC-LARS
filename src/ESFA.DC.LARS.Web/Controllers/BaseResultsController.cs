@@ -13,14 +13,16 @@ namespace ESFA.DC.LARS.Web.Controllers
         where TSearchModel : BaseSearchModel
         where TResults : class
     {
+        private readonly LearningType _searchType;
         private readonly ILookupApiService _lookupApiService;
         private readonly string _resultsTemplate;
 
         public BaseResultsController(
-            ILookupApiService lookupApiService, string resultsTemplate)
+            ILookupApiService lookupApiService, string resultsTemplate, LearningType searchType)
         {
             _lookupApiService = lookupApiService;
             _resultsTemplate = resultsTemplate;
+            _searchType = searchType;
         }
 
         public async Task<IActionResult> Index(BasicSearchModel basicSearchModel = null)
@@ -32,6 +34,12 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpPost("Search")]
         public async Task<IActionResult> Search([FromForm]TSearchModel searchModel)
         {
+            if (searchModel.SearchType.HasValue
+                && _searchType != searchModel.SearchType)
+            {
+                return RedirectToNewSearch(searchModel);
+            }
+
             var model = new SearchResultsViewModel<TSearchModel, TResults>();
 
             ValidateSearch(searchModel, model);
@@ -112,5 +120,26 @@ namespace ESFA.DC.LARS.Web.Controllers
         protected abstract TSearchModel GetSearchModel(BasicSearchModel basicSearchModel);
 
         protected abstract void ValidateSearch(TSearchModel searchModel, SearchResultsViewModel<TSearchModel, TResults> viewModel);
+
+        private IActionResult RedirectToNewSearch(TSearchModel searchModel)
+        {
+            var basicSearchModel = new BasicSearchModel
+            {
+                SearchTerm = searchModel.SearchTerm
+            };
+
+            switch (searchModel.SearchType)
+            {
+                // redirect to action based on the search Type.
+                case LearningType.Qualifications:
+                    return RedirectToAction("Index", "LearningAimSearchResult", basicSearchModel);
+                case LearningType.Frameworks:
+                    return RedirectToAction("Index", "FrameworkSearchResult", basicSearchModel);
+                case LearningType.Units:
+                    return RedirectToAction("Index", "UnitSearchResult", basicSearchModel);
+                default:
+                    return RedirectToAction("Index", "LearningAimSearchResult", basicSearchModel);
+            }
+        }
     }
 }
