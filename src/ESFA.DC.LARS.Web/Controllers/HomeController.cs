@@ -32,12 +32,11 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             var lookups = await _lookupApiService.GetLookups();
             model.Lookups = lookups;
-
             return View(model);
         }
 
-        [HttpPost("AimSearch")]
-        public IActionResult AimSearch([FromForm]BasicSearchModel searchModel)
+        [HttpPost]
+        public IActionResult Index([FromForm]BasicSearchModel searchModel, LearningType searchType)
         {
             var model = new HomeViewModel();
             ValidateSearch(searchModel, model);
@@ -47,35 +46,18 @@ namespace ESFA.DC.LARS.Web.Controllers
                 return RedirectToAction("Index", model);
             }
 
-            return RedirectToAction("Index", "LearningAimSearchResult", searchModel);
-        }
-
-        [HttpPost("FrameworkSearch")]
-        public IActionResult FrameworkSearch([FromForm]BasicSearchModel searchModel)
-        {
-            var model = new HomeViewModel();
-            ValidateSearch(searchModel, model);
-
-            if (model.ValidationErrors.Any())
+            switch (searchType)
             {
-                return RedirectToAction("Index", model);
+                // redirect to action based on the search Type.
+                case LearningType.Qualifications:
+                    return RedirectToAction("Index", "LearningAimSearchResult", searchModel);
+                case LearningType.Frameworks:
+                    return RedirectToAction("Index", "FrameworkSearchResult", searchModel);
+                case LearningType.Units:
+                    return RedirectToAction("Index", "UnitSearchResult", searchModel);
+                default:
+                    return RedirectToAction("Index", model);
             }
-
-            return RedirectToAction("Index", "FrameworkSearchResult", searchModel);
-        }
-
-        [HttpPost("UnitSearch")]
-        public IActionResult UnitSearch([FromForm]BasicSearchModel searchModel)
-        {
-            var model = new HomeViewModel();
-            ValidateSearch(searchModel, model);
-
-            if (model.ValidationErrors.Any())
-            {
-                return RedirectToAction("Index", model);
-            }
-
-            return RedirectToAction("Index", "UnitSearchResult", searchModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
