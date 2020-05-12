@@ -3,7 +3,7 @@
     var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
 }
 
-@await Html.PartialAsync("_breadcrumbs", new[] { Model?.LearningAimBreadcrumbs, Model?.FrameworksBreadcrumbs })
+@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
 
 @await Html.PartialAsync("_aimDetail", Model)
 
