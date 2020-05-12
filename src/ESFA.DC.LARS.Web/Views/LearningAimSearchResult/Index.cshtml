@@ -35,7 +35,7 @@
 
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupLearningAimSearchResultView("@Model.SearchModel.SearchTerm", "@academicYear");
+        viewService.setupQualificationsResultView("@Model.SearchModel.SearchTerm", "@academicYear");
         @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
         var serverFilters = viewService.getLearningAimFilters(@Json.Serialize(Model.SearchModel.AwardingBodies),
                                                         @Json.Serialize(Model.SearchModel.Levels),

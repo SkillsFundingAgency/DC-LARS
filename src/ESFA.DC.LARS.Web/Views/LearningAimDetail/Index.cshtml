@@ -3,16 +3,14 @@
     var academicYear = Model?.LearningAimModel?.AcademicYears.FirstOrDefault(ay => ay.AcademicYear == Model.AcademicYear);
 }
 
-@await Html.PartialAsync("_breadcrumbs", new[] { Model?.LearningAimBreadcrumbs, Model?.FrameworksBreadcrumbs })
+@await Html.PartialAsync("_breadcrumbs", Model?.Breadcrumbs)
 
 @await Html.PartialAsync("_aimDetail", Model)
 
 @section PageScripts
 {
-    <script src="/assets/dist/js/esfa.js"></script>
-
     <script>
-        var viewService = new ESFA.ViewService();
-        viewService.setupLearningAimDetailView("@Model.LearningAimModel.LearnAimRef", "@Model.LearningAimModel.LearningAimTitle", "@academicYear?.AcademicYear")
+            var viewService = new ESFA.ViewService();
+            viewService.setupLearningAimDetailView("@Model.LearningAimModel.LearnAimRef", "@Model.LearningAimModel.LearningAimTitle", "@academicYear?.AcademicYear")
     </script>
 }
