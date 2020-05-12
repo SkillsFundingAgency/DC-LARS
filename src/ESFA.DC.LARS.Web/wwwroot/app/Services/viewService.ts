@@ -2,6 +2,7 @@
 import StorageService from './storageService';
 import LinkService from './linkService';
 import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+import { SearchType } from '../SearchType';
 
 export class ViewService {
 
@@ -14,19 +15,27 @@ export class ViewService {
         this.linkService = new LinkService();
     }
 
-    setupLearningAimSearchResultView(searchTerm: string, teachingYear: string) {
+    public setupQualificationsResultView(searchTerm: string, teachingYear: string): void {
+        this.setupLearningAimsResultView(searchTerm, teachingYear, SearchType.Qualifications);
+    }
+
+    public setupUnitsResultView(searchTerm: string, teachingYear: string): void {
+        this.setupLearningAimsResultView(searchTerm, teachingYear, SearchType.Units);
+    }
+
+    private setupLearningAimsResultView(searchTerm: string, teachingYear: string, searchType: SearchType) : void {
         this.removeFilterNonScriptTag();
         const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
         storageItem.searchTerm = searchTerm;
         storageItem.teachingYear = teachingYear;
-        storageItem.frameworkSearch = false;
+        storageItem.searchType = searchType;
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();
     }
 
-    setupLearningAimDetailView(learnAimRef: string, learningAimTitle: string, teachingYear: string) {
-        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
+    public setupLearningAimDetailView(learnAimRef: string, learningAimTitle: string, teachingYear: string): void {
 
+        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
         storageItem.learnAimRef = learnAimRef;
         storageItem.learningAimTitle = learningAimTitle;
         storageItem.learningAimDetailsYear = teachingYear;
@@ -35,25 +44,25 @@ export class ViewService {
         this.linkService.setLinks();
     }
 
-    setupFrameworkView() {
+    public setupFrameworkView(): void {
         this.linkService.setLinks();
     }
 
-    setupLearningAimCategoryView() {
+    public setupLearningAimCategoryView(): void {
         this.linkService.setLinks();
     }
 
-    setupFrameworkSearchResultView(searchTerm: string) {
+    public setupFrameworkSearchResultView(searchTerm: string): void {
         this.removeFilterNonScriptTag();
         const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
         storageItem.searchTerm = searchTerm;
-        storageItem.frameworkSearch = true;
+        storageItem.searchType = SearchType.Frameworks;
 
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();
     }
 
-    setupFrameworkDetailView(frameworkCode: string, programType: string, pathwayCode: string) {
+    public setupFrameworkDetailView(frameworkCode: string, programType: string, pathwayCode: string): void {
         const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
 
         storageItem.frameworkCode = frameworkCode;
@@ -64,7 +73,7 @@ export class ViewService {
         this.linkService.setLinks();
     }
 
-    getLearningAimFilters(awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): IFilterItem[] {
+    public getLearningAimFilters(awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): IFilterItem[] {
         let filters: IFilterItem[] = [];
 
         filters = filters.concat(awardingBodies.map(f => ({ type: FilterType.AwardingBodies, key: f, value: '' } as IFilterItem)));
@@ -75,7 +84,7 @@ export class ViewService {
         return filters;
     }
 
-    getFrameworkFilters(frameworkTypes: string[], issuingAuthorities: string[]): IFilterItem[] {
+    public getFrameworkFilters(frameworkTypes: string[], issuingAuthorities: string[]): IFilterItem[] {
         let filters: IFilterItem[] = [];
 
         filters = filters.concat(frameworkTypes.map(f => ({ type: FilterType.FrameworkTypes, key: f, value: '' } as IFilterItem)));
@@ -84,7 +93,7 @@ export class ViewService {
         return filters;
     }
 
-    removeFilterNonScriptTag() {
+    private removeFilterNonScriptTag() {
         const element = document.getElementById("filtersNoScript") as HTMLElement;
         if (element && element.parentNode) {
             element.parentNode.removeChild(element);
