@@ -7,6 +7,8 @@ namespace ESFA.DC.LARS.Web.Strategies
     {
         public LearningType SearchType => LearningType.Frameworks;
 
-        public (string Action, string Controller) Route => (Action: "Index", Controller: "FrameworkSearchResult");
+        public string Action => "Index";
+
+        public string Controller => "FrameworkSearchResult";
     }
 }

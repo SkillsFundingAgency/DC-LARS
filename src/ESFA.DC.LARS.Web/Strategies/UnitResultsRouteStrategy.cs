@@ -7,6 +7,8 @@ namespace ESFA.DC.LARS.Web.Strategies
     {
         public LearningType SearchType => LearningType.Units;
 
-        public (string Action, string Controller) Route => (Action: "Index", Controller: "UnitSearchResult");
+        public string Action => "Index";
+
+        public string Controller => "UnitSearchResult";
     }
 }

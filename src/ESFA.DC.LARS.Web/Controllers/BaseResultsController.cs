@@ -139,7 +139,7 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             if (routeStrategy != null)
             {
-                return RedirectToAction(routeStrategy.Route.Action, routeStrategy.Route.Controller, basicSearchModel);
+                return RedirectToAction(routeStrategy.Action, routeStrategy.Controller, basicSearchModel);
             }
 
             return RedirectToAction("Index", basicSearchModel);

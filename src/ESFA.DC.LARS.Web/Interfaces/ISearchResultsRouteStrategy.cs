@@ -6,6 +6,8 @@ namespace ESFA.DC.LARS.Web.Interfaces
     {
         public LearningType SearchType { get; }
 
-        public (string Action, string Controller) Route { get; }
+        public string Action { get; }
+
+        public string Controller { get; }
     }
 }

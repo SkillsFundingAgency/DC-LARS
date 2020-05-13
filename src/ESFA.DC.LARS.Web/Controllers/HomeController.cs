@@ -54,7 +54,7 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             if (routeStrategy != null)
             {
-                return RedirectToAction(routeStrategy.Route.Action, routeStrategy.Route.Controller, searchModel);
+                return RedirectToAction(routeStrategy.Action, routeStrategy.Controller, searchModel);
             }
 
             return RedirectToAction("Index", searchModel);
