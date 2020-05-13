@@ -46,8 +46,10 @@ export default class LinkService {
             if (clientSearchType === SearchType.Qualifications) {
                 window.location.href = linkService.getLearningAimSearchResultsLink();
             }
-            const filters = filterStoreService.getSavedFilters(oldSearchResults);
 
+            // If moving to a search that has teaching years then keep exisitng teaching year
+            // filter or use default from storage item.
+            const filters = filterStoreService.getSavedFilters(oldSearchResults);
             if (filters.some(f => f.type === FilterType.TeachingYears)) {
                 updatedFilters = filters.filter(f => f.type === FilterType.TeachingYears);
             } else {
