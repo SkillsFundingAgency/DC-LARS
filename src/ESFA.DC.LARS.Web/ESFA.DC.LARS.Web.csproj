@@ -25,6 +25,7 @@
     <Content Remove="wwwroot\app\cookieService.ts" />
     <Content Remove="wwwroot\app\ESFAGlobals.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
+    <Content Remove="wwwroot\app\Helpers\enumHelper.ts" />
     <Content Remove="wwwroot\app\Helpers\formHelper.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
@@ -74,6 +75,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\app\Tests\" />
+    <Folder Include="wwwroot\assets\dist\minified\assets\dist\css\" />
     <Folder Include="wwwroot\assets\dist\minified\govuk\" />
     <Folder Include="wwwroot\assets\dist\css\" />
   </ItemGroup>
@@ -87,6 +89,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\Helpers\formHelper.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Helpers\enumHelper.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\INameValue.ts" />
     <TypeScriptCompile Include="wwwroot\app\constants.ts" />
     <TypeScriptCompile Include="wwwroot\app\unitsSearchResultsMain.ts" />

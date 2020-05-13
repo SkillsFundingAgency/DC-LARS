@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Web.Extensions;
+using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.LARS.Web.Models.ViewModels;
@@ -13,14 +14,21 @@ namespace ESFA.DC.LARS.Web.Controllers
         where TSearchModel : BaseSearchModel
         where TResults : class
     {
+        protected readonly LearningType _searchType;
         private readonly ILookupApiService _lookupApiService;
         private readonly string _resultsTemplate;
+        private readonly IEnumerable<ISearchResultsRouteStrategy> _resultRouteStrategies;
 
         public BaseResultsController(
-            ILookupApiService lookupApiService, string resultsTemplate)
+            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies,
+            ILookupApiService lookupApiService,
+            string resultsTemplate,
+            LearningType searchType)
         {
             _lookupApiService = lookupApiService;
             _resultsTemplate = resultsTemplate;
+            _searchType = searchType;
+            _resultRouteStrategies = resultRouteStrategies;
         }
 
         public async Task<IActionResult> Index(BasicSearchModel basicSearchModel = null)
@@ -32,6 +40,12 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpPost("Search")]
         public async Task<IActionResult> Search([FromForm]TSearchModel searchModel)
         {
+            if (searchModel.SearchType.HasValue
+                && _searchType != searchModel.SearchType)
+            {
+                return RedirectToNewSearch(searchModel);
+            }
+
             var model = new SearchResultsViewModel<TSearchModel, TResults>();
 
             ValidateSearch(searchModel, model);
@@ -80,6 +94,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             if (searchModel == null)
             {
                 searchModel = GetSearchModel(basicSearchModel);
+                searchModel.SearchType = _searchType;
             }
 
             var learningAimsTask = GetSearchResults(searchModel);
@@ -97,7 +112,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 LookUpModel = lookups,
                 Breadcrumbs = new BreadcrumbsModel()
                 {
-                    Id = "ResultsBreadcrumb",
+                    Id = "resultsBreadcrumb",
                     Breadcrumbs = new Dictionary<string, string>()
                     {
                         { "homeLink", "Home" },
@@ -112,5 +127,22 @@ namespace ESFA.DC.LARS.Web.Controllers
         protected abstract TSearchModel GetSearchModel(BasicSearchModel basicSearchModel);
 
         protected abstract void ValidateSearch(TSearchModel searchModel, SearchResultsViewModel<TSearchModel, TResults> viewModel);
+
+        private IActionResult RedirectToNewSearch(TSearchModel searchModel)
+        {
+            var basicSearchModel = new BasicSearchModel
+            {
+                SearchTerm = searchModel.SearchTerm
+            };
+
+            var routeStrategy = _resultRouteStrategies.SingleOrDefault(r => r.SearchType == searchModel.SearchType);
+
+            if (routeStrategy != null)
+            {
+                return RedirectToAction(routeStrategy.Action, routeStrategy.Controller, basicSearchModel);
+            }
+
+            return RedirectToAction("Index", basicSearchModel);
+        }
     }
 }

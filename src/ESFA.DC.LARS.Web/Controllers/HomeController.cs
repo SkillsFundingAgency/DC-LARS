@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Web.Interfaces;
@@ -15,15 +16,18 @@ namespace ESFA.DC.LARS.Web.Controllers
         private readonly ITelemetry _telemetryClient;
         private readonly ILookupApiService _lookupApiService;
         private readonly IClientValidationService _clientValidationService;
+        private readonly IEnumerable<ISearchResultsRouteStrategy> _resultRouteStrategies;
 
         public HomeController(
             ITelemetry telemetryClient,
             ILookupApiService lookupApiService,
-            IClientValidationService clientValidationService)
+            IClientValidationService clientValidationService,
+            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies)
         {
             _telemetryClient = telemetryClient;
             _lookupApiService = lookupApiService;
             _clientValidationService = clientValidationService;
+            _resultRouteStrategies = resultRouteStrategies;
         }
 
         public async Task<IActionResult> Index(HomeViewModel model = null)
@@ -46,18 +50,14 @@ namespace ESFA.DC.LARS.Web.Controllers
                 return RedirectToAction("Index", model);
             }
 
-            switch (searchType)
+            var routeStrategy = _resultRouteStrategies.SingleOrDefault(r => r.SearchType == searchType);
+
+            if (routeStrategy != null)
             {
-                // redirect to action based on the search Type.
-                case LearningType.Qualifications:
-                    return RedirectToAction("Index", "LearningAimSearchResult", searchModel);
-                case LearningType.Frameworks:
-                    return RedirectToAction("Index", "FrameworkSearchResult", searchModel);
-                case LearningType.Units:
-                    return RedirectToAction("Index", "UnitSearchResult", searchModel);
-                default:
-                    return RedirectToAction("Index", model);
+                return RedirectToAction(routeStrategy.Action, routeStrategy.Controller, searchModel);
             }
+
+            return RedirectToAction("Index", searchModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

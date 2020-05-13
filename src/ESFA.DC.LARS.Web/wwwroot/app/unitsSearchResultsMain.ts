@@ -9,6 +9,7 @@ import { SearchType } from './SearchType';
 import { learningAimSearchService } from './Services/learningAimSearchService';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
+import LinkService from './Services/LinkService';
 
 const vue = new Vue({
     el: "#resultsApp",
@@ -36,6 +37,10 @@ const vue = new Vue({
     methods: {
         setImmediateRefreshRequired: function (refreshRequired: boolean) {
             this.immediateRefresh = refreshRequired;
+        },
+        learningTypeChanged: function (value: string) {
+            const linkService = new LinkService();
+            linkService.redirectToResults(value, SearchType.Units);
         }
     }
 });

@@ -15,5 +15,7 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
         public List<TResultsModel> Results { get; set; }
 
         public override string SearchTerm => SearchModel.SearchTerm;
+
+        public override LearningType? SearchType => SearchModel.SearchType;
     }
 }

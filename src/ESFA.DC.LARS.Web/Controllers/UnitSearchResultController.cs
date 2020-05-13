@@ -21,8 +21,9 @@ namespace ESFA.DC.LARS.Web.Controllers
             ISearchModelFactory searchModelFactory,
             IUnitsApiService unitsApiService,
             ILookupApiService lookupApiService,
-            IClientValidationService clientValidationService)
-            : base(lookupApiService, ResultsTemplate)
+            IClientValidationService clientValidationService,
+            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies)
+            : base(resultRouteStrategies, lookupApiService, ResultsTemplate, LearningType.Units)
         {
             _searchModelFactory = searchModelFactory;
             _unitsApiService = unitsApiService;
@@ -33,6 +34,13 @@ namespace ESFA.DC.LARS.Web.Controllers
         public IActionResult RedirectToDetails(string learnAimRef, string academicYear)
         {
             return RedirectToAction(nameof(UnitDetailController.Index), "UnitDetail", new { learnAimRef, academicYear });
+        }
+
+        [HttpGet("ClearFilters")]
+        public async Task<IActionResult> ClearFilters(string searchTerm, string academicYear)
+        {
+            var model = await PopulateViewModel(null, new LearningAimsSearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear }, SearchType = _searchType });
+            return View("Index", model);
         }
 
         protected override LearningAimsSearchModel GetSearchModel(BasicSearchModel basicSearchModel)

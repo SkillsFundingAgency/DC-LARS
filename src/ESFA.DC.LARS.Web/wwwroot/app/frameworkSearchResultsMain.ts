@@ -9,6 +9,7 @@ import { filterStoreService } from './Services/filterStoreService';
 import { SearchType } from './SearchType';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
+import LinkService from './Services/LinkService';
 
 let vue = new Vue({
     el: "#resultsApp",
@@ -23,7 +24,6 @@ let vue = new Vue({
         };
     },
     mounted() {
-
         const getDataAsync = async function () {
             const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
             return await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(SearchType.Frameworks), searchTerm);
@@ -37,6 +37,10 @@ let vue = new Vue({
     methods: {
         setImmediateRefreshRequired: function (refreshRequired: boolean) {
             this.immediateRefresh = refreshRequired;
+        },
+        learningTypeChanged: function (value: string) {
+            const linkService = new LinkService();
+            linkService.redirectToResults(value, SearchType.Frameworks);
         }
     }
 });
