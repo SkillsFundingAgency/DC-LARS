@@ -6,6 +6,7 @@ using ESFA.DC.LARS.Web.CustomFilters;
 using ESFA.DC.LARS.Web.Extensions;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Modules;
+using ESFA.DC.LARS.Web.Strategies;
 using Flurl.Http;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -88,6 +89,10 @@ namespace ESFA.DC.LARS.Web
             containerBuilder.Register(c =>
                     Configuration.GetConfigSection<ApiSettings>())
                 .As<IApiSettings>().SingleInstance();
+
+            containerBuilder.RegisterType<FrameworkResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+            containerBuilder.RegisterType<QualificationResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+            containerBuilder.RegisterType<UnitResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
 
             containerBuilder.Populate(services);
             _applicationContainer = containerBuilder.Build();

@@ -21,8 +21,9 @@ namespace ESFA.DC.LARS.Web.Controllers
             ISearchModelFactory searchModelFactory,
             ILearningAimsApiService learningAimsApiService,
             ILookupApiService lookupApiService,
-            IClientValidationService clientValidationService)
-            : base(lookupApiService, ResultsTemplate)
+            IClientValidationService clientValidationService,
+            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies)
+            : base(resultRouteStrategies, lookupApiService, ResultsTemplate, LearningType.Qualifications)
         {
             _searchModelFactory = searchModelFactory;
             _learningAimsApiService = learningAimsApiService;
@@ -38,7 +39,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpGet("ClearFilters")]
         public async Task<IActionResult> ClearFilters(string searchTerm, string academicYear)
         {
-            var model = await PopulateViewModel(null, new LearningAimsSearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear } });
+            var model = await PopulateViewModel(null, new LearningAimsSearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear }, SearchType = _searchType });
             return View("Index", model);
         }
 

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESFA.DC.LARS.Web.Models
+﻿namespace ESFA.DC.LARS.Web.Models
 {
     public enum LearningType
     {
-        Qualifications,
-        Frameworks,
-        Units,
-        Standards
+        Qualifications = 0,
+        Frameworks = 1,
+        Units = 2,
+        Standards = 3
     }
 }

@@ -5,15 +5,20 @@ import { formHelper } from '../Helpers/formHelper';
 import { INameValue } from '../Interfaces/INameValue';
 import { constants } from '../constants';
 import { SearchType } from '../SearchType';
+import { filterStoreService } from './filterStoreService';
+import { enumHelper } from '../Helpers/enumHelper';
 
 export default class LinkService {
 
-    setLinks() {
-        const storageService = new StorageService(sessionStorage);
-        const storageItem = storageService.retrieve(constants.storageKey) as IStorageItem;
+    private storageService: StorageService;
 
+    constructor() {
+        this.storageService = new StorageService(sessionStorage);
+    }
+
+    public setLinks(): void {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
         this.renderBreadcrumbs(storageItem);
-
         this.setAnchorLinkById("homeLink", "/");
         this.setAnchorLinkById("learningAimDetailLink", `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`);
         this.setAnchorLinkById("frameworksLink", `/Frameworks/${storageItem.learnAimRef}`);
@@ -21,20 +26,68 @@ export default class LinkService {
         this.setLearningAimDetailText(storageItem.learningAimTitle);
     }
 
-    private renderBreadcrumbs(storageItem: IStorageItem) {
-        const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
-        const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
-       
-        if (storageItem.searchType === SearchType.Frameworks && frameworkAnchor) {
-            frameworkAnchor.removeAttribute("style");
-            this.removeAnchor(learningAimAnchor);
-            this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
-            return;
+    public redirectToResults(serverSearchType: string, oldSearchResults: SearchType): void {
+        const linkService = new LinkService();
+        const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(serverSearchType);
+        let updatedFilters: Array<IFilterItem> = [];
+
+        if (clientSearchType === SearchType.Frameworks) {
+            window.location.href = linkService.getFrameworksSearchResultsLink();
+        }
+        else {
+            if (clientSearchType === SearchType.Units) {
+                window.location.href = linkService.getUnitsSearchResultsLink();
+            }
+
+            if (clientSearchType === SearchType.Qualifications) {
+                window.location.href = linkService.getLearningAimSearchResultsLink();
+            }
+
+            // If moving to a search that has teaching years then keep exisitng teaching year
+            // filter or use default from storage item if not present.
+            const filters = filterStoreService.getSavedFilters(oldSearchResults);
+            if (filters.some(f => f.type === FilterType.TeachingYears)) {
+                updatedFilters = filters.filter(f => f.type === FilterType.TeachingYears);
+            } else {
+                const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.teachingYear, value: '' });
+            }
         }
 
-        if (learningAimAnchor) {
-            this.removeAnchor(frameworkAnchor);
+        this.storageService.updateFilters(constants.storageKey, updatedFilters);
+    }
 
+    private getLearningAimSearchResultsLink(): string {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        return `/LearningAimSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
+    }
+
+    private getUnitsSearchResultsLink(): string {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        return `/UnitSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
+    }
+
+    private getFrameworksSearchResultsLink(): string {
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        return `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}`;
+    }
+
+    private getTeachingYear(storageItem: IStorageItem): string {
+        const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
+        if (teachingFilter) {
+            return teachingFilter.key;
+        }
+        return storageItem.teachingYear;
+    }
+
+    private renderBreadcrumbs(storageItem: IStorageItem) {
+        const anchorTag = this.getAnchorTagForSearchType(storageItem.searchType);
+
+        if (anchorTag) {
+            anchorTag.removeAttribute("style");
+            if (storageItem.searchType === SearchType.Frameworks) {
+                this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
+            }
             if (storageItem.searchType === SearchType.Qualifications) {
                 this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/LearningAimSearchResult/Search');
             }
@@ -42,20 +95,27 @@ export default class LinkService {
             if (storageItem.searchType === SearchType.Units) {
                 this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/UnitSearchResult/Search');
             }
-            return;
         }
     }
 
-    private removeAnchor(anchor: HTMLAnchorElement) {
-        if (anchor) {
-            const parent = anchor.parentNode as Node;
-            parent.removeChild(anchor);
+    private getAnchorTagForSearchType(searchType: SearchType) {
+        const resultsBreadcrumb = document.getElementById("resultsBreadcrumb") as HTMLAnchorElement;
+        const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
+        const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
+
+        if (resultsBreadcrumb) {
+            return resultsBreadcrumb;
         }
+
+        if (searchType === SearchType.Frameworks) {
+            return frameworkAnchor;
+        }
+
+        return learningAimAnchor
     }
 
     private setAnchorLinkById(linkId: string, href: string) {
         const anchor = document.getElementById(linkId) as HTMLAnchorElement;
-
         if (anchor) {
             anchor.href = href;
         }
