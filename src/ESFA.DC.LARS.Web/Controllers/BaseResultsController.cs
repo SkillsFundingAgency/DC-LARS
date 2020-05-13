@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Web.Extensions;
+using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;
 using ESFA.DC.LARS.Web.Models.ViewModels;
@@ -16,13 +17,18 @@ namespace ESFA.DC.LARS.Web.Controllers
         protected readonly LearningType _searchType;
         private readonly ILookupApiService _lookupApiService;
         private readonly string _resultsTemplate;
+        private readonly IEnumerable<ISearchResultsRouteStrategy> _resultRouteStrategies;
 
         public BaseResultsController(
-            ILookupApiService lookupApiService, string resultsTemplate, LearningType searchType)
+            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies,
+            ILookupApiService lookupApiService,
+            string resultsTemplate,
+            LearningType searchType)
         {
             _lookupApiService = lookupApiService;
             _resultsTemplate = resultsTemplate;
             _searchType = searchType;
+            _resultRouteStrategies = resultRouteStrategies;
         }
 
         public async Task<IActionResult> Index(BasicSearchModel basicSearchModel = null)
@@ -129,18 +135,14 @@ namespace ESFA.DC.LARS.Web.Controllers
                 SearchTerm = searchModel.SearchTerm
             };
 
-            switch (searchModel.SearchType)
+            var routeStrategy = _resultRouteStrategies.SingleOrDefault(r => r.SearchType == searchModel.SearchType);
+
+            if (routeStrategy != null)
             {
-                // redirect to action based on the search Type.
-                case LearningType.Qualifications:
-                    return RedirectToAction("Index", "LearningAimSearchResult", basicSearchModel);
-                case LearningType.Frameworks:
-                    return RedirectToAction("Index", "FrameworkSearchResult", basicSearchModel);
-                case LearningType.Units:
-                    return RedirectToAction("Index", "UnitSearchResult", basicSearchModel);
-                default:
-                    return RedirectToAction("Index", basicSearchModel);
+                return RedirectToAction(routeStrategy.Route.Action, routeStrategy.Route.Controller, basicSearchModel);
             }
+
+            return RedirectToAction("Index", basicSearchModel);
         }
     }
 }

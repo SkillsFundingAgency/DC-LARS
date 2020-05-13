@@ -21,8 +21,9 @@ namespace ESFA.DC.LARS.Web.Controllers
             ISearchModelFactory searchModelFactory,
             ILearningAimsApiService learningAimsApiService,
             ILookupApiService lookupApiService,
-            IClientValidationService clientValidationService)
-            : base(lookupApiService, ResultsTemplate, LearningType.Qualifications)
+            IClientValidationService clientValidationService,
+            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies)
+            : base(resultRouteStrategies, lookupApiService, ResultsTemplate, LearningType.Qualifications)
         {
             _searchModelFactory = searchModelFactory;
             _learningAimsApiService = learningAimsApiService;
