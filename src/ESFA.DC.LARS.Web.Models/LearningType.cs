@@ -8,6 +8,7 @@ namespace ESFA.DC.LARS.Web.Models
     {
         Qualifications,
         Frameworks,
-        Units
+        Units,
+        Standards
     }
 }

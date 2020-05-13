@@ -55,6 +55,8 @@ namespace ESFA.DC.LARS.Web.Controllers
                     return RedirectToAction("Index", "FrameworkSearchResult", searchModel);
                 case LearningType.Units:
                     return RedirectToAction("Index", "UnitSearchResult", searchModel);
+                case LearningType.Standards:
+                    return RedirectToAction("Index", "StandardsSearchResult", searchModel);
                 default:
                     return RedirectToAction("Index", model);
             }
