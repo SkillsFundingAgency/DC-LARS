@@ -20,10 +20,21 @@ export default class LinkService {
         const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
         this.renderBreadcrumbs(storageItem);
         this.setAnchorLinkById("homeLink", "/");
-        this.setAnchorLinkById("learningAimDetailLink", `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`);
-        this.setAnchorLinkById("frameworksLink", `/Frameworks/${storageItem.learnAimRef}`);
-        this.setAnchorLinkById("pathwaysLink", `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`);
+        this.setAnchorLinkById("learningAimDetailLink", this.getDetailsLinkForType(storageItem));
+        this.setAnchorLinkById("frameworksLink", `/ Frameworks / ${ storageItem.learnAimRef }`);
+        this.setAnchorLinkById("pathwaysLink", `/ FrameworkDetails / ${ storageItem.frameworkCode } / ${ storageItem.programType } / ${ storageItem.pathwayCode }`);
         this.setLearningAimDetailText(storageItem.learningAimTitle);
+    }
+
+    private getDetailsLinkForType(storageItem : IStorageItem) {
+        if (storageItem.searchType === SearchType.Qualifications) {
+            return `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`;
+        }
+
+        if (storageItem.searchType === SearchType.Units) {
+            return `/UnitDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`;
+        }
+        return '';
     }
 
     public redirectToResults(serverSearchType: string, oldSearchResults: SearchType): void {
