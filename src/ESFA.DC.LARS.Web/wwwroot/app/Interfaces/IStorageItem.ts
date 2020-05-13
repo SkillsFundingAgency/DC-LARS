@@ -1,4 +1,5 @@
 ﻿import { IFilterItem } from '../Interfaces/IFilterItem';
+import { SearchType } from '../SearchType';
 
 export interface IStorageItem {
     searchTerm: string;
@@ -6,7 +7,7 @@ export interface IStorageItem {
     learningAimTitle: string;
     learningAimDetailsYear: string;
     teachingYear: string;
-    frameworkSearch: boolean;
+    searchType: SearchType;
     frameworkCode: string;
     programType: string;
     pathwayCode: string;

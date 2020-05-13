@@ -18,15 +18,11 @@ export default class LinkService {
 
     public setLinks(): void {
         const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-
-        this.renderBreadcrumbs(storageItem.frameworkSearch);
+        this.renderBreadcrumbs(storageItem);
         this.setAnchorLinkById("homeLink", "/");
-        this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters);
-        this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
         this.setAnchorLinkById("learningAimDetailLink", `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`);
         this.setAnchorLinkById("frameworksLink", `/Frameworks/${storageItem.learnAimRef}`);
         this.setAnchorLinkById("pathwaysLink", `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`);
-
         this.setLearningAimDetailText(storageItem.learningAimTitle);
     }
 
@@ -76,7 +72,7 @@ export default class LinkService {
         return `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}`;
     }
 
-    public getTeachingYear(storageItem: IStorageItem): string {
+    private getTeachingYear(storageItem: IStorageItem): string {
         const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
         if (teachingFilter) {
             return teachingFilter.key;
@@ -84,25 +80,35 @@ export default class LinkService {
         return storageItem.teachingYear;
     }
 
-    private renderBreadcrumbs(frameworkSearch: boolean) {
+    private renderBreadcrumbs(storageItem: IStorageItem) {
         const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
         const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
-
-        if (frameworkSearch && frameworkAnchor) {
+       
+        if (storageItem.searchType === SearchType.Frameworks && frameworkAnchor) {
             frameworkAnchor.removeAttribute("style");
-            if (learningAimAnchor) {
-                const parent = learningAimAnchor.parentNode as Node;
-                parent.removeChild(learningAimAnchor);
-            }
+            this.removeAnchor(learningAimAnchor);
+            this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
             return;
         }
 
         if (learningAimAnchor) {
-            learningAimAnchor.removeAttribute("style");
-            if (frameworkAnchor) {
-                const parent = frameworkAnchor.parentNode as Node;
-                parent.removeChild(frameworkAnchor);
+            this.removeAnchor(frameworkAnchor);
+
+            if (storageItem.searchType === SearchType.Qualifications) {
+                this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/LearningAimSearchResult/Search');
             }
+
+            if (storageItem.searchType === SearchType.Units) {
+                this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/UnitSearchResult/Search');
+            }
+            return;
+        }
+    }
+
+    private removeAnchor(anchor: HTMLAnchorElement) {
+        if (anchor) {
+            const parent = anchor.parentNode as Node;
+            parent.removeChild(anchor);
         }
     }
 
@@ -122,7 +128,7 @@ export default class LinkService {
         }
     }
 
-    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string, filters : IFilterItem[]) {
+    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string, filters : IFilterItem[], baseUrl: string) {
         const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
 
         if (anchor) {
@@ -132,7 +138,7 @@ export default class LinkService {
             if (!formElements.find(f => f.name === FilterType.TeachingYears)) {
                 formElements.push({ name: FilterType.TeachingYears, value: teachingYear });
             }
-            this.addAnchorSubmitEvent(anchor, '/LearningAimSearchResult/Search', formElements);
+            this.addAnchorSubmitEvent(anchor, baseUrl, formElements);
         }
     }
 

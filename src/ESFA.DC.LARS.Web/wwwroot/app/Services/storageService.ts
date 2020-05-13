@@ -1,5 +1,6 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+import { SearchType } from '../SearchType';
 
 export default class StorageService {
 
@@ -20,7 +21,7 @@ export default class StorageService {
 
         return {
             searchTerm: '', learnAimRef: '', learningAimTitle: '', learningAimDetailsYear: '',
-            teachingYear: '', frameworkSearch: false, frameworkCode: '', programType: '', pathwayCode: '', filters: []
+            teachingYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
         };
     }
 
