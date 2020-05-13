@@ -13,7 +13,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         where TSearchModel : BaseSearchModel
         where TResults : class
     {
-        private readonly LearningType _searchType;
+        protected readonly LearningType _searchType;
         private readonly ILookupApiService _lookupApiService;
         private readonly string _resultsTemplate;
 
@@ -88,6 +88,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             if (searchModel == null)
             {
                 searchModel = GetSearchModel(basicSearchModel);
+                searchModel.SearchType = _searchType;
             }
 
             var learningAimsTask = GetSearchResults(searchModel);
@@ -105,7 +106,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 LookUpModel = lookups,
                 Breadcrumbs = new BreadcrumbsModel()
                 {
-                    Id = "ResultsBreadcrumb",
+                    Id = "resultsBreadcrumb",
                     Breadcrumbs = new Dictionary<string, string>()
                     {
                         { "homeLink", "Home" },
@@ -138,7 +139,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 case LearningType.Units:
                     return RedirectToAction("Index", "UnitSearchResult", basicSearchModel);
                 default:
-                    return RedirectToAction("Index", "LearningAimSearchResult", basicSearchModel);
+                    return RedirectToAction("Index", basicSearchModel);
             }
         }
     }

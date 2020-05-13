@@ -44,7 +44,7 @@ export default class LinkService {
             }
 
             // If moving to a search that has teaching years then keep exisitng teaching year
-            // filter or use default from storage item.
+            // filter or use default from storage item if not present.
             const filters = filterStoreService.getSavedFilters(oldSearchResults);
             if (filters.some(f => f.type === FilterType.TeachingYears)) {
                 updatedFilters = filters.filter(f => f.type === FilterType.TeachingYears);
@@ -81,19 +81,13 @@ export default class LinkService {
     }
 
     private renderBreadcrumbs(storageItem: IStorageItem) {
-        const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
-        const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
-       
-        if (storageItem.searchType === SearchType.Frameworks && frameworkAnchor) {
-            frameworkAnchor.removeAttribute("style");
-            this.removeAnchor(learningAimAnchor);
-            this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
-            return;
-        }
+        const anchorTag = this.getAnchorTagForSearchType(storageItem.searchType);
 
-        if (learningAimAnchor) {
-            this.removeAnchor(frameworkAnchor);
-
+        if (anchorTag) {
+            anchorTag.removeAttribute("style");
+            if (storageItem.searchType === SearchType.Frameworks) {
+                this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
+            }
             if (storageItem.searchType === SearchType.Qualifications) {
                 this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/LearningAimSearchResult/Search');
             }
@@ -101,15 +95,23 @@ export default class LinkService {
             if (storageItem.searchType === SearchType.Units) {
                 this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/UnitSearchResult/Search');
             }
-            return;
         }
     }
 
-    private removeAnchor(anchor: HTMLAnchorElement) {
-        if (anchor) {
-            const parent = anchor.parentNode as Node;
-            parent.removeChild(anchor);
+    private getAnchorTagForSearchType(searchType: SearchType) {
+        const resultsBreadcrumb = document.getElementById("resultsBreadcrumb") as HTMLAnchorElement;
+        const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
+        const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
+
+        if (resultsBreadcrumb) {
+            return resultsBreadcrumb;
         }
+
+        if (searchType === SearchType.Frameworks) {
+            return frameworkAnchor;
+        }
+
+        return learningAimAnchor
     }
 
     private setAnchorLinkById(linkId: string, href: string) {

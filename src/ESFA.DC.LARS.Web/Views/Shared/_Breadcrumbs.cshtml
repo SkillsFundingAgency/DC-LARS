@@ -12,7 +12,7 @@
 
 @foreach (var breadcrumbType in Model)
 {
-    <div id="@breadcrumbType.Id" class="govuk-breadcrumbs" style="display: none">>
+    <div id="@breadcrumbType.Id" class="govuk-breadcrumbs" style="display: none">
         <ol class="govuk-breadcrumbs__list">
             @foreach (var breadcrumb in breadcrumbType.Breadcrumbs)
             {

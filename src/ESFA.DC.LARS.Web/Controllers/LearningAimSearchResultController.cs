@@ -38,15 +38,13 @@ namespace ESFA.DC.LARS.Web.Controllers
         [HttpGet("ClearFilters")]
         public async Task<IActionResult> ClearFilters(string searchTerm, string academicYear)
         {
-            var model = await PopulateViewModel(null, new LearningAimsSearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear } });
+            var model = await PopulateViewModel(null, new LearningAimsSearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear }, SearchType = _searchType });
             return View("Index", model);
         }
 
         protected override LearningAimsSearchModel GetSearchModel(BasicSearchModel basicSearchModel)
         {
-            var searchModel = _searchModelFactory.GetLearningAimsSearchModel(basicSearchModel);
-            searchModel.SearchType = LearningType.Qualifications;
-            return searchModel;
+            return _searchModelFactory.GetLearningAimsSearchModel(basicSearchModel);
         }
 
         protected override Task<IEnumerable<LearningAimModel>> GetSearchResults(LearningAimsSearchModel searchModel)
