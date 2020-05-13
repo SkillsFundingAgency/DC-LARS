@@ -1,29 +1,14 @@
-﻿using System.Threading.Tasks;
-using ESFA.DC.LARS.Web.Interfaces.Services;
-using ESFA.DC.LARS.Web.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using ESFA.DC.LARS.Web.Interfaces.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
-    public class UnitCategoryController : Controller
+    [Route("UnitCategories")]
+    public class UnitCategoryController : AbstractAimCategoryController
     {
-        private readonly IUnitsApiService _unitsApiService;
-
-        public UnitCategoryController(
-            IUnitsApiService unitsApiService)
+        public UnitCategoryController(IUnitsApiService unitsApiService)
+            : base(unitsApiService)
         {
-            _unitsApiService = unitsApiService;
-        }
-
-        [Route("{learnAimRef}")]
-        public async Task<IActionResult> Index(string learnAimRef)
-        {
-            var viewModel = new LearningAimsCategoryViewModel
-            {
-                LearningAimModel = await _unitsApiService.GetLearningAim(learnAimRef)
-            };
-
-            return View(viewModel);
         }
     }
 }
