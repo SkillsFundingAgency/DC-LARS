@@ -94,8 +94,9 @@ namespace ESFA.DC.LARS.Web.Controllers
             if (searchModel == null)
             {
                 searchModel = GetSearchModel(basicSearchModel);
-                searchModel.SearchType = _searchType;
             }
+
+            searchModel.SearchType = _searchType;
 
             var learningAimsTask = GetSearchResults(searchModel);
             var lookupsTask = _lookupApiService.GetLookups();
