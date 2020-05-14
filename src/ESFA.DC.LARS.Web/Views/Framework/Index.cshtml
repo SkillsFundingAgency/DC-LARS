@@ -32,7 +32,7 @@
                     </li>
                     <li>
                         <strong>Pathway:</strong> @framework.PathwayCode - @framework.PathwayName <br>
-                        <strong>Effective from:</strong> @framework.EffectiveFrom?.ToString("dd MMMM yyyy") to: @framework.EffectiveTo?.ToString("dd MMMM yyyy")
+                        <strong>Effective from:</strong> @framework.EffectiveFrom?.ToDateString() to: @framework.EffectiveTo?.ToDateString()
                     </li>
                     <li>
                         <strong>Component type:</strong> @framework.ComponentType - @framework.ComponentTypeDesc

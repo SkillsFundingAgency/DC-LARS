@@ -32,8 +32,8 @@
                             <td class="govuk-table__cell">@category.Description</td>
                             <td class="govuk-table__cell">@category.ParentReference</td>
                             <td class="govuk-table__cell">@category.ParentDescription</td>
-                            <td class="govuk-table__cell">@category.EffectiveFrom?.ToString("dd MMMM yyyy")</td>
-                            <td class="govuk-table__cell">@category.EffectiveTo?.ToString("dd MMMM yyyy")</td>
+                            <td class="govuk-table__cell">@category.EffectiveFrom?.ToDateString()</td>
+                            <td class="govuk-table__cell">@category.EffectiveTo?.ToDateString()</td>
                         </tr>
                     }
                 }
