@@ -21,8 +21,8 @@ export default class LinkService {
         this.renderBreadcrumbs(storageItem);
         this.setAnchorLinkById("homeLink", "/");
         this.setAnchorLinkById("learningAimDetailLink", this.getDetailsLinkForType(storageItem));
-        this.setAnchorLinkById("frameworksLink", `/ Frameworks / ${ storageItem.learnAimRef }`);
-        this.setAnchorLinkById("pathwaysLink", `/ FrameworkDetails / ${ storageItem.frameworkCode } / ${ storageItem.programType } / ${ storageItem.pathwayCode }`);
+        this.setAnchorLinkById("frameworksLink", `/Frameworks/${storageItem.learnAimRef}`);
+        this.setAnchorLinkById("pathwaysLink", `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`);
         this.setLearningAimDetailText(storageItem.learningAimTitle);
     }
 
