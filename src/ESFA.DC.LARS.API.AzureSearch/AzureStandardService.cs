@@ -9,6 +9,7 @@ using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.Azure.Search.Models;
+using StandardModel = ESFA.DC.LARS.Azure.Models.StandardModel;
 
 namespace ESFA.DC.LARS.API.AzureSearch
 {
