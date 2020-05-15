@@ -20,7 +20,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         {
             var framework = await _frameworkApiService.GetFramework(frameworkCode, programType, pathwayCode);
 
-            var model = new FrameworkDetailViewModel
+            var model = new FrameworkCommonComponentsViewModel
             {
                 Framework = framework
             };

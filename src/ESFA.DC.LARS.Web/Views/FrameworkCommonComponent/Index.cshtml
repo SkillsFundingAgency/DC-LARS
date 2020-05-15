@@ -1,4 +1,6 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkCommonComponentsViewModel
+
+@await Html.PartialAsync("_breadcrumbs", Model.Breadcrumbs)
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -22,15 +24,15 @@
                             <td class="govuk-table__cell">@component.CommonComponent</td>
                             <td class="govuk-table__cell">@component.Description</td>
                             <td class="govuk-table__cell">@component.MinLevel</td>
-                            <td class="govuk-table__cell">@component.EffectiveFrom.ToString("dd MMMM yyyy")</td>
-                            <td class="govuk-table__cell">@component.EffectiveTo?.ToString("dd MMMM yyyy")</td>
+                            <td class="govuk-table__cell">@component.EffectiveFrom.ToDateString()</td>
+                            <td class="govuk-table__cell">@component.EffectiveTo?.ToDateString()</td>
                         </tr>
                     }
                 }
                 else
                 {
                     <tr class="govuk-table__row">
-                        <td colspan="6" class="govuk-table__cell">No components found</td>
+                        <td colspan="5" class="govuk-table__cell">No components found</td>
                     </tr>
                 }
             </tbody>
