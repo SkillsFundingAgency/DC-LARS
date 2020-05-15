@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ESFA.DC.LARS.Azure.Models
+namespace ESFA.DC.LARS.API.Models
 {
     public class FrameworkCommonComponentModel
     {
