@@ -45,7 +45,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 var issuingAuthorities = await _issuingAuthorityService.GetIssuingAuthoritiesAsync(context);
                 var componentTypes = await _componentTypeService.GetComponentTypesAsync(context);
-                var commonComponent = await GetFrameworkCommonComponents(context);
+                var commonComponents = await GetFrameworkCommonComponents(context);
                 var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
 
                 frameworks = await context.LarsFrameworks
@@ -82,7 +82,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
                 foreach (var framework in frameworks)
                 {
-                    framework.CommonComponents = commonComponent[framework.Id].ToList();
+                    framework.CommonComponents = commonComponents[framework.Id].ToList();
                     framework.CommonComponents.ForEach(c => c.Description = commonComponentLookups.GetValueOrDefault(c.CommonComponent)?.Description);
                 }
             }
