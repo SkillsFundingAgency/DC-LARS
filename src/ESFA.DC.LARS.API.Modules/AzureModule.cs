@@ -42,6 +42,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureUnitsService>().As<IAzureUnitsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<AzureFrameworkService>().As<IAzureFrameworkService>();
+            builder.RegisterType<AzureStandardService>().As<IAzureStandardService>();
 
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
             builder.RegisterType<AzureService>().As<IAzureService>();
@@ -74,6 +75,8 @@ namespace ESFA.DC.LARS.API.Modules
 
             builder.RegisterType<AzureFrameworkMapper>().As<IMapper<FrameworkModel, Models.FrameworkModel>>();
             builder.RegisterType<AzureFrameworkAimMapper>().As<IMapper<FrameworkAimModel, Models.FrameworkAimModel>>();
+
+            builder.RegisterType<AzureStandardMapper>().As<IMapper<StandardModel, Models.StandardModel>>();
         }
     }
 }

@@ -105,6 +105,7 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<LearningAimIndexPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<UnitPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<FrameworkPopulationService>().As<IIndexPopulationService>();
+            containerBuilder.RegisterType<StandardsPopulationService>().As<IIndexPopulationService>();
 
             containerBuilder.RegisterType<IndexService>().As<IIndexService>();
             containerBuilder.RegisterType<AcademicYearService>().As<IAcademicYearService>();
@@ -118,6 +119,7 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<FrameworkAimService>().As<IFrameworkAimService>();
             containerBuilder.RegisterType<EntitlementCategoryService>().As<IEntitlementCategoryService>();
             containerBuilder.RegisterType<LearningDeliveryCategoryService>().As<ILearningDeliveryCategoryService>();
+            containerBuilder.RegisterType<StandardSectorCodeService>().As<IStandardSectorCodeService>();
 
             return containerBuilder;
         }
