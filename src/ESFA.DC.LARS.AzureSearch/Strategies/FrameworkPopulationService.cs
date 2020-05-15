@@ -97,7 +97,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             }
         }
 
-        private async Task<Lookup<string, FrameworkCommonComponentModel>> GetFrameworkCommonComponents(LarsContext context)
+        private async Task<ILookup<string, FrameworkCommonComponentModel>> GetFrameworkCommonComponents(LarsContext context)
         {
             var results = await context.LarsFrameworkCmnComps.Select(c => new FrameworkCommonComponentModel
             {
@@ -110,7 +110,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 MinLevel = c.MinLevel
             }).ToListAsync();
 
-            return (Lookup<string, FrameworkCommonComponentModel>)results.ToLookup(c => CreateKey(c.FrameworkCode, c.ProgramType, c.PathwayCode), c => c);
+            return results.ToLookup(c => CreateKey(c.FrameworkCode, c.ProgramType, c.PathwayCode), c => c);
         }
 
         private string CreateKey(int frameworkCode, int programType, int pathWayCode)
