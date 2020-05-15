@@ -10,12 +10,12 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
         {
             new BreadcrumbsModel
             {
-                Id = "learningAimBreadcrumbs",
+                Id = "frameworksBreadcrumbs",
                 Breadcrumbs = new Dictionary<string, string>()
                 {
                     { "homeLink", "Home" },
-                    { "searchResultsLink", "Search Results" },
-                    { "frameworkTitleLink", Framework.FrameworkTitle },
+                    { "frameworksSearchResultsLink", "Search Results" },
+                    { "pathwaysLink", "Pathways" },
                     { "commonComponentLink", "Common components" }
                 }
             }

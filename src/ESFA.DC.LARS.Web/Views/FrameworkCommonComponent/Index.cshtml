@@ -40,3 +40,10 @@
     </div>
 </div>
 
+@section PageScripts
+{
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupFrameworkDetailView("@Model.Framework.FrameworkCode", "@Model.Framework.ProgramType", "@Model.Framework.PathwayCode")
+    </script>
+}
