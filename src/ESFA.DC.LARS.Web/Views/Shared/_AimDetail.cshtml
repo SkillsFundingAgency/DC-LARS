@@ -108,14 +108,14 @@
 
                             <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-2">
                                 <span>
-                                    <strong>Last date for new start:</strong> @category.LastNewStartDate?.ToString("dd MMMM yyyy")
+                                    <strong>Last date for new start:</strong> @category.LastNewStartDate?.ToDateString()
                                 </span>
                             </div>
                         </div>
 
                         <div id="accordion-with-summary-sections-content-2" class="govuk-body govuk-accordion__section-content category-no-top-padding" aria-labelledby="accordion-with-summary-sections-heading-2">
                             <p> <strong>Course validity:</strong> </p>
-                            <p> <strong> From:</strong> @category.StartDate.ToString("dd MMMM yyyy") <strong>to</strong> @category.EndDate?.ToString("dd MMMM yyyy")</p>
+                            <p> <strong> From:</strong> @category.StartDate.ToDateString() <strong>to</strong> @category.EndDate?.ToDateString()</p>
 
                             @foreach (var funding in fundings)
                             {
@@ -124,10 +124,10 @@
                                         <strong> Category:</strong> @funding.FundingCategory
                                     </li>
                                     <li>
-                                        <strong>Effective from:</strong> @funding.EffectiveFrom.ToString("dd MMMM yyyy")
+                                        <strong>Effective from:</strong> @funding.EffectiveFrom.ToDateString()
                                     </li>
                                     <li>
-                                        <strong>Effective to:</strong> @funding.EffectiveTo?.ToString("dd MMMM yyyy")
+                                        <strong>Effective to:</strong> @funding.EffectiveTo?.ToDateString()
                                     </li>
                                     <li>
                                         <strong> Programme weighting:</strong> @funding.WeightingFactor

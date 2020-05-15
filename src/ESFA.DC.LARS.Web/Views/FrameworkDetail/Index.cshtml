@@ -17,7 +17,7 @@
                 <strong>Issuing authority:</strong> @Model.Framework.IssuingAuthority - @Model.Framework.IssuingAuthorityDesc
             </li>
             <li>
-                <strong>Effective from:</strong> @Model.Framework.EffectiveFrom?.ToString("dd MMMM yyyy") to: @Model.Framework.EffectiveTo?.ToString("dd MMMM yyyy")
+                <strong>Effective from:</strong> @Model.Framework.EffectiveFrom?.ToDateString() to: @Model.Framework.EffectiveTo?.ToDateString()
             </li>
         </ul>
 
@@ -56,7 +56,7 @@
                     <strong>Level:</strong> @aim.Level
                 </li>
                 <li>
-                    <strong>Effective from:</strong> @aim.EffectiveFrom.ToString("dd MMMM yyyy") to: @aim.EffectiveTo?.ToString("dd MMMM yyyy")
+                    <strong>Effective from:</strong> @aim.EffectiveFrom.ToDateString() to: @aim.EffectiveTo?.ToDateString()
                 </li>
                 <li>
                     <strong>Component Type:</strong> @aim.ComponentType - @aim.ComponentTypeDesc

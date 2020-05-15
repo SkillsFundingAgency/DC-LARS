@@ -6,28 +6,30 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
     {
         public LearningAimModel LearningAimModel { get; set; }
 
-        public BreadcrumbsModel LearningAimBreadcrumbs => new BreadcrumbsModel()
+        public List<BreadcrumbsModel> Breadcrumbs => new List<BreadcrumbsModel>()
         {
-            Id = "learningAimBreadcrumbs",
-            Breadcrumbs = new Dictionary<string, string>()
+            new BreadcrumbsModel
             {
-                { "homeLink", "Home" },
-                { "searchResultsLink", "Search Results" },
-                { "learningAimDetailLink", LearningAimModel.LearningAimTitle },
-                { "categoryLink", "Category" }
+                Id = "learningAimBreadcrumbs",
+                Breadcrumbs = new Dictionary<string, string>()
+                {
+                    { "homeLink", "Home" },
+                    { "searchResultsLink", "Search Results" },
+                    { "learningAimDetailLink", LearningAimModel.LearningAimTitle },
+                    { "categoryLink", "Category" }
+                }
             },
-        };
-
-        public BreadcrumbsModel FrameworksBreadcrumbs => new BreadcrumbsModel()
-        {
-            Id = "frameworksBreadcrumbs",
-            Breadcrumbs = new Dictionary<string, string>()
+            new BreadcrumbsModel
             {
-                { "homeLink", "Home" },
-                { "frameworksSearchResultsLink", "Search Results" },
-                { "pathwaysLink", "Pathways" },
-                { "learningAimDetailLink", LearningAimModel.LearningAimTitle },
-                { "categoryLink", "Category" }
+                Id = "frameworksBreadcrumbs",
+                Breadcrumbs = new Dictionary<string, string>()
+                {
+                    { "homeLink", "Home" },
+                    { "frameworksSearchResultsLink", "Search Results" },
+                    { "pathwaysLink", "Pathways" },
+                    { "learningAimDetailLink", LearningAimModel.LearningAimTitle },
+                    { "categoryLink", "Category" }
+                }
             },
         };
     }
