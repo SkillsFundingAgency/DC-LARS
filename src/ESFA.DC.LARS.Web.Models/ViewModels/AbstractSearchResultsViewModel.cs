@@ -13,13 +13,7 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public LookUpModel LookUpModel { get; set; }
 
-        public string CurrentAcademicYear
-        {
-            get
-            {
-                return LookUpModel.AcademicYearLookups.Single(m => m.IsCurrentAcademicYear).AcademicYear;
-            }
-        }
+        public string CurrentAcademicYear => LookUpModel.AcademicYearLookups.Single(m => m.IsCurrentAcademicYear).AcademicYear;
 
         public BreadcrumbsModel Breadcrumbs { get; set; }
     }
