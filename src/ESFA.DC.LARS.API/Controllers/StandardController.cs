@@ -22,13 +22,13 @@ namespace ESFA.DC.LARS.API.Controllers
         }
 
         [HttpGet]
-        public async Task<StandardModel> GetStandard(string standardCode)
+        public async Task<StandardModel> GetStandardAsync(string standardCode)
         {
             return await _standardService.GetStandard(standardCode);
         }
 
         [HttpPost]
-        public async Task<IEnumerable<StandardModel>> GetStandards(StandardSearchModel searchModel)
+        public async Task<IEnumerable<StandardModel>> GetStandardsAsync(StandardSearchModel searchModel)
         {
             return await _standardService.GetStandards(searchModel);
         }

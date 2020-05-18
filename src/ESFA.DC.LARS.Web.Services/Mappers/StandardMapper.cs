@@ -10,6 +10,7 @@ namespace ESFA.DC.LARS.Web.Mappers
             {
                 StandardCode = input.StandardCode,
                 StandardName = input.StandardName,
+                StandardSectorCode = input.StandardSectorCode,
                 StandardSectorCodeDesc2 = input.StandardSectorCodeDesc2,
                 Version = input.Version,
                 NotionalEndLevel = input.NotionalEndLevel,
