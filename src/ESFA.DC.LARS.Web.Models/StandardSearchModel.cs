@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ESFA.DC.LARS.Web.Models
 {
-    public class StandardSearchModel : BaseSearchModel
+    public class StandardSearchModel : AbstractSearchModel
     {
         public StandardSearchModel()
         {

@@ -12,7 +12,7 @@ using StandardSearchModel = ESFA.DC.LARS.Web.Models.StandardSearchModel;
 namespace ESFA.DC.LARS.Web.Controllers
 {
     [Route("StandardsSearchResult")]
-    public class StandardsSearchResultController : BaseResultsController<StandardSearchModel, StandardModel>
+    public class StandardsSearchResultController : AbstractResultsController<StandardSearchModel, StandardModel>
     {
         private const string ResultsTemplate = "_SearchResults";
 
