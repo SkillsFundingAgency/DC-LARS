@@ -21,6 +21,14 @@
             </li>
         </ul>
 
+        <ul class="govuk-list">
+            <li>
+                <a asp-action="Index" asp-controller="FrameworkCommonComponent" asp-route-frameworkCode="@Model.Framework.FrameworkCode"
+                   asp-route-programType="@Model.Framework.ProgramType" asp-route-pathwayCode="@Model.Framework.PathwayCode"
+                   class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Common components</a>
+            </li>
+        </ul>
+
         <h2 class="govuk-heading-m ">Sector subject area</h2>
         <div class="govuk-body">
             <p>@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>

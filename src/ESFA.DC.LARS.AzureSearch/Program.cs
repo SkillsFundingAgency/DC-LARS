@@ -119,6 +119,7 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<FrameworkAimService>().As<IFrameworkAimService>();
             containerBuilder.RegisterType<EntitlementCategoryService>().As<IEntitlementCategoryService>();
             containerBuilder.RegisterType<LearningDeliveryCategoryService>().As<ILearningDeliveryCategoryService>();
+            containerBuilder.RegisterType<CommonComponentLookupService>().As<ICommonComponentLookupService>();
             containerBuilder.RegisterType<StandardSectorCodeService>().As<IStandardSectorCodeService>();
 
             return containerBuilder;

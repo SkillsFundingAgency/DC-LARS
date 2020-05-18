@@ -30,5 +30,7 @@ namespace ESFA.DC.LARS.Web.Models
         public string SectorSubjectAreaTier2Desc { get; set; }
 
         public List<FrameworkAimModel> LearningAims { get; set; }
+
+        public List<FrameworkCommonComponentModel> CommonComponents { get; set; }
     }
 }

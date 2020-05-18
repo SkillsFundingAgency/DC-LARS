@@ -21,7 +21,7 @@ export default class StorageService {
 
         return {
             searchTerm: '', learnAimRef: '', learningAimTitle: '', learningAimDetailsYear: '',
-            teachingYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
+            currentAcademicYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
         };
     }
 
@@ -42,7 +42,7 @@ export default class StorageService {
         item.filters = [];
         // Set default teaching year if required.
         if (hasTeachingYear) {
-            item.filters.push({ type: FilterType.TeachingYears, key: item.teachingYear, value:''})
+            item.filters.push({ type: FilterType.TeachingYears, key: item.currentAcademicYear, value: '' });
         }
         this.store(key, item);
     }

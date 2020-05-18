@@ -15,19 +15,19 @@ export class ViewService {
         this.linkService = new LinkService();
     }
 
-    public setupQualificationsResultView(searchTerm: string, teachingYear: string): void {
-        this.setupLearningAimsResultView(searchTerm, teachingYear, SearchType.Qualifications);
+    public setupQualificationsResultView(searchTerm: string, currentAcademicYear: string): void {
+        this.setupLearningAimsResultView(searchTerm, currentAcademicYear, SearchType.Qualifications);
     }
 
-    public setupUnitsResultView(searchTerm: string, teachingYear: string): void {
-        this.setupLearningAimsResultView(searchTerm, teachingYear, SearchType.Units);
+    public setupUnitsResultView(searchTerm: string, currentAcademicYear: string): void {
+        this.setupLearningAimsResultView(searchTerm, currentAcademicYear, SearchType.Units);
     }
 
-    private setupLearningAimsResultView(searchTerm: string, teachingYear: string, searchType: SearchType) : void {
+    private setupLearningAimsResultView(searchTerm: string, currentAcademicYear: string, searchType: SearchType) : void {
         this.removeFilterNonScriptTag();
         const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
         storageItem.searchTerm = searchTerm;
-        storageItem.teachingYear = teachingYear;
+        storageItem.currentAcademicYear = currentAcademicYear;
         storageItem.searchType = searchType;
         this.storageService.store(this.sessionData, storageItem);
         this.linkService.setLinks();

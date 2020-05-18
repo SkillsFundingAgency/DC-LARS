@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESFA.DC.LARS.Web.Controllers
 {
-    public abstract class BaseResultsController<TSearchModel, TResults> : Controller
-        where TSearchModel : BaseSearchModel
+    public abstract class AbstractResultsController<TSearchModel, TResults> : Controller
+        where TSearchModel : AbstractSearchModel
         where TResults : class
     {
         protected readonly LearningType _searchType;
@@ -19,7 +19,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         private readonly string _resultsTemplate;
         private readonly IEnumerable<ISearchResultsRouteStrategy> _resultRouteStrategies;
 
-        public BaseResultsController(
+        public AbstractResultsController(
             IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies,
             ILookupApiService lookupApiService,
             string resultsTemplate,
@@ -133,7 +133,8 @@ namespace ESFA.DC.LARS.Web.Controllers
         {
             var basicSearchModel = new BasicSearchModel
             {
-                SearchTerm = searchModel.SearchTerm
+                SearchTerm = searchModel.SearchTerm,
+                TeachingYear = searchModel.TeachingYears?.FirstOrDefault()
             };
 
             var routeStrategy = _resultRouteStrategies.SingleOrDefault(r => r.SearchType == searchModel.SearchType);

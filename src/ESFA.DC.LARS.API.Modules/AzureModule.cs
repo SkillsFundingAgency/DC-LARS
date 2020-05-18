@@ -82,6 +82,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureFrameworkAimMapper>().As<IMapper<FrameworkAimModel, Models.FrameworkAimModel>>();
 
             builder.RegisterType<AzureStandardMapper>().As<IMapper<StandardModel, Models.StandardModel>>();
+            builder.RegisterType<AzureCommonComponentMapper>().As<IMapper<FrameworkCommonComponentModel, Models.FrameworkCommonComponentModel>>();
         }
     }
 }
