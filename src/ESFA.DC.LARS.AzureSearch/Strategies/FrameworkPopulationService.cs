@@ -51,7 +51,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 frameworks = await context.LarsFrameworks
                     .Select(fr => new FrameworkModel
                     {
-                        Id = CreateKey(fr.FworkCode, fr.ProgType, fr.PwayCode), // azure search index must have 1 key field
+                        // azure search index must have 1 key field.  Please ensure pattern here is the same as used in CreateFrameworkId
+                        Id = string.Concat(fr.FworkCode, "-", fr.ProgType, "-", fr.PwayCode),
                         FrameworkCode = fr.FworkCode,
                         ProgramType = fr.ProgType,
                         PathwayCode = fr.PwayCode,
@@ -110,12 +111,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 MinLevel = c.MinLevel
             }).ToListAsync();
 
-            return results.ToLookup(c => CreateKey(c.FrameworkCode, c.ProgramType, c.PathwayCode), c => c);
-        }
-
-        private string CreateKey(int frameworkCode, int programType, int pathWayCode)
-        {
-            return $"{frameworkCode}-{programType}-{pathWayCode}";
+            // Please note this must match the FrameworkID generated on initial population
+            return results.ToLookup(c => string.Concat(c.FrameworkCode, "-", c.ProgramType, "-", c.PathwayCode), c => c);
         }
     }
 }
