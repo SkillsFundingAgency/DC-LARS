@@ -6,7 +6,7 @@ export interface IStorageItem {
     learnAimRef: string;
     learningAimTitle: string;
     learningAimDetailsYear: string;
-    teachingYear: string;
+    currentAcademicYear: string;
     searchType: SearchType;
     frameworkCode: string;
     programType: string;

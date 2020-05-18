@@ -28,11 +28,11 @@ export default class LinkService {
 
     private getDetailsLinkForType(storageItem : IStorageItem) {
         if (storageItem.searchType === SearchType.Qualifications) {
-            return `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`;
+            return `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
         }
 
         if (storageItem.searchType === SearchType.Units) {
-            return `/UnitDetails/${storageItem.learnAimRef}?academicYear=${storageItem.teachingYear}`;
+            return `/UnitDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
         }
         return '';
     }
@@ -54,14 +54,14 @@ export default class LinkService {
                 window.location.href = linkService.getLearningAimSearchResultsLink();
             }
 
-            // If moving to a search that has teaching years then keep exisitng teaching year
-            // filter or use default from storage item if not present.
+            // If moving to a search that has teaching years then keep exisiting teaching year
+            // filter or use current academic year if not present.
             const filters = filterStoreService.getSavedFilters(oldSearchResults);
             if (filters.some(f => f.type === FilterType.TeachingYears)) {
                 updatedFilters = filters.filter(f => f.type === FilterType.TeachingYears);
             } else {
                 const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.teachingYear, value: '' });
+                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.currentAcademicYear, value: '' });
             }
         }
 
@@ -88,7 +88,7 @@ export default class LinkService {
         if (teachingFilter) {
             return teachingFilter.key;
         }
-        return storageItem.teachingYear;
+        return storageItem.currentAcademicYear;
     }
 
     private renderBreadcrumbs(storageItem: IStorageItem) {
@@ -100,11 +100,11 @@ export default class LinkService {
                 this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
             }
             if (storageItem.searchType === SearchType.Qualifications) {
-                this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/LearningAimSearchResult/Search');
+                this.setLearningAimSearchResultsLink(storageItem.searchTerm, this.getTeachingYear(storageItem), storageItem.filters, '/LearningAimSearchResult/Search');
             }
 
             if (storageItem.searchType === SearchType.Units) {
-                this.setLearningAimSearchResultsLink(storageItem.searchTerm, storageItem.teachingYear, storageItem.filters, '/UnitSearchResult/Search');
+                this.setLearningAimSearchResultsLink(storageItem.searchTerm, this.getTeachingYear(storageItem), storageItem.filters, '/UnitSearchResult/Search');
             }
         }
     }

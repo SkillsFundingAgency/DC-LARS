@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ESFA.DC.LARS.Web.Controllers
 {
     [Route("LearningAimSearchResult")]
-    public class LearningAimSearchResultController : BaseResultsController<LearningAimsSearchModel, LearningAimModel>
+    public class LearningAimSearchResultController : AbstractResultsController<LearningAimsSearchModel, LearningAimModel>
     {
         private const string ResultsTemplate = "_LearningAimsResults";
 
@@ -40,6 +40,7 @@ namespace ESFA.DC.LARS.Web.Controllers
         public async Task<IActionResult> ClearFilters(string searchTerm, string academicYear)
         {
             var model = await PopulateViewModel(null, new LearningAimsSearchModel { SearchTerm = searchTerm, TeachingYears = new List<string> { academicYear }, SearchType = _searchType });
+
             return View("Index", model);
         }
 

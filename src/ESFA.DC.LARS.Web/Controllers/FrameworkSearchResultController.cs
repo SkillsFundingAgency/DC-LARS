@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ESFA.DC.LARS.Web.Controllers
 {
     [Route("FrameworkSearchResult")]
-    public class FrameworkSearchResultController : BaseResultsController<FrameworkSearchModel, FrameworkModel>
+    public class FrameworkSearchResultController : AbstractResultsController<FrameworkSearchModel, FrameworkModel>
     {
         private const string ResultsTemplate = "_SearchResults";
 

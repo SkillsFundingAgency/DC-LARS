@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace ESFA.DC.LARS.Web.Models
 {
     [ExcludeFromCodeCoverage]
-    public class LearningAimsSearchModel : BaseSearchModel
+    public class LearningAimsSearchModel : AbstractSearchModel
     {
         public LearningAimsSearchModel()
         {
@@ -18,8 +18,6 @@ namespace ESFA.DC.LARS.Web.Models
         public List<string> AwardingBodies { get; set; }
 
         public List<string> Levels { get; set; }
-
-        public List<string> TeachingYears { get; set; }
 
         public List<string> FundingStreams { get; set; }
 
