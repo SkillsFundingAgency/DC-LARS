@@ -92,10 +92,10 @@ export default class LinkService {
     }
 
     private renderBreadcrumbs(storageItem: IStorageItem) {
-        const anchorTag = this.getAnchorTagForSearchType(storageItem.searchType);
+        const breadcrumbs = this.getBreadcrumbsForSearchType(storageItem.searchType);
 
-        if (anchorTag) {
-            anchorTag.removeAttribute("style");
+        if (breadcrumbs) {
+            breadcrumbs.removeAttribute("style");
             if (storageItem.searchType === SearchType.Frameworks) {
                 this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
             }
@@ -109,20 +109,30 @@ export default class LinkService {
         }
     }
 
-    private getAnchorTagForSearchType(searchType: SearchType) {
-        const resultsBreadcrumb = document.getElementById("resultsBreadcrumb") as HTMLAnchorElement;
-        const frameworkAnchor = document.getElementById("frameworksBreadcrumbs") as HTMLAnchorElement;
-        const learningAimAnchor = document.getElementById("learningAimBreadcrumbs") as HTMLAnchorElement;
+    private getBreadcrumbsForSearchType(searchType: SearchType): HTMLElement {
+        const resultsBreadcrumbs = document.getElementById("resultsBreadcrumb") as HTMLElement;
+        const frameworkBreadcrumbs = document.getElementById("frameworksBreadcrumbs") as HTMLElement;
+        const learningAimBreadcrumbs = document.getElementById("learningAimBreadcrumbs") as HTMLElement;
 
-        if (resultsBreadcrumb) {
-            return resultsBreadcrumb;
+        if (resultsBreadcrumbs) {
+            return resultsBreadcrumbs;
         }
 
         if (searchType === SearchType.Frameworks) {
-            return frameworkAnchor;
+            this.removeElement(learningAimBreadcrumbs);
+            return frameworkBreadcrumbs;
         }
 
-        return learningAimAnchor
+        this.removeElement(frameworkBreadcrumbs);
+        return learningAimBreadcrumbs
+    }
+
+    private removeElement(element: HTMLElement) {
+        if (element) {
+            const parent = element.parentNode as Node;
+            console.log("removing");
+            parent.removeChild(element);
+        }
     }
 
     private setAnchorLinkById(linkId: string, href: string) {
