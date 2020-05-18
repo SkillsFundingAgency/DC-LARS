@@ -130,7 +130,6 @@ export default class LinkService {
     private removeElement(element: HTMLElement) {
         if (element) {
             const parent = element.parentNode as Node;
-            console.log("removing");
             parent.removeChild(element);
         }
     }
