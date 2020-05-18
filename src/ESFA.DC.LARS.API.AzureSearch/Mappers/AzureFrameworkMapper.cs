@@ -7,10 +7,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
     public class AzureFrameworkMapper : IMapper<FrameworkModel, Models.FrameworkModel>
     {
         private readonly IMapper<FrameworkAimModel, Models.FrameworkAimModel> _frameworkAimMapper;
+        private readonly IMapper<FrameworkCommonComponentModel, Models.FrameworkCommonComponentModel> _frameworkCommonComponentMapper;
 
-        public AzureFrameworkMapper(IMapper<FrameworkAimModel, Models.FrameworkAimModel> frameworkAimMapper)
+        public AzureFrameworkMapper(
+            IMapper<FrameworkAimModel, Models.FrameworkAimModel> frameworkAimMapper,
+            IMapper<FrameworkCommonComponentModel, Models.FrameworkCommonComponentModel> frameworkCommonComponentMapper)
         {
             _frameworkAimMapper = frameworkAimMapper;
+            _frameworkCommonComponentMapper = frameworkCommonComponentMapper;
         }
 
         public Models.FrameworkModel Map(FrameworkModel input)
@@ -29,7 +33,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 SectorSubjectAreaTier2Desc = input.SectorSubjectAreaTier2Desc,
                 IssuingAuthority = input.IssuingAuthority,
                 IssuingAuthorityDesc = input.IssuingAuthorityDesc,
-                LearningAims = input.LearningAims?.Select(aim => _frameworkAimMapper.Map(aim)).ToList()
+                LearningAims = input.LearningAims?.Select(aim => _frameworkAimMapper.Map(aim)).ToList(),
+                CommonComponents = input.CommonComponents?.Select(cc => _frameworkCommonComponentMapper.Map(cc)).ToList()
             };
         }
     }
