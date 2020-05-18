@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
-    public abstract class BaseSearchResultsViewModel
+    public abstract class AbstractSearchResultsViewModel
     {
         public abstract string SearchTerm { get; }
 
@@ -11,6 +12,8 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
         public List<string> ValidationErrors { get; set; }
 
         public LookUpModel LookUpModel { get; set; }
+
+        public string CurrentAcademicYear => LookUpModel.AcademicYearLookups.Single(m => m.IsCurrentAcademicYear).AcademicYear;
 
         public BreadcrumbsModel Breadcrumbs { get; set; }
     }

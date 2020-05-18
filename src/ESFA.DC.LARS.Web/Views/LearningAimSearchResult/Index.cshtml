@@ -3,7 +3,6 @@
     Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
     ViewData["Title"] = "Index";
     ViewData["SearchTitle"] = "Search qualifications";
-    var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
 @section Filters
@@ -11,7 +10,7 @@
     <noscript id="filtersNoScript">
         @await Html.PartialAsync("_LearningAimsFilters", Model)
         <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
-        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" asp-route-academicYear="@academicYear" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" asp-route-academicYear="@Model.CurrentAcademicYear" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
     </noscript>
     <filters search-type="Qualifications" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
 }
@@ -35,7 +34,7 @@
 
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupQualificationsResultView("@Model.SearchModel.SearchTerm", "@academicYear");
+        viewService.setupQualificationsResultView("@Model.SearchModel.SearchTerm", "@Model.CurrentAcademicYear");
         @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
         var serverFilters = viewService.getLearningAimFilters(@Json.Serialize(Model.SearchModel.AwardingBodies),
                                                         @Json.Serialize(Model.SearchModel.Levels),

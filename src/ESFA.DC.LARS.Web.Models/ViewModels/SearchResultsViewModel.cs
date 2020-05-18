@@ -2,8 +2,8 @@
 
 namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
-    public class SearchResultsViewModel<TSearchModel, TResultsModel> : BaseSearchResultsViewModel
-        where TSearchModel : BaseSearchModel
+    public class SearchResultsViewModel<TSearchModel, TResultsModel> : AbstractSearchResultsViewModel
+        where TSearchModel : AbstractSearchModel
     {
         public SearchResultsViewModel()
         {
