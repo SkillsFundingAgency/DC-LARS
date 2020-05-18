@@ -2,7 +2,7 @@
 
 namespace ESFA.DC.LARS.Web.Models
 {
-    public class FrameworkSearchModel : BaseSearchModel
+    public class FrameworkSearchModel : AbstractSearchModel
     {
         public FrameworkSearchModel()
         {
