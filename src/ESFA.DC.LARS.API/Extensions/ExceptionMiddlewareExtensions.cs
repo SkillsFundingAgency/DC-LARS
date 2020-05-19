@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using ESFA.DC.LARS.API.Models;
+using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -23,12 +24,23 @@ namespace ESFA.DC.LARS.API.Extensions
                     if (contextFeature != null)
                     {
                         var telemetry = app.ApplicationServices.GetService<ITelemetry>();
-                        telemetry.TrackEvent($" Error: {contextFeature.Error.Message}, stackTrace: {contextFeature.Error.StackTrace}");
-                        await context.Response.WriteAsync(new ErrorDetails()
+                        var jsonSerializationService = app.ApplicationServices.GetService<IJsonSerializationService>();
+
+                        telemetry.TrackEvent(
+                            "Exception",
+                            new System.Collections.Generic.Dictionary<string, string>()
+                            {
+                                { "StackTrace", contextFeature.Error.StackTrace },
+                                { "Error", contextFeature.Error.Message }
+                            },
+                            null);
+                        var errorDetail = new ErrorDetails()
                         {
                             StatusCode = context.Response.StatusCode,
                             Message = "Internal Server Error."
-                        }.ToString());
+                        };
+
+                        await context.Response.WriteAsync(jsonSerializationService.Serialize(errorDetail));
                     }
                 });
             });
