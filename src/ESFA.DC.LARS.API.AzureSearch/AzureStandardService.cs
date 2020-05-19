@@ -81,20 +81,13 @@ namespace ESFA.DC.LARS.API.AzureSearch
         private async Task<IEnumerable<Models.StandardModel>> SearchIndex(string searchTerm, SearchParameters parameters)
         {
             IEnumerable<Models.StandardModel> standards;
-            try
-            {
-                var result = await _azureService.SearchIndexAsync<StandardModel>(_standardIndexService, searchTerm, parameters);
 
-                standards = result.Results
-                    .Select(r => r.Document)
-                    .Select(d => _mapper.Map(d))
-                    .OrderBy(f => f.StandardName);
-            }
-            catch (Exception ex)
-            {
-                _telemetry.TrackEvent(ex.Message);
-                throw;
-            }
+            var result = await _azureService.SearchIndexAsync<StandardModel>(_standardIndexService, searchTerm, parameters);
+
+            standards = result.Results
+                .Select(r => r.Document)
+                .Select(d => _mapper.Map(d))
+                .OrderBy(f => f.StandardName);
 
             return standards;
         }
