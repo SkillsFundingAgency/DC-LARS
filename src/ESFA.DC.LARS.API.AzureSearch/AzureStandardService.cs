@@ -46,15 +46,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
 
             IEnumerable<Models.StandardModel> standards;
-            try
-            {
-                standards = await SearchIndex(searchTerm, parameters);
-            }
-            catch (Exception ex)
-            {
-                _telemetry.TrackEvent(ex.Message);
-                throw;
-            }
+            standards = await SearchIndex(searchTerm, parameters);
 
             return standards;
         }
@@ -62,19 +54,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
         public async Task<Models.StandardModel> GetStandard(string standardCode)
         {
             Models.StandardModel standard;
+            var result = await _azureService.GetAsync<StandardModel>(_standardIndexService, standardCode);
 
-            try
-            {
-                var result = await _azureService.GetAsync<StandardModel>(_standardIndexService, standardCode);
-
-                standard = _mapper.Map(result);
-            }
-            catch (Exception ex)
-            {
-                _telemetry.TrackEvent(ex.Message);
-                throw;
-            }
-
+            standard = _mapper.Map(result);
             return standard;
         }
 
