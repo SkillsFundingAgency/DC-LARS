@@ -22,11 +22,4 @@
 
 @section PageScripts
 {
-    <script>
-        var viewService = new ESFA.ViewService();
-        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
-    </script>
-
-    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
-    <script src="/assets/dist/js/frameworkSearchResults.js" asp-append-version="true"></script>
 }
