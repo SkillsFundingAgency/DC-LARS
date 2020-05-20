@@ -12,6 +12,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<UnitService>().As<IUnitService>();
             builder.RegisterType<LookupService>().As<ILookupService>();
             builder.RegisterType<FrameworkService>().As<IFrameworkService>();
+            builder.RegisterType<StandardService>().As<IStandardService>();
         }
     }
 }

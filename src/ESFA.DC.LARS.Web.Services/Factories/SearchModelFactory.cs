@@ -43,5 +43,17 @@ namespace ESFA.DC.LARS.Web.Services.Factories
 
             return searchModel;
         }
+
+        public StandardSearchModel GetStandardSearchModel(BasicSearchModel basicSearchModel)
+        {
+            var searchModel = new StandardSearchModel();
+
+            if (!string.IsNullOrEmpty(basicSearchModel.SearchTerm))
+            {
+                searchModel.SearchTerm = basicSearchModel.SearchTerm;
+            }
+
+            return searchModel;
+        }
     }
 }

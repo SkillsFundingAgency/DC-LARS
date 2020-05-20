@@ -7,6 +7,7 @@ using ESFA.DC.LARS.API.CustomFilters;
 using ESFA.DC.LARS.API.Extensions;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Modules;
+using ESFA.DC.Telemetry.Interfaces;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -72,6 +73,8 @@ namespace ESFA.DC.LARS.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.ConfigureExceptionHandler();
 
             app.UseRouting();
             app.UseSwagger();

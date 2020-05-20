@@ -48,16 +48,8 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
 
             IEnumerable<Models.LearningAimModel> learningAims;
-            try
-            {
-                 learningAims = await SearchIndex(searchTerm, parameters);
-            }
-            catch (Exception ex)
-            {
-                _telemetryClient.TrackEvent(ex.Message);
-                throw;
-            }
 
+            learningAims = await SearchIndex(searchTerm, parameters);
             return learningAims;
         }
 
@@ -69,36 +61,16 @@ namespace ESFA.DC.LARS.API.AzureSearch
         private async Task<IEnumerable<Models.LearningAimModel>> SearchIndex(string searchTerm, SearchParameters parameters)
         {
             IEnumerable<Models.LearningAimModel> learningAims;
-            try
-            {
-                var result = await _azureService.SearchIndexAsync<LearningAimModel>(_learningDeliveryIndex, searchTerm, parameters);
-
-                learningAims = result.Results.Select(r => r.Document).Select(d => _mapper.Map(d));
-            }
-            catch (Exception ex)
-            {
-                _telemetryClient.TrackEvent(ex.Message);
-                throw;
-            }
-
+            var result = await _azureService.SearchIndexAsync<LearningAimModel>(_learningDeliveryIndex, searchTerm, parameters);
+            learningAims = result.Results.Select(r => r.Document).Select(d => _mapper.Map(d));
             return learningAims;
         }
 
         private async Task<Models.LearningAimModel> IndexSeek(string searchTerm)
         {
             Models.LearningAimModel learningAim;
-
-            try
-            {
-                var result = await _azureService.GetAsync<LearningAimModel>(_learningDeliveryIndex, searchTerm);
-                learningAim = _mapper.Map(result);
-            }
-            catch (Exception ex)
-            {
-                _telemetryClient.TrackEvent(ex.Message);
-                throw;
-            }
-
+            var result = await _azureService.GetAsync<LearningAimModel>(_learningDeliveryIndex, searchTerm);
+            learningAim = _mapper.Map(result);
             return learningAim;
         }
 

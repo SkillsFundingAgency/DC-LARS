@@ -1,1 +1,25 @@
-﻿<h3> Standards Landing Page</h3>
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<StandardSearchModel, StandardModel>
+@{
+    Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
+    ViewData["Title"] = "Index";
+    ViewData["SearchTitle"] = "Search Standards";
+}
+@section Filters
+{}
+
+@section Results
+{
+    <p class="govuk-body flex space-between">
+        <span ref="ResultsCount">@Model.Results.Count() results</span>
+    </p>
+
+    <filter-feedback search-type="Standards"></filter-feedback>
+
+    <div ref="Results">
+        @await Html.PartialAsync("_SearchResults", Model)
+    </div>
+}
+
+@section PageScripts
+{
+}

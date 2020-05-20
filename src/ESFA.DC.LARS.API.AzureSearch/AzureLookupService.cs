@@ -33,16 +33,8 @@ namespace ESFA.DC.LARS.API.AzureSearch
         {
             Models.LookUpModel lookups;
 
-            try
-            {
-                var result = await _azureService.GetAsync<LookUpModel>(_lookupIndexService, LookupIndexKey);
-                lookups = _mapper.Map(result);
-            }
-            catch (Exception ex)
-            {
-                _telemetry.TrackEvent(ex.Message);
-                throw;
-            }
+            var result = await _azureService.GetAsync<LookUpModel>(_lookupIndexService, LookupIndexKey);
+            lookups = _mapper.Map(result);
 
             return lookups;
         }
