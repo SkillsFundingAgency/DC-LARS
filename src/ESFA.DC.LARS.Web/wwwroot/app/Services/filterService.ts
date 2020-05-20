@@ -1,4 +1,5 @@
-﻿import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+﻿import { IFilterItem } from '../Interfaces/IFilterItem';
+import { FilterType } from '../Enums/FilterType';
 
 class FilterService {
     removeFilterFromArray(filters: Array<IFilterItem>, item: IFilterItem): Array<IFilterItem> {

@@ -1,6 +1,7 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
-import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
-import { SearchType } from '../SearchType';
+import { IFilterItem } from '../Interfaces/IFilterItem';
+import { FilterType } from '../Enums/FilterType';
+import { SearchType } from '../Enums/SearchType';
 
 export default class StorageService {
 
@@ -20,7 +21,7 @@ export default class StorageService {
         }
 
         return {
-            searchTerm: '', learnAimRef: '', learningAimTitle: '', learningAimDetailsYear: '',
+            searchTerm: '', learnAimRef: '', learningAimTitle: '',
             currentAcademicYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
         };
     }

@@ -6,7 +6,7 @@ import Filters from "./Components/filters.vue";
 import FilterFeedback from './Components/filterFeedback.vue';
 import { frameworkSearchService } from './Services/frameworkSearchService';
 import { filterStoreService } from './Services/filterStoreService';
-import { SearchType } from './SearchType';
+import { SearchType } from './Enums/SearchType';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';
 import LinkService from './Services/LinkService';

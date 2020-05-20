@@ -13,6 +13,8 @@ namespace ESFA.DC.LARS.Web.Models
 
         public string TeachingYear { get; set; }
 
+        public bool? HasFilters { get; set; }
+
         //////Used by Application Insight Customer Filter to capture values passed in.
         public override string ToString()
         {

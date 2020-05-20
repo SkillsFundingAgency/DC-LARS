@@ -1,4 +1,4 @@
-﻿import { SearchType } from "../SearchType";
+﻿import { SearchType } from "../Enums/SearchType";
 
 export class EnumHelper {
     public ConvertServerEnumValueToClientEnum(value: string): SearchType {

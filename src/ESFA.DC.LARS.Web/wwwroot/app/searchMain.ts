@@ -1,9 +1,9 @@
 ﻿import Vue from "vue";
 
-import { IFilterItem, FilterType } from './Interfaces/IFilterItem';
+import { IFilterItem } from './Interfaces/IFilterItem';
 import StorageService from "./Services/storageService";
 import { constants } from './constants';
-import { SearchType } from "./SearchType";
+import { FilterType } from './Enums/FilterType';
 
 const vue = new Vue({
     el: "#homeApp",

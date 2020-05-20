@@ -1,5 +1,5 @@
 ﻿import { IFilterItem } from '../Interfaces/IFilterItem';
-import { SearchType } from '../SearchType';
+import { SearchType } from '../Enums/SearchType';
 import store from "../store"
 
  class FilterStoreService {

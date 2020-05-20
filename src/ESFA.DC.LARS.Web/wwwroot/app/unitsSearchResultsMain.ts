@@ -5,7 +5,7 @@ import { debounce } from 'vue-debounce';
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { filterStoreService } from './Services/filterStoreService';
-import { SearchType } from './SearchType';
+import { SearchType } from './Enums/SearchType';
 import { learningAimSearchService } from './Services/learningAimSearchService';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import { constants } from './constants';

@@ -1,12 +1,12 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model.Breadcrumbs)
+@await Html.PartialAsync("_breadcrumbs")
 @await Html.PartialAsync("_aimCategory", Model)
 
 @section PageScripts
 {
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupFrameworkView();
+        viewService.setupLearningAimCategoryView();
     </script>
 }

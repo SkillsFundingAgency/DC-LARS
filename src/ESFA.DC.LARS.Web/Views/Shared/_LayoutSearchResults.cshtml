@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
+@await Html.PartialAsync("_breadcrumbs")
 
 <div id="resultsApp">
     <form id="filterForm" asp-action="Search" method="post" class="govuk-form-group">

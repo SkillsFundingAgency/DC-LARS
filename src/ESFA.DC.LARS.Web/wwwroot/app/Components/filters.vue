@@ -1,10 +1,11 @@
 ﻿<script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator';
-    import { IFilterItem, FilterType } from '../../app/Interfaces/IFilterItem';
+    import { IFilterItem } from '../../app/Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
     import { filterStoreService } from '../Services/filterStoreService';
     import { accordionService } from '../Services/accordionService';
-    import { SearchType } from '../SearchType';
+    import { SearchType } from '../enums/SearchType';
+    import { FilterType } from '../enums/FilterType';
     import StorageService from '../Services/storageService';
     import FilterHistoryService from '../Services/filterHistoryService';
     import { constants } from '../constants';

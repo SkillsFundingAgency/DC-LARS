@@ -1,11 +1,10 @@
 ﻿import { IFilterItem } from '../Interfaces/IFilterItem';
-import { SearchType } from '../SearchType';
+import { SearchType } from '../Enums/SearchType';
 
 export interface IStorageItem {
     searchTerm: string;
     learnAimRef: string;
     learningAimTitle: string;
-    learningAimDetailsYear: string;
     currentAcademicYear: string;
     searchType: SearchType;
     frameworkCode: string;

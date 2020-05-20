@@ -18,10 +18,11 @@
 
 <script lang="ts">
     import { Component, Vue, Prop } from 'vue-property-decorator';
-    import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+    import { IFilterItem } from '../Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
     import { filterStoreService } from '../Services/filterStoreService';
-    import { SearchType } from '../SearchType';
+    import { SearchType } from '../enums/SearchType';
+    import { FilterType } from '../enums/FilterType';
     import StorageService from '../Services/storageService';
     import { constants } from '../constants';
 
