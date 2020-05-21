@@ -9,7 +9,10 @@ export class ResultsHelper {
 	}
 
 	public setIsLoading(): void {
-		this.setInnerHtml(this.resultsContainer, "Loading");
+		this.setInnerHtml(this.resultsContainer, "");
+
+		let loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
+		loadingContainer.style.display = "block";
 	}
 
 	public updateForResponse(response: ISearchResults): void {
@@ -19,6 +22,8 @@ export class ResultsHelper {
 	}
 
 	public setResults(html: string): void {
+		let loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
+		loadingContainer.style.display = "none";
 		this.setInnerHtml(this.resultsContainer, html);
 	}
 

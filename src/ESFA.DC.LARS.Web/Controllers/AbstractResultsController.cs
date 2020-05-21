@@ -120,7 +120,8 @@ namespace ESFA.DC.LARS.Web.Controllers
             {
                 SearchModel = searchModel,
                 Results = results,
-                LookUpModel = lookups
+                LookUpModel = lookups,
+                IsLoading = !includeSearchResults
             };
         }
 

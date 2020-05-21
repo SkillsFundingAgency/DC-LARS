@@ -4,40 +4,46 @@
     var resultsFound = Model?.Results != null && Model.Results.Any();
 }
 
-<hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<div ref="Results">
+    <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-@if (!resultsFound)
-{
-    <li>There are no results that match your search. Try changing the filters and searching again.</li>
-}
-else
-{
-    @foreach (var framework in Model.Results)
+    @if (!Model.IsLoading)
     {
-        <li>
-            <h3 class="govuk-!-margin-0">
-                @Html.ActionLink(
-                      framework.FrameworkTitle,
-                      "RedirectToDetails",
-                      new { frameworkCode = framework.FrameworkCode, programType = framework.ProgramType, pathwayCode = framework.PathwayCode },
-                      new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19" })
-            </h3>
-            <div class="flex space-between">
-                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                    <span><strong>Framework code:</strong> @framework.FrameworkCode</span>
-                    <span><strong>Pathway:</strong> @framework.PathwayCode - @framework.PathwayName</span>
-                </div>
-                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                    <span><strong>Framework type:</strong> @framework.ProgramTypeName</span>
-                    <span><strong>Issuing authority:</strong> @framework.IssuingAuthorityDesc </span>
-                </div>
-            </div>
-            <div class="flex space-between">
-                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                    <span><strong>Pathway effective from:</strong> @framework.EffectiveFrom?.ToDateString()</span>
-                    <span><strong>Pathway effective to:</strong> @framework.EffectiveTo?.ToDateString()</span>
-                </div>
-            </div>
-        </li>
+        @if (!resultsFound)
+        {
+            <li>There are no results that match your search. Try changing the filters and searching again.</li>
+        }
+        else
+        {
+            @foreach (var framework in Model.Results)
+            {
+                <li>
+                    <h3 class="govuk-!-margin-0">
+                        @Html.ActionLink(
+                                framework.FrameworkTitle,
+                                "RedirectToDetails",
+                                new { frameworkCode = framework.FrameworkCode, programType = framework.ProgramType, pathwayCode = framework.PathwayCode },
+                                new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19" })
+                    </h3>
+                    <div class="flex space-between">
+                        <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                            <span><strong>Framework code:</strong> @framework.FrameworkCode</span>
+                            <span><strong>Pathway:</strong> @framework.PathwayCode - @framework.PathwayName</span>
+                        </div>
+                        <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                            <span><strong>Framework type:</strong> @framework.ProgramTypeName</span>
+                            <span><strong>Issuing authority:</strong> @framework.IssuingAuthorityDesc </span>
+                        </div>
+                    </div>
+                    <div class="flex space-between">
+                        <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                            <span><strong>Pathway effective from:</strong> @framework.EffectiveFrom?.ToDateString()</span>
+                            <span><strong>Pathway effective to:</strong> @framework.EffectiveTo?.ToDateString()</span>
+                        </div>
+                    </div>
+                </li>
+            }
+        }
     }
-}
+</div>
+

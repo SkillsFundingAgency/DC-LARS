@@ -4,53 +4,57 @@
     var resultsFound = Model?.Results != null && Model.Results.Any();
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
+
 <div ref="Results">
     <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-    @if (!resultsFound)
+    @if (!Model.IsLoading)
     {
-        <li>There are no results that match your search. Try changing the filters and searching again.</li>
-    }
-    else
-    {
-        @foreach (var learningAim in Model.Results)
+        @if (!resultsFound)
         {
-            <li>
-                <h3 class="govuk-!-margin-0">
-                    @Html.ActionLink(
-                            learningAim.LearningAimTitle,
-                            "RedirectToDetails",
-                            new { learnAimRef = learningAim.LearnAimRef, academicYear = academicYear },
-                              new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19" })
-                </h3>
-                <div class="flex space-between">
-                    <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                        <span><strong>Reference:</strong> @learningAim.LearnAimRef</span>
-                        <span><strong>Awarding body:</strong> @learningAim.AwardingBodyCode</span>
+            <li>There are no results that match your search. Try changing the filters and searching again.</li>
+        }
+        else
+        {
+            @foreach (var learningAim in Model.Results)
+            {
+                <li>
+                    <h3 class="govuk-!-margin-0">
+                        @Html.ActionLink(
+                                 learningAim.LearningAimTitle,
+                                 "RedirectToDetails",
+                                 new { learnAimRef = learningAim.LearnAimRef, academicYear = academicYear },
+                                   new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19" })
+                    </h3>
+                    <div class="flex space-between">
+                        <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                            <span><strong>Reference:</strong> @learningAim.LearnAimRef</span>
+                            <span><strong>Awarding body:</strong> @learningAim.AwardingBodyCode</span>
+                        </div>
+                        <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                            <span><strong>Level:</strong> @learningAim.Level</span>
+                            <span><strong>Guided learning hours:</strong> @learningAim.GuidedLearningHours </span>
+                        </div>
                     </div>
-                    <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                        <span><strong>Level:</strong> @learningAim.Level</span>
-                        <span><strong>Guided learning hours:</strong> @learningAim.GuidedLearningHours </span>
-                    </div>
-                </div>
-                @if (!string.IsNullOrEmpty(academicYear) && academicYear.Trim().Length == 4)
-                {
-                    var validities = learningAim.AcademicYears.Where(ay => ay.AcademicYear.Equals(academicYear)).SelectMany(p => p.Validities);
+                    @if (!string.IsNullOrEmpty(academicYear) && academicYear.Trim().Length == 4)
+                    {
+                        var validities = learningAim.AcademicYears.Where(ay => ay.AcademicYear.Equals(academicYear)).SelectMany(p => p.Validities);
 
-                    <div class="aims-list govuk-body govuk-!-font-size-16 flex-col flex-1">
-                        <strong>Available funding streams for academic year @($"20{academicYear.Substring(0, 2)} to 20{academicYear.Substring(2, 2)}:")</strong>
-                    </div>
+                        <div class="aims-list govuk-body govuk-!-font-size-16 flex-col flex-1">
+                            <strong>Available funding streams for academic year @($"20{academicYear.Substring(0, 2)} to 20{academicYear.Substring(2, 2)}:")</strong>
+                        </div>
 
-                    <div class="flex-wrap govuk-!-font-size-16">
-                        @foreach (var validity in validities)
-                        {
-                            <div class="flex-third govuk-!-margin-bottom-2">
-                                @validity.ValidityCategoryDescription
-                            </div>
-                        }
-                    </div>
-                }
-            </li>
+                        <div class="flex-wrap govuk-!-font-size-16">
+                            @foreach (var validity in validities)
+                            {
+                                <div class="flex-third govuk-!-margin-bottom-2">
+                                    @validity.ValidityCategoryDescription
+                                </div>
+                            }
+                        </div>
+                    }
+                </li>
+            }
         }
     }
 </div>
