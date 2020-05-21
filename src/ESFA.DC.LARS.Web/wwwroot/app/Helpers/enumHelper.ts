@@ -8,6 +8,9 @@ export class EnumHelper {
         if (value === "2") {
             return SearchType.Units;
         }
+        if (value === "3") {
+            return SearchType.Standards; 
+        }
         return SearchType.Qualifications;
     }
 }

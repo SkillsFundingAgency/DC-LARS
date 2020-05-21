@@ -15,36 +15,28 @@ export default class LinkService {
         this.storageService = new StorageService(sessionStorage);
     }
 
-    public redirectToResults(serverSearchType: string, oldSearchResults: SearchType): void {
-        const linkService = new LinkService();
-        const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(serverSearchType);
-        let updatedFilters: Array<IFilterItem> = [];
+    public redirectToResults(newSearchTypeAsServerEnum: string, exisitingSearchType: SearchType): void {
+
+        const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(newSearchTypeAsServerEnum);
         const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
 
-        if (clientSearchType === SearchType.Frameworks) {
-            window.location.href = linkService.getFrameworksSearchResultsLink(storageItem);
+        switch (clientSearchType) {
+            case SearchType.Frameworks:
+                window.location.href = this.getFrameworksSearchResultsLink(storageItem);
+                break;
+            case SearchType.Units:
+                window.location.href = this.getUnitsSearchResultsLink(storageItem);
+                break;
+            case SearchType.Qualifications:
+                window.location.href = this.getQualificationsSearchResultsLink(storageItem);
+                break;
+            case SearchType.Standards:
+                window.location.href = this.getStandardsSearchResultsLink(storageItem);
+                break;
+            default:
+                window.location.href = "/";
         }
-        else {
-            if (clientSearchType === SearchType.Units) {
-                window.location.href = linkService.getUnitsSearchResultsLink(storageItem);
-            }
-
-            if (clientSearchType === SearchType.Qualifications) {
-                window.location.href = linkService.getQualificationsSearchResultsLink(storageItem);
-            }
-
-            // If moving to a search that has teaching years then keep exisiting teaching year
-            // filter or use current academic year if not present.
-            const filters = filterStoreService.getSavedFilters(oldSearchResults);
-            if (filters.some(f => f.type === FilterType.TeachingYears)) {
-                updatedFilters = filters.filter(f => f.type === FilterType.TeachingYears);
-            } else {
-                const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.currentAcademicYear, value: '' });
-            }
-        }
-
-        this.storageService.updateFilters(constants.storageKey, updatedFilters);
+        this.updateFiltersForNewSearch(clientSearchType, exisitingSearchType);
     }
 
     public getQualificationsSearchResultsLink(storageItem: IStorageItem): string {
@@ -56,7 +48,7 @@ export default class LinkService {
     }
 
     public getQualificationsDetailsLinkForFrameworks(storageItem: IStorageItem): string {
-        //TODO:  This can be removed once frameworks accept teaching year.
+        //TODO:  Please use getQualificationsDetailsLink above once teaching year filter added to Frameworks.
         return `/LearningAimDetails/${storageItem.learnAimRef}`;
     }
 
@@ -76,13 +68,18 @@ export default class LinkService {
         return `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`;
     }
 
+    public getStandardsSearchResultsLink(storageItem: IStorageItem): string {
+        return `/StandardsSearchResult?SearchTerm=${storageItem.searchTerm}${this.hasFiltersParam(storageItem.filters)}`;
+    }
+
     private getTeachingYear(storageItem: IStorageItem): string {
         const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
-        if (teachingFilter) {
-            return teachingFilter.key;
-        }
-        return storageItem.currentAcademicYear;
+        return teachingFilter ? teachingFilter.key : storageItem.currentAcademicYear;
     }
+
+    private hasTeachingYearFilter(searchType: SearchType) {
+        return (searchType === SearchType.Qualifications || searchType === SearchType.Units);
+    } 
 
     private hasFiltersParam(filters: IFilterItem[]): string {
         if (filters.some(f => f.type !== FilterType.TeachingYears)) {
@@ -90,4 +87,22 @@ export default class LinkService {
         }
         return '';
     }
+
+    private updateFiltersForNewSearch(newSearchType: SearchType, exisitingSearchType: SearchType) {
+        let updatedFilters: Array<IFilterItem> = [];
+
+        // If moving to a search that has teaching years then keep exisiting teaching year
+        // filter or use current academic year if that not present.
+        if (this.hasTeachingYearFilter(newSearchType)) {
+            const currentFilters = filterStoreService.getSavedFilters(exisitingSearchType);
+            if (currentFilters.some(f => f.type === FilterType.TeachingYears)) {
+                updatedFilters = currentFilters.filter(f => f.type === FilterType.TeachingYears);
+            } else {
+                const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.currentAcademicYear, value: '' });
+            }
+        }
+        this.storageService.updateFilters(constants.storageKey, updatedFilters);
+    }
+
 }

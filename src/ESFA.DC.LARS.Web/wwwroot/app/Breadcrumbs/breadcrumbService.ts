@@ -14,13 +14,12 @@ export class BreadcrumbService {
     private textTemplate: string = "<li class='govuk-breadcrumbs__list-item'>{{title}}</li>";
 
     public buildBreadcrumb(storageItem: IStorageItem): void {
-        const breadcrumbs = this.breadcrumbsFactory(storageItem.searchType);
-
+        const breadcrumbBuilder = this.getBreadcrumbsBuilder(storageItem.searchType);
         const element = document.getElementById("breadCrumbs") as HTMLElement;
-        element.innerHTML = this.createHTML(breadcrumbs.build(storageItem), storageItem.page);
+        element.innerHTML = this.createHTML(breadcrumbBuilder.build(storageItem), storageItem.page);
     }
 
-    private breadcrumbsFactory(searchType: SearchType): IBreadcrumbBuilder {
+    private getBreadcrumbsBuilder(searchType: SearchType): IBreadcrumbBuilder {
         if (searchType === SearchType.Qualifications) {
             return new QualificationsBreadcrumbBuilder();
         }
@@ -36,7 +35,7 @@ export class BreadcrumbService {
         return new DefaultBreadcrumbBuilder
     };
 
-    private createHTML(breadcrumbs: Array<IBreadcrumb>, page: Page) {
+    private createHTML(breadcrumbs: Array<IBreadcrumb>, page: Page): string {
         let breadcrumbHTML = "";
 
         breadcrumbs.every((breadcrumb: IBreadcrumb) => {
