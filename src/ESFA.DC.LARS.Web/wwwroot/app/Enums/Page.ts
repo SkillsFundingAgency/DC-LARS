@@ -1,8 +1,8 @@
 ﻿export enum Page{
-    Home,
-    Results,
-    LearningAimDetails,
-    Pathway,
-    Category,
-    CommonComponent
+    Home = "Home",
+    Results = "Results",
+    LearningAimDetails = "LearningAimDetails",
+    Pathway = "Pathway",
+    Category = "Category",
+    CommonComponent = "CommonComponent"
 }

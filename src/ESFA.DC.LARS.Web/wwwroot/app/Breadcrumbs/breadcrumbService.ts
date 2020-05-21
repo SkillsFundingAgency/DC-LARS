@@ -20,19 +20,16 @@ export class BreadcrumbService {
     }
 
     private getBreadcrumbsBuilder(searchType: SearchType): IBreadcrumbBuilder {
-        if (searchType === SearchType.Qualifications) {
-            return new QualificationsBreadcrumbBuilder();
+        switch (searchType) {
+            case SearchType.Qualifications:
+                return new QualificationsBreadcrumbBuilder();
+            case SearchType.Units:
+                return new UnitsBreadcrumbBuilder();
+            case SearchType.Frameworks:
+                return new FrameworksBreadcrumbBuilder();
+            default:
+                return new DefaultBreadcrumbBuilder()
         }
-
-        if (searchType === SearchType.Units) {
-            return new UnitsBreadcrumbBuilder();
-        }
-
-        if (searchType === SearchType.Frameworks) {
-            return new FrameworksBreadcrumbBuilder();
-        }
-
-        return new DefaultBreadcrumbBuilder
     };
 
     private createHTML(breadcrumbs: Array<IBreadcrumb>, page: Page): string {

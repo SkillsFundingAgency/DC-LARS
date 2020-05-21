@@ -16,9 +16,10 @@ export default class LinkService {
     }
 
     public redirectToResults(newSearchTypeAsServerEnum: string, exisitingSearchType: SearchType): void {
-
         const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(newSearchTypeAsServerEnum);
+
         const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        storageItem.filters = this.updateFiltersForNewSearch(clientSearchType, exisitingSearchType);
 
         switch (clientSearchType) {
             case SearchType.Frameworks:
@@ -36,7 +37,8 @@ export default class LinkService {
             default:
                 window.location.href = "/";
         }
-        this.updateFiltersForNewSearch(clientSearchType, exisitingSearchType);
+
+        this.storageService.updateFilters(constants.storageKey, storageItem.filters);
     }
 
     public getQualificationsSearchResultsLink(storageItem: IStorageItem): string {
@@ -88,7 +90,7 @@ export default class LinkService {
         return '';
     }
 
-    private updateFiltersForNewSearch(newSearchType: SearchType, exisitingSearchType: SearchType) {
+    private updateFiltersForNewSearch(newSearchType: SearchType, exisitingSearchType: SearchType): Array<IFilterItem> {
         let updatedFilters: Array<IFilterItem> = [];
 
         // If moving to a search that has teaching years then keep exisiting teaching year
@@ -102,7 +104,7 @@ export default class LinkService {
                 updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.currentAcademicYear, value: '' });
             }
         }
-        this.storageService.updateFilters(constants.storageKey, updatedFilters);
+        return updatedFilters;
     }
 
 }
