@@ -55,6 +55,11 @@ export default class LinkService {
         return `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
     }
 
+    public getQualificationsDetailsLinkForFrameworks(storageItem: IStorageItem): string {
+        //TODO:  This can be removed once frameworks accept teaching year.
+        return `/LearningAimDetails/${storageItem.learnAimRef}`;
+    }
+
     public getUnitsSearchResultsLink(storageItem: IStorageItem): string {
         return `/UnitSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}${this.hasFiltersParam(storageItem.filters)}`;
     }

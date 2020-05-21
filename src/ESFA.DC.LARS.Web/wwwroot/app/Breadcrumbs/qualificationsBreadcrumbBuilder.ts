@@ -6,7 +6,7 @@ import { Page } from '../Enums/Page';
 
 export class QualificationsBreadcrumbBuilder implements IBreadcrumbBuilder {
 
-    public build(storageItem: IStorageItem, page: Page): Array<IBreadcrumb> {
+    public build(storageItem: IStorageItem): Array<IBreadcrumb> {
         const linkService = new LinkService();
 
         let breadcrumbs: Array<IBreadcrumb> = [

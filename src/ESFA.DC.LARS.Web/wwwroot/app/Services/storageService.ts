@@ -1,7 +1,6 @@
-﻿import { IStorageItem } from '../Interfaces/IStorageItem';
+﻿import { IStorageItem, emptyIStorageItem } from '../Interfaces/IStorageItem';
 import { IFilterItem } from '../Interfaces/IFilterItem';
 import { FilterType } from '../Enums/FilterType';
-import { SearchType } from '../Enums/SearchType';
 
 export default class StorageService {
 
@@ -20,10 +19,7 @@ export default class StorageService {
             return JSON.parse(item) as IStorageItem;
         }
 
-        return {
-            searchTerm: '', learnAimRef: '', learningAimTitle: '',
-            currentAcademicYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
-        };
+        return emptyIStorageItem();
     }
 
     store(key: string, value: IStorageItem) : void {

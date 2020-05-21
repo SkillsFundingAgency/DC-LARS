@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
@@ -55,6 +56,7 @@
     <Content Remove="wwwroot\app\store.ts" />
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
     <Content Remove="wwwroot\app\Tests\frameworksBreadcrumbBuilder.test.ts" />
+    <Content Remove="wwwroot\app\Tests\linkService.test.ts" />
     <Content Remove="wwwroot\app\unitsSearchResultsMain.ts" />
     <Content Remove="wwwroot\blank.js" />
     <Content Remove="wwwroot\blank.js.map" />
@@ -94,6 +96,7 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
@@ -104,6 +107,7 @@
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumb.ts" />
     <TypeScriptCompile Include="wwwroot\app\constants.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\breadcrumbService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Tests\linkService.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\frameworksBreadcrumbBuilder.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\unitsSearchResultsMain.ts" />
     <TypeScriptCompile Include="wwwroot\ESFAGlobals.ts" />

@@ -26,42 +26,46 @@ export class ViewService {
 
     private setupLearningAimsResultView(searchTerm: string, currentAcademicYear: string, searchType: SearchType) : void {
         this.removeFilterNonScriptTag();
-        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType }); 
+        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType, page: Page.Results}); 
         this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem, Page.Results);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupLearningAimDetailView(learnAimRef: string, learningAimTitle: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { learnAimRef, learningAimTitle}); 
+        const storageItem = Object.assign(this.currentStorageItem, { learnAimRef, learningAimTitle, page: Page.LearningAimDetails}); 
         this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem, Page.LearningAimDetails);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkView(): void {
-        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem, Page.Pathway);
+        const storageItem = Object.assign(this.currentStorageItem, {page: Page.Pathway });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
 
     public setupLearningAimCategoryView(): void {
-        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem, Page.Category);
+        const storageItem = Object.assign(this.currentStorageItem, { page: Page.Category });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
 
     public setupCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode }); 
+        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.CommonComponent }); 
         this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem, Page.CommonComponent);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkSearchResultView(searchTerm: string): void {
         this.removeFilterNonScriptTag();
-        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks });
+        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results });
         this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem, Page.Results);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkDetailView(frameworkCode: string, programType: string, pathwayCode: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode });
+        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.Pathway });
         this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem, Page.Pathway);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public getLearningAimFilters(awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): IFilterItem[] {
@@ -92,5 +96,4 @@ export class ViewService {
     private get currentStorageItem(): IStorageItem {
         return this.storageService.retrieve(constants.storageKey) as IStorageItem;
     };
-
 }
