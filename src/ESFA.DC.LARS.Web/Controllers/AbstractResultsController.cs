@@ -121,7 +121,7 @@ namespace ESFA.DC.LARS.Web.Controllers
                 SearchModel = searchModel,
                 Results = results,
                 LookUpModel = lookups,
-                IsLoading = !includeSearchResults
+                RequiresClientSideRefresh = !includeSearchResults
             };
         }
 

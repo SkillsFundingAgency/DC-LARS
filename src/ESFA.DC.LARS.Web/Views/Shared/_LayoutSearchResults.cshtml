@@ -52,7 +52,7 @@
                 <div class="govuk-grid-column-two-thirds">
                     <ul id="resultList" class="govuk-list">
                         @RenderSection("Results", required: true)
-                        @await Html.PartialAsync("_Loading", Model.IsLoading)
+                        @await Html.PartialAsync("_Loading", Model.RequiresClientSideRefresh)
                     </ul>
                 </div>
             </div>

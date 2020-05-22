@@ -8,7 +8,7 @@
 <div ref="Results">
     <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-    @if (!Model.IsLoading)
+    @if (!Model.RequiresClientSideRefresh)
     {
         @if (!resultsFound)
         {
