@@ -1,5 +1,4 @@
-﻿import { IStorageItem } from "./IStorageItem";
-import { Page } from '../Enums/Page';
+﻿import { Page } from '../Enums/Page';
 
 export interface IBreadcrumb {
     text: string;
