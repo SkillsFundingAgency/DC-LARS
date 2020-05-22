@@ -41,12 +41,15 @@
                         new { @Model.LearningAimModel.LearnAimRef },
                         new { @class = "govuk-link govuk-link--no-visited-state" })
                 </li>
-                <li>
-                    <a class="govuk-link govuk-link--no-visited-state" target="blank"
-                       href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
-                        View more information on OFQUAL
-                    </a>
-                </li>
+                @if (Model.LearningAimModel.IsOFQUAL)
+                {
+                    <li>
+                        <a class="govuk-link govuk-link--no-visited-state" target="blank"
+                           href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
+                            View more information on OFQUAL
+                        </a>
+                    </li>
+                }
             </ul>
             <div class="govuk-form-group">
                 <label class="govuk-label" for="academicYear">

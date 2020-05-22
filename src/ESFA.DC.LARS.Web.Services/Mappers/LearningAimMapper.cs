@@ -13,6 +13,7 @@ namespace ESFA.DC.LARS.Web.Mappers
                 AwardingBodyCode = input.AwardingBodyCode,
                 AwardingBodyName = input.AwardingBodyName,
                 LearningAimTitle = input.LearningAimTitle,
+                IsOFQUAL = input.IsOFQUAL,
                 Type = input.Type
             };
         }

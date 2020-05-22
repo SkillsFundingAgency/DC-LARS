@@ -41,7 +41,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 Type = "testType",
                 AwardingBodyName = "testAwardingBody",
                 LevelDescription = "testLevel",
-                GuidedLearningHours = "12"
+                GuidedLearningHours = "12",
+                IsOFQUAL = true
             };
 
             var result = mapper.Map(azureModel);
@@ -53,6 +54,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.AwardingBodyName.Should().Be(azureModel.AwardingBodyName);
             result.Level.Should().Be(azureModel.LevelDescription);
             result.GuidedLearningHours.Should().Be(azureModel.GuidedLearningHours);
+            result.IsOFQUAL.Should().Be(azureModel.IsOFQUAL);
         }
     }
 }

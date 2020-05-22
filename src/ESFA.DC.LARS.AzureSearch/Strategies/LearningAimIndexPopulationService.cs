@@ -110,7 +110,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             LevelDescription = ld.NotionalNvqlevelv2Navigation.NotionalNvqlevelV2desc,
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
-                            GuidedLearningHours = ld.GuidedLearningHours.ToString()
+                            GuidedLearningHours = ld.GuidedLearningHours.ToString(),
+                            IsOFQUAL = ld.LearningDeliveryGenre == "EOQ" || ld.LearningDeliveryGenre == "EOU"
                         })
                         .ToArray();
 
