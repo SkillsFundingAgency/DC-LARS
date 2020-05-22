@@ -24,6 +24,8 @@ namespace ESFA.DC.LARS.API.Models
 
         public string Level3Category { get; set; }
 
+        public bool IsOFQUAL { get; set; }
+
         public List<CategoryModel> Categories { get; set; }
 
         public List<AcademicYearModel> AcademicYears { get; set; }

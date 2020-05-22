@@ -26,6 +26,8 @@ namespace ESFA.DC.LARS.Web.Models
 
         public List<CategoryModel> Categories { get; set; }
 
+        public bool IsOFQUAL { get; set; }
+
         public List<AcademicYearModel> AcademicYears { get; set; }
 
         public List<LearningAimFrameworkModel> Frameworks { get; set; }

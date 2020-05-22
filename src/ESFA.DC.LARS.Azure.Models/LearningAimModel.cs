@@ -36,6 +36,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public DateTime? EffectiveTo { get; set; }
 
+        public bool IsOFQUAL { get; set; }
+
         public List<CategoryModel> Categories { get; set; }
 
         public List<FundingModel> FundingModels { get; set; }
