@@ -10,6 +10,8 @@
 
         string FrameworkIndexName { get; set; }
 
+        string StandardIndexName { get; set; }
+
         string UnitIndexName { get; set; }
     }
 }

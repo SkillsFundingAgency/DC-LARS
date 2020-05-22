@@ -18,6 +18,8 @@ namespace ESFA.DC.LARS.AzureSearch.Configuration
 
         public string FrameworkIndexName { get; set; }
 
+        public string StandardIndexName { get; set; }
+
         public string UnitIndexName { get; set; }
     }
 }

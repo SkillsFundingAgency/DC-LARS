@@ -18,12 +18,14 @@ namespace ESFA.DC.LARS.Web.Modules
             containerBuilder.RegisterType<UnitsApiService>().As<IUnitsApiService>();
             containerBuilder.RegisterType<LookupApiService>().As<ILookupApiService>();
             containerBuilder.RegisterType<FrameworkApiService>().As<IFrameworkApiService>();
+            containerBuilder.RegisterType<StandardApiService>().As<IStandardApiService>();
             containerBuilder.RegisterType<UnitsApiService>().As<IUnitsApiService>();
 
             containerBuilder.RegisterType<ClientValidationService>().As<IClientValidationService>();
 
             containerBuilder.RegisterType<LearningAimMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             containerBuilder.RegisterType<FrameworkMapper>().As<IMapper<FrameworkModel, Models.FrameworkModel>>();
+            containerBuilder.RegisterType<StandardMapper>().As<IMapper<StandardModel, Models.StandardModel>>();
 
             containerBuilder.RegisterType<SearchModelFactory>().As<ISearchModelFactory>();
         }

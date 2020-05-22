@@ -48,15 +48,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
             }
 
             IEnumerable<Models.FrameworkModel> frameworks;
-            try
-            {
-                frameworks = await SearchIndex(searchTerm, parameters);
-            }
-            catch (Exception ex)
-            {
-                _telemetry.TrackEvent(ex.Message);
-                throw;
-            }
+            frameworks = await SearchIndex(searchTerm, parameters);
 
             return frameworks;
         }
@@ -66,18 +58,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             Models.FrameworkModel framework;
 
             var key = $"{frameworkCode}-{programType}-{pathwayCode}";
+            var result = await _azureService.GetAsync<FrameworkModel>(_frameworkIndexService, key);
 
-            try
-            {
-                var result = await _azureService.GetAsync<FrameworkModel>(_frameworkIndexService, key);
-
-                framework = _mapper.Map(result);
-            }
-            catch (Exception ex)
-            {
-                _telemetry.TrackEvent(ex.Message);
-                throw;
-            }
+            framework = _mapper.Map(result);
 
             return framework;
         }
@@ -85,22 +68,14 @@ namespace ESFA.DC.LARS.API.AzureSearch
         private async Task<IEnumerable<Models.FrameworkModel>> SearchIndex(string searchTerm, SearchParameters parameters)
         {
             IEnumerable<Models.FrameworkModel> frameworks;
-            try
-            {
-                var result = await _azureService.SearchIndexAsync<FrameworkModel>(_frameworkIndexService, searchTerm, parameters);
 
-                frameworks = result.Results
-                    .Select(r => r.Document)
-                    .Select(d => _mapper.Map(d))
-                    .OrderBy(f => f.FrameworkTitle)
-                    .ThenBy(f => f.ProgramType)
-                    .ThenByDescending(f => f.PathwayCode);
-            }
-            catch (Exception ex)
-            {
-                _telemetry.TrackEvent(ex.Message);
-                throw;
-            }
+            var result = await _azureService.SearchIndexAsync<FrameworkModel>(_frameworkIndexService, searchTerm, parameters);
+            frameworks = result.Results
+                .Select(r => r.Document)
+                .Select(d => _mapper.Map(d))
+                .OrderBy(f => f.FrameworkTitle)
+                .ThenBy(f => f.ProgramType)
+                .ThenByDescending(f => f.PathwayCode);
 
             return frameworks;
         }

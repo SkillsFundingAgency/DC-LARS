@@ -7,5 +7,7 @@ namespace ESFA.DC.LARS.Web.Interfaces.Services
         LearningAimsSearchModel GetLearningAimsSearchModel(BasicSearchModel basicSearchModel);
 
         FrameworkSearchModel GetFrameworkSearchModel(BasicSearchModel basicSearchModel);
+
+        StandardSearchModel GetStandardSearchModel(BasicSearchModel basicSearchModel);
     }
 }
