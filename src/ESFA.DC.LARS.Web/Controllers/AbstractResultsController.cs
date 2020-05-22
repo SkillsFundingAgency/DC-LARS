@@ -33,7 +33,7 @@ namespace ESFA.DC.LARS.Web.Controllers
 
         public async Task<IActionResult> Index(BasicSearchModel basicSearchModel = null)
         {
-            var model = await PopulateViewModel(basicSearchModel, null);
+            var model = await PopulateViewModel(basicSearchModel, null, ShouldIncludeSearchResults(basicSearchModel));
             return View(model);
         }
 
@@ -89,7 +89,7 @@ namespace ESFA.DC.LARS.Web.Controllers
             });
         }
 
-        protected async Task<SearchResultsViewModel<TSearchModel, TResults>> PopulateViewModel(BasicSearchModel basicSearchModel = null, TSearchModel searchModel = null)
+        protected async Task<SearchResultsViewModel<TSearchModel, TResults>> PopulateViewModel(BasicSearchModel basicSearchModel = null, TSearchModel searchModel = null, bool includeSearchResults = true)
         {
             if (searchModel == null)
             {
@@ -98,28 +98,30 @@ namespace ESFA.DC.LARS.Web.Controllers
 
             searchModel.SearchType = _searchType;
 
-            var learningAimsTask = GetSearchResults(searchModel);
-            var lookupsTask = _lookupApiService.GetLookups();
+            LookUpModel lookups;
+            var results = new List<TResults>();
 
-            await Task.WhenAll(learningAimsTask, lookupsTask);
+            if (includeSearchResults)
+            {
+                var learningAimsTask = GetSearchResults(searchModel);
+                var lookupsTask = _lookupApiService.GetLookups();
 
-            var learningAims = learningAimsTask.Result.ToList();
-            var lookups = lookupsTask.Result;
+                await Task.WhenAll(learningAimsTask, lookupsTask);
+
+                results = learningAimsTask.Result.ToList();
+                lookups = lookupsTask.Result;
+            }
+            else
+            {
+                lookups = await _lookupApiService.GetLookups();
+            }
 
             return new SearchResultsViewModel<TSearchModel, TResults>
             {
                 SearchModel = searchModel,
-                Results = learningAims,
+                Results = results,
                 LookUpModel = lookups,
-                Breadcrumbs = new BreadcrumbsModel()
-                {
-                    Id = "resultsBreadcrumb",
-                    Breadcrumbs = new Dictionary<string, string>()
-                    {
-                        { "homeLink", "Home" },
-                        { "searchResultsLink", "Search Results" }
-                    }
-                }
+                RequiresClientSideRefresh = !includeSearchResults
             };
         }
 
@@ -145,6 +147,19 @@ namespace ESFA.DC.LARS.Web.Controllers
             }
 
             return RedirectToAction("Index", basicSearchModel);
+        }
+
+        private bool ShouldIncludeSearchResults(BasicSearchModel basicSearchModel)
+        {
+            // Filter state is only stored clientside and to avoid HTTP Posts (which neagtively affect the back button)
+            // we will not display results initially where we know filters have been applied.  The client code will know
+            // to get the results once the  page has been loaded.
+            if (basicSearchModel?.HasFilters == true)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

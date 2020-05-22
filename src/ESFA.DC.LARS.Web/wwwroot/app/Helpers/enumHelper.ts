@@ -1,4 +1,4 @@
-﻿import { SearchType } from "../SearchType";
+﻿import { SearchType } from "../Enums/SearchType";
 
 export class EnumHelper {
     public ConvertServerEnumValueToClientEnum(value: string): SearchType {
@@ -7,6 +7,9 @@ export class EnumHelper {
         }
         if (value === "2") {
             return SearchType.Units;
+        }
+        if (value === "3") {
+            return SearchType.Standards; 
         }
         return SearchType.Qualifications;
     }

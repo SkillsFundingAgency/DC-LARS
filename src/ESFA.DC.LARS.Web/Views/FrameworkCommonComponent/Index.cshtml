@@ -1,6 +1,6 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkCommonComponentsViewModel
 
-@await Html.PartialAsync("_breadcrumbs", Model.Breadcrumbs)
+@await Html.PartialAsync("_breadcrumbs")
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -44,6 +44,7 @@
 {
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupFrameworkDetailView("@Model.Framework.FrameworkCode", "@Model.Framework.ProgramType", "@Model.Framework.PathwayCode")
+        viewService.setupCommonComponentView("@Model.Framework.FrameworkCode", "@Model.Framework.ProgramType", "@Model.Framework.PathwayCode");
+        
     </script>
 }

@@ -1,10 +1,9 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import StorageService from './storageService';
-import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
-import { formHelper } from '../Helpers/formHelper';
-import { INameValue } from '../Interfaces/INameValue';
+import { IFilterItem } from '../Interfaces/IFilterItem';
+import { FilterType } from '../Enums/FilterType';
 import { constants } from '../constants';
-import { SearchType } from '../SearchType';
+import { SearchType } from '../Enums/SearchType';
 import { filterStoreService } from './filterStoreService';
 import { enumHelper } from '../Helpers/enumHelper';
 
@@ -16,174 +15,101 @@ export default class LinkService {
         this.storageService = new StorageService(sessionStorage);
     }
 
-    public setLinks(): void {
-        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-        this.renderBreadcrumbs(storageItem);
-        this.setAnchorLinkById("homeLink", "/");
-        this.setAnchorLinkById("learningAimDetailLink", this.getDetailsLinkForType(storageItem));
-        this.setAnchorLinkById("frameworksLink", `/Frameworks/${storageItem.learnAimRef}`);
-        this.setAnchorLinkById("pathwaysLink", `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`);
-        this.setLearningAimDetailText(storageItem.learningAimTitle);
-    }
+    public redirectToResults(newSearchTypeAsServerEnum: string, exisitingSearchType: SearchType): void {
+        const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(newSearchTypeAsServerEnum);
 
-    private getDetailsLinkForType(storageItem : IStorageItem) {
-        if (storageItem.searchType === SearchType.Qualifications) {
-            return `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
+        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        storageItem.filters = this.updateFiltersForNewSearch(clientSearchType, exisitingSearchType);
+
+        switch (clientSearchType) {
+            case SearchType.Frameworks:
+                window.location.href = this.getFrameworksSearchResultsLink(storageItem);
+                break;
+            case SearchType.Units:
+                window.location.href = this.getUnitsSearchResultsLink(storageItem);
+                break;
+            case SearchType.Qualifications:
+                window.location.href = this.getQualificationsSearchResultsLink(storageItem);
+                break;
+            case SearchType.Standards:
+                window.location.href = this.getStandardsSearchResultsLink(storageItem);
+                break;
+            default:
+                window.location.href = "/";
         }
 
-        if (storageItem.searchType === SearchType.Units) {
-            return `/UnitDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
+        this.storageService.updateFilters(constants.storageKey, storageItem.filters);
+    }
+
+    public getQualificationsSearchResultsLink(storageItem: IStorageItem): string {
+        return `/LearningAimSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}${this.hasFiltersParam(storageItem.filters)}`;
+    }
+
+    public getQualificationsDetailsLink(storageItem: IStorageItem): string {
+        return `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
+    }
+
+    public getQualificationsDetailsLinkForFrameworks(storageItem: IStorageItem): string {
+        //TODO:  Please use getQualificationsDetailsLink above once teaching year filter added to Frameworks.
+        return `/LearningAimDetails/${storageItem.learnAimRef}`;
+    }
+
+    public getUnitsSearchResultsLink(storageItem: IStorageItem): string {
+        return `/UnitSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}${this.hasFiltersParam(storageItem.filters)}`;
+    }
+
+    public getUnitsDetailsLink(storageItem: IStorageItem): string {
+        return `/UnitDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
+    }
+
+    public getFrameworksSearchResultsLink(storageItem: IStorageItem): string {
+        return `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}${this.hasFiltersParam(storageItem.filters)}`;
+    }
+
+    public getFrameworksDetailsLink(storageItem: IStorageItem): string {
+        return `/FrameworkDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`;
+    }
+
+    public getStandardsSearchResultsLink(storageItem: IStorageItem): string {
+        return `/StandardsSearchResult?SearchTerm=${storageItem.searchTerm}${this.hasFiltersParam(storageItem.filters)}`;
+    }
+
+    public hasFilterQueryStringParam(url: string): boolean {
+        const urlParams = new URLSearchParams(window.location.search);
+        return Boolean(urlParams.get('hasFilters'));
+    }
+
+    private getTeachingYear(storageItem: IStorageItem): string {
+        const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
+        return teachingFilter ? teachingFilter.key : storageItem.currentAcademicYear;
+    }
+
+    private hasTeachingYearFilter(searchType: SearchType) {
+        return (searchType === SearchType.Qualifications || searchType === SearchType.Units);
+    } 
+
+    private hasFiltersParam(filters: IFilterItem[]): string {
+        if (filters.some(f => f.type !== FilterType.TeachingYears)) {
+            return "&hasFilters=true";
         }
         return '';
     }
 
-    public redirectToResults(serverSearchType: string, oldSearchResults: SearchType): void {
-        const linkService = new LinkService();
-        const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(serverSearchType);
+    private updateFiltersForNewSearch(newSearchType: SearchType, exisitingSearchType: SearchType): Array<IFilterItem> {
         let updatedFilters: Array<IFilterItem> = [];
 
-        if (clientSearchType === SearchType.Frameworks) {
-            window.location.href = linkService.getFrameworksSearchResultsLink();
-        }
-        else {
-            if (clientSearchType === SearchType.Units) {
-                window.location.href = linkService.getUnitsSearchResultsLink();
-            }
-
-            if (clientSearchType === SearchType.Qualifications) {
-                window.location.href = linkService.getLearningAimSearchResultsLink();
-            }
-
-            // If moving to a search that has teaching years then keep exisiting teaching year
-            // filter or use current academic year if not present.
-            const filters = filterStoreService.getSavedFilters(oldSearchResults);
-            if (filters.some(f => f.type === FilterType.TeachingYears)) {
-                updatedFilters = filters.filter(f => f.type === FilterType.TeachingYears);
+        // If moving to a search that has teaching years then keep exisiting teaching year
+        // filter or use current academic year if that not present.
+        if (this.hasTeachingYearFilter(newSearchType)) {
+            const currentFilters = filterStoreService.getSavedFilters(exisitingSearchType);
+            if (currentFilters.some(f => f.type === FilterType.TeachingYears)) {
+                updatedFilters = currentFilters.filter(f => f.type === FilterType.TeachingYears);
             } else {
                 const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
                 updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.currentAcademicYear, value: '' });
             }
         }
-
-        this.storageService.updateFilters(constants.storageKey, updatedFilters);
+        return updatedFilters;
     }
 
-    private getLearningAimSearchResultsLink(): string {
-        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-        return `/LearningAimSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
-    }
-
-    private getUnitsSearchResultsLink(): string {
-        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-        return `/UnitSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}`;
-    }
-
-    private getFrameworksSearchResultsLink(): string {
-        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-        return `/FrameworkSearchResult?SearchTerm=${storageItem.searchTerm}`;
-    }
-
-    private getTeachingYear(storageItem: IStorageItem): string {
-        const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
-        if (teachingFilter) {
-            return teachingFilter.key;
-        }
-        return storageItem.currentAcademicYear;
-    }
-
-    private renderBreadcrumbs(storageItem: IStorageItem) {
-        const breadcrumbs = this.getBreadcrumbsForSearchType(storageItem.searchType);
-
-        if (breadcrumbs) {
-            breadcrumbs.removeAttribute("style");
-            if (storageItem.searchType === SearchType.Frameworks) {
-                this.setFrameworksSearchResultsLink(storageItem.searchTerm, storageItem.filters);
-            }
-            if (storageItem.searchType === SearchType.Qualifications) {
-                this.setLearningAimSearchResultsLink(storageItem.searchTerm, this.getTeachingYear(storageItem), storageItem.filters, '/LearningAimSearchResult/Search');
-            }
-
-            if (storageItem.searchType === SearchType.Units) {
-                this.setLearningAimSearchResultsLink(storageItem.searchTerm, this.getTeachingYear(storageItem), storageItem.filters, '/UnitSearchResult/Search');
-            }
-        }
-    }
-
-    private getBreadcrumbsForSearchType(searchType: SearchType): HTMLElement {
-        const resultsBreadcrumbs = document.getElementById("resultsBreadcrumb") as HTMLElement;
-        const frameworkBreadcrumbs = document.getElementById("frameworksBreadcrumbs") as HTMLElement;
-        const learningAimBreadcrumbs = document.getElementById("learningAimBreadcrumbs") as HTMLElement;
-
-        if (resultsBreadcrumbs) {
-            return resultsBreadcrumbs;
-        }
-
-        if (searchType === SearchType.Frameworks) {
-            this.removeElement(learningAimBreadcrumbs);
-            return frameworkBreadcrumbs;
-        }
-
-        this.removeElement(frameworkBreadcrumbs);
-        return learningAimBreadcrumbs
-    }
-
-    private removeElement(element: HTMLElement) {
-        if (element) {
-            const parent = element.parentNode as Node;
-            parent.removeChild(element);
-        }
-    }
-
-    private setAnchorLinkById(linkId: string, href: string) {
-        const anchor = document.getElementById(linkId) as HTMLAnchorElement;
-        if (anchor) {
-            anchor.href = href;
-        }
-    }
-
-    private setLearningAimDetailText(learningAimTitle: string) {
-        const frameworksAnchor = document.getElementById("frameworksLink") as HTMLAnchorElement;
-        const learningAimDetailAnchor = document.getElementById("learningAimDetailLink") as HTMLAnchorElement;
-
-        if (frameworksAnchor && learningAimDetailAnchor) {
-            learningAimDetailAnchor.innerHTML = learningAimTitle;
-        }
-    }
-
-    private setLearningAimSearchResultsLink(searchTerm: string, teachingYear: string, filters : IFilterItem[], baseUrl: string) {
-        const anchor = document.getElementById("searchResultsLink") as HTMLAnchorElement;
-
-        if (anchor) {
-            anchor.href = "#";
-            const formElements = this.getSearchAndFilterElements(searchTerm, filters);
-            // If no teaching year filter applied then use default.
-            if (!formElements.find(f => f.name === FilterType.TeachingYears)) {
-                formElements.push({ name: FilterType.TeachingYears, value: teachingYear });
-            }
-            this.addAnchorSubmitEvent(anchor, baseUrl, formElements);
-        }
-    }
-
-    private setFrameworksSearchResultsLink(searchTerm: string, filters: IFilterItem[]) {
-        const anchor = document.getElementById("frameworksSearchResultsLink") as HTMLAnchorElement;
-        if (anchor) {
-            anchor.href = "#";
-            this.addAnchorSubmitEvent(anchor, '/FrameworkSearchResult/Search', this.getSearchAndFilterElements(searchTerm, filters));
-        }
-    }
-
-    private getSearchAndFilterElements(searchTerm: string, filters: IFilterItem[]): Array<INameValue<string>> {
-        const formElements: Array<INameValue<string>> = filters.map(f => ({ name:f.type, value: f.key } as INameValue<string>));
-        formElements.push({ name: "SearchTerm", value: searchTerm });
-        return formElements;
-    }
-
-    private addAnchorSubmitEvent(anchor: HTMLAnchorElement, formAction: string, formElements: Array<INameValue<string>>) : void {
-        anchor.addEventListener("click", function () {
-            const form = document.getElementById("breadcrumbSubmit") as HTMLFormElement;
-            form.action = formAction;
-            formHelper.addInputElements(form, formElements);
-            form.submit();
-        });
-    }
 }

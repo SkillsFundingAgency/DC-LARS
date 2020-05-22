@@ -1,5 +1,6 @@
 ﻿import { filterService } from '../Services/filterService';
-import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+import { IFilterItem } from '../Interfaces/IFilterItem';
+import { FilterType } from '../Enums/FilterType';
 
 test('removeFilterFromArray should remove filter item from array of filter items', () => {
 

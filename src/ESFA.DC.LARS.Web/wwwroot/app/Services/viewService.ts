@@ -1,18 +1,19 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
 import StorageService from './storageService';
-import LinkService from './linkService';
-import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
-import { SearchType } from '../SearchType';
+import { IFilterItem } from '../Interfaces/IFilterItem';
+import { FilterType } from '../Enums/FilterType';
+import { SearchType } from '../Enums/SearchType';
+import { BreadcrumbService } from '../Breadcrumbs/breadcrumbService';
+import { Page } from '../Enums/Page';
+import { constants } from '../constants';
 
 export class ViewService {
-
     private readonly storageService: StorageService;
-    private readonly linkService: LinkService;
-    private readonly sessionData = "sessionData";
+    private readonly breadcrumbService: BreadcrumbService;
 
     constructor() {
         this.storageService = new StorageService(sessionStorage);
-        this.linkService = new LinkService();
+        this.breadcrumbService = new BreadcrumbService();
     }
 
     public setupQualificationsResultView(searchTerm: string, currentAcademicYear: string): void {
@@ -25,52 +26,46 @@ export class ViewService {
 
     private setupLearningAimsResultView(searchTerm: string, currentAcademicYear: string, searchType: SearchType) : void {
         this.removeFilterNonScriptTag();
-        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
-        storageItem.searchTerm = searchTerm;
-        storageItem.currentAcademicYear = currentAcademicYear;
-        storageItem.searchType = searchType;
-        this.storageService.store(this.sessionData, storageItem);
-        this.linkService.setLinks();
+        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType, page: Page.Results}); 
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
-    public setupLearningAimDetailView(learnAimRef: string, learningAimTitle: string, teachingYear: string): void {
-
-        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
-        storageItem.learnAimRef = learnAimRef;
-        storageItem.learningAimTitle = learningAimTitle;
-        storageItem.learningAimDetailsYear = teachingYear;
-
-        this.storageService.store(this.sessionData, storageItem);
-        this.linkService.setLinks();
+    public setupLearningAimDetailView(learnAimRef: string, learningAimTitle: string): void {
+        const storageItem = Object.assign(this.currentStorageItem, { learnAimRef, learningAimTitle, page: Page.LearningAimDetails}); 
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkView(): void {
-        this.linkService.setLinks();
+        const storageItem = Object.assign(this.currentStorageItem, {page: Page.Pathway });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
 
     public setupLearningAimCategoryView(): void {
-        this.linkService.setLinks();
+        const storageItem = Object.assign(this.currentStorageItem, { page: Page.Category });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
+    }
+
+    public setupCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
+        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.CommonComponent }); 
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkSearchResultView(searchTerm: string): void {
         this.removeFilterNonScriptTag();
-        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
-        storageItem.searchTerm = searchTerm;
-        storageItem.searchType = SearchType.Frameworks;
-
-        this.storageService.store(this.sessionData, storageItem);
-        this.linkService.setLinks();
+        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkDetailView(frameworkCode: string, programType: string, pathwayCode: string): void {
-        const storageItem = this.storageService.retrieve(this.sessionData) as IStorageItem;
-
-        storageItem.frameworkCode = frameworkCode;
-        storageItem.programType = programType;
-        storageItem.pathwayCode = pathwayCode;
-
-        this.storageService.store(this.sessionData, storageItem);
-        this.linkService.setLinks();
+        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.Pathway });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public getLearningAimFilters(awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): IFilterItem[] {
@@ -86,10 +81,8 @@ export class ViewService {
 
     public getFrameworkFilters(frameworkTypes: string[], issuingAuthorities: string[]): IFilterItem[] {
         let filters: IFilterItem[] = [];
-
         filters = filters.concat(frameworkTypes.map(f => ({ type: FilterType.FrameworkTypes, key: f, value: '' } as IFilterItem)));
         filters = filters.concat(issuingAuthorities.map(f => ({ type: FilterType.IssuingAuthorities, key: f, value: '' } as IFilterItem)));
-
         return filters;
     }
 
@@ -99,4 +92,8 @@ export class ViewService {
             element.parentNode.removeChild(element);
         }
     }
+
+    private get currentStorageItem(): IStorageItem {
+        return this.storageService.retrieve(constants.storageKey) as IStorageItem;
+    };
 }

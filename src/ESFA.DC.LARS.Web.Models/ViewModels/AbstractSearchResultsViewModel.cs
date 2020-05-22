@@ -15,6 +15,6 @@ namespace ESFA.DC.LARS.Web.Models.ViewModels
 
         public string CurrentAcademicYear => LookUpModel.AcademicYearLookups.Single(m => m.IsCurrentAcademicYear).AcademicYear;
 
-        public BreadcrumbsModel Breadcrumbs { get; set; }
+        public bool RequiresClientSideRefresh { get; set; }
     }
 }

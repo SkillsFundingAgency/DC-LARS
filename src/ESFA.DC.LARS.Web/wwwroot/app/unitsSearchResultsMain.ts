@@ -1,14 +1,11 @@
 ﻿import Vue from "vue";
 import store from "./store"
-import { debounce } from 'vue-debounce';
-
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
 import { filterStoreService } from './Services/filterStoreService';
-import { SearchType } from './SearchType';
+import { SearchType } from './Enums/SearchType';
 import { learningAimSearchService } from './Services/learningAimSearchService';
 import { ResultsHelper } from './Helpers/resultsHelper';
-import { constants } from './constants';
 import LinkService from './Services/LinkService';
 
 const vue = new Vue({
@@ -20,7 +17,8 @@ const vue = new Vue({
     },
     data() {
         return {
-            immediateRefresh: false
+            immediateRefresh: false,
+            linkService: new LinkService()
         };
     },
     mounted() {
@@ -29,18 +27,17 @@ const vue = new Vue({
             const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
             return await learningAimSearchService.getUnitsResultsAsync(filterStoreService.getSavedFilters(SearchType.Units), searchTerm, teachingYears);
         }
+        
         const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
-
-        const debouncedCallback = debounce(async () => { await resultsHelper.getResultsAsync(getDataAsync) }, constants.debounceTime);
-        filterStoreService.watchFilters(SearchType.Units, debouncedCallback, this.immediateRefresh, true);
+        const needsClientRefresh = this.immediateRefresh || this.linkService.hasFilterQueryStringParam(window.location.search);
+        resultsHelper.manageResults(getDataAsync, SearchType.Units, needsClientRefresh);
     },
     methods: {
         setImmediateRefreshRequired: function (refreshRequired: boolean) {
             this.immediateRefresh = refreshRequired;
         },
         learningTypeChanged: function (value: string) {
-            const linkService = new LinkService();
-            linkService.redirectToResults(value, SearchType.Units);
+            this.linkService.redirectToResults(value, SearchType.Units);
         }
     }
 });

@@ -1,6 +1,7 @@
 ﻿import axios from 'axios'
 import qs from 'qs';
-import { IFilterItem, FilterType } from '../Interfaces/IFilterItem';
+import { IFilterItem } from '../Interfaces/IFilterItem';
+import { FilterType } from '../Enums/FilterType';
 import { IFrameworksSearchRequest } from '../Interfaces/IFrameworksSearchRequest';
 import { ISearchResults } from '../Interfaces/ISearchResults';
 import { filterService } from '../Services/filterService';

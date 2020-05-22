@@ -1,4 +1,8 @@
 ﻿import { ISearchResults } from '../Interfaces/ISearchResults';
+import { debounce } from 'vue-debounce';
+import { SearchType } from '../Enums/SearchType';
+import { constants } from '../constants';
+import { filterStoreService } from '../Services/filterStoreService';
 
 export class ResultsHelper {
 
@@ -8,8 +12,22 @@ export class ResultsHelper {
 		this.latestRequestId = 0;
 	}
 
+	public manageResults(getDataAsync: Function, searchType: SearchType, immediateRefresh: boolean ): void {
+		const debouncedCallback = debounce(async () => { await this.getResultsAsync(getDataAsync) }, constants.debounceTime);
+		const classScope = this;
+
+		const wrappedCall = function () {
+			classScope.setIsLoading();
+			debouncedCallback();
+		}
+
+		filterStoreService.watchFilters(searchType, wrappedCall, immediateRefresh, true);
+	}
+
 	public setIsLoading(): void {
-		this.setInnerHtml(this.resultsContainer, "Loading");
+		this.setInnerHtml(this.resultsContainer, "");
+		const loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
+		loadingContainer.style.display = "block";
 	}
 
 	public updateForResponse(response: ISearchResults): void {
@@ -19,6 +37,8 @@ export class ResultsHelper {
 	}
 
 	public setResults(html: string): void {
+		let loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
+		loadingContainer.style.display = "none";
 		this.setInnerHtml(this.resultsContainer, html);
 	}
 
@@ -33,8 +53,6 @@ export class ResultsHelper {
 
 	public async getResultsAsync(getDataAsync: Function) {
 		this.latestRequestId++;
-		
-		this.setIsLoading();
 		const classScope = this;
 		const getResults = async function (requestId: number) {
 			const response = await getDataAsync();
@@ -51,4 +69,6 @@ export class ResultsHelper {
 			element.innerHTML = html;
 		}
 	}
+
+
 }

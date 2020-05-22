@@ -1,6 +1,4 @@
-﻿@model IEnumerable<BreadcrumbsModel>
-
-<noscript>
+﻿<noscript>
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
             <li class="govuk-breadcrumbs__list-item">
@@ -10,28 +8,10 @@
     </div>
 </noscript>
 
-@foreach (var breadcrumbType in Model)
-{
-    <div id="@breadcrumbType.Id" class="govuk-breadcrumbs" style="display: none">
-        <ol class="govuk-breadcrumbs__list">
-            @foreach (var breadcrumb in breadcrumbType.Breadcrumbs)
-            {
-                <li class="govuk-breadcrumbs__list-item">
-                    @if (!breadcrumb.Key.Equals(breadcrumbType.Breadcrumbs.Last().Key))
-                    {
-                        <a id="@breadcrumb.Key" class="govuk-breadcrumbs__link">@breadcrumb.Value</a>
-                    }
-                    else
-                    {
-                        @breadcrumb.Value
-                    }
-                </li>
-            }
-        </ol>
-    </div>
-}
-
-<div style="display:none">
-    <form id="breadcrumbSubmit" method="post">
-    </form>
+<div class="govuk-breadcrumbs">
+    <ol id="breadCrumbs" class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item" style="visibility:hidden">
+            <a href="/" class="govuk-breadcrumbs__link">Start a new search</a>
+        </li>
+    </ol>
 </div>

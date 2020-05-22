@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@await Html.PartialAsync("_breadcrumbs", new[] { Model?.Breadcrumbs })
+@await Html.PartialAsync("_breadcrumbs")
 
 <div id="resultsApp">
     <form id="filterForm" asp-action="Search" method="post" class="govuk-form-group">
@@ -46,11 +46,13 @@
             <div class="govuk-grid-row govuk-!-margin-top-6">
                 <div class="govuk-grid-column-one-third">
                     @RenderSection("Filters", required: true)
+                    <br/>
                 </div>
 
                 <div class="govuk-grid-column-two-thirds">
                     <ul id="resultList" class="govuk-list">
                         @RenderSection("Results", required: true)
+                        @await Html.PartialAsync("_Loading", Model.RequiresClientSideRefresh)
                     </ul>
                 </div>
             </div>

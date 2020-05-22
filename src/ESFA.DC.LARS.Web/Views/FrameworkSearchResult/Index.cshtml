@@ -23,9 +23,7 @@
 
     <filter-feedback search-type="Frameworks"></filter-feedback>
 
-    <div ref="Results">
-        @await Html.PartialAsync("_SearchResults", Model)
-    </div>
+    @await Html.PartialAsync("_SearchResults", Model)
 }
 
 @section PageScripts
