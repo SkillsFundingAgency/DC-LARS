@@ -17,7 +17,8 @@ const vue = new Vue({
     },
     data() {
         return {
-            immediateRefresh: false
+            immediateRefresh: false,
+            linkService: new LinkService()
         };
     },
     mounted() {
@@ -28,15 +29,15 @@ const vue = new Vue({
         }
         
         const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
-        resultsHelper.manageResults(getDataAsync, SearchType.Units, this.immediateRefresh)
+        const needsClientRefresh = this.immediateRefresh || this.linkService.hasFilterQueryStringParam(window.location.search);
+        resultsHelper.manageResults(getDataAsync, SearchType.Units, needsClientRefresh);
     },
     methods: {
         setImmediateRefreshRequired: function (refreshRequired: boolean) {
             this.immediateRefresh = refreshRequired;
         },
         learningTypeChanged: function (value: string) {
-            const linkService = new LinkService();
-            linkService.redirectToResults(value, SearchType.Units);
+            this.linkService.redirectToResults(value, SearchType.Units);
         }
     }
 });

@@ -74,6 +74,11 @@ export default class LinkService {
         return `/StandardsSearchResult?SearchTerm=${storageItem.searchTerm}${this.hasFiltersParam(storageItem.filters)}`;
     }
 
+    public hasFilterQueryStringParam(url: string): boolean {
+        const urlParams = new URLSearchParams(window.location.search);
+        return Boolean(urlParams.get('hasFilters'));
+    }
+
     private getTeachingYear(storageItem: IStorageItem): string {
         const teachingFilter = storageItem.filters.find(f => f.type === FilterType.TeachingYears);
         return teachingFilter ? teachingFilter.key : storageItem.currentAcademicYear;

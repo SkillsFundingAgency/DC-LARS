@@ -20,6 +20,7 @@ export class ResultsHelper {
 			classScope.setIsLoading();
 			debouncedCallback();
 		}
+
 		filterStoreService.watchFilters(searchType, wrappedCall, immediateRefresh, true);
 	}
 
@@ -68,4 +69,6 @@ export class ResultsHelper {
 			element.innerHTML = html;
 		}
 	}
+
+
 }
