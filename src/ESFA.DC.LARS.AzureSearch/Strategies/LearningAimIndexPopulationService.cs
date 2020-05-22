@@ -14,6 +14,9 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     public class LearningAimIndexPopulationService : AbstractPopulationService<LearningAimModel>
     {
         private const int PageSize = 2000;
+        private const string OFQUALRegulatedQualification = "EOQ";
+        private const string OFQUALRegulatedUnit = "EOU";
+
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
         private readonly IIssuingAuthorityService _issuingAuthorityService;
@@ -111,7 +114,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             Type = ld.LearnAimRefTypeNavigation.LearnAimRefTypeDesc,
                             LearningAimTitle = ld.LearnAimRefTitle,
                             GuidedLearningHours = ld.GuidedLearningHours.ToString(),
-                            IsOFQUAL = ld.LearningDeliveryGenre == "EOQ" || ld.LearningDeliveryGenre == "EOU"
+                            IsOFQUAL = ld.LearningDeliveryGenre == OFQUALRegulatedQualification
+                                        || ld.LearningDeliveryGenre == OFQUALRegulatedUnit
                         })
                         .ToArray();
 
