@@ -69,8 +69,8 @@
             const target = event.target as HTMLElement;
             if (target) {
                 accordionService.toggleSection(target.id, false);
-                event.preventDefault();
             }
+            event.preventDefault();
         }
 
         public updateAccordionAll(): void {
@@ -144,7 +144,7 @@
         }
 
         private updateAccordionByFilter(filterType: FilterType): void {
-            this.updateAccordion(FilterType[filterType] + '-Button');
+             accordionService.toggleSection(FilterType[filterType] + '-Button', false);
         }
     }
 </script>

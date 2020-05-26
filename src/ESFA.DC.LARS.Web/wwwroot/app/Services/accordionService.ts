@@ -49,7 +49,7 @@
         const accordionButton = document.getElementById('accordionButton');
         
         if (button) {
-            const panel = <HTMLElement>button.nextElementSibling;
+            const panel = <HTMLElement>button.parentElement?.nextElementSibling;
 
             if (panel) {
                 if (!init) {

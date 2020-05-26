@@ -215,6 +215,12 @@ $govuk-global-styles: true;
     padding-bottom: 0;
     padding-left: 0;
 
+    h2 {
+        padding-left: 15px;
+        padding-bottom: 5px;
+        margin:0px
+    }
+
     .filter-box-button {
         padding-left: 15px;
         padding-bottom: 5px;
