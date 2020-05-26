@@ -1,0 +1,59 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.StandardDetailViewModel
+
+@await Html.PartialAsync("_breadcrumbs")
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            @Model.Standard.StandardName
+        </h1>
+        <table id="high-level-info" class="govuk-table">
+            <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Code</th>
+                    <td class="govuk-table__cell">@Model.Standard.StandardCode</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Sector</th>
+                    <td class="govuk-table__cell">@Model.Standard.StandardCode - @Model.Standard.StandardSectorCodeDesc2</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Effective from</th>
+                    <td class="govuk-table__cell">@Model.Standard.EffectiveFrom?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Effective to</th>
+                    <td class="govuk-table__cell">@Model.Standard.EffectiveTo?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Last date for new starts</th>
+                    <td class="govuk-table__cell">@Model.Standard.LastDateStarts?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Level</th>
+                    <td class="govuk-table__cell">@Model.Standard.NotionalEndLevel</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Sector subject area</th>
+                    <td class="govuk-table__cell">@Model.Standard.SectorSubjectAreaTier1 - @Model.Standard.SectorSubjectAreaTier1Desc</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Sector subject area Tier 2</th>
+                    <td class="govuk-table__cell">@Model.Standard.SectorSubjectAreaTier2 - @Model.Standard.SectorSubjectAreaTier2Desc</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Integrated degree standard</th>
+                    <td class="govuk-table__cell">@Model.Standard.IntegratedDegreeStandard</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Other body approval required</th>
+                    <td class="govuk-table__cell">@Model.Standard.OtherBodyApprovalRequired</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section PageScripts
+{
+}
