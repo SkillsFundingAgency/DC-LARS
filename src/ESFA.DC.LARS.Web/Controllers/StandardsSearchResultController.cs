@@ -33,6 +33,12 @@ namespace ESFA.DC.LARS.Web.Controllers
             _clientValidationService = clientValidationService;
         }
 
+        [HttpGet("RedirectToDetails")]
+        public IActionResult RedirectToDetails(string standardCode)
+        {
+            return RedirectToAction("Index", "StandardDetail", new { standardCode });
+        }
+
         [HttpGet("ClearFilters")]
         public async Task<IActionResult> ClearFilters(string searchTerm)
         {

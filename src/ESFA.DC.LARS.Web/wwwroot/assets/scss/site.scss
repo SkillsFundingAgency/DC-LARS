@@ -364,3 +364,12 @@ $govuk-global-styles: true;
         }
     }
 }
+
+#high-level-info {
+    .govuk-table__header, .govuk-table__cell {
+        border-bottom: 0;
+        padding-bottom: 5px;
+    }
+
+    padding-bottom: 10px;
+}

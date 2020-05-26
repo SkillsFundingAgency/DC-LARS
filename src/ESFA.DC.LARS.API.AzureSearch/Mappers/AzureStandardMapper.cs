@@ -21,7 +21,13 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 NotionalEndLevel = input.NotionalEndLevel,
                 EffectiveFrom = input.EffectiveFrom,
                 LastDateStarts = input.LastDateStarts,
-                EffectiveTo = input.EffectiveTo
+                EffectiveTo = input.EffectiveTo,
+                SectorSubjectAreaTier1 = input.SectorSubjectAreaTier1,
+                SectorSubjectAreaTier1Desc = input.SectorSubjectAreaTier1Desc,
+                SectorSubjectAreaTier2 = input.SectorSubjectAreaTier2,
+                SectorSubjectAreaTier2Desc = input.SectorSubjectAreaTier2Desc,
+                IntegratedDegreeStandard = input.IntegratedDegreeStandard,
+                OtherBodyApprovalRequired = input.OtherBodyApprovalRequired
             };
         }
     }
