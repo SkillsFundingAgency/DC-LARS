@@ -42,10 +42,12 @@
         })
 
     <section id="level" class="filter-section">
-        <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
-           v-on:click="updateAccordion($event.target.id)" id="TeachingYearsButton">
-            Teaching Year
-        </a>
+        <h2 class="govuk-!-font-weight-regular">
+            <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
+               v-on:click="updateAccordion($event)" id="TeachingYearsButton">
+                Teaching Year
+            </a>
+        </h2>
         <div class="filter-box expanded">
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes govuk-checkboxes--small" ref="TeachingYears">
