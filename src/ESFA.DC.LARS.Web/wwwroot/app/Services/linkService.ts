@@ -74,6 +74,10 @@ export default class LinkService {
         return `/StandardsSearchResult?SearchTerm=${storageItem.searchTerm}${this.hasFiltersParam(storageItem.filters)}`;
     }
 
+    public getStandardsDetailsLink(storageItem: IStorageItem): string {
+        return `/StandardDetails/${storageItem.learnAimRef}`;
+    }
+
     public hasFilterQueryStringParam(url: string): boolean {
         const urlParams = new URLSearchParams(window.location.search);
         return Boolean(urlParams.get('hasFilters'));

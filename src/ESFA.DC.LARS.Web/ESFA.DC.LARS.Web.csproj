@@ -24,6 +24,7 @@
     <Content Remove="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\standardsBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\constants.ts" />
     <Content Remove="wwwroot\app\cookieService.ts" />
@@ -101,6 +102,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\standardsBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Enums\Page.ts" />

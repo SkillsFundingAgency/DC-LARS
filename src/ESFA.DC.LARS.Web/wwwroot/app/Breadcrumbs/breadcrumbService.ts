@@ -2,6 +2,7 @@
 import { QualificationsBreadcrumbBuilder } from './qualificationsBreadcrumbBuilder';
 import { UnitsBreadcrumbBuilder } from './unitsBreadcrumbBuilder';
 import { FrameworksBreadcrumbBuilder } from './frameworksBreadcrumbBuilder';
+import { StandardsBreadcrumbBuilder } from './standardsBreadcrumbBuilder';
 import { DefaultBreadcrumbBuilder } from './DefaultBreadcrumbBuilder';
 import { IStorageItem } from '../Interfaces/IStorageItem';
 import { Page } from '../Enums/Page';
@@ -27,6 +28,8 @@ export class BreadcrumbService {
                 return new UnitsBreadcrumbBuilder();
             case SearchType.Frameworks:
                 return new FrameworksBreadcrumbBuilder();
+            case SearchType.Standards:
+                return new StandardsBreadcrumbBuilder()
             default:
                 return new DefaultBreadcrumbBuilder()
         }

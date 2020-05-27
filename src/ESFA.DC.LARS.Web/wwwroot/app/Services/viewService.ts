@@ -50,6 +50,12 @@ export class ViewService {
         this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
 
+    public setupStandardView(standardName: string): void {
+        const storageItem = Object.assign(this.currentStorageItem, { standardName, page: Page.Standard });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
+    }
+
     public setupLearningAimCategoryView(): void {
         const storageItem = Object.assign(this.currentStorageItem, { page: Page.Category });
         this.storageService.store(constants.storageKey, storageItem);
