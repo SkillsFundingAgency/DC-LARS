@@ -13,6 +13,8 @@ import store from "../store"
                         return state.frameworkFilters;
                     case SearchType.Units:
                         return state.unitFilters;
+                    case SearchType.Standards:
+                        return state.standardFilters;
                     default:
                         return [];
                 }
@@ -37,6 +39,9 @@ import store from "../store"
              case SearchType.Units:
                  store.commit('updateUnitFilters', filters);
                  break;
+             case SearchType.Standards:
+                 store.commit('updateStandardFilters', filters);
+                 break;
          }
      }
 
@@ -48,6 +53,8 @@ import store from "../store"
                  return store.state.frameworkFilters;
              case SearchType.Units:
                  return store.state.unitFilters;
+             case SearchType.Standards:
+                 return store.state.standardFilters
              default:
                  return [];
          }

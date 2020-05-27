@@ -5,7 +5,14 @@
     ViewData["SearchTitle"] = "Search Standards";
 }
 @section Filters
-{}
+{
+    <noscript id="filtersNoScript">
+        @await Html.PartialAsync("_SearchFilters", Model)
+        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+    </noscript>
+    <filters search-type="Standards" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
+}
 
 @section Results
 {
@@ -22,4 +29,18 @@
 
 @section PageScripts
 {
+    <filter-template>
+        @await Html.PartialAsync("_SearchFilters", Model)
+    </filter-template>
+
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupStandardsResultView("@Model.SearchModel.SearchTerm");
+
+        @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
+        serverFilters = viewService.getStandardsFilters(@Json.Serialize(Model.SearchModel.Levels), @Json.Serialize(Model.SearchModel.Sectors));
+    </script>
+
+    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
+    <script src="/assets/dist/js/standardSearchResults.js" asp-append-version="true"></script>
 }

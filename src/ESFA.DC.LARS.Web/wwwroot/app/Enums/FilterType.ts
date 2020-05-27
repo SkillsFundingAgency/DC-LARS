@@ -4,5 +4,6 @@
     FundingStreams = "FundingStreams",
     TeachingYears = "TeachingYears",
     FrameworkTypes = "FrameworkTypes",
-    IssuingAuthorities = "IssuingAuthorities"
+    IssuingAuthorities = "IssuingAuthorities",
+    Sectors = "Sectors"
 }
