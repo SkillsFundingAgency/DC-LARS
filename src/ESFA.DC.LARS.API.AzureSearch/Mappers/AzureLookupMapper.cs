@@ -47,7 +47,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map).ToList(),
                 FrameworkTypeLookups = input.FrameworkTypeLookups?.Select(_frameworkTypeMapper.Map).ToList(),
                 IssuingAuthorityLookups = input.IssuingAuthorityLookups?.Select(_issuingAuthorityMapper.Map).ToList(),
-                StandardSectorLookups = input.StandardSectorLookups?.Select(_standardSectorMapper.Map).ToList()
+                StandardSectorLookups = input.StandardSectorLookups?.Select(_standardSectorMapper.Map).OrderBy(sc => sc.StandardSectorCodeDesc).ToList()
             };
         }
     }
