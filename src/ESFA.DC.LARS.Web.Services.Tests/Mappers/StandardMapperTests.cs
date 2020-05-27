@@ -1,19 +1,16 @@
 ﻿using System;
-using ESFA.DC.LARS.API.AzureSearch.Mappers;
-using ESFA.DC.LARS.API.Interfaces;
-using ESFA.DC.LARS.Azure.Models;
+using ESFA.DC.LARS.Web.Mappers;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
-namespace ESFA.DC.LARS.API.AzureSearch.Tests
+namespace ESFA.DC.LARS.Web.Services.Tests.Mappers
 {
-    public class AzureStandardMapperTests
+    public class StandardMapperTests
     {
         [Fact]
         public void Map_Returns_Valid_Model()
         {
-            var model = new StandardModel
+            var model = new API.Models.StandardModel
             {
                 StandardCode = "547",
                 StandardName = "Broadcast and Media Systems Technician",
@@ -32,7 +29,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 OtherBodyApprovalRequired = "N"
             };
 
-            var mapper = new AzureStandardMapper();
+            var mapper = new StandardMapper();
             var result = mapper.Map(model);
 
             result.StandardCode.Should().Be(model.StandardCode);

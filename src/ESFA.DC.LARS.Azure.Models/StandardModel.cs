@@ -29,5 +29,17 @@ namespace ESFA.DC.LARS.Azure.Models
         public DateTime? LastDateStarts { get; set; }
 
         public DateTime? EffectiveTo { get; set; }
+
+        public string SectorSubjectAreaTier1 { get; set; }
+
+        public string SectorSubjectAreaTier1Desc { get; set; }
+
+        public string SectorSubjectAreaTier2 { get; set; }
+
+        public string SectorSubjectAreaTier2Desc { get; set; }
+
+        public string IntegratedDegreeStandard { get; set; }
+
+        public string OtherBodyApprovalRequired { get; set; }
     }
 }

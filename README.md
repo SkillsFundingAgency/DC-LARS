@@ -2,6 +2,8 @@
 ## Prerequisites
 Install Latest LTS Version of nodejs from https://nodejs.org/en/download/
 
+Install extension NPM Task Runner into Visual Studio 2019 https://github.com/madskristensen/NpmTaskRunner
+
 ## Download npm version 
 Need to run npm install from command prompt in web project folder (eg src/ESFA.DC.LARS.Web), making sure that package.json and package-lock.json are in this folder, to get govuk node module for default styles and scripts
 

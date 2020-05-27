@@ -65,8 +65,12 @@
             this.updateStore(filters);
         }
 
-        public updateAccordion(id: string): void {
-            accordionService.toggleSection(id, false);
+        public updateAccordion(event: Event): void {
+            const target = event.target as HTMLElement;
+            if (target) {
+                accordionService.toggleSection(target.id, false);
+            }
+            event.preventDefault();
         }
 
         public updateAccordionAll(): void {
@@ -140,7 +144,7 @@
         }
 
         private updateAccordionByFilter(filterType: FilterType): void {
-            this.updateAccordion(FilterType[filterType] + '-Button');
+             accordionService.toggleSection(FilterType[filterType] + '-Button', false);
         }
     }
 </script>
