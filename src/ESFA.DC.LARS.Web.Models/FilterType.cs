@@ -7,6 +7,7 @@
         FundingStreams,
         TeachingYears,
         FrameworkTypes,
-        IssuingAuthorities
+        IssuingAuthorities,
+        Sectors
     }
 }

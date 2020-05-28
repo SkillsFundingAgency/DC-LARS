@@ -8,5 +8,7 @@ namespace ESFA.DC.LARS.API.Interfaces.Services
         void SetLearningAimFilters(LearningAimsSearchModel searchModel, SearchParameters parameters);
 
         void SetFrameworkFilters(FrameworkSearchModel searchModel, SearchParameters parameters);
+
+        void SetStandardFilters(StandardSearchModel searchModel, SearchParameters parameters);
     }
 }
