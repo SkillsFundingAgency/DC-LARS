@@ -18,18 +18,20 @@ const vue = new Vue({
             const storageItem = storageService.retrieve('');
             const searchTypeElement = document.getElementById('searchType') as HTMLSelectElement;
             const searchType = searchTypeElement.options[searchTypeElement.selectedIndex].text;
-           
-            if (searchType === 'Qualifications' || searchType === 'Units') {
+            const teachingYearElement = document.getElementById('TeachingYear') as HTMLInputElement;
 
-               const teachingYearElement = document.getElementById('TeachingYear') as HTMLInputElement;
-
-                if (teachingYearElement && teachingYearElement.value) {
+            if (teachingYearElement && teachingYearElement.value) {
+                storageItem.currentAcademicYear = teachingYearElement.value;
+                if (searchType === 'Qualifications' || searchType === 'Units') {
                     const filter: IFilterItem = {
                         key: teachingYearElement.value,
                         value: '',
                         type: FilterType.TeachingYears
                     };
                     storageItem.filters.push(filter);
+                }
+                else {
+                    teachingYearElement.value = '';
                 }
             }
 

@@ -24,6 +24,13 @@ export class ViewService {
         this.setupLearningAimsResultView(searchTerm, currentAcademicYear, SearchType.Units);
     }
 
+    public setupStandardsResultView(searchTerm: string): void {
+        this.removeFilterNonScriptTag();
+        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Standards, page: Page.Results });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
+    }
+
     private setupLearningAimsResultView(searchTerm: string, currentAcademicYear: string, searchType: SearchType) : void {
         this.removeFilterNonScriptTag();
         const storageItem = Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType, page: Page.Results}); 
@@ -39,6 +46,12 @@ export class ViewService {
 
     public setupFrameworkView(): void {
         const storageItem = Object.assign(this.currentStorageItem, {page: Page.Pathway });
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
+    }
+
+    public setupStandardView(standardName: string): void {
+        const storageItem = Object.assign(this.currentStorageItem, { standardName, page: Page.Standard });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
@@ -89,6 +102,13 @@ export class ViewService {
         let filters: IFilterItem[] = [];
         filters = filters.concat(frameworkTypes.map(f => ({ type: FilterType.FrameworkTypes, key: f, value: '' } as IFilterItem)));
         filters = filters.concat(issuingAuthorities.map(f => ({ type: FilterType.IssuingAuthorities, key: f, value: '' } as IFilterItem)));
+        return filters;
+    }
+
+    public getStandardsFilters(levels: string[], sectors: string[]): IFilterItem[] {
+        let filters: IFilterItem[] = [];
+        filters = filters.concat(levels.map(f => ({ type: FilterType.Levels, key: f, value: '' } as IFilterItem)));
+        filters = filters.concat(sectors.map(f => ({ type: FilterType.Sectors, key: f, value: '' } as IFilterItem)));
         return filters;
     }
 

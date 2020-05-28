@@ -24,6 +24,7 @@
     <Content Remove="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\standardsBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
     <Content Remove="wwwroot\app\constants.ts" />
     <Content Remove="wwwroot\app\cookieService.ts" />
@@ -37,6 +38,7 @@
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\IQualificationsSearchRequest.ts" />
+    <Content Remove="wwwroot\app\Interfaces\IStandardSearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\IStorageItem.ts" />
     <Content Remove="wwwroot\app\learningAimSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\search.vue" />
@@ -51,8 +53,10 @@
     <Content Remove="wwwroot\app\Services\learningAimSearchService.ts" />
     <Content Remove="wwwroot\app\Services\linkService.ts" />
     <Content Remove="wwwroot\app\Services\resultsDisplayService.ts" />
+    <Content Remove="wwwroot\app\Services\standardSearchService.ts" />
     <Content Remove="wwwroot\app\Services\storageService.ts" />
     <Content Remove="wwwroot\app\Services\viewService.ts" />
+    <Content Remove="wwwroot\app\standardSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\store.ts" />
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
     <Content Remove="wwwroot\app\Tests\frameworksBreadcrumbBuilder.test.ts" />
@@ -98,10 +102,14 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\standardsBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Enums\Page.ts" />
     <TypeScriptCompile Include="wwwroot\app\Enums\FilterType.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IStandardSearchRequest.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Services\standardSearchService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\standardSearchResultsMain.ts" />
     <TypeScriptCompile Include="wwwroot\app\Helpers\enumHelper.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumbBuilder.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumb.ts" />

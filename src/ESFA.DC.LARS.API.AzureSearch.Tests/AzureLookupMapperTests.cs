@@ -49,6 +49,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .Setup(m => m.Map(It.IsAny<IssuingAuthorityLookupModel>()))
                 .Returns(new Models.IssuingAuthorityLookupModel());
 
+            var standardSectorCodeMapperMock = new Mock<IMapper<StandardSectorLookupModel, Models.StandardSectorLookupModel>>();
+            standardSectorCodeMapperMock
+                .Setup(m => m.Map(It.IsAny<StandardSectorLookupModel>()))
+                .Returns(new Models.StandardSectorLookupModel());
+
             var model = new LookUpModel
             {
                 LookUpKey = "1",
@@ -79,6 +84,10 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 IssuingAuthorityLookups = new List<IssuingAuthorityLookupModel>
                 {
                     new IssuingAuthorityLookupModel()
+                },
+                StandardSectorLookups = new List<StandardSectorLookupModel>
+                {
+                    new StandardSectorLookupModel()
                 }
             };
 
@@ -89,7 +98,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 validityMapperMock.Object,
                 awardingBodyMapperMock.Object,
                 frameworkTypeMapperMock.Object,
-                issuingAuthorityMapperMock.Object);
+                issuingAuthorityMapperMock.Object,
+                standardSectorCodeMapperMock.Object);
             var result = mapper.Map(model);
 
             result.LookUpKey.Should().Be(model.LookUpKey);
@@ -100,6 +110,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.ValidityFundingMappingLookups.Should().HaveCount(model.ValidityFundingMappingLookups.Count());
             result.FrameworkTypeLookups.Should().HaveCount(model.FrameworkTypeLookups.Count());
             result.IssuingAuthorityLookups.Should().HaveCount(model.IssuingAuthorityLookups.Count());
+            result.StandardSectorLookups.Should().HaveCount(model.StandardSectorLookups.Count());
         }
     }
 }

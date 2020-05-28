@@ -14,12 +14,14 @@ namespace ESFA.DC.LARS.Azure.Models
         [IsSearchable]
         public string StandardName { get; set; }
 
+        [IsFilterable]
         public string StandardSectorCode { get; set; }
 
         public string StandardSectorCodeDesc2 { get; set; }
 
         public int Version { get; set; }
 
+        [IsFilterable]
         public string NotionalEndLevel { get; set; }
 
         public DateTime? EffectiveFrom { get; set; }

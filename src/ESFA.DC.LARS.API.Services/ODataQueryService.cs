@@ -11,13 +11,16 @@ namespace ESFA.DC.LARS.API.Services
         private const string Concatenation = " and ";
         private readonly IEnumerable<ILearningAimsODataFilter> _learningAimOdataFilters;
         private readonly IEnumerable<IFrameworkODataFilter> _frameworkODataFilters;
+        private readonly IEnumerable<IStandardODataFilter> _standardODataFilters;
 
         public ODataQueryService(
             IEnumerable<ILearningAimsODataFilter> learningAimOdataFilters,
-            IEnumerable<IFrameworkODataFilter> frameworkODataFilters)
+            IEnumerable<IFrameworkODataFilter> frameworkODataFilters,
+            IEnumerable<IStandardODataFilter> standardODataFilters)
         {
             _learningAimOdataFilters = learningAimOdataFilters;
             _frameworkODataFilters = frameworkODataFilters;
+            _standardODataFilters = standardODataFilters;
         }
 
         public void SetLearningAimFilters(LearningAimsSearchModel searchModel, SearchParameters parameters)
@@ -44,6 +47,25 @@ namespace ESFA.DC.LARS.API.Services
             var odataQuery = new StringBuilder();
 
             foreach (var filter in _frameworkODataFilters)
+            {
+                var filterString = filter.ApplyFilter(searchModel);
+
+                if (odataQuery.Length != 0 && !string.IsNullOrEmpty(filterString))
+                {
+                    odataQuery.Append(Concatenation);
+                }
+
+                odataQuery.Append(filterString);
+            }
+
+            parameters.Filter = odataQuery.ToString();
+        }
+
+        public void SetStandardFilters(StandardSearchModel searchModel, SearchParameters parameters)
+        {
+            var odataQuery = new StringBuilder();
+
+            foreach (var filter in _standardODataFilters)
             {
                 var filterString = filter.ApplyFilter(searchModel);
 

@@ -36,6 +36,8 @@ namespace ESFA.DC.LARS.API.AzureSearch
             var result = await _azureService.GetAsync<LookUpModel>(_lookupIndexService, LookupIndexKey);
             lookups = _mapper.Map(result);
 
+            lookups.AwardingBodyLookups.Sort((x, y) => string.Compare(x.AwardingBodyName, y.AwardingBodyName, StringComparison.OrdinalIgnoreCase));
+
             return lookups;
         }
     }

@@ -8,7 +8,8 @@ export default new Vuex.Store({
     state: {
         qualificationFilters: [] as Array<IFilterItem>,
         frameworkFilters: [] as Array<IFilterItem>,
-        unitFilters: [] as Array<IFilterItem>
+        unitFilters: [] as Array<IFilterItem>,
+        standardFilters: [] as Array<IFilterItem>
     },
     mutations: {
         updateQualificationFilters(state, filters: Array<IFilterItem>) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
         },
         updateUnitFilters(state, filters: Array<IFilterItem>) {
             state.unitFilters = filters;
+        },
+        updateStandardFilters(state, filters: Array<IFilterItem>) {
+            state.standardFilters = filters;
         }
     }
 });

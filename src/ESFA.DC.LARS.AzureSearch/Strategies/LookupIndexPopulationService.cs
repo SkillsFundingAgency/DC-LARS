@@ -82,6 +82,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         {
                             IssuingAuthority = ia.IssuingAuthority.ToString(),
                             IssuingAuthorityDesc = ia.IssuingAuthorityDesc
+                        }).ToListAsync(),
+                    StandardSectorLookups = await context.LarsStandardSectorCodeLookups
+                        .Select(sc => new StandardSectorLookupModel
+                        {
+                            StandardSectorCode = sc.StandardSectorCode,
+                            StandardSectorCodeDesc = sc.StandardSectorCodeDesc2
                         }).ToListAsync()
                 };
             }
