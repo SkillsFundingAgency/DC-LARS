@@ -50,8 +50,8 @@ export class ViewService {
         this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
 
-    public setupStandardView(standardName: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { standardName, page: Page.Standard });
+    public setupStandardView(standardCode: string, standardName: string): void {
+        const storageItem = Object.assign(this.currentStorageItem, { standardName, standardCode, page: Page.Standard });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
@@ -68,8 +68,8 @@ export class ViewService {
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
-    public setupStandardCommonComponentView(): void {
-        const storageItem = Object.assign(this.currentStorageItem, { page: Page.CommonComponent }); 
+    public setupStandardCommonComponentView(standardCode:string): void {
+        const storageItem = Object.assign(this.currentStorageItem, { standardCode, page: Page.CommonComponent }); 
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }

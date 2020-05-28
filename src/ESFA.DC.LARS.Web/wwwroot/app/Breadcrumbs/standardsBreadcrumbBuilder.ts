@@ -12,7 +12,8 @@ export class StandardsBreadcrumbBuilder implements IBreadcrumbBuilder {
         let breadcrumbs: Array<IBreadcrumb> = [
             { text: "Home", link: "/", page: Page.Home },
             { text: "Search Results", link: linkService.getStandardsSearchResultsLink(storageItem), page: Page.Results },
-            { text: storageItem.standardName, link: linkService.getStandardsDetailsLink(storageItem), page: Page.Standard }
+            { text: storageItem.standardName, link: linkService.getStandardsDetailsLink(storageItem), page: Page.Standard },
+            { text: 'Common components', link: '', page: Page.CommonComponent }
         ];
         return breadcrumbs;
     };

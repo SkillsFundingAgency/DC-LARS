@@ -14,16 +14,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     {
         private readonly ILarsContextFactory _contextFactory;
         private readonly IStandardSectorCodeService _standardSectorCodeService;
+        private readonly ICommonComponentLookupService _commonComponentLookupService;
 
         public StandardsPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
-            IStandardSectorCodeService standardSectorCodeService)
+            IStandardSectorCodeService standardSectorCodeService,
+            ICommonComponentLookupService commonComponentLookupService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _standardSectorCodeService = standardSectorCodeService;
+            _commonComponentLookupService = commonComponentLookupService;
         }
 
         protected override string IndexName => _populationConfiguration.StandardIndexName;
@@ -38,6 +41,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 var standardSectorCodes = await _standardSectorCodeService.GetStandardSectorCodeDescriptionsAsync(context);
                 var commonComponents = await GetCommonComponents(context);
+                var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
 
                 standards = await context.LarsStandards
                     .Select(st => new StandardModel
@@ -62,6 +66,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 foreach (var standard in standards)
                 {
                     standard.CommonComponents = commonComponents[standard.StandardCode].ToList();
+                    standard.CommonComponents.ForEach(c => c.Description = commonComponentLookups.GetValueOrDefault(c.CommonComponent)?.Description);
                 }
             }
 
