@@ -39,5 +39,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public string IntegratedDegreeStandard { get; set; }
 
         public string OtherBodyApprovalRequired { get; set; }
+
+        public List<CommonComponentModel> CommonComponents { get; set; }
     }
 }

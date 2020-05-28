@@ -2,49 +2,12 @@
 
 @await Html.PartialAsync("_breadcrumbs")
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <table class="govuk-table">
-            <caption class="govuk-table__caption govuk-!-font-size-27">Common components</caption>
-            <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">Code</th>
-                    <th scope="col" class="govuk-table__header">Description</th>
-                    <th scope="col" class="govuk-table__header">Level</th>
-                    <th scope="col" class="govuk-table__header">Effective from</th>
-                    <th scope="col" class="govuk-table__header">Effective to</th>
-                </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-                @if (Model?.Framework?.CommonComponents?.Any() == true)
-                {
-                    @foreach (var component in Model.Framework.CommonComponents)
-                    {
-                        <tr class="govuk-table__row">
-                            <td class="govuk-table__cell">@component.CommonComponent</td>
-                            <td class="govuk-table__cell">@component.Description</td>
-                            <td class="govuk-table__cell">@component.MinLevel</td>
-                            <td class="govuk-table__cell">@component.EffectiveFrom.ToDateString()</td>
-                            <td class="govuk-table__cell">@component.EffectiveTo?.ToDateString()</td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr class="govuk-table__row">
-                        <td colspan="5" class="govuk-table__cell">No components found</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+@await Html.PartialAsync("_CommonComponents", Model.Framework.CommonComponents)
 
 @section PageScripts
 {
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupCommonComponentView("@Model.Framework.FrameworkCode", "@Model.Framework.ProgramType", "@Model.Framework.PathwayCode");
-        
+        viewService.setupFrameworkCommonComponentView("@Model.Framework.FrameworkCode", "@Model.Framework.ProgramType", "@Model.Framework.PathwayCode");
     </script>
 }

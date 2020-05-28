@@ -49,8 +49,14 @@ export class ViewService {
         this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
 
-    public setupCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
+    public setupFrameworkCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
         const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.CommonComponent }); 
+        this.storageService.store(constants.storageKey, storageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
+    }
+
+    public setupStandardCommonComponentView(): void {
+        const storageItem = Object.assign(this.currentStorageItem, { page: Page.CommonComponent }); 
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }

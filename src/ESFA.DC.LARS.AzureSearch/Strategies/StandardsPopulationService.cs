@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
+using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using Microsoft.EntityFrameworkCore;
@@ -32,11 +33,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             var indexClient = GetIndexClient();
 
             IEnumerable<StandardModel> standards;
-            IDictionary<string, string> standardSectorCodes;
 
             using (var context = _contextFactory.GetLarsContext())
             {
-                standardSectorCodes = await _standardSectorCodeService.GetStandardSectorCodeDescriptionsAsync(context);
+                var standardSectorCodes = await _standardSectorCodeService.GetStandardSectorCodeDescriptionsAsync(context);
+                var commonComponents = await GetCommonComponents(context);
 
                 standards = await context.LarsStandards
                     .Select(st => new StandardModel
@@ -57,6 +58,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         IntegratedDegreeStandard = st.IntegratedDegreeStandard,
                         OtherBodyApprovalRequired = st.OtherBodyApprovalRequired
                     }).ToListAsync();
+
+                foreach (var standard in standards)
+                {
+                    standard.CommonComponents = commonComponents[standard.StandardCode].ToList();
+                }
             }
 
             var indexActions = standards.Select(IndexAction.Upload);
@@ -67,6 +73,20 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 indexClient.Documents.Index(batch);
             }
+        }
+
+        private async Task<ILookup<string, CommonComponentModel>> GetCommonComponents(LarsContext context)
+        {
+            var results = await context.LarsStandardCommonComponents.Select(c => new CommonComponentModel
+            {
+                Id = c.StandardCode.ToString(),
+                CommonComponent = c.CommonComponent,
+                EffectiveFrom = c.EffectiveFrom,
+                EffectiveTo = c.EffectiveTo,
+                MinLevel = c.MinLevel
+            }).ToListAsync();
+
+            return results.ToLookup(c => c.Id, c => c);
         }
     }
 }

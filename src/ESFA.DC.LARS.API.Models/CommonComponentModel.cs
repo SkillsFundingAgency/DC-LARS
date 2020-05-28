@@ -2,15 +2,11 @@
 
 namespace ESFA.DC.LARS.API.Models
 {
-    public class FrameworkCommonComponentModel
+    public class CommonComponentModel
     {
         public int CommonComponent { get; set; }
 
-        public int ProgramType { get; set; }
-
-        public int PathwayCode { get; set; }
-
-        public int FrameworkCode { get; set; }
+        public string Id { get; set; }
 
         public string Description { get; set; }
 

@@ -32,7 +32,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 OtherBodyApprovalRequired = "N"
             };
 
-            var mapper = new AzureStandardMapper();
+            var commonComponentMapperMock = new Mock<IMapper<CommonComponentModel, Models.CommonComponentModel>>();
+            var mapper = new AzureStandardMapper(commonComponentMapperMock.Object);
             var result = mapper.Map(model);
 
             result.StandardCode.Should().Be(model.StandardCode);
