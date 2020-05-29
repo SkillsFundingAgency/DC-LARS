@@ -9,74 +9,79 @@
         </h1>
         <table id="high-level-info" class="govuk-table">
             <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Code</th>
-                <td class="govuk-table__cell">@Model.Standard.StandardCode</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Sector</th>
-                <td class="govuk-table__cell">@Model.Standard.StandardCode - @Model.Standard.StandardSectorCodeDesc2</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Effective from</th>
-                <td class="govuk-table__cell">@Model.Standard.EffectiveFrom?.ToDateString()</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Effective to</th>
-                <td class="govuk-table__cell">@Model.Standard.EffectiveTo?.ToDateString()</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Last date for new starts</th>
-                <td class="govuk-table__cell">@Model.Standard.LastDateStarts?.ToDateString()</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Level</th>
-                <td class="govuk-table__cell">@Model.Standard.NotionalEndLevel</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Sector subject area</th>
-                <td class="govuk-table__cell">@Model.Standard.SectorSubjectAreaTier1 - @Model.Standard.SectorSubjectAreaTier1Desc</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Sector subject area Tier 2</th>
-                <td class="govuk-table__cell">@Model.Standard.SectorSubjectAreaTier2 - @Model.Standard.SectorSubjectAreaTier2Desc</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Integrated degree standard</th>
-                <td class="govuk-table__cell">@Model.Standard.IntegratedDegreeStandard</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Other body approval required</th>
-                <td class="govuk-table__cell">@Model.Standard.OtherBodyApprovalRequired</td>
-            </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Code</th>
+                    <td class="govuk-table__cell">@Model.Standard.StandardCode</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Sector</th>
+                    <td class="govuk-table__cell">@Model.Standard.StandardCode - @Model.Standard.StandardSectorCodeDesc2</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Effective from</th>
+                    <td class="govuk-table__cell">@Model.Standard.EffectiveFrom?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Effective to</th>
+                    <td class="govuk-table__cell">@Model.Standard.EffectiveTo?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Last date for new starts</th>
+                    <td class="govuk-table__cell">@Model.Standard.LastDateStarts?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Level</th>
+                    <td class="govuk-table__cell">@Model.Standard.NotionalEndLevel</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Sector subject area</th>
+                    <td class="govuk-table__cell">@Model.Standard.SectorSubjectAreaTier1 - @Model.Standard.SectorSubjectAreaTier1Desc</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Sector subject area Tier 2</th>
+                    <td class="govuk-table__cell">@Model.Standard.SectorSubjectAreaTier2 - @Model.Standard.SectorSubjectAreaTier2Desc</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Integrated degree standard</th>
+                    <td class="govuk-table__cell">@Model.Standard.IntegratedDegreeStandard</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Other body approval required</th>
+                    <td class="govuk-table__cell">@Model.Standard.OtherBodyApprovalRequired</td>
+                </tr>
             </tbody>
         </table>
+        
+        <ul class="govuk-list">
+            <li>
+                <a asp-action="Index" asp-controller="StandardCommonComponent" asp-route-standardCode="@Model.Standard.StandardCode"
+                   class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Common components</a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="StandardLearningAim" asp-route-standardCode="@Model.Standard.StandardCode"
+                   class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Related learning aims</a>
+            </li>
+        </ul>
+
         <h2 class="govuk-heading-l">Standard trailblazer</h2>
         <table id="high-level-info" class="govuk-table">
             <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Start date</th>
-                <td class="govuk-table__cell">@Model.Standard.EffectiveFrom?.ToDateString()</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">Last date for new starts</th>
-                <td class="govuk-table__cell">@Model.Standard.LastDateStarts?.ToDateString()</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">End date</th>
-                <td class="govuk-table__cell">@Model.Standard.EffectiveTo?.ToDateString()</td>
-            </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Start date</th>
+                    <td class="govuk-table__cell">@Model.Standard.EffectiveFrom?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">Last date for new starts</th>
+                    <td class="govuk-table__cell">@Model.Standard.LastDateStarts?.ToDateString()</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">End date</th>
+                    <td class="govuk-table__cell">@Model.Standard.EffectiveTo?.ToDateString()</td>
+                </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<ul class="govuk-list">
-    <li>
-        <a asp-action="Index" asp-controller="StandardCommonComponent" asp-route-standardCode="@Model.Standard.StandardCode" 
-           class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Common components</a>
-    </li>
-</ul>
 
 @section PageScripts
 {

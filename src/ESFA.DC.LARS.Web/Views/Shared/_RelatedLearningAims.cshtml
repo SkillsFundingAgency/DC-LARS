@@ -2,32 +2,35 @@
 
 <h2 class="govuk-heading-m ">Related learning aims</h2>
 
-@foreach (var aim in Model)
+@if (Model?.Any() == true)
 {
-    <ul class="govuk-list">
-        <li>
-            @Html.ActionLink(
-                aim.LearningAimTitle,
-                "Index",
-                "LearningAimDetail",
-                new { learnAimRef = aim.LearnAimRef },
-                new { @class = "govuk-link govuk-!-font-weight-bold govuk-link--no-visited-state" })
-        </li>
-        <li>
-            <strong>Reference:</strong> @aim.LearnAimRef
-        </li>
-        <li>
-            <strong>Awarding body:</strong> @aim.AwardingBodyCode
-        </li>
-        <li>
-            <strong>Level:</strong> @aim.Level
-        </li>
-        <li>
-            <strong>Effective from:</strong> @aim.EffectiveFrom.ToDateString() to: @aim.EffectiveTo?.ToDateString()
-        </li>
-        <li>
-            <strong>Component Type:</strong> @aim.ComponentType - @aim.ComponentTypeDesc
-        </li>
-    </ul>
-    <hr />
+    @foreach (var aim in Model)
+    {
+        <ul class="govuk-list">
+            <li>
+                @Html.ActionLink(
+                    aim.LearningAimTitle,
+                    "Index",
+                    "LearningAimDetail",
+                    new { learnAimRef = aim.LearnAimRef },
+                    new { @class = "govuk-link govuk-!-font-weight-bold govuk-link--no-visited-state" })
+            </li>
+            <li>
+                <strong>Reference:</strong> @aim.LearnAimRef
+            </li>
+            <li>
+                <strong>Awarding body:</strong> @aim.AwardingBodyCode
+            </li>
+            <li>
+                <strong>Level:</strong> @aim.Level
+            </li>
+            <li>
+                <strong>Effective from:</strong> @aim.EffectiveFrom.ToDateString() to: @aim.EffectiveTo?.ToDateString()
+            </li>
+            <li>
+                <strong>Component Type:</strong> @aim.ComponentType - @aim.ComponentTypeDesc
+            </li>
+        </ul>
+        <hr />
+    }
 }

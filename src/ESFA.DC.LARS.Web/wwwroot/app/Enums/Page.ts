@@ -5,5 +5,6 @@
     Pathway = "Pathway",
     Category = "Category",
     CommonComponent = "CommonComponent",
-    Standard = "Standard"
+    Standard = "Standard",
+    RelatedLearningAims = "RelatedLearningAims"
 }
