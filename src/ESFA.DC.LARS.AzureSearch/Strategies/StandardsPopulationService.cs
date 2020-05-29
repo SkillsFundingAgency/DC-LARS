@@ -82,16 +82,22 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         private async Task<ILookup<string, CommonComponentModel>> GetCommonComponents(LarsContext context)
         {
-            var results = await context.LarsStandardCommonComponents.Select(c => new CommonComponentModel
+            var results = await context.LarsStandardCommonComponents.Select(c => new
             {
                 Id = c.StandardCode.ToString(),
+                c.CommonComponent,
+                c.EffectiveFrom,
+                c.EffectiveTo,
+                c.MinLevel
+            }).ToListAsync();
+
+            return results.ToLookup(c => c.Id, c => new CommonComponentModel
+            {
                 CommonComponent = c.CommonComponent,
                 EffectiveFrom = c.EffectiveFrom,
                 EffectiveTo = c.EffectiveTo,
                 MinLevel = c.MinLevel
-            }).ToListAsync();
-
-            return results.ToLookup(c => c.Id, c => c);
+            });
         }
     }
 }

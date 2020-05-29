@@ -9,7 +9,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
         {
             return new Models.CommonComponentModel
             {
-                Id = input.Id,
                 CommonComponent = input.CommonComponent,
                 Description = input.Description,
                 EffectiveFrom = input.EffectiveFrom,

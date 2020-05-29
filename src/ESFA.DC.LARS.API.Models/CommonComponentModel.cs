@@ -6,8 +6,6 @@ namespace ESFA.DC.LARS.API.Models
     {
         public int CommonComponent { get; set; }
 
-        public string Id { get; set; }
-
         public string Description { get; set; }
 
         public DateTime EffectiveFrom { get; set; }

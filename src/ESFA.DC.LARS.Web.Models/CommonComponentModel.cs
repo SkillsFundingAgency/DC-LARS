@@ -4,8 +4,6 @@ namespace ESFA.DC.LARS.Web.Models
 {
     public class CommonComponentModel
     {
-        public string Id { get; set; }
-
         public int CommonComponent { get; set; }
 
         public string Description { get; set; }
