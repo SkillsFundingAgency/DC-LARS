@@ -75,7 +75,7 @@ export default class LinkService {
     }
 
     public getStandardsDetailsLink(storageItem: IStorageItem): string {
-        return `/StandardDetails/${storageItem.learnAimRef}`;
+        return `/StandardDetails/${storageItem.standardCode}`;
     }
 
     public hasFilterQueryStringParam(url: string): boolean {

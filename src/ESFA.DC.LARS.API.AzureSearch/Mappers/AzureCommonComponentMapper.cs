@@ -3,20 +3,17 @@ using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Mappers
 {
-    public class AzureCommonComponentMapper : IMapper<FrameworkCommonComponentModel, Models.FrameworkCommonComponentModel>
+    public class AzureCommonComponentMapper : IMapper<CommonComponentModel, Models.CommonComponentModel>
     {
-        public Models.FrameworkCommonComponentModel Map(FrameworkCommonComponentModel input)
+        public Models.CommonComponentModel Map(CommonComponentModel input)
         {
-            return new Models.FrameworkCommonComponentModel
+            return new Models.CommonComponentModel
             {
                 CommonComponent = input.CommonComponent,
                 Description = input.Description,
                 EffectiveFrom = input.EffectiveFrom,
                 EffectiveTo = input.EffectiveTo,
-                FrameworkCode = input.FrameworkCode,
-                PathwayCode = input.PathwayCode,
                 MinLevel = input.MinLevel,
-                ProgramType = input.ProgramType
             };
         }
     }

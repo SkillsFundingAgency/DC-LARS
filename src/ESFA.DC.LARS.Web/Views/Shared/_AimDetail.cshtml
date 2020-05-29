@@ -51,32 +51,35 @@
                     </li>
                 }
             </ul>
-            <div class="govuk-form-group">
-                <label class="govuk-label" for="academicYear">
-                    Teaching year
-                </label>
-                @using (Html.BeginForm("ChangeAcademicYear", Model.FormController, FormMethod.Post, new { @id = "academicYearForm", @class = "govuk-form-group" }))
-                {
-                    <input type="hidden" name="learnAimRef" value="@Model.LearningAimModel.LearnAimRef">
-                    <select class="govuk-select" id="academicYear" name="AcademicYear" onchange="this.form.submit()">
-                        @foreach (var year in Model.AcademicYearsForLearningAim)
-                        {
-                            @if (Model.AcademicYear.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase))
+            @if (Model.AcademicYearsForLearningAim.Any())
+            {
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="academicYear">
+                        Teaching year
+                    </label>
+                    @using (Html.BeginForm("ChangeAcademicYear", Model.FormController, FormMethod.Post, new { @id = "academicYearForm", @class = "govuk-form-group" }))
+                    {
+                        <input type="hidden" name="learnAimRef" value="@Model.LearningAimModel.LearnAimRef">
+                        <select class="govuk-select" id="academicYear" name="AcademicYear" onchange="this.form.submit()">
+                            @foreach (var year in Model.AcademicYearsForLearningAim)
                             {
-                                <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                @if (Model.AcademicYear.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                }
+                                else
+                                {
+                                    <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                                }
                             }
-                            else
-                            {
-                                <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
-                            }
-                        }
-                    </select>
-                    <noscript>
-                        <br />
-                        <input type="submit" value="Update" class="govuk-!-margin-top-4 govuk-button" />
-                    </noscript>
-                }
-            </div>
+                        </select>
+                        <noscript>
+                            <br />
+                            <input type="submit" value="Update" class="govuk-!-margin-top-4 govuk-button" />
+                        </noscript>
+                    }
+                </div>
+            }
         </div>
     </div>
 </div>

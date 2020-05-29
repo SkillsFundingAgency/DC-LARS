@@ -1,6 +1,6 @@
 ﻿namespace ESFA.DC.LARS.Web.Models.ViewModels
 {
-    public class StandardDetailViewModel
+    public class StandardCommonComponentsViewModel
     {
         public StandardModel Standard { get; set; }
     }

@@ -29,7 +29,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             };
 
             var aimMapperMock = new Mock<IMapper<FrameworkAimModel, Models.FrameworkAimModel>>();
-            var commonComponentMapperMock = new Mock<IMapper<FrameworkCommonComponentModel, Models.FrameworkCommonComponentModel>>();
+            var commonComponentMapperMock = new Mock<IMapper<CommonComponentModel, Models.CommonComponentModel>>();
 
             var mapper = new AzureFrameworkMapper(aimMapperMock.Object, commonComponentMapperMock.Object);
             var result = mapper.Map(model);
