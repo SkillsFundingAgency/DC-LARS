@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ESFA.DC.LARS.API.Models
 {
@@ -39,5 +38,7 @@ namespace ESFA.DC.LARS.API.Models
         public List<StandardFundingModel> StandardFundingModels { get; set; }
 
         public List<StandardApprenticeshipFundingModel> StandardApprenticeshipFundingModels { get; set; }
+
+        public List<CommonComponentModel> CommonComponents { get; set; }
     }
 }

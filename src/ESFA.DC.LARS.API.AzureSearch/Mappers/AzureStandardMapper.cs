@@ -12,9 +12,13 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
         public AzureStandardMapper(
             IMapper<StandardFundingModel, Models.StandardFundingModel> standardFundingModelMapper,
             IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel> standardApprenticeshipFundingModelMapper)
+        private readonly IMapper<CommonComponentModel, Models.CommonComponentModel> _commonComponentMapper;
+
+        public AzureStandardMapper(IMapper<CommonComponentModel, Models.CommonComponentModel> commonComponentMapper)
         {
             _standardFundingModelMapper = standardFundingModelMapper;
             _standardApprenticeshipFundingModelMapper = standardApprenticeshipFundingModelMapper;
+            _commonComponentMapper = commonComponentMapper;
         }
 
         public Models.StandardModel Map(StandardModel input)
@@ -38,6 +42,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 OtherBodyApprovalRequired = input.OtherBodyApprovalRequired,
                 StandardFundingModels = input.StandardFundingModels?.Select(sf => _standardFundingModelMapper.Map(sf)).ToList(),
                 StandardApprenticeshipFundingModels = input.StandardApprenticeshipFundingModels?.Select(sf => _standardApprenticeshipFundingModelMapper.Map(sf)).ToList(),
+                OtherBodyApprovalRequired = input.OtherBodyApprovalRequired,
+                CommonComponents = input.CommonComponents?.Select(cc => _commonComponentMapper.Map(cc)).ToList()
             };
         }
     }

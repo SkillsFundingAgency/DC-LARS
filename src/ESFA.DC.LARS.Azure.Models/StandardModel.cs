@@ -42,6 +42,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public string OtherBodyApprovalRequired { get; set; }
 
+        public List<CommonComponentModel> CommonComponents { get; set; }
+
         public List<StandardFundingModel> StandardFundingModels { get; set; }
 
         public List<StandardApprenticeshipFundingModel> StandardApprenticeshipFundingModels { get; set; }
