@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.Azure.Models
@@ -41,5 +40,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public string IntegratedDegreeStandard { get; set; }
 
         public string OtherBodyApprovalRequired { get; set; }
+
+        public List<RelatedLearningAimModel> LearningAims { get; set; }
     }
 }

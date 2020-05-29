@@ -68,7 +68,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
                         LearningAims = fr.LarsFrameworkAims
                             .Where(fa => fa.LearnAimRefNavigation.LearnAimRefType != UnitLearnAimRefType)
-                            .Select(fa => new FrameworkAimModel
+                            .Select(fa => new RelatedLearningAimModel
                             {
                                 LearnAimRef = fa.LearnAimRef,
                                 LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,

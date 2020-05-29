@@ -1,0 +1,13 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.StandardLearningAimsViewModel
+
+@await Html.PartialAsync("_breadcrumbs")
+
+@await Html.PartialAsync("_RelatedLearningAims", Model.Standard.LearningAims)
+
+@section PageScripts
+{
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupStandardView("@Model.Standard.StandardName");
+    </script>
+}

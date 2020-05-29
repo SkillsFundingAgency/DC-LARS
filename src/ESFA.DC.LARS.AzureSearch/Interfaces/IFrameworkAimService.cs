@@ -9,6 +9,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
     {
         Task<Dictionary<string, List<LearningAimFrameworkModel>>> GetLearningAimFrameworkAimsAsync(LarsContext context, bool units);
 
-        Task<Dictionary<string, List<FrameworkAimModel>>> GetFrameworkLearningAimsAsync(LarsContext context, bool units);
+        Task<Dictionary<string, List<RelatedLearningAimModel>>> GetFrameworkLearningAimsAsync(LarsContext context, bool units);
     }
 }

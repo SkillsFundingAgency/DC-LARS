@@ -13,16 +13,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     {
         private readonly ILarsContextFactory _contextFactory;
         private readonly IStandardSectorCodeService _standardSectorCodeService;
+        private readonly IComponentTypeService _componentTypeService;
 
         public StandardsPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
-            IStandardSectorCodeService standardSectorCodeService)
+            IStandardSectorCodeService standardSectorCodeService,
+            IComponentTypeService componentTypeService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _standardSectorCodeService = standardSectorCodeService;
+            _componentTypeService = componentTypeService;
         }
 
         protected override string IndexName => _populationConfiguration.StandardIndexName;
@@ -37,7 +40,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             using (var context = _contextFactory.GetLarsContext())
             {
                 standardSectorCodes = await _standardSectorCodeService.GetStandardSectorCodeDescriptionsAsync(context);
-
+                var componentTypes = await _componentTypeService.GetComponentTypesAsync(context);
                 standards = await context.LarsStandards
                     .Select(st => new StandardModel
                     {
@@ -55,7 +58,20 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2 = st.SectorSubjectAreaTier2.ToString(),
                         SectorSubjectAreaTier2Desc = st.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IntegratedDegreeStandard = st.IntegratedDegreeStandard,
-                        OtherBodyApprovalRequired = st.OtherBodyApprovalRequired
+                        OtherBodyApprovalRequired = st.OtherBodyApprovalRequired,
+                        LearningAims = st.LarsStandardAims
+                            .Where(sa => sa.LearnAimRefNavigation.LearnAimRefType != UnitLearnAimRefType)
+                            .Select(sa => new RelatedLearningAimModel
+                            {
+                                LearnAimRef = sa.LearnAimRef,
+                                LearningAimTitle = sa.LearnAimRefNavigation.LearnAimRefTitle,
+                                AwardingBodyCode = sa.LearnAimRefNavigation.AwardOrgCode,
+                                Level = sa.LearnAimRefNavigation.NotionalNvqlevelv2,
+                                EffectiveFrom = sa.EffectiveFrom,
+                                EffectiveTo = sa.EffectiveTo,
+                                ComponentType = sa.StandardComponentType,
+                                ComponentTypeDesc = sa.StandardComponentType != null ? componentTypes[sa.StandardComponentType.Value] : null
+                            }).ToList()
                     }).ToListAsync();
             }
 

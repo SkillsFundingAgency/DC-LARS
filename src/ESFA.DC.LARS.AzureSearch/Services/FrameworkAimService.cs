@@ -62,11 +62,11 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 .ToDictionary(av => av.Key, g => g.ToList(), StringComparer.OrdinalIgnoreCase);
         }
 
-        public async Task<Dictionary<string, List<FrameworkAimModel>>> GetFrameworkLearningAimsAsync(LarsContext context, bool units)
+        public async Task<Dictionary<string, List<RelatedLearningAimModel>>> GetFrameworkLearningAimsAsync(LarsContext context, bool units)
         {
             var frameworkQuerable = GetQuerable(context, units);
 
-            var frameworks = await frameworkQuerable.Select(fa => new FrameworkAimModel
+            var frameworks = await frameworkQuerable.Select(fa => new RelatedLearningAimModel
             {
                 LearnAimRef = fa.LearnAimRef,
                 LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,

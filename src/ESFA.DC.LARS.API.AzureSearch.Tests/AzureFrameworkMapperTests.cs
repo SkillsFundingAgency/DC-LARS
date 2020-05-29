@@ -28,7 +28,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 IssuingAuthorityDesc = "testauthdesc"
             };
 
-            var aimMapperMock = new Mock<IMapper<FrameworkAimModel, Models.FrameworkAimModel>>();
+            var aimMapperMock = new Mock<IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel>>();
             var commonComponentMapperMock = new Mock<IMapper<FrameworkCommonComponentModel, Models.FrameworkCommonComponentModel>>();
 
             var mapper = new AzureFrameworkMapper(aimMapperMock.Object, commonComponentMapperMock.Object);

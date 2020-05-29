@@ -32,7 +32,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 OtherBodyApprovalRequired = "N"
             };
 
-            var mapper = new AzureStandardMapper();
+            var aimMapperMock = new Mock<IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel>>();
+            var mapper = new AzureStandardMapper(aimMapperMock.Object);
             var result = mapper.Map(model);
 
             result.StandardCode.Should().Be(model.StandardCode);

@@ -35,5 +35,7 @@ namespace ESFA.DC.LARS.API.Models
         public string IntegratedDegreeStandard { get; set; }
 
         public string OtherBodyApprovalRequired { get; set; }
+
+        public List<RelatedLearningAimModel> LearningAims { get; set; }
     }
 }
