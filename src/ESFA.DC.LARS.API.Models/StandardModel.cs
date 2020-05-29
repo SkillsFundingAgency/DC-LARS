@@ -35,5 +35,9 @@ namespace ESFA.DC.LARS.API.Models
         public string IntegratedDegreeStandard { get; set; }
 
         public string OtherBodyApprovalRequired { get; set; }
+
+        public List<StandardFundingModel> StandardFundingModels { get; set; }
+
+        public List<StandardApprenticeshipFundingModel> StandardApprenticeshipFundingModels { get; set; }
     }
 }
