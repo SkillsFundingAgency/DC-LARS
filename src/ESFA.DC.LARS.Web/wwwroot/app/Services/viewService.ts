@@ -44,28 +44,24 @@ export class ViewService {
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
-    public setupFrameworkView(): void {
-        const storageItem = Object.assign(this.currentStorageItem, {page: Page.Pathway });
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
+    public setupStandardDetailsView(standardCode: string, standardName: string): void {
+        this.setupStandardView(standardCode, standardName, Page.Standard);
     }
 
-    public setupStandardView(standardName: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { standardName, page: Page.Standard });
+    public setupStandardCommonComponentView(standardCode: string, standardName: string): void {
+        this.setupStandardView(standardCode, standardName, Page.CommonComponent);
+    }
+
+    private setupStandardView(standardCode: string, standardName: string, page: Page) : void {
+        const storageItem = Object.assign(this.currentStorageItem, { standardCode, standardName, page});
         this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
+        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupLearningAimCategoryView(): void {
         const storageItem = Object.assign(this.currentStorageItem, { page: Page.Category });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
-    }
-
-    public setupCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.CommonComponent }); 
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkSearchResultView(searchTerm: string): void {
@@ -76,7 +72,15 @@ export class ViewService {
     }
 
     public setupFrameworkDetailView(frameworkCode: string, programType: string, pathwayCode: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.Pathway });
+        this.setupFrameworkView(frameworkCode, programType, pathwayCode, Page.Pathway);
+    }
+
+    public setupFrameworkCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
+        this.setupFrameworkView(frameworkCode, programType, pathwayCode, Page.CommonComponent);
+    }
+
+    public setupFrameworkView(frameworkCode: string, programType: string, pathwayCode: string, page:Page): void {
+        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }

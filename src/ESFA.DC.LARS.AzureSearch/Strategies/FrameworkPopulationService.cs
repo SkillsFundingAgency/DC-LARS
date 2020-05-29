@@ -45,7 +45,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 var issuingAuthorities = await _issuingAuthorityService.GetIssuingAuthoritiesAsync(context);
                 var componentTypes = await _componentTypeService.GetComponentTypesAsync(context);
-                var commonComponents = await GetFrameworkCommonComponents(context);
+                var commonComponents = await GetCommonComponents(context);
                 var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
 
                 frameworks = await context.LarsFrameworks
@@ -98,21 +98,25 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             }
         }
 
-        private async Task<ILookup<string, FrameworkCommonComponentModel>> GetFrameworkCommonComponents(LarsContext context)
+        private async Task<ILookup<string, CommonComponentModel>> GetCommonComponents(LarsContext context)
         {
-            var results = await context.LarsFrameworkCmnComps.Select(c => new FrameworkCommonComponentModel
+            var results = await context.LarsFrameworkCmnComps.Select(c => new
+            {
+                // Please note this must match the FrameworkID generated on initial population
+                Id = string.Concat(c.FworkCode, "-", c.ProgType, "-", c.PwayCode),
+                c.CommonComponent,
+                c.EffectiveFrom,
+                c.EffectiveTo,
+                c.MinLevel
+            }).ToListAsync();
+
+            return results.ToLookup(c => c.Id, c => new CommonComponentModel
             {
                 CommonComponent = c.CommonComponent,
-                FrameworkCode = c.FworkCode,
-                PathwayCode = c.PwayCode,
-                ProgramType = c.ProgType,
                 EffectiveFrom = c.EffectiveFrom,
                 EffectiveTo = c.EffectiveTo,
                 MinLevel = c.MinLevel
-            }).ToListAsync();
-
-            // Please note this must match the FrameworkID generated on initial population
-            return results.ToLookup(c => string.Concat(c.FrameworkCode, "-", c.ProgramType, "-", c.PathwayCode), c => c);
+            });
         }
     }
 }

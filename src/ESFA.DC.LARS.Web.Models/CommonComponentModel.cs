@@ -1,16 +1,10 @@
 ﻿using System;
 
-namespace ESFA.DC.LARS.Azure.Models
+namespace ESFA.DC.LARS.Web.Models
 {
-    public class FrameworkCommonComponentModel
+    public class CommonComponentModel
     {
         public int CommonComponent { get; set; }
-
-        public int ProgramType { get; set; }
-
-        public int PathwayCode { get; set; }
-
-        public int FrameworkCode { get; set; }
 
         public string Description { get; set; }
 

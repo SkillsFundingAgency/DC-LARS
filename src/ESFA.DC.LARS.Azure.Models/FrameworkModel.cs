@@ -42,6 +42,6 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public List<RelatedLearningAimModel> LearningAims { get; set; }
 
-        public List<FrameworkCommonComponentModel> CommonComponents { get; set; }
+        public List<CommonComponentModel> CommonComponents { get; set; }
     }
 }

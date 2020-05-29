@@ -7,10 +7,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
     public class AzureStandardMapper : IMapper<StandardModel, Models.StandardModel>
     {
         private readonly IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> _relatedAimMapper;
+        private readonly IMapper<CommonComponentModel, Models.CommonComponentModel> _commonComponentMapper;
 
-        public AzureStandardMapper(IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> relatedAimMapper)
+        public AzureStandardMapper(
+                                    IMapper<CommonComponentModel, Models.CommonComponentModel> commonComponentMapper,
+                                    IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> relatedAimMapper)
         {
             _relatedAimMapper = relatedAimMapper;
+            _commonComponentMapper = commonComponentMapper;
         }
 
         public Models.StandardModel Map(StandardModel input)
@@ -32,6 +36,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 SectorSubjectAreaTier2Desc = input.SectorSubjectAreaTier2Desc,
                 IntegratedDegreeStandard = input.IntegratedDegreeStandard,
                 OtherBodyApprovalRequired = input.OtherBodyApprovalRequired,
+                CommonComponents = input.CommonComponents?.Select(cc => _commonComponentMapper.Map(cc)).ToList(),
                 LearningAims = input.LearningAims?.Select(aim => _relatedAimMapper.Map(aim)).ToList()
             };
         }

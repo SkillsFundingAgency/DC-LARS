@@ -7,6 +7,7 @@ export interface IStorageItem {
     learnAimRef: string;
     learningAimTitle: string;
     standardName: string;
+    standardCode: string;
     currentAcademicYear: string;
     searchType: SearchType;
     frameworkCode: string;
@@ -18,7 +19,7 @@ export interface IStorageItem {
 
 export function emptyIStorageItem(): IStorageItem {
     return {
-        searchTerm: '', learnAimRef: '', learningAimTitle: '', standardName: '', page: Page.Home,
+        searchTerm: '', learnAimRef: '', learningAimTitle: '', standardName: '', standardCode: '', page: Page.Home,
         currentAcademicYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
     };
 }

@@ -41,6 +41,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public string OtherBodyApprovalRequired { get; set; }
 
+        public List<CommonComponentModel> CommonComponents { get; set; }
+
         public List<RelatedLearningAimModel> LearningAims { get; set; }
     }
 }
