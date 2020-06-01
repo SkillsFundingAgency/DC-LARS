@@ -7,8 +7,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IFrameworkAimService
     {
-        Task<Dictionary<string, List<LearningAimFrameworkModel>>> GetLearningAimFrameworkAimsAsync(LarsContext context, bool units);
-
-        Task<Dictionary<string, List<RelatedLearningAimModel>>> GetFrameworkLearningAimsAsync(LarsContext context, bool units);
+        Task<IDictionary<string, List<LearningAimFrameworkModel>>> GetLearningAimFrameworkAimsAsync(LarsContext context, bool units);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
+using ESFA.DC.LARS.AzureSearch.Extensions;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
@@ -169,7 +170,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             Thread.Sleep(2000);
         }
 
-        private void PopulateFrameworks(LearningAimModel learningAim, Dictionary<string, List<LearningAimFrameworkModel>> frameworkAims, IDictionary<string, string> issuingAuthorities, IDictionary<int, string> componentTypes)
+        private void PopulateFrameworks(LearningAimModel learningAim, IDictionary<string, List<LearningAimFrameworkModel>> frameworkAims, IDictionary<string, string> issuingAuthorities, IDictionary<int, string> componentTypes)
         {
             var frameworks = frameworkAims.GetValueOrDefault(learningAim.LearnAimRef);
 

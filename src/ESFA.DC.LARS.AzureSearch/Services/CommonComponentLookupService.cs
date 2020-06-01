@@ -9,7 +9,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class CommonComponentLookupService : ICommonComponentLookupService
     {
-        public async Task<Dictionary<int, CommonComponentLookupModel>> GetCommonComponentLookupsAsync(LarsContext context)
+        public async Task<IDictionary<int, CommonComponentLookupModel>> GetCommonComponentLookupsAsync(LarsContext context)
         {
             return await context.LarsCommonComponentLookups
                 .ToDictionaryAsync(k => k.CommonComponent, v => new CommonComponentLookupModel
