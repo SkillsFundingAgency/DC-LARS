@@ -1,9 +1,9 @@
 ﻿import { IBreadcrumb } from '../Interfaces/IBreadcrumb';
 import { IStorageItem } from '../Interfaces/IStorageItem';
-import { IBreadcrumbBuilder } from '../Interfaces/IBreadcrumbBuilder';
+import { IBreadcrumbStrategy } from '../Interfaces/IBreadcrumbStrategy';
 import { Page } from '../Enums/Page';
 
-export class DefaultBreadcrumbBuilder implements IBreadcrumbBuilder {
+export class DefaultBreadcrumbStrategy implements IBreadcrumbStrategy {
 
     public build(storageItem: IStorageItem): Array<IBreadcrumb> {
         let breadcrumbs: Array<IBreadcrumb> = [

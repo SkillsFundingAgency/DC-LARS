@@ -1,10 +1,10 @@
 ﻿import { IBreadcrumb } from '../Interfaces/IBreadcrumb';
 import { IStorageItem } from '../Interfaces/IStorageItem';
-import { IBreadcrumbBuilder } from '../Interfaces/IBreadcrumbBuilder';
+import { IBreadcrumbStrategy } from '../Interfaces/IBreadcrumbStrategy';
 import LinkService from '../Services/LinkService';
 import { Page } from '../Enums/Page';
 
-export class FrameworksBreadcrumbBuilder implements IBreadcrumbBuilder {
+export class FrameworksBreadcrumbStrategy implements IBreadcrumbStrategy {
 
     public build(storageItem: IStorageItem): Array<IBreadcrumb> {
         const linkService = new LinkService();

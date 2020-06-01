@@ -1,4 +1,4 @@
-﻿import { FrameworksBreadcrumbBuilder } from "../Breadcrumbs/frameworksBreadcrumbBuilder";
+﻿import { FrameworksBreadcrumbStrategy } from "../Breadcrumbs/frameworksBreadcrumbStrategy";
 import { emptyIStorageItem } from "../Interfaces/IStorageItem";
 import { SearchType } from "../Enums/SearchType";
 import { Page } from "../Enums/Page";
@@ -7,7 +7,7 @@ describe('Path specfic breadcrumbs should ignore pages from other paths', () => 
 
     let storageItem = Object.assign(emptyIStorageItem(), { searchType: SearchType.Frameworks});
 
-    const sut = new FrameworksBreadcrumbBuilder();
+    const sut = new FrameworksBreadcrumbStrategy();
 
     test("Category page breadcrumb should not contain component page", () => {
         storageItem.page = Page.Category;
