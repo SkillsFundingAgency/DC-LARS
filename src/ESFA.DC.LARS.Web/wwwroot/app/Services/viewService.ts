@@ -39,11 +39,19 @@ export class ViewService {
     }
 
     public setupLearningAimDetailView(learnAimRef: string, learningAimTitle: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { learnAimRef, learningAimTitle, page: Page.LearningAimDetails}); 
+        this.setupLearingAimView(learnAimRef, learningAimTitle, Page.LearningAimDetails);
+    }
+
+    public setupLearningAimCategoryView(learnAimRef: string, learningAimTitle: string): void {
+        this.setupLearingAimView(learnAimRef, learningAimTitle, Page.Category );
+    }
+
+    private setupLearingAimView(learnAimRef: string, learningAimTitle: string, page: Page): void {
+        const storageItem = Object.assign(this.currentStorageItem, { learnAimRef, learningAimTitle, page: page });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
-
+  
     public setupStandardDetailsView(standardCode: string, standardName: string): void {
         this.setupStandardView(standardCode, standardName, Page.Standard);
     }
@@ -60,12 +68,6 @@ export class ViewService {
         const storageItem = Object.assign(this.currentStorageItem, { standardCode, standardName, page});
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
-    }
-
-    public setupLearningAimCategoryView(): void {
-        const storageItem = Object.assign(this.currentStorageItem, { page: Page.Category });
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
     }
 
     public setupFrameworkSearchResultView(searchTerm: string): void {
