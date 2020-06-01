@@ -15,8 +15,8 @@ class BreadcrumbStrategyManager {
     private _breadcrumbBuilders = {
         [SearchType.Qualifications]: new QualificationsBreadcrumbStrategy(),
         [SearchType.Units]: new UnitsBreadcrumbStrategy(),
-        [SearchType.Standards]: new FrameworksBreadcrumbStrategy(),
-        [SearchType.Frameworks]: new StandardsBreadcrumbStrategy()
+        [SearchType.Frameworks]: new FrameworksBreadcrumbStrategy(),
+        [SearchType.Standards]: new StandardsBreadcrumbStrategy()
     };
 
     public setBreadcrumbStrategy(searchType: SearchType) {
