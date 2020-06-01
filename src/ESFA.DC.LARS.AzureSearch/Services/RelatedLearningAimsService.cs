@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
+using ESFA.DC.LARS.AzureSearch.Interfaces;
 using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
-    public class RelatedLearningAimsService
+    public class RelatedLearningAimsService : IRelatedLearningAimsService
     {
         private const string UnitLearnAimRefType = "1448";
 
-        public async Task<ILookup<string, RelatedLearningAimModel>> GetStandardsRelatedLearningAims(LarsContext context)
+        public async Task<ILookup<string, RelatedLearningAimModel>> GetStandardRelatedLearningAims(LarsContext context)
         {
             var results = await context.LarsStandardAims.Select(sa => new
             {
