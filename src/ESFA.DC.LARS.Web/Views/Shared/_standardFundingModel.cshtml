@@ -1,0 +1,100 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.StandardDetailViewModel
+
+<div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
+    @foreach (var standardFundingModel in @Model.Standard.StandardFundingModels)
+    {
+        <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+                <h2 class="govuk-accordion__section-heading">
+                    <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                        @standardFundingModel.FundingCategoryDescription
+                    </span>
+                </h2>
+
+                <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-1">
+                    Band number: @standardFundingModel.BandNumber
+                </div>
+            </div>
+
+            <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                <table id="high-level-info" class="govuk-table">
+                    <tbody class="govuk-table__body">
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Effective from</th>
+                            <td class="govuk-table__cell">@standardFundingModel.EffectiveFrom.ToDateString()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Effective to</th>
+                            <td class="govuk-table__cell">@standardFundingModel.EffectiveTo?.ToDateString()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">16 to 18 provider additional payment</th>
+                            <td class="govuk-table__cell">@standardFundingModel.Incentive1618.ToCurrency()</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+
+    @foreach (var appFundingModel in @Model.Standard.StandardApprenticeshipFundingModels)
+    {
+        <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+                <h2 class="govuk-accordion__section-heading">
+                    <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                        @appFundingModel.FundingCategoryDescription
+                    </span>
+                </h2>
+
+                <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-1">
+                    Band number: @appFundingModel.BandNumber
+                </div>
+            </div>
+
+            <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                <table id="high-level-info" class="govuk-table">
+                    <tbody class="govuk-table__body">
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Effective from</th>
+                            <td class="govuk-table__cell">@appFundingModel.EffectiveFrom.ToDateString()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Effective to</th>
+                            <td class="govuk-table__cell">@appFundingModel.EffectiveTo?.ToDateString()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">16 to 18 provider additional payment</th>
+                            <td class="govuk-table__cell">@appFundingModel.ProviderAdditionalPayment1618.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">&#8203;16 to 18 employer additional payment</th>
+                            <td class="govuk-table__cell">@appFundingModel.EmployerAdditionalPayment1618.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">&#8203;16 to 18 framework uplift</th>
+                            <td class="govuk-table__cell">@appFundingModel.FrameworkUplift1618.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">&#8203;Care leaver additional payment</th>
+                            <td class="govuk-table__cell">@appFundingModel.CareLeaverAdditionalPayment.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Duration</th>
+                            <td class="govuk-table__cell">@appFundingModel.Duration.RemovePrecision() months</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Max employer levy cap</th>
+                            <td class="govuk-table__cell">@appFundingModel.MaxEmployerLevyCap.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Standard fundable without employer</th>
+                            <td class="govuk-table__cell">@appFundingModel.FundableWithoutEmployer</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

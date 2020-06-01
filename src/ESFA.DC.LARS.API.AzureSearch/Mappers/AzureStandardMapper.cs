@@ -6,14 +6,20 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
 {
     public class AzureStandardMapper : IMapper<StandardModel, Models.StandardModel>
     {
-        private readonly IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> _relatedAimMapper;
+        private readonly IMapper<StandardFundingModel, Models.StandardFundingModel> _standardFundingModelMapper;
+        private readonly IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel> _standardApprenticeshipFundingModelMapper;
         private readonly IMapper<CommonComponentModel, Models.CommonComponentModel> _commonComponentMapper;
+        private readonly IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> _relatedAimMapper;
 
         public AzureStandardMapper(
-                                    IMapper<CommonComponentModel, Models.CommonComponentModel> commonComponentMapper,
-                                    IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> relatedAimMapper)
+            IMapper<StandardFundingModel, Models.StandardFundingModel> standardFundingModelMapper,
+            IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel> standardApprenticeshipFundingModelMapper,
+            IMapper<CommonComponentModel, Models.CommonComponentModel> commonComponentMapper,
+            IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> relatedAimMapper)
         {
             _relatedAimMapper = relatedAimMapper;
+            _standardFundingModelMapper = standardFundingModelMapper;
+            _standardApprenticeshipFundingModelMapper = standardApprenticeshipFundingModelMapper;
             _commonComponentMapper = commonComponentMapper;
         }
 
@@ -36,6 +42,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 SectorSubjectAreaTier2Desc = input.SectorSubjectAreaTier2Desc,
                 IntegratedDegreeStandard = input.IntegratedDegreeStandard,
                 OtherBodyApprovalRequired = input.OtherBodyApprovalRequired,
+                StandardFundingModels = input.StandardFundingModels?.Select(sf => _standardFundingModelMapper.Map(sf)).ToList(),
+                StandardApprenticeshipFundingModels = input.StandardApprenticeshipFundingModels?.Select(sf => _standardApprenticeshipFundingModelMapper.Map(sf)).ToList(),
                 CommonComponents = input.CommonComponents?.Select(cc => _commonComponentMapper.Map(cc)).ToList(),
                 LearningAims = input.LearningAims?.Select(aim => _relatedAimMapper.Map(aim)).ToList()
             };
