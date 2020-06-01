@@ -34,7 +34,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
         public async override Task PopulateIndexAsync()
         {
             var indexClient = GetIndexClient();
-
             IEnumerable<StandardModel> standards;
 
             using (var context = _contextFactory.GetLarsContext())
@@ -60,7 +59,34 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2 = st.SectorSubjectAreaTier2.ToString(),
                         SectorSubjectAreaTier2Desc = st.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IntegratedDegreeStandard = st.IntegratedDegreeStandard,
-                        OtherBodyApprovalRequired = st.OtherBodyApprovalRequired
+                        OtherBodyApprovalRequired = st.OtherBodyApprovalRequired,
+                        StandardFundingModels = st.LarsStandardFundings
+                            .Select(sf => new StandardFundingModel()
+                            {
+                                FundingCategoryDescription = sf.FundingCategoryNavigation.FundingCategoryDesc2,
+                                BandNumber = sf.BandNumber,
+                                EffectiveFrom = sf.EffectiveFrom,
+                                EffectiveTo = sf.EffectiveTo,
+                                CoreGovContributionCap = sf.CoreGovContributionCap.ToString(),
+                                Incentive1618 = sf._1618incentive.ToString(),
+                                SmallBusinessIncentive = sf.SmallBusinessIncentive.ToString(),
+                                AchievementIncentive = sf.AchievementIncentive.ToString()
+                            }).ToList(),
+                        StandardApprenticeshipFundingModels = st.LarsApprenticeshipStdFundings
+                            .Select(saf => new StandardApprenticeshipFundingModel()
+                            {
+                                FundingCategoryDescription = saf.FundingCategoryNavigation.FundingCategoryDesc2,
+                                BandNumber = saf.BandNumber,
+                                EffectiveFrom = saf.EffectiveFrom,
+                                EffectiveTo = saf.EffectiveTo,
+                                ProviderAdditionalPayment1618 = saf._1618providerAdditionalPayment.ToString(),
+                                EmployerAdditionalPayment1618 = saf._1618employerAdditionalPayment.ToString(),
+                                FrameworkUplift1618 = saf._1618frameworkUplift.ToString(),
+                                CareLeaverAdditionalPayment = saf.CareLeaverAdditionalPayment.ToString(),
+                                Duration = saf.Duration.ToString(),
+                                MaxEmployerLevyCap = saf.MaxEmployerLevyCap.ToString(),
+                                FundableWithoutEmployer = saf.FundableWithoutEmployer
+                            }).ToList()
                     }).ToListAsync();
 
                 foreach (var standard in standards)
