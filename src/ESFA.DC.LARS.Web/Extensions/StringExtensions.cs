@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading;
 
 namespace ESFA.DC.LARS.Web.Extensions
 {
@@ -7,7 +8,14 @@ namespace ESFA.DC.LARS.Web.Extensions
     {
         public static string ToCurrency(this string value)
         {
-            return Convert.ToDecimal(value).ToString("C0").Replace(",", string.Empty);
+            var culture = new CultureInfo(CultureInfo.CurrentCulture.Name);
+            return ToCurrency(value, culture);
+        }
+
+        public static string ToCurrency(this string value, CultureInfo culture)
+        {
+            culture.NumberFormat.CurrencyGroupSeparator = string.Empty;
+            return Convert.ToDecimal(value).ToString("C0", culture);
         }
 
         public static string RemovePrecision(this string value)

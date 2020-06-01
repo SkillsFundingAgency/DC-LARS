@@ -1,4 +1,5 @@
-﻿using ESFA.DC.LARS.Web.Extensions;
+﻿using System.Globalization;
+using ESFA.DC.LARS.Web.Extensions;
 using Xunit;
 
 namespace ESFA.DC.LARS.Web.Tests
@@ -12,7 +13,8 @@ namespace ESFA.DC.LARS.Web.Tests
         [InlineData("0.0000", "£0")]
         public void ToCurrency_Should_Format_AsExpected(string actual, string expected)
         {
-            Assert.Equal(expected, StringExtensions.ToCurrency(actual));
+            var culture = CultureInfo.CreateSpecificCulture("en-gb");
+            Assert.Equal(expected, StringExtensions.ToCurrency(actual, culture));
         }
 
         [Theory]
