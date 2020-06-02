@@ -51,11 +51,19 @@
                 </tr>
             </tbody>
         </table>
+        
         <ul class="govuk-list">
             <li>
                 <a asp-action="Index" asp-controller="StandardCommonComponent" asp-route-standardCode="@Model.Standard.StandardCode"
                    class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Common components</a>
             </li>
+            @if (Model.Standard.LearningAims?.Count > 0)
+            {
+                <li>
+                    <a asp-action="Index" asp-controller="StandardLearningAim" asp-route-standardCode="@Model.Standard.StandardCode"
+                       class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Related learning aims</a>
+                </li>
+            }
         </ul>
 
         <h2 class="govuk-heading-l">Standard trailblazer</h2>
@@ -79,8 +87,6 @@
        <partial name="_StandardFundingModel" model="Model"/>
     </div>
 </div>
-
-
 
 @section PageScripts
 {

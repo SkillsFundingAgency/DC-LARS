@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.Azure.Models
@@ -47,5 +46,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public List<StandardFundingModel> StandardFundingModels { get; set; }
 
         public List<StandardApprenticeshipFundingModel> StandardApprenticeshipFundingModels { get; set; }
+
+        public List<RelatedLearningAimModel> LearningAims { get; set; }
     }
 }

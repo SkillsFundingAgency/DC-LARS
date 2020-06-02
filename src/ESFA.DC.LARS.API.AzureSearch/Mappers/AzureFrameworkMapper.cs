@@ -6,11 +6,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
 {
     public class AzureFrameworkMapper : IMapper<FrameworkModel, Models.FrameworkModel>
     {
-        private readonly IMapper<FrameworkAimModel, Models.FrameworkAimModel> _frameworkAimMapper;
+        private readonly IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> _frameworkAimMapper;
         private readonly IMapper<CommonComponentModel, Models.CommonComponentModel> _commonComponentMapper;
 
         public AzureFrameworkMapper(
-            IMapper<FrameworkAimModel, Models.FrameworkAimModel> frameworkAimMapper,
+            IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel> frameworkAimMapper,
             IMapper<CommonComponentModel, Models.CommonComponentModel> commonComponentMapper)
         {
             _frameworkAimMapper = frameworkAimMapper;

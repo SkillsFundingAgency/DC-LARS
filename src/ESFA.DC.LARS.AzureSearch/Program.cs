@@ -121,6 +121,8 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<LearningDeliveryCategoryService>().As<ILearningDeliveryCategoryService>();
             containerBuilder.RegisterType<CommonComponentLookupService>().As<ICommonComponentLookupService>();
             containerBuilder.RegisterType<StandardSectorCodeService>().As<IStandardSectorCodeService>();
+            containerBuilder.RegisterType<CommonComponentService>().As<ICommonComponentService>();
+            containerBuilder.RegisterType<RelatedLearningAimsService>().As<IRelatedLearningAimsService>();
 
             return containerBuilder;
         }

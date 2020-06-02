@@ -2,7 +2,7 @@
 
 namespace ESFA.DC.LARS.Web.Models
 {
-    public class FrameworkAimModel
+    public class RelatedLearningAimModel
     {
         public string LearnAimRef { get; set; }
 

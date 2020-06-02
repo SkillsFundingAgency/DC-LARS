@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class LearningDeliveryCategoryService : ILearningDeliveryCategoryService
     {
-        public async Task<Dictionary<string, List<CategoryModel>>> GetLearningDeliveryCategoriesAsync(LarsContext context)
+        public async Task<IDictionary<string, List<CategoryModel>>> GetLearningDeliveryCategoriesAsync(LarsContext context)
         {
             var catergoryList = await context.LarsLearningDeliveryCategories.Select(cat => new CategoryModel
             {

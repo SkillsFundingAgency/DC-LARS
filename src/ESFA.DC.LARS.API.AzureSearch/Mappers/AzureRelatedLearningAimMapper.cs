@@ -3,11 +3,11 @@ using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Mappers
 {
-    public class AzureFrameworkAimMapper : IMapper<FrameworkAimModel, Models.FrameworkAimModel>
+    public class AzureRelatedLearningAimMapper : IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel>
     {
-        public Models.FrameworkAimModel Map(FrameworkAimModel input)
+        public Models.RelatedLearningAimModel Map(RelatedLearningAimModel input)
         {
-            return new Models.FrameworkAimModel
+            return new Models.RelatedLearningAimModel
             {
                 LearnAimRef = input.LearnAimRef,
                 LearningAimTitle = input.LearningAimTitle,

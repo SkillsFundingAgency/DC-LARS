@@ -21,20 +21,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
-    <Content Remove="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
-    <Content Remove="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
-    <Content Remove="wwwroot\app\Breadcrumbs\standardsBreadcrumbBuilder.ts" />
-    <Content Remove="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\breadcrumbStrategyManager.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\defaultBreadcrumbStrategy.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\frameworksBreadcrumbStrategy.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbStrategy.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\standardsBreadcrumbStrategy.ts" />
+    <Content Remove="wwwroot\app\Breadcrumbs\unitsBreadcrumbStrategy.ts" />
     <Content Remove="wwwroot\app\constants.ts" />
     <Content Remove="wwwroot\app\cookieService.ts" />
     <Content Remove="wwwroot\app\Enums\FilterType.ts" />
     <Content Remove="wwwroot\app\Enums\Page.ts" />
     <Content Remove="wwwroot\app\ESFAGlobals.ts" />
+    <Content Remove="wwwroot\app\FilterStores\abstractFilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\filterstoreStrategyManager.ts" />
+    <Content Remove="wwwroot\app\FilterStores\frameworksFilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\qualificationsfilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\standardsFilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\Helpers\enumHelper.ts" />
     <Content Remove="wwwroot\app\Interfaces\IBreadcrumb.ts" />
-    <Content Remove="wwwroot\app\Interfaces\IBreadcrumbBuilder.ts" />
+    <Content Remove="wwwroot\app\Interfaces\IBreadcrumbStrategy.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\IQualificationsSearchRequest.ts" />
@@ -59,7 +66,7 @@
     <Content Remove="wwwroot\app\standardSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\store.ts" />
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
-    <Content Remove="wwwroot\app\Tests\frameworksBreadcrumbBuilder.test.ts" />
+    <Content Remove="wwwroot\app\Tests\frameworksBreadcrumbStrategy.test.ts" />
     <Content Remove="wwwroot\app\Tests\linkService.test.ts" />
     <Content Remove="wwwroot\app\unitsSearchResultsMain.ts" />
     <Content Remove="wwwroot\blank.js" />
@@ -100,23 +107,30 @@
 
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\defaultBreadcrumbBuilder.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\frameworksBreadcrumbBuilder.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\standardsBreadcrumbBuilder.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\unitsBreadcrumbBuilder.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbBuilder.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\breadcrumbStrategyManager.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\defaultBreadcrumbStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\frameworksBreadcrumbStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\standardsBreadcrumbStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\unitsBreadcrumbStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Enums\Page.ts" />
     <TypeScriptCompile Include="wwwroot\app\Enums\FilterType.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\abstractFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\filterstoreStrategyManager.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\frameworksFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\standardsFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\qualificationsFilterStoreStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStandardSearchRequest.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\standardSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\standardSearchResultsMain.ts" />
     <TypeScriptCompile Include="wwwroot\app\Helpers\enumHelper.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumbBuilder.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumbStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumb.ts" />
     <TypeScriptCompile Include="wwwroot\app\constants.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\breadcrumbService.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\linkService.test.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Tests\frameworksBreadcrumbBuilder.test.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Tests\frameworksBreadcrumbStrategy.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\unitsSearchResultsMain.ts" />
     <TypeScriptCompile Include="wwwroot\ESFAGlobals.ts" />
     <TypeScriptCompile Include="wwwroot\app\searchMain.ts" />

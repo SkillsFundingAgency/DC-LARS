@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ESFA.DC.LARS.API.Models
+namespace ESFA.DC.LARS.Azure.Models
 {
-    public class FrameworkAimModel
+    public class RelatedLearningAimModel
     {
         public string LearnAimRef { get; set; }
 

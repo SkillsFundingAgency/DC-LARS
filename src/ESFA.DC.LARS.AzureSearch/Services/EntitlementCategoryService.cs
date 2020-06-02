@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class EntitlementCategoryService : IEntitlementCategoryService
     {
-        public async Task<Dictionary<string, List<EntitlementCategoryModel>>> GetEntitlementCategoriesAsync(LarsContext context)
+        public async Task<IDictionary<string, List<EntitlementCategoryModel>>> GetEntitlementCategoriesAsync(LarsContext context)
         {
             var categories = await context.LarsAnnualValues
                 .Select(av => new EntitlementCategoryModel
