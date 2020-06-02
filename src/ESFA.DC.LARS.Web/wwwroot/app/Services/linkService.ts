@@ -4,13 +4,12 @@ import { IFilterItem } from '../Interfaces/IFilterItem';
 import { FilterType } from '../Enums/FilterType';
 import { constants } from '../constants';
 import { SearchType } from '../Enums/SearchType';
-import { filterStoreService } from './filterStoreService';
+import { FilterStoreService } from './filterStoreService';
 import { enumHelper } from '../Helpers/enumHelper';
 
 export default class LinkService {
 
     private storageService: StorageService;
-
     constructor() {
         this.storageService = new StorageService(sessionStorage);
     }
@@ -101,11 +100,12 @@ export default class LinkService {
 
     private updateFiltersForNewSearch(newSearchType: SearchType, exisitingSearchType: SearchType): Array<IFilterItem> {
         let updatedFilters: Array<IFilterItem> = [];
+        const filterStoreService = new FilterStoreService(exisitingSearchType);
 
         // If moving to a search that has teaching years then keep exisiting teaching year
         // filter or use current academic year if that not present.
         if (this.hasTeachingYearFilter(newSearchType)) {
-            const currentFilters = filterStoreService.getSavedFilters(exisitingSearchType);
+            const currentFilters = filterStoreService.getSavedFilters();
             if (currentFilters.some(f => f.type === FilterType.TeachingYears)) {
                 updatedFilters = currentFilters.filter(f => f.type === FilterType.TeachingYears);
             } else {

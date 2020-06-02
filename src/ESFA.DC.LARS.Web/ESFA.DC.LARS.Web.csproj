@@ -32,6 +32,12 @@
     <Content Remove="wwwroot\app\Enums\FilterType.ts" />
     <Content Remove="wwwroot\app\Enums\Page.ts" />
     <Content Remove="wwwroot\app\ESFAGlobals.ts" />
+    <Content Remove="wwwroot\app\FilterStores\abstractFilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\filterstoreStrategyManager.ts" />
+    <Content Remove="wwwroot\app\FilterStores\frameworksFilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\qualificationsfilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\standardsFilterStoreStrategy.ts" />
+    <Content Remove="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\Helpers\enumHelper.ts" />
     <Content Remove="wwwroot\app\Interfaces\IBreadcrumb.ts" />
@@ -109,6 +115,12 @@
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\qualificationsBreadcrumbStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Enums\Page.ts" />
     <TypeScriptCompile Include="wwwroot\app\Enums\FilterType.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\abstractFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\filterstoreStrategyManager.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\frameworksFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\standardsFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\FilterStores\qualificationsFilterStoreStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStandardSearchRequest.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\standardSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\standardSearchResultsMain.ts" />
