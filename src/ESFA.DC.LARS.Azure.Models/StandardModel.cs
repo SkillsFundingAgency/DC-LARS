@@ -8,6 +8,7 @@ namespace ESFA.DC.LARS.Azure.Models
     public class StandardModel
     {
         [Key]
+        [IsSearchable]
         public string StandardCode { get; set; }
 
         [IsSearchable]
