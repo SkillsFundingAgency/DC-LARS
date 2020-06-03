@@ -66,7 +66,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         LastDateStarts = st.LastDateStarts,
                         EffectiveTo = st.EffectiveTo,
                         SectorSubjectAreaTier1 = st.SectorSubjectAreaTier1.ToString(),
-                        SectorSubjectAreaTier1Desc = st.SectorSubjectAreaTier1Navigation.SectorSubjectAreaTier1Desc2,
+                        SectorSubjectAreaTier1Desc = st.SectorSubjectAreaTier1Navigation.SectorSubjectAreaTier1Desc,
                         SectorSubjectAreaTier2 = st.SectorSubjectAreaTier2.ToString(),
                         SectorSubjectAreaTier2Desc = st.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IntegratedDegreeStandard = st.IntegratedDegreeStandard,
