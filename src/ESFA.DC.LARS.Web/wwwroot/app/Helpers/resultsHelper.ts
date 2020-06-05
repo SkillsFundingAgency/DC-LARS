@@ -2,7 +2,7 @@
 import { debounce } from 'vue-debounce';
 import { SearchType } from '../Enums/SearchType';
 import { constants } from '../constants';
-import { filterStoreService } from '../Services/filterStoreService';
+import { FilterStoreService } from '../Services/filterStoreService';
 
 export class ResultsHelper {
 
@@ -20,8 +20,8 @@ export class ResultsHelper {
 			classScope.setIsLoading();
 			debouncedCallback();
 		}
-
-		filterStoreService.watchFilters(searchType, wrappedCall, immediateRefresh, true);
+		const filterStoreService = new FilterStoreService(searchType);
+		filterStoreService.watchFilters(wrappedCall, immediateRefresh, true);
 	}
 
 	public setIsLoading(): void {
@@ -69,6 +69,4 @@ export class ResultsHelper {
 			element.innerHTML = html;
 		}
 	}
-
-
 }

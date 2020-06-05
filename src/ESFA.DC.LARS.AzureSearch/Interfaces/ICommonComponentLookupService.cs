@@ -7,6 +7,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface ICommonComponentLookupService
     {
-        Task<Dictionary<int, CommonComponentLookupModel>> GetCommonComponentLookupsAsync(LarsContext context);
+        Task<IDictionary<int, CommonComponentLookupModel>> GetCommonComponentLookupsAsync(LarsContext context);
     }
 }

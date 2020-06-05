@@ -35,6 +35,12 @@ namespace ESFA.DC.LARS.API.Models
 
         public string OtherBodyApprovalRequired { get; set; }
 
+        public List<StandardFundingModel> StandardFundingModels { get; set; }
+
+        public List<StandardApprenticeshipFundingModel> StandardApprenticeshipFundingModels { get; set; }
+
         public List<CommonComponentModel> CommonComponents { get; set; }
+
+        public List<RelatedLearningAimModel> LearningAims { get; set; }
     }
 }

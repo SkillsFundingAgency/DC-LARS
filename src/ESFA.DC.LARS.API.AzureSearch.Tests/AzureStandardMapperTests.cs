@@ -33,7 +33,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             };
 
             var commonComponentMapperMock = new Mock<IMapper<CommonComponentModel, Models.CommonComponentModel>>();
-            var mapper = new AzureStandardMapper(commonComponentMapperMock.Object);
+            var standardFundingModelMapperMock = new Mock<IMapper<StandardFundingModel, Models.StandardFundingModel>>();
+            var standardApprenticeModelMapperMock = new Mock<IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel>>();
+            var aimMapperMock = new Mock<IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel>>();
+
+            var mapper = new AzureStandardMapper(standardFundingModelMapperMock.Object, standardApprenticeModelMapperMock.Object, commonComponentMapperMock.Object, aimMapperMock.Object);
             var result = mapper.Map(model);
 
             result.StandardCode.Should().Be(model.StandardCode);

@@ -6,6 +6,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IAwardOrgService
     {
-        Task<Dictionary<string, string>> GetAwardingOrgNamesAsync(LarsContext context);
+        Task<IDictionary<string, string>> GetAwardingOrgNamesAsync(LarsContext context);
     }
 }

@@ -9,7 +9,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class AwardOrgService : IAwardOrgService
     {
-        public async Task<Dictionary<string, string>> GetAwardingOrgNamesAsync(LarsContext context)
+        public async Task<IDictionary<string, string>> GetAwardingOrgNamesAsync(LarsContext context)
         {
             return await context.LarsAwardOrgCodeLookups
                  .ToDictionaryAsync(

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using Microsoft.Azure.Search;
 
 namespace ESFA.DC.LARS.Azure.Models
@@ -9,6 +8,7 @@ namespace ESFA.DC.LARS.Azure.Models
     public class StandardModel
     {
         [Key]
+        [IsSearchable]
         public string StandardCode { get; set; }
 
         [IsSearchable]
@@ -43,5 +43,11 @@ namespace ESFA.DC.LARS.Azure.Models
         public string OtherBodyApprovalRequired { get; set; }
 
         public List<CommonComponentModel> CommonComponents { get; set; }
+
+        public List<StandardFundingModel> StandardFundingModels { get; set; }
+
+        public List<StandardApprenticeshipFundingModel> StandardApprenticeshipFundingModels { get; set; }
+
+        public List<RelatedLearningAimModel> LearningAims { get; set; }
     }
 }

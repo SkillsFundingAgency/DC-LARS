@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class ValidityService : IValidityService
     {
-        public async Task<Dictionary<string, List<ValidityModel>>> GetValiditiesAsync(LarsContext context)
+        public async Task<IDictionary<string, List<ValidityModel>>> GetValiditiesAsync(LarsContext context)
         {
             var validities = await context.LarsValidities
             .Select(lv => new ValidityModel

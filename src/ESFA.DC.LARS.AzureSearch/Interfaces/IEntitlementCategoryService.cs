@@ -7,6 +7,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IEntitlementCategoryService
     {
-        Task<Dictionary<string, List<EntitlementCategoryModel>>> GetEntitlementCategoriesAsync(LarsContext context);
+        Task<IDictionary<string, List<EntitlementCategoryModel>>> GetEntitlementCategoriesAsync(LarsContext context);
     }
 }

@@ -6,12 +6,12 @@ using Xunit;
 
 namespace ESFA.DC.LARS.API.AzureSearch.Tests
 {
-    public class AzureFrameworkAimMapperTests
+    public class AzureRelatedLearningAimMapperTests
     {
         [Fact]
         public void Map_Returns_Valid_Model()
         {
-            var model = new FrameworkAimModel
+            var model = new RelatedLearningAimModel
             {
                 LearnAimRef = "testaimref",
                 LearningAimTitle = "testtitle",
@@ -23,7 +23,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 ComponentTypeDesc = "testdesc"
             };
 
-            var mapper = new AzureFrameworkAimMapper();
+            var mapper = new AzureRelatedLearningAimMapper();
             var result = mapper.Map(model);
 
             result.LearnAimRef.Should().Be(model.LearnAimRef);
