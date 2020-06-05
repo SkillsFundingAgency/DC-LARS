@@ -7,15 +7,14 @@ namespace ESFA.DC.LARS.Web.Extensions
     {
         private const string CultureNameGB = "en-gb";
 
-        private static CultureInfo CultureInfo
+        static StringExtensions()
         {
-            get
-            {
-                var culture = CultureInfo.CreateSpecificCulture(CultureNameGB);
-                culture.NumberFormat.CurrencyGroupSeparator = string.Empty;
-                return culture;
-            }
+            var culture = CultureInfo.CreateSpecificCulture(CultureNameGB);
+            culture.NumberFormat.CurrencyGroupSeparator = string.Empty;
+            CultureInfo = culture;
         }
+
+        private static CultureInfo CultureInfo { get; }
 
         public static string ToCurrency(this string value)
         {
