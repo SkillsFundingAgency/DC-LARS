@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 
 namespace ESFA.DC.LARS.Web.Extensions
 {
@@ -8,16 +7,19 @@ namespace ESFA.DC.LARS.Web.Extensions
     {
         private const string CultureNameGB = "en-gb";
 
-        public static string ToCurrency(this string value)
+        private static CultureInfo CultureInfo
         {
-            var culture = CultureInfo.CreateSpecificCulture(CultureNameGB);
-            return ToCurrency(value, culture);
+            get
+            {
+                var culture = CultureInfo.CreateSpecificCulture(CultureNameGB);
+                culture.NumberFormat.CurrencyGroupSeparator = string.Empty;
+                return culture;
+            }
         }
 
-        public static string ToCurrency(this string value, CultureInfo culture)
+        public static string ToCurrency(this string value)
         {
-            culture.NumberFormat.CurrencyGroupSeparator = string.Empty;
-            return Convert.ToDecimal(value).ToString("C0", culture);
+            return Convert.ToDecimal(value).ToString("C0", CultureInfo);
         }
 
         public static string RemovePrecision(this string value)
