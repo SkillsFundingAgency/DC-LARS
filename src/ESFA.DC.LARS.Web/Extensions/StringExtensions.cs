@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 
 namespace ESFA.DC.LARS.Web.Extensions
 {
     public static class StringExtensions
     {
-        public static string ToCurrency(this string value)
+        private const string CultureNameGB = "en-gb";
+
+        static StringExtensions()
         {
-            var culture = new CultureInfo(CultureInfo.CurrentCulture.Name);
-            return ToCurrency(value, culture);
+            var culture = CultureInfo.CreateSpecificCulture(CultureNameGB);
+            culture.NumberFormat.CurrencyGroupSeparator = string.Empty;
+            CultureInfo = culture;
         }
 
-        public static string ToCurrency(this string value, CultureInfo culture)
+        private static CultureInfo CultureInfo { get; }
+
+        public static string ToCurrency(this string value)
         {
-            culture.NumberFormat.CurrencyGroupSeparator = string.Empty;
-            return Convert.ToDecimal(value).ToString("C0", culture);
+            return Convert.ToDecimal(value).ToString("C0", CultureInfo);
         }
 
         public static string RemovePrecision(this string value)
