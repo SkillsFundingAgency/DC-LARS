@@ -28,8 +28,20 @@
                             <td class="govuk-table__cell">@standardFundingModel.EffectiveTo?.ToDateString()</td>
                         </tr>
                         <tr class="govuk-table__row">
-                            <th scope="row" class="govuk-table__header">16 to 18 provider additional payment</th>
+                            <th scope="row" class="govuk-table__header">Core GOV Contribution Cap</th>
+                            <td class="govuk-table__cell">@standardFundingModel.CoreGovContributionCap.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">16 - 18 Incentive</th>
                             <td class="govuk-table__cell">@standardFundingModel.Incentive1618.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Small Business Incentive</th>
+                            <td class="govuk-table__cell">@standardFundingModel.SmallBusinessIncentive.ToCurrency()</td>
+                        </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header">Achievement Incentive</th>
+                            <td class="govuk-table__cell">@standardFundingModel.AchievementIncentive.ToCurrency()</td>
                         </tr>
                     </tbody>
                 </table>

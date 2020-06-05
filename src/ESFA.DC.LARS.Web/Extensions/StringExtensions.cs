@@ -6,9 +6,11 @@ namespace ESFA.DC.LARS.Web.Extensions
 {
     public static class StringExtensions
     {
+        private const string CultureNameGB = "en-gb";
+
         public static string ToCurrency(this string value)
         {
-            var culture = new CultureInfo(CultureInfo.CurrentCulture.Name);
+            var culture = CultureInfo.CreateSpecificCulture(CultureNameGB);
             return ToCurrency(value, culture);
         }
 
