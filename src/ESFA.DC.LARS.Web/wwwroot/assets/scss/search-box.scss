@@ -81,14 +81,13 @@
 
 
         .govuk-button {
-            height: 38px;
+            height: 40px;
             width: 40px;
             background-color: govuk-colour("black");
             display: block;
             background-repeat: no-repeat;
             margin-bottom: 0;
-
-
+            box-shadow: none;
             img {
                 position: absolute;
                 clip: rect(23px, 26px, 44px, 8px);
