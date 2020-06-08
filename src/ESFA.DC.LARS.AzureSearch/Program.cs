@@ -111,6 +111,7 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<AcademicYearService>().As<IAcademicYearService>();
             containerBuilder.RegisterType<ComponentTypeService>().As<IComponentTypeService>();
             containerBuilder.RegisterType<IssuingAuthorityService>().As<IIssuingAuthorityService>();
+            containerBuilder.RegisterType<IssuingAuthoritySortingService>().As<IIssuingAuthoritySortingService>();
             containerBuilder.RegisterType<LarsContextFactory>().As<ILarsContextFactory>();
 
             containerBuilder.RegisterType<FundingService>().As<IFundingService>();

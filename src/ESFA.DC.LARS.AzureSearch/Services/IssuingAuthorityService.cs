@@ -19,21 +19,5 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 ia => ia.IssuingAuthorityDesc,
                 StringComparer.OrdinalIgnoreCase);
         }
-
-        public async Task<IEnumerable<IssuingAuthorityLookupModel>> GetIssuingAuthoritiesLookupAsync(LarsContext context)
-        {
-            return await context.LarsIssuingAuthorityLookups.OrderBy(c => CustomOrdering(c))
-                .ThenBy(c => c.IssuingAuthorityDesc)
-                .Select(ia => new IssuingAuthorityLookupModel
-                {
-                    IssuingAuthority = ia.IssuingAuthority.ToString(),
-                    IssuingAuthorityDesc = ia.IssuingAuthorityDesc
-                }).ToListAsync();
-        }
-
-        private int CustomOrdering(LarsIssuingAuthorityLookup lookup)
-        {
-            return lookup.IssuingAuthority > 0 ? 0 : 1;
-        }
     }
 }

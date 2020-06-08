@@ -13,19 +13,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     {
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
-        private readonly IIssuingAuthorityService _issueAuthorityService;
+        private readonly IIssuingAuthoritySortingService _issuingAuthoritySortingService;
 
         public LookupIndexPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
             IAcademicYearService academicYearService,
-            IIssuingAuthorityService issueAuthorityService)
+            IIssuingAuthoritySortingService issuingAuthoritySortingService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
-            _issueAuthorityService = issueAuthorityService;
+            _issuingAuthoritySortingService = issuingAuthoritySortingService;
         }
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
@@ -80,7 +80,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             FrameworkType = ft.ProgType.ToString(),
                             FrameworkTypeDesc = ft.ProgTypeDesc
                         }).ToListAsync(),
-                    IssuingAuthorityLookups = await _issueAuthorityService.GetIssuingAuthoritiesLookupAsync(_contextFactory.GetLarsContext()),
+                    IssuingAuthorityLookups = await context.LarsIssuingAuthorityLookups
+                        .Select(ia => new IssuingAuthorityLookupModel
+                        {
+                            IssuingAuthority = ia.IssuingAuthority.ToString(),
+                            IssuingAuthorityDesc = ia.IssuingAuthorityDesc
+                        }).ToListAsync(),
                     StandardSectorLookups = await context.LarsStandardSectorCodeLookups
                         .Select(sc => new StandardSectorLookupModel
                         {
@@ -90,6 +95,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 };
             }
 
+            lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups.ToList());
             var indexActions = new List<IndexAction<LookUpModel>> { IndexAction.Upload(lookups) };
 
             var batch = IndexBatch.New(indexActions);

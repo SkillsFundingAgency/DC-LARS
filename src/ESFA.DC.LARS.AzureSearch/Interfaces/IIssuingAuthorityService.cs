@@ -8,7 +8,5 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
     public interface IIssuingAuthorityService
     {
         Task<IDictionary<string, string>> GetIssuingAuthoritiesAsync(LarsContext context);
-
-        Task<IEnumerable<IssuingAuthorityLookupModel>> GetIssuingAuthoritiesLookupAsync(LarsContext context);
     }
 }
