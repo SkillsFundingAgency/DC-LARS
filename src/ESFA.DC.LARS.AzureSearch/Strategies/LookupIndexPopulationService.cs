@@ -13,16 +13,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     {
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
+        private readonly IIssuingAuthorityService _issueAuthorityService;
 
         public LookupIndexPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
-            IAcademicYearService academicYearService)
+            IAcademicYearService academicYearService,
+            IIssuingAuthorityService issueAuthorityService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
+            _issueAuthorityService = issueAuthorityService;
         }
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
@@ -77,12 +80,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             FrameworkType = ft.ProgType.ToString(),
                             FrameworkTypeDesc = ft.ProgTypeDesc
                         }).ToListAsync(),
-                    IssuingAuthorityLookups = await context.LarsIssuingAuthorityLookups
-                        .Select(ia => new IssuingAuthorityLookupModel
-                        {
-                            IssuingAuthority = ia.IssuingAuthority.ToString(),
-                            IssuingAuthorityDesc = ia.IssuingAuthorityDesc
-                        }).ToListAsync(),
+                    IssuingAuthorityLookups = await _issueAuthorityService.GetIssuingAuthoritiesLookupAsync(_contextFactory.GetLarsContext()),
                     StandardSectorLookups = await context.LarsStandardSectorCodeLookups
                         .Select(sc => new StandardSectorLookupModel
                         {

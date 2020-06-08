@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.ReferenceData.LARS.Model;
 
 namespace ESFA.DC.LARS.AzureSearch.Interfaces
@@ -7,5 +8,7 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
     public interface IIssuingAuthorityService
     {
         Task<IDictionary<string, string>> GetIssuingAuthoritiesAsync(LarsContext context);
+
+        Task<IEnumerable<IssuingAuthorityLookupModel>> GetIssuingAuthoritiesLookupAsync(LarsContext context);
     }
 }
