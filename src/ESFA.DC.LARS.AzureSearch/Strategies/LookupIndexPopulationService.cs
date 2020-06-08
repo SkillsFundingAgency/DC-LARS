@@ -13,16 +13,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     {
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
+        private readonly INotionalNVQLevel2SortingService _notionalNVQLevel2SortingService;
 
         public LookupIndexPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
-            IAcademicYearService academicYearService)
+            IAcademicYearService academicYearService,
+            INotionalNVQLevel2SortingService notionalNVQLevel2SortingService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
+            _notionalNVQLevel2SortingService = notionalNVQLevel2SortingService;
         }
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
@@ -90,6 +93,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             StandardSectorCodeDesc = sc.StandardSectorCodeDesc2
                         }).ToListAsync()
                 };
+
+                lookups.NotionalNvqLevel2Lookups = _notionalNVQLevel2SortingService.SortForDisplay(lookups.NotionalNvqLevel2Lookups.ToList());
             }
 
             var indexActions = new List<IndexAction<LookUpModel>> { IndexAction.Upload(lookups) };
