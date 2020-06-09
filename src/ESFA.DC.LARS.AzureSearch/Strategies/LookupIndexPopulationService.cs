@@ -13,16 +13,19 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     {
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
+        private readonly ISortingService<IssuingAuthorityLookupModel> _issuingAuthoritySortingService;
 
         public LookupIndexPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
-            IAcademicYearService academicYearService)
+            IAcademicYearService academicYearService,
+            ISortingService<IssuingAuthorityLookupModel> issuingAuthoritySortingService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
+            _issuingAuthoritySortingService = issuingAuthoritySortingService;
         }
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
@@ -92,6 +95,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 };
             }
 
+            lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups);
             var indexActions = new List<IndexAction<LookUpModel>> { IndexAction.Upload(lookups) };
 
             var batch = IndexBatch.New(indexActions);
