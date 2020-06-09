@@ -16,26 +16,11 @@ namespace ESFA.DC.LARS.AzureSearch.Tests
         }
 
         [Fact]
-        public void Sort_ShouldSortAlphanumericallyOnLevel()
-        {
-            // Act
-            var results = _sut.Sort(GetLookupData());
-
-            // Assert
-            Assert.Equal("1.5", results.First().NotionalNVQLevelV2);
-            Assert.Equal("Z", results.Last().NotionalNVQLevelV2);
-        }
-
-
-        [Theory]
-        [InlineData("E")]
-        [InlineData("e")]
-        public void Sort_ShouldApplyEntryLevelToStartRule(string level)
+        public void Sort_ShouldStartWithEntryLevel()
         {
             // Arrange
             var getLookupData = GetLookupData();
-            getLookupData.Add(new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2=level});
-
+           
             // Act
             var results = _sut.Sort(getLookupData);
 
@@ -43,17 +28,41 @@ namespace ESFA.DC.LARS.AzureSearch.Tests
             Assert.Equal("E", results.First().NotionalNVQLevelV2.ToUpper());
         }
 
+        [Fact]
+        public void Sort_ShouldPutUnknownItemsAtEndAlphabetically()
+        {
+            // Arrange
+            var lastUnknown = "unknownC";
+            var getLookupData = GetLookupData();
+
+            getLookupData.Add(new NotionalNVQLevel2LookupModel { NotionalNVQLevelV2 = "unknownA" });
+            getLookupData.Add(new NotionalNVQLevel2LookupModel { NotionalNVQLevelV2 = "unknownB" });
+            getLookupData.Add(new NotionalNVQLevel2LookupModel { NotionalNVQLevelV2 = lastUnknown });
+
+            // Act
+            var results = _sut.Sort(getLookupData);
+
+            // Assert
+            Assert.Equal(lastUnknown, results.Last().NotionalNVQLevelV2);
+        }
+
         public List<NotionalNVQLevel2LookupModel> GetLookupData()
         {
             return new List<NotionalNVQLevel2LookupModel>
             {
-                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="2"},
-                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="4"},
-                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="3"},
-                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="a"},
-                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="Z"},
-                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="5"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="1"},
                 new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="1.5"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="2"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="3"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="4"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="5"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="6"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="7"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="8"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="E"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="H"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="M"},
+                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="X"}
             };
         }
     }
