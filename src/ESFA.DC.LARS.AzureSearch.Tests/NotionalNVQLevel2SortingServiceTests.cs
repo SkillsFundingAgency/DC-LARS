@@ -15,12 +15,15 @@ namespace ESFA.DC.LARS.AzureSearch.Tests
             _sut = new NotionalNVQLevel2SortingService();
         }
 
-        [Fact]
-        public void Sort_ShouldStartWithEntryLevel()
+        [Theory]
+        [InlineData("E")]
+        [InlineData("e")]
+        public void Sort_ShouldStartWithEntryLevel(string level)
         {
             // Arrange
             var getLookupData = GetLookupData();
-           
+            getLookupData.Add(new NotionalNVQLevel2LookupModel { NotionalNVQLevelV2 = level });
+
             // Act
             var results = _sut.Sort(getLookupData);
 
@@ -59,7 +62,6 @@ namespace ESFA.DC.LARS.AzureSearch.Tests
                 new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="6"},
                 new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="7"},
                 new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="8"},
-                new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="E"},
                 new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="H"},
                 new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="M"},
                 new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2="X"}

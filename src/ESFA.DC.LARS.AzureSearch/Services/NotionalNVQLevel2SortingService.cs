@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -7,7 +8,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class NotionalNVQLevel2SortingService : ISortingService<NotionalNVQLevel2LookupModel>
     {
-        private Dictionary<string, int> SortOrder => new Dictionary<string, int>
+        private Dictionary<string, int> SortOrder => new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
             { "E", 1 },
             { "1", 2 },
