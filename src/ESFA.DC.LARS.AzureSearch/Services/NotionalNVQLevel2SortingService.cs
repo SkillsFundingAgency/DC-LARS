@@ -8,7 +8,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class NotionalNVQLevel2SortingService : ISortingService<NotionalNVQLevel2LookupModel>
     {
-        private Dictionary<string, int> SortOrder => new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<string, int> _sortOrder = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
             { "E", 1 },
             { "1", 2 },
@@ -27,7 +27,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 
         public IEnumerable<NotionalNVQLevel2LookupModel> Sort(IEnumerable<NotionalNVQLevel2LookupModel> lookups)
         {
-            lookups = lookups.OrderBy(a => SortOrder.GetValueOrDefault(a.NotionalNVQLevelV2, lookups.Count())).ThenBy(a => a.NotionalNVQLevelV2);
+            lookups = lookups.OrderBy(a => _sortOrder.GetValueOrDefault(a.NotionalNVQLevelV2, lookups.Count())).ThenBy(a => a.NotionalNVQLevelV2);
             return lookups;
         }
     }
