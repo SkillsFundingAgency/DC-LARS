@@ -18,7 +18,7 @@ export class FrameworksBreadcrumbStrategy implements IBreadcrumbStrategy {
         if (storageItem.page === Page.CommonComponent) {
             breadcrumbs.push({ text: 'Common components', link: '', page: Page.CommonComponent });
         } else {
-            breadcrumbs.push({ text: storageItem.learningAimTitle, link: linkService.getQualificationsDetailsLinkForFrameworks(storageItem), page: Page.LearningAimDetails });
+            breadcrumbs.push({ text: storageItem.learningAimTitle, link: linkService.getQualificationsDetailsLinkWithoutYear(storageItem), page: Page.LearningAimDetails });
             breadcrumbs.push({ text: 'Category', link: '', page: Page.Category });
         }
 

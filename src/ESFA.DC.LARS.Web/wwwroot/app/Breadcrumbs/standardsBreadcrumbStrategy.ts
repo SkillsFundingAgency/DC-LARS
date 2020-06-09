@@ -17,10 +17,10 @@ export class StandardsBreadcrumbStrategy implements IBreadcrumbStrategy {
 
         if (storageItem.page === Page.CommonComponent) {
             breadcrumbs.push({ text: 'Common components', link: '', page: storageItem.page });
-        }
-
-        if (storageItem.page === Page.RelatedLearningAims) {
-            breadcrumbs.push({ text: 'Related learning aims', link: '', page: storageItem.page });
+        } else {
+            breadcrumbs.push({ text: 'Related learning aims', link: linkService.getStandardsRelatedAimsLink(storageItem), page: storageItem.page });
+            breadcrumbs.push({ text: storageItem.learningAimTitle, link: linkService.getQualificationsDetailsLinkWithoutYear(storageItem), page: Page.LearningAimDetails });
+            breadcrumbs.push({ text: 'Category', link: '', page: Page.Category });
         }
 
         return breadcrumbs;
