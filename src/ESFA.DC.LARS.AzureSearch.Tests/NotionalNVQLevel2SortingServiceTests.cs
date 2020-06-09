@@ -16,10 +16,10 @@ namespace ESFA.DC.LARS.AzureSearch.Tests
         }
 
         [Fact]
-        public void SortForDisplay_ShouldSortAlphanumerically()
+        public void Sort_ShouldSortAlphanumericallyOnLevel()
         {
             // Act
-            var results = _sut.SortForDisplay(GetLookupData());
+            var results = _sut.Sort(GetLookupData());
 
             // Assert
             Assert.Equal("1.5", results.First().NotionalNVQLevelV2);
@@ -30,14 +30,14 @@ namespace ESFA.DC.LARS.AzureSearch.Tests
         [Theory]
         [InlineData("E")]
         [InlineData("e")]
-        public void SortForDisplay_ShouldApplyEntryLevelToStartRule(string level)
+        public void Sort_ShouldApplyEntryLevelToStartRule(string level)
         {
             // Arrange
             var getLookupData = GetLookupData();
             getLookupData.Add(new NotionalNVQLevel2LookupModel{NotionalNVQLevelV2=level});
 
             // Act
-            var results = _sut.SortForDisplay(getLookupData);
+            var results = _sut.Sort(getLookupData);
 
             // Assert
             Assert.Equal("E", results.First().NotionalNVQLevelV2.ToUpper());

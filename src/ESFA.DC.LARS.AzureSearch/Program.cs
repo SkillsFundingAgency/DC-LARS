@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.DateTimeProvider.Interface;
+using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Extensions;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -123,8 +124,7 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<StandardSectorCodeService>().As<IStandardSectorCodeService>();
             containerBuilder.RegisterType<CommonComponentService>().As<ICommonComponentService>();
             containerBuilder.RegisterType<RelatedLearningAimsService>().As<IRelatedLearningAimsService>();
-
-            containerBuilder.RegisterType<NotionalNVQLevel2SortingService>().As<INotionalNVQLevel2SortingService>();
+            containerBuilder.RegisterType<NotionalNVQLevel2SortingService>().As<ISortingService<NotionalNVQLevel2LookupModel>>();
 
             return containerBuilder;
         }

@@ -6,22 +6,22 @@ using ESFA.DC.LARS.AzureSearch.Interfaces;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
-    public class NotionalNVQLevel2SortingService : INotionalNVQLevel2SortingService
+    public class NotionalNVQLevel2SortingService : ISortingService<NotionalNVQLevel2LookupModel>
     {
         private const string EntryNotionalNVQLevel = "E";
 
-        public IEnumerable<NotionalNVQLevel2LookupModel> SortForDisplay(List<NotionalNVQLevel2LookupModel> itemsToSort)
+        public IEnumerable<NotionalNVQLevel2LookupModel> Sort(IEnumerable<NotionalNVQLevel2LookupModel> lookups)
         {
             // Default Alphanumeric sort on level
-            itemsToSort = itemsToSort.OrderBy(a => a.NotionalNVQLevelV2).ToList();
+            lookups = lookups.OrderBy(a => a.NotionalNVQLevelV2);
 
             // Business Rule:  Entry level must be first item displayed.
-            MoveEntryLevelToStartOfList(itemsToSort);
+            lookups = MoveEntryLevelToStartOfList(lookups.ToList());
 
-            return itemsToSort;
+            return lookups;
         }
 
-        private void MoveEntryLevelToStartOfList(List<NotionalNVQLevel2LookupModel> itemsToSort)
+        private IEnumerable<NotionalNVQLevel2LookupModel> MoveEntryLevelToStartOfList(List<NotionalNVQLevel2LookupModel> itemsToSort)
         {
             var entryLevel = itemsToSort.SingleOrDefault(i => string.Equals(i.NotionalNVQLevelV2, EntryNotionalNVQLevel, StringComparison.OrdinalIgnoreCase));
 
@@ -30,6 +30,8 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 itemsToSort.Remove(entryLevel);
                 itemsToSort.Insert(0, entryLevel);
             }
+
+            return itemsToSort;
         }
     }
 }
