@@ -96,11 +96,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             StandardSectorCodeDesc = sc.StandardSectorCodeDesc2
                         }).ToListAsync()
                 };
-
-                lookups.NotionalNvqLevel2Lookups = _levelSortingService.Sort(lookups.NotionalNvqLevel2Lookups);
             }
 
             lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups);
+            lookups.NotionalNvqLevel2Lookups = _levelSortingService.Sort(lookups.NotionalNvqLevel2Lookups);
+
             var indexActions = new List<IndexAction<LookUpModel>> { IndexAction.Upload(lookups) };
 
             var batch = IndexBatch.New(indexActions);
