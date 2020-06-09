@@ -5,7 +5,7 @@ using ESFA.DC.LARS.AzureSearch.Interfaces;
 
 namespace ESFA.DC.LARS.AzureSearch.Services
 {
-    public class IssuingAuthoritySortingService : IIssuingAuthoritySortingService
+    public class IssuingAuthoritySortingService : ISortingService<IssuingAuthorityLookupModel>
     {
         public IEnumerable<IssuingAuthorityLookupModel> Sort(IEnumerable<IssuingAuthorityLookupModel> lookups)
         {
