@@ -12,7 +12,7 @@ class BreadcrumbStrategyManager {
 
     private _breadcrumbStrategy: IBreadcrumbStrategy = new DefaultBreadcrumbStrategy();
 
-    private _breadcrumbBuilders = {
+    private _breadcrumbStrategies = {
         [SearchType.Qualifications]: new QualificationsBreadcrumbStrategy(),
         [SearchType.Units]: new UnitsBreadcrumbStrategy(),
         [SearchType.Frameworks]: new FrameworksBreadcrumbStrategy(),
@@ -20,7 +20,7 @@ class BreadcrumbStrategyManager {
     };
 
     public setBreadcrumbStrategy(searchType: SearchType) {
-        let selectedStrategy = this._breadcrumbBuilders[searchType];
+        let selectedStrategy = this._breadcrumbStrategies[searchType];
         if (!selectedStrategy) {
             selectedStrategy = new DefaultBreadcrumbStrategy();
         }
