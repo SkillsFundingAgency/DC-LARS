@@ -1,44 +1,27 @@
-﻿import Vue from "vue";
-import store from "./store";
-
+﻿import { Component } from 'vue-property-decorator';
 import Filters from "./Components/filters.vue";
 import FilterFeedback from './Components/filterFeedback.vue';
 import { frameworkSearchService } from './Services/frameworkSearchService';
-import { FilterStoreService } from './Services/filterStoreService';
 import { SearchType } from './Enums/SearchType';
-import { ResultsHelper } from './Helpers/resultsHelper';
-import LinkService from './Services/LinkService';
+import AbstractSearchResultsComponent from "./abstractSearchResultsComponent";
 
-let vue = new Vue({
+@Component({
     el: "#resultsApp",
-    store,
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
-    },
-    data() {
-        return {
-            immediateRefresh: false,
-            linkService: new LinkService()
-        };
-    },
-    mounted() {
-        const filterStoreService = new FilterStoreService(SearchType.Frameworks);
-
-        const getDataAsync = async function () {
-            const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-            return await frameworkSearchService.getResultsAsync(filterStoreService.getSavedFilters(), searchTerm);
-        };
-        const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
-        const needsClientRefresh = this.immediateRefresh || this.linkService.hasFilterQueryStringParam(window.location.search);
-        resultsHelper.manageResults(getDataAsync, SearchType.Frameworks, needsClientRefresh);
-    },
-    methods: {
-        setImmediateRefreshRequired: function (refreshRequired: boolean) {
-            this.immediateRefresh = refreshRequired;
-        },
-        learningTypeChanged: function (value: string) {
-            this.linkService.redirectToResults(value, SearchType.Frameworks);
-        }
     }
-});
+})
+class ResultsApp extends AbstractSearchResultsComponent {
+    searchType = SearchType.Frameworks;
+
+    mounted() {
+        this.intialise();
+    }
+
+    async getDataAsync() {
+        return await frameworkSearchService.getResultsAsync(this.savedFilters, this.searchTerm);
+    };
+}
+
+const vue = new ResultsApp();

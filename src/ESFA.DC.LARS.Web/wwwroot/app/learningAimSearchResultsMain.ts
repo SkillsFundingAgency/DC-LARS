@@ -1,44 +1,28 @@
-﻿import Vue from "vue";
-import store from "./store"
+﻿import { Component } from 'vue-property-decorator';
 import Filters from "../app/Components/filters.vue";
 import FilterFeedback from '../app/Components/filterFeedback.vue';
-import { FilterStoreService } from './Services/filterStoreService';
 import { SearchType } from './Enums/SearchType';
 import { learningAimSearchService } from './Services/learningAimSearchService';
-import { ResultsHelper } from './Helpers/resultsHelper';
-import LinkService from './Services/LinkService';
+import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
 
-const vue = new Vue({
+@Component({
     el: "#resultsApp",
-    store,
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
-    },
-    data() {
-        return {
-            immediateRefresh: false,
-            linkService: new LinkService()
-        };
-    },
-    mounted() {
-        const getDataAsync = async function () {
-            const filterStoreService = new FilterStoreService(SearchType.Qualifications);
-            const searchTerm: string = (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-            const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-            return await learningAimSearchService.getQualificationsResultsAsync(filterStoreService.getSavedFilters(), searchTerm, teachingYears);
-        }
-
-        const resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
-        const needsClientRefresh = this.immediateRefresh || this.linkService.hasFilterQueryStringParam(window.location.search);
-        resultsHelper.manageResults(getDataAsync, SearchType.Qualifications, needsClientRefresh);
-    },
-    methods: {
-        setImmediateRefreshRequired: function (refreshRequired: boolean) {
-            this.immediateRefresh = refreshRequired;
-        },
-        learningTypeChanged: function (value: string) {
-            this.linkService.redirectToResults(value, SearchType.Qualifications);
-        }
     }
-});
+})
+class ResultsApp extends AbstractSearchResultsComponent {
+    searchType = SearchType.Qualifications;
+
+    mounted() {
+        this.intialise();
+    }
+
+    async getDataAsync() {
+        const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
+        return await learningAimSearchService.getQualificationsResultsAsync(this.savedFilters, this.searchTerm, teachingYears);
+    };
+}
+
+const vue = new ResultsApp();
