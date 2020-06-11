@@ -1,4 +1,4 @@
-﻿using DCT.Automation.Core.Framework.TestBase;
+﻿using DCT.Automation.Standard.Framework.TestBase;
 using OpenQA.Selenium;
 
 namespace ESFA.DC.LARS.Web.Automation.Tests.WebPages

@@ -1,8 +1,4 @@
-﻿using DCT.Automation.Core.Framework.TestBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DCT.Automation.Standard.Framework.TestBase;
 using TechTalk.SpecFlow;
 
 namespace ESFA.DC.LARS.Web.Automation.Tests.Hooks

@@ -1,5 +1,5 @@
-﻿using static DCT.Automation.Core.Framework.Settings.Repository;
-using DCT.Automation.Core.Framework.TestBase;
+﻿using static DCT.Automation.Standard.Framework.Settings.Repository;
+using DCT.Automation.Standard.Framework.TestBase;
 using OpenQA.Selenium;
 using System;
 using ESFA.DC.LARS.Web.Automation.Tests.Repository;
@@ -9,6 +9,7 @@ namespace ESFA.DC.LARS.Web.Automation.Tests.WebPages
     public class HomePage : Driver
     {
         private DriverConfig _driverConfig;
+        private DriverConfig driverConfig;
 
         public HomePage(DriverConfig driverConfig)
             : base(driverConfig)

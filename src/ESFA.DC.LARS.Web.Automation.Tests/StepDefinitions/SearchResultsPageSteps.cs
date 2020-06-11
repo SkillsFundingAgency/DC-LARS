@@ -1,9 +1,5 @@
-﻿using DCT.Automation.Core.Framework.TestBase;
+﻿using DCT.Automation.Standard.Framework.TestBase;
 using ESFA.DC.LARS.Web.Automation.Tests.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TechTalk.SpecFlow;
 using Xunit;
 

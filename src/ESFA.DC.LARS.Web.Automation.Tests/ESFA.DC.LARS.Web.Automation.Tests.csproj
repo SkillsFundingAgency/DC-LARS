@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DCT.Automation.Core.Framework">
-      <HintPath>Assemblies\DCT.Automation.Core.Framework.dll</HintPath>
+    <Reference Include="DCT.Automation.Standard.Framework">
+      <HintPath>Assemblies\DCT.Automation.Standard.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
 
