@@ -27,8 +27,8 @@ export class FilterStoreService {
 
     public getFiltersForNewSearch(newSearchType: SearchType, storageItem: IStorageItem): Array<IFilterItem> {
         let updatedFilters: Array<IFilterItem> = [];
-        // If moving to a search that has teaching years then keep exisiting teaching year
-        // filter or use current academic year if that not present.
+        // If new search has teaching years then keep exisiting teaching year
+        // filter if present or use current academic year if not.
         if (this.canHaveTeachingYearFilter(newSearchType)) {
             const currentFilters = this.getSavedFilters();
             if (currentFilters.some(f => f.type === FilterType.TeachingYears)) {

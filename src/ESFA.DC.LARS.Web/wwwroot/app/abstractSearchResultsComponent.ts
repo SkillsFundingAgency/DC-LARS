@@ -16,7 +16,6 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
     abstract async getDataAsync(filters: Array<IFilterItem>): Promise<ISearchResults>;
     abstract getSearchType(): SearchType;
 
-    private immediateRefresh: boolean = false;
     private linkService: LinkService;
     private storageService: StorageService;
     protected filterStoreService: FilterStoreService;
@@ -31,24 +30,20 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
     }
 
     public intialise(): void {
-        this.resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement);
-        this.setFilterWatch();
+        this.resultsHelper = new ResultsHelper(this.$refs["Results"] as HTMLElement, this.$refs["ResultsCount"] as HTMLElement, this.$refs["ValidationErrors"] as HTMLElement, document.getElementById("loadingImage") as HTMLElement);
+        this.addFilterWatch();
     }
 
     public get searchTerm(): string {
         return (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
     };
 
-    public setImmediateRefreshRequired(refreshRequired: boolean): void {
-        this.immediateRefresh = refreshRequired;
-    }
-
     public learningTypeChanged(value: string): void {
-        const clientSearchType = enumHelper.ConvertServerSearchTypeEnumToClientType(value);
-        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
+        const searchType = enumHelper.ConvertServerSearchTypeEnumToClientType(value);
+        const storageItem = this.getStorageItem();
 
-        storageItem.filters = this.filterStoreService.getFiltersForNewSearch(clientSearchType, storageItem);
-        window.location.href = this.linkService.getResultsLinkForSearchType(clientSearchType, storageItem);
+        storageItem.filters = this.filterStoreService.getFiltersForNewSearch(searchType, storageItem);
+        window.location.href = this.linkService.getResultsLinkForSearchType(searchType, storageItem);
 
         this.storageService.updateFilters(constants.storageKey, storageItem.filters);
     }
@@ -56,23 +51,30 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
     public search(event: Event): void {
         event.preventDefault();
         this.resultsHelper.setIsLoading();
-        this.getResultsAsync(this.getDataAsync);
+        this.refreshResultsAsync(this.getDataAsync);
+        this.storageService.store(constants.storageKey, Object.assign(this.getStorageItem(), {searchTerm: this.searchTerm}));
     }
 
-    private setFilterWatch(): void {
-        const debouncedCallback = debounce(async () => { await this.getResultsAsync(this.getDataAsync) }, constants.debounceTime);
+    private addFilterWatch(): void {
+        const needsClientSideRefresh = this.getStorageItem().hasFilterMismatch || this.linkService.hasFilterQueryStringParam(window.location.search);
+        this.filterStoreService.watchFilters(this.getFilterChangeCallback(), needsClientSideRefresh, true);
+    }
+
+    private getFilterChangeCallback(): Function {
+        const debouncedCallback = debounce(async () => { await this.refreshResultsAsync(this.getDataAsync) }, constants.debounceTime);
         const classScope = this;
 
-        const wrappedCall = function () {
+        return function () {
             classScope.resultsHelper.setIsLoading();
             debouncedCallback();
         }
-
-        const needsClientSideRefresh = this.immediateRefresh || this.linkService.hasFilterQueryStringParam(window.location.search);
-        this.filterStoreService.watchFilters(wrappedCall, needsClientSideRefresh, true);
     }
 
-    private async getResultsAsync(getDataAsync: Function) {
+    private getStorageItem(): IStorageItem  {
+        return this.storageService.retrieve(constants.storageKey) as IStorageItem
+    };
+
+    private async refreshResultsAsync(getDataAsync: Function) {
         this.latestRequestId++;
         const classScope = this;
         const getResults = async function (requestId: number) {

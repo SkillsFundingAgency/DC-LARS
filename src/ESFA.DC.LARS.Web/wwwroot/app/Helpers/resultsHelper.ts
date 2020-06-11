@@ -2,13 +2,12 @@
 
 export class ResultsHelper {
 
-	constructor(private resultsContainer: HTMLElement, private resultsCountContainer: HTMLElement, private validationErrorContainer:HTMLElement) {
+	constructor(private resultsContainer: HTMLElement, private resultsCountContainer: HTMLElement, private validationErrorContainer: HTMLElement, private loadingContainer: HTMLElement) {
 	}
 
 	public setIsLoading(): void {
 		this.setInnerHtml(this.resultsContainer, "");
-		const loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
-		loadingContainer.style.display = "block";
+		this.setLoadingDisplay("block");
 	}
 
 	public updateForResponse(response: ISearchResults): void {
@@ -18,8 +17,7 @@ export class ResultsHelper {
 	}
 
 	public setResults(html: string): void {
-		let loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
-		loadingContainer.style.display = "none";
+		this.setLoadingDisplay("none");
 		this.setInnerHtml(this.resultsContainer, html);
 	}
 
@@ -32,6 +30,11 @@ export class ResultsHelper {
 		this.setInnerHtml(this.validationErrorContainer, html);
 	}
 
+	private setLoadingDisplay(display: string) : void {
+		if (this.loadingContainer) {
+			this.loadingContainer.style.display = display;
+		}
+	}
 
 	private setInnerHtml(element: HTMLElement, html: string): void {
 		if (element) {
