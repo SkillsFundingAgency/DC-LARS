@@ -13,15 +13,18 @@ import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
     }
 })
 class ResultsApp extends AbstractSearchResultsComponent {
-    searchType = SearchType.Frameworks;
 
     mounted() {
         this.intialise();
     }
 
     async getDataAsync() {
-        return await standardSearchService.getResultsAsync(this.savedFilters, this.searchTerm);
+        return await standardSearchService.getResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm);
     };
+
+    getSearchType(): SearchType {
+        return SearchType.Standards
+    }
 }
 
 const vue = new ResultsApp();

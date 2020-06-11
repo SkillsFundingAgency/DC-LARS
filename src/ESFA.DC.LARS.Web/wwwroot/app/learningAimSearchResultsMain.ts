@@ -13,16 +13,19 @@ import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
     }
 })
 class ResultsApp extends AbstractSearchResultsComponent {
-    searchType = SearchType.Qualifications;
-
+    
     mounted() {
         this.intialise();
     }
 
     async getDataAsync() {
         const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-        return await learningAimSearchService.getQualificationsResultsAsync(this.savedFilters, this.searchTerm, teachingYears);
+        return await learningAimSearchService.getQualificationsResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm, teachingYears);
     };
+
+    getSearchType(): SearchType {
+        return SearchType.Qualifications
+    }
 }
 
 const vue = new ResultsApp();

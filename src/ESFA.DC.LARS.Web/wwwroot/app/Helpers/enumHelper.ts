@@ -1,7 +1,7 @@
 ﻿import { SearchType } from "../Enums/SearchType";
 
 export class EnumHelper {
-    public ConvertServerEnumValueToClientEnum(value: string): SearchType {
+    public ConvertServerSearchTypeEnumToClientType(value: string): SearchType {
         if (value === "1") {
             return SearchType.Frameworks;
         }

@@ -1,27 +1,8 @@
 ﻿import { ISearchResults } from '../Interfaces/ISearchResults';
-import { debounce } from 'vue-debounce';
-import { SearchType } from '../Enums/SearchType';
-import { constants } from '../constants';
-import { FilterStoreService } from '../Services/filterStoreService';
 
 export class ResultsHelper {
 
-	private latestRequestId: number;
-
 	constructor(private resultsContainer: HTMLElement, private resultsCountContainer: HTMLElement, private validationErrorContainer:HTMLElement) {
-		this.latestRequestId = 0;
-	}
-
-	public manageResults(getDataAsync: Function, searchType: SearchType, immediateRefresh: boolean ): void {
-		const debouncedCallback = debounce(async () => { await this.getResultsAsync(getDataAsync) }, constants.debounceTime);
-		const classScope = this;
-
-		const wrappedCall = function () {
-			classScope.setIsLoading();
-			debouncedCallback();
-		}
-		const filterStoreService = new FilterStoreService(searchType);
-		filterStoreService.watchFilters(wrappedCall, immediateRefresh, true);
 	}
 
 	public setIsLoading(): void {
@@ -51,18 +32,6 @@ export class ResultsHelper {
 		this.setInnerHtml(this.validationErrorContainer, html);
 	}
 
-	public async getResultsAsync(getDataAsync: Function) {
-		this.latestRequestId++;
-		const classScope = this;
-		const getResults = async function (requestId: number) {
-			const response = await getDataAsync();
-			// Only update results if no subsequent requests have been made.
-			if (requestId === classScope.latestRequestId) {
-				classScope.updateForResponse(response);
-			}
-		};
-		await getResults(this.latestRequestId);
-	}
 
 	private setInnerHtml(element: HTMLElement, html: string): void {
 		if (element) {

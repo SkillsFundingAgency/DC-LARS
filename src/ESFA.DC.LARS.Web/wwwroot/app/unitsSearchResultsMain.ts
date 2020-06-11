@@ -13,7 +13,6 @@ import { learningAimSearchService } from './Services/learningAimSearchService';
     }
 })
 class ResultsApp extends AbstractSearchResultsComponent {
-    searchType = SearchType.Units;
 
     mounted() {
         this.intialise();
@@ -21,8 +20,12 @@ class ResultsApp extends AbstractSearchResultsComponent {
 
     async getDataAsync() {
         const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-        return await learningAimSearchService.getUnitsResultsAsync(this.savedFilters, this.searchTerm, teachingYears);
+        return await learningAimSearchService.getUnitsResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm, teachingYears);
     };
+
+    getSearchType(): SearchType {
+        return SearchType.Units;
+    }
 }
 
 const vue = new ResultsApp();
