@@ -29,7 +29,7 @@
                                        placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchTerm" maxlength="200" />
                             </div>
                         </div>
-                        <button id="searchProviders" type="submit" class="govuk-button standard-search">
+                        <button id="searchProviders" type="submit" class="govuk-button standard-search" v-on:click="search($event)">
                             <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" />
                         </button>
                     </div>
@@ -41,7 +41,7 @@
                 <div class="govuk-form-group flex-col">
 
                     <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType"
-                            asp-items="Html.GetEnumSelectList<LearningType>()" v-on:change="learningTypeChanged($event.target.value)">
+                            asp-items="Html.GetEnumValueSelectList<LearningType>()" v-on:change="learningTypeChanged($event.target.value)">
                     </select>
                     <noscript>
                         <button class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" type="submit">

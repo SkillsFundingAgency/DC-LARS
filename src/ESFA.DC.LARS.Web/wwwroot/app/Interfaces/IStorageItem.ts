@@ -14,12 +14,13 @@ export interface IStorageItem {
     programType: string;
     pathwayCode: string;
     filters: IFilterItem[];
-    page: Page
+    page: Page;
+    hasFilterMismatch: boolean
 }
 
 export function emptyIStorageItem(): IStorageItem {
     return {
-        searchTerm: '', learnAimRef: '', learningAimTitle: '', standardName: '', standardCode: '', page: Page.Home,
+        searchTerm: '', learnAimRef: '', learningAimTitle: '', standardName: '', standardCode: '', page: Page.Home, hasFilterMismatch: false,
         currentAcademicYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
     };
 }

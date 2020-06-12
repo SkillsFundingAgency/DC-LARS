@@ -12,7 +12,7 @@
         <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
         <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" asp-route-academicYear="@Model.CurrentAcademicYear" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
     </noscript>
-    <filters search-type="Units" :set-immediate-refresh-required="setImmediateRefreshRequired"></filters>
+    <filters search-type="Units"></filters>
 }
 
 @section Results

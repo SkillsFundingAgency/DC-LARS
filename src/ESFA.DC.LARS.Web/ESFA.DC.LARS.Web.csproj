@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\app\abstractSearchResultsComponent.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\breadcrumbStrategyManager.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\defaultBreadcrumbStrategy.ts" />
     <Content Remove="wwwroot\app\Breadcrumbs\frameworksBreadcrumbStrategy.ts" />
@@ -39,7 +40,6 @@
     <Content Remove="wwwroot\app\FilterStores\standardsFilterStoreStrategy.ts" />
     <Content Remove="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
-    <Content Remove="wwwroot\app\Helpers\enumHelper.ts" />
     <Content Remove="wwwroot\app\Interfaces\IBreadcrumb.ts" />
     <Content Remove="wwwroot\app\Interfaces\IBreadcrumbStrategy.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
@@ -68,6 +68,7 @@
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
     <Content Remove="wwwroot\app\Tests\frameworksBreadcrumbStrategy.test.ts" />
     <Content Remove="wwwroot\app\Tests\linkService.test.ts" />
+    <Content Remove="wwwroot\app\Tests\resultsHelper.test.ts" />
     <Content Remove="wwwroot\app\Tests\standardsBreadcrumbStrategy.test.ts" />
     <Content Remove="wwwroot\app\unitsSearchResultsMain.ts" />
     <Content Remove="wwwroot\blank.js" />
@@ -123,13 +124,14 @@
     <TypeScriptCompile Include="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\FilterStores\qualificationsFilterStoreStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStandardSearchRequest.ts" />
+    <TypeScriptCompile Include="wwwroot\app\abstractSearchResultsComponent.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\standardSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\standardSearchResultsMain.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Helpers\enumHelper.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumbStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumb.ts" />
     <TypeScriptCompile Include="wwwroot\app\constants.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\breadcrumbService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Tests\resultsHelper.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\standardsBreadcrumbStrategy.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\linkService.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\frameworksBreadcrumbStrategy.test.ts" />
