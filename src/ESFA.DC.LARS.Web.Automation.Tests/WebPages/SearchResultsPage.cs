@@ -1,21 +1,22 @@
-﻿using DCT.Automation.Standard.Framework.TestBase;
+﻿using DCT.Automation.Framework.TestBase;
 using OpenQA.Selenium;
 
 namespace ESFA.DC.LARS.Web.Automation.Tests.WebPages
 {
     public class SearchResultsPage : Driver
     {
-        private DriverConfig _driverConfig;
+        private readonly DriverConfig _driverConfig;
         public SearchResultsPage(DriverConfig driverConfig)
             : base(driverConfig)
         {
             _driverConfig = driverConfig;
         }
-        IWebElement searchBtn => _driverConfig.WebDriver.FindElement(By.XPath("//h1[text()='Search qualifications']"));
+
+        private IWebElement SearchBtn => _driverConfig.WebDriver.FindElement(By.XPath("//h1[text()='Search qualifications']"));
 
         public bool IsPageLoaded()
         {
-            return searchBtn.Displayed;
+            return SearchBtn.Displayed;
         }
     }
 }

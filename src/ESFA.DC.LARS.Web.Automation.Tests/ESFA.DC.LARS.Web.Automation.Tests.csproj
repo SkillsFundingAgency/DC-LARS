@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DCT.Automation.Framework" Version="0.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.5" />
@@ -22,12 +23,6 @@
     <PackageReference Include="SpecFlow.NUnit" Version="3.1.97" />
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.1.97" />
     <PackageReference Include="xunit.assert" Version="2.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="DCT.Automation.Standard.Framework">
-      <HintPath>Assemblies\DCT.Automation.Standard.Framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using DCT.Automation.Standard.Framework.TestBase;
+﻿using DCT.Automation.Framework.TestBase;
 using TechTalk.SpecFlow;
 
 namespace ESFA.DC.LARS.Web.Automation.Tests.Hooks
@@ -6,7 +6,7 @@ namespace ESFA.DC.LARS.Web.Automation.Tests.Hooks
     [Binding]
     public sealed class InitializeHooks : Driver
     {
-        private DriverConfig _driverConfig;
+        private readonly DriverConfig _driverConfig;
         private readonly string _testConfigJsonFile = "appSettings.json";
         public InitializeHooks(DriverConfig driverConfig)
             : base(driverConfig)

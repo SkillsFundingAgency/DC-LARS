@@ -1,4 +1,4 @@
-﻿using DCT.Automation.Standard.Framework.TestBase;
+﻿using DCT.Automation.Framework.TestBase;
 using ESFA.DC.LARS.Web.Automation.Tests.Repository;
 using ESFA.DC.LARS.Web.Automation.Tests.WebPages;
 using TechTalk.SpecFlow;
@@ -8,8 +8,8 @@ namespace ESFA.DC.LARS.Web.Automation.Tests.StepDefinitions
     [Binding]
     public sealed class HomePageSteps : Driver
     {
-        private DriverConfig _driverConfig;
-        private PageRepository _pageRepository;
+        private readonly DriverConfig _driverConfig;
+        private readonly PageRepository _pageRepository;
         public HomePageSteps(DriverConfig driverConfig, PageRepository pageRepository)
             : base(driverConfig)
         {
