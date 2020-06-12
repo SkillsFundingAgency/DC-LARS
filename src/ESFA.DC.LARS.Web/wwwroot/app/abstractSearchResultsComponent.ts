@@ -6,7 +6,6 @@ import { IFilterItem } from "./Interfaces/IFilterItem";
 import { ISearchResults } from "./Interfaces/ISearchResults";
 import { FilterStoreService } from "./Services/filterStoreService";
 import { constants } from './constants';
-import { enumHelper } from './Helpers/enumHelper';
 import { debounce } from 'vue-debounce';
 import StorageService from './Services/storageService';
 import { IStorageItem } from "./Interfaces/IStorageItem";
@@ -38,8 +37,7 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
         return (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
     };
 
-    public learningTypeChanged(value: string): void {
-        const searchType = enumHelper.ConvertServerSearchTypeEnumToClientType(value);
+    public learningTypeChanged(searchType: SearchType): void {
         const storageItem = this.getStorageItem();
 
         storageItem.filters = this.filterStoreService.getFiltersForNewSearch(searchType, storageItem);

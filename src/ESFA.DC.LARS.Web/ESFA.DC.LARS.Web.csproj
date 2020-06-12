@@ -40,7 +40,6 @@
     <Content Remove="wwwroot\app\FilterStores\standardsFilterStoreStrategy.ts" />
     <Content Remove="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
     <Content Remove="wwwroot\app\frameworkSearchResultsMain.ts" />
-    <Content Remove="wwwroot\app\Helpers\enumHelper.ts" />
     <Content Remove="wwwroot\app\Interfaces\IBreadcrumb.ts" />
     <Content Remove="wwwroot\app\Interfaces\IBreadcrumbStrategy.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
@@ -128,7 +127,6 @@
     <TypeScriptCompile Include="wwwroot\app\abstractSearchResultsComponent.ts" />
     <TypeScriptCompile Include="wwwroot\app\Services\standardSearchService.ts" />
     <TypeScriptCompile Include="wwwroot\app\standardSearchResultsMain.ts" />
-    <TypeScriptCompile Include="wwwroot\app\Helpers\enumHelper.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumbStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumb.ts" />
     <TypeScriptCompile Include="wwwroot\app\constants.ts" />

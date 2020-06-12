@@ -41,7 +41,7 @@
                 <div class="govuk-form-group flex-col">
 
                     <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType"
-                            asp-items="Html.GetEnumSelectList<LearningType>()" v-on:change="learningTypeChanged($event.target.value)">
+                            asp-items="Html.GetEnumValueSelectList<LearningType>()" v-on:change="learningTypeChanged($event.target.value)">
                     </select>
                     <noscript>
                         <button class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" type="submit">
