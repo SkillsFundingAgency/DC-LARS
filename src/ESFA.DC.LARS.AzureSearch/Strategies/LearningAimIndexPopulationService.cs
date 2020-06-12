@@ -129,6 +129,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         PopulateFrameworks(learningDelivery, frameworkAims, issuingAuthorities, componentTypes);
                         learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>());
                         learningDelivery.AwardingBodyName = awardBodyCodes.GetValueOrDefault(learningDelivery.AwardingBodyCode);
+                        learningDelivery.GuidedLearningHours = GetGuidedLearningHours(learningDelivery.GuidedLearningHours);
 
                         var fundingForDelivery = fundings.GetValueOrDefault(learningDelivery.LearnAimRef, new List<FundingModel>());
                         var validityForDelivery = validities.GetValueOrDefault(learningDelivery.LearnAimRef, new List<ValidityModel>());
@@ -168,6 +169,21 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
             Console.WriteLine("Waiting for indexing...\n");
             Thread.Sleep(2000);
+        }
+
+        public string GetGuidedLearningHours(string guidedLearningHours)
+        {
+            if (string.IsNullOrWhiteSpace(guidedLearningHours))
+            {
+                return "Not Provided";
+            }
+
+            if (guidedLearningHours == "0")
+            {
+                return "Can be taught fully online";
+            }
+
+            return guidedLearningHours;
         }
 
         private void PopulateFrameworks(LearningAimModel learningAim, IDictionary<string, List<LearningAimFrameworkModel>> frameworkAims, IDictionary<string, string> issuingAuthorities, IDictionary<int, string> componentTypes)
