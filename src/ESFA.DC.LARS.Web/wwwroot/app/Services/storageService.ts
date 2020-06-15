@@ -22,7 +22,7 @@ export default class StorageService {
         return emptyIStorageItem();
     }
 
-    store(key: string, value: IStorageItem) : void {
+    store(key: string, value: IStorageItem): void {
         this.storage.setItem(key, JSON.stringify(value));
     }
 

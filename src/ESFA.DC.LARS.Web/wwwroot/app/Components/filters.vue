@@ -15,7 +15,6 @@
     })
     export default class Filters extends Vue {
         @Prop() public searchType!: SearchType;
-        @Prop() public setImmediateRefreshRequired!: Function;
 
         private currentDisplayFilters: Array<IFilterItem> = [];
         private storageService: StorageService;
@@ -128,21 +127,23 @@
         }
 
         private syncFiltersAndUpdateDisplay(): void {
-            const storageItemFilters = this.storageService.retrieve(constants.storageKey)?.filters || [];
+            const storageItem = this.storageService.retrieve(constants.storageKey);
 
             // Check if storage filters and filters used to render page are the same. 
             //  If not (can happen on f5 refresh) then refresh results.
-            if (this.filterHistoryService.hasMismatchedFilters()) {
-                this.setImmediateRefreshRequired(true);
-                this.updateDisplay(storageItemFilters, this.filterHistoryService.serverFilters);
+            storageItem.hasFilterMismatch = this.filterHistoryService.hasMismatchedFilters();
+
+            if (storageItem.hasFilterMismatch) {
+                this.updateDisplay(storageItem.filters, this.filterHistoryService.serverFilters);
             }
 
-            const distinctTypes = [...new Set(storageItemFilters.map(sf => sf.type))];
+            const distinctTypes = [...new Set(storageItem.filters.map(sf => sf.type))];
             for (let type of distinctTypes) {
                 this.updateAccordionByFilter(type);
             }
 
-            this.updateStore(storageItemFilters);
+            this.storageService.store(constants.storageKey, storageItem);
+            this.updateStore(storageItem.filters);
         }
 
         private updateAccordionByFilter(filterType: FilterType): void {

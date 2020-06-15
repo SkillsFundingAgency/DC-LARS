@@ -1,33 +1,13 @@
 ﻿import { ISearchResults } from '../Interfaces/ISearchResults';
-import { debounce } from 'vue-debounce';
-import { SearchType } from '../Enums/SearchType';
-import { constants } from '../constants';
-import { FilterStoreService } from '../Services/filterStoreService';
 
 export class ResultsHelper {
 
-	private latestRequestId: number;
-
-	constructor(private resultsContainer: HTMLElement, private resultsCountContainer: HTMLElement, private validationErrorContainer:HTMLElement) {
-		this.latestRequestId = 0;
-	}
-
-	public manageResults(getDataAsync: Function, searchType: SearchType, immediateRefresh: boolean ): void {
-		const debouncedCallback = debounce(async () => { await this.getResultsAsync(getDataAsync) }, constants.debounceTime);
-		const classScope = this;
-
-		const wrappedCall = function () {
-			classScope.setIsLoading();
-			debouncedCallback();
-		}
-		const filterStoreService = new FilterStoreService(searchType);
-		filterStoreService.watchFilters(wrappedCall, immediateRefresh, true);
+	constructor(private resultsContainer: HTMLElement, private resultsCountContainer: HTMLElement, private validationErrorContainer: HTMLElement, private loadingContainer: HTMLElement) {
 	}
 
 	public setIsLoading(): void {
 		this.setInnerHtml(this.resultsContainer, "");
-		const loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
-		loadingContainer.style.display = "block";
+		this.setLoadingDisplay("block");
 	}
 
 	public updateForResponse(response: ISearchResults): void {
@@ -37,8 +17,7 @@ export class ResultsHelper {
 	}
 
 	public setResults(html: string): void {
-		let loadingContainer = document.getElementById("loadingImage") as HTMLHtmlElement;
-		loadingContainer.style.display = "none";
+		this.setLoadingDisplay("none");
 		this.setInnerHtml(this.resultsContainer, html);
 	}
 
@@ -51,17 +30,10 @@ export class ResultsHelper {
 		this.setInnerHtml(this.validationErrorContainer, html);
 	}
 
-	public async getResultsAsync(getDataAsync: Function) {
-		this.latestRequestId++;
-		const classScope = this;
-		const getResults = async function (requestId: number) {
-			const response = await getDataAsync();
-			// Only update results if no subsequent requests have been made.
-			if (requestId === classScope.latestRequestId) {
-				classScope.updateForResponse(response);
-			}
-		};
-		await getResults(this.latestRequestId);
+	private setLoadingDisplay(display: string) : void {
+		if (this.loadingContainer) {
+			this.loadingContainer.style.display = display;
+		}
 	}
 
 	private setInnerHtml(element: HTMLElement, html: string): void {
