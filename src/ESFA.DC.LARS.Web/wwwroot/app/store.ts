@@ -9,7 +9,8 @@ export default new Vuex.Store({
         qualificationFilters: [] as Array<IFilterItem>,
         frameworkFilters: [] as Array<IFilterItem>,
         unitFilters: [] as Array<IFilterItem>,
-        standardFilters: [] as Array<IFilterItem>
+        standardFilters: [] as Array<IFilterItem>,
+        tlevelFilters: [] as Array<IFilterItem>
     },
     mutations: {
         updateQualificationFilters(state, filters: Array<IFilterItem>) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
         },
         updateStandardFilters(state, filters: Array<IFilterItem>) {
             state.standardFilters = filters;
+        },
+        updateTLevelFilters(state, filters: Array<IFilterItem>) {
+            state.tlevelFilters = filters;
         }
     }
 });

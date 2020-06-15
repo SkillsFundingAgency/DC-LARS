@@ -20,6 +20,8 @@ export default class LinkService {
                return this.getQualificationsSearchResultsLink(storageItem);
             case SearchType.Standards:
                 return this.getStandardsSearchResultsLink(storageItem);
+            case SearchType.TLevels:
+                return this.getTLevelsSearchResultsLink(storageItem);
             default:
                 return "/";
         }
@@ -59,6 +61,10 @@ export default class LinkService {
 
     public getStandardsRelatedAimsLink(storageItem: IStorageItem): string {
         return `/StandardLearningAims/${storageItem.standardCode}`;
+    }
+
+    public getTLevelsSearchResultsLink(storageItem: IStorageItem): string {
+        return `/TLevelSearchResult?SearchTerm=${storageItem.searchTerm}`;
     }
 
     public hasFilterQueryStringParam(url: string): boolean {

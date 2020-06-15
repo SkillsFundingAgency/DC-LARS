@@ -1,0 +1,32 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<TLevelSearchModel, TLevelModel>
+@{
+    Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
+    ViewData["Title"] = "Index";
+    ViewData["SearchTitle"] = "Search T Levels";
+}
+
+@section Filters
+{
+}
+
+@section Results
+{
+    <p class="govuk-body flex space-between">
+        <span ref="ResultsCount">@Model.Results.Count() results</span>
+    </p>
+
+    <div ref="Results">
+        @await Html.PartialAsync("_SearchResults", Model)
+    </div>
+}
+
+@section PageScripts
+{
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupTLevelsResultView("@Model.SearchModel.SearchTerm");
+    </script>
+
+    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
+    <script src="/assets/dist/js/tlevelSearchResults.js" asp-append-version="true"></script>
+}

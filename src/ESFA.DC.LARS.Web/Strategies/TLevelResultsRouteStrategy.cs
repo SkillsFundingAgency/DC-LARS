@@ -9,6 +9,6 @@ namespace ESFA.DC.LARS.Web.Strategies
 
         public string Action => "Index";
 
-        public string Controller => "TLevelsSearchResult";
+        public string Controller => "TLevelSearchResult";
     }
 }
