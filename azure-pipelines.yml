@@ -19,9 +19,9 @@ stages:
     pool:
       name: DCT
       demands:
-      - TestBuildServer
-      #- IsBuildServer
-
+      - IsBuildServer
+      #- TestBuildServer
+      
     steps:
     - task: NuGetToolInstaller@0
       displayName: 'Use NuGet >=5.3.1'
@@ -43,7 +43,7 @@ stages:
     # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
     # First install the tool on the machine, then run it
     - script: |
-            dotnet tool update dotnet-reportgenerator-globaltool --version 4.3.6  
+            dotnet tool update dotnet-reportgenerator-globaltool --version 4.3.6 --global
       displayName: Install dotnet-reportgenerator-globaltool
       continueOnError: true  
       enabled: true
