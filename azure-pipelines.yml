@@ -8,6 +8,7 @@ resources:
 variables:
   BuildConfiguration: 'Release'
   BuildPlatform: 'Any CPU'
+  #MSBUILDSINGLELOADCONTEXT: '1'
 
 stages:
 - stage: Build
@@ -19,7 +20,8 @@ stages:
       name: DCT
       demands:
       - IsBuildServer
-
+      #- TestBuildServer
+      
     steps:
     - task: NuGetToolInstaller@0
       displayName: 'Use NuGet >=5.3.1'
@@ -35,16 +37,16 @@ stages:
 
     - task: DotNetCoreInstaller@2
       inputs:
-        version: 3.1.100
-      displayName: 'Use .NET Core sdk 3.1.100'
+        version: 3.1.x
+      displayName: 'Use .NET Core sdk 3.1 (latest)'
 
     # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
     # First install the tool on the machine, then run it
     - script: |
-            dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.6  
+            dotnet tool update dotnet-reportgenerator-globaltool --version 4.3.6 --global
       displayName: Install dotnet-reportgenerator-globaltool
       continueOnError: true  
-      enabled: false
+      enabled: true
 
     - task: Npm@1
       displayName: 'NPM Install'
@@ -98,7 +100,7 @@ stages:
     ## Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
     # First install the tool on the machine, then run it
     - script: |
-        dotnet tool install -g dotnet-reportgenerator-globaltool --version 4.3.6  
+        dotnet tool update -g dotnet-reportgenerator-globaltool --version 4.3.6  
         reportgenerator -reports:$(Build.SourcesDirectory)/**/*Tests/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:Cobertura
       displayName: Create Code coverage report
       
