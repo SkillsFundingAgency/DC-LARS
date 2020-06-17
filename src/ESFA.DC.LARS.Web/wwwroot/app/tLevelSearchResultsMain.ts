@@ -3,7 +3,7 @@ import Filters from "./Components/filters.vue";
 import FilterFeedback from './Components/filterFeedback.vue';
 import { SearchType } from './Enums/SearchType';
 import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
-import { learningAimSearchService } from './Services/learningAimSearchService';
+import { tlevelSearchService } from './Services/tlevelSearchService';
 
 @Component({
     el: "#resultsApp",
@@ -19,12 +19,11 @@ class ResultsApp extends AbstractSearchResultsComponent {
     }
 
     async getDataAsync() {
-        const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
-        return await learningAimSearchService.getUnitsResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm, teachingYears);
+        return await tlevelSearchService.getResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm);
     };
 
     getSearchType(): SearchType {
-        return SearchType.Units;
+        return SearchType.TLevels;
     }
 }
 

@@ -7,6 +7,7 @@ import { DefaultBreadcrumbStrategy } from "./defaultBreadcrumbStrategy";
 import { UnitsBreadcrumbStrategy } from "./unitsBreadcrumbStrategy";
 import { FrameworksBreadcrumbStrategy } from "./frameworksBreadcrumbStrategy";
 import { StandardsBreadcrumbStrategy } from "./standardsBreadcrumbStrategy";
+import { TLevelsBreadcrumbStrategy } from "./tlevelsBreadcrumbStrategy";
 
 class BreadcrumbStrategyManager {
 
@@ -16,7 +17,8 @@ class BreadcrumbStrategyManager {
         [SearchType.Qualifications]: new QualificationsBreadcrumbStrategy(),
         [SearchType.Units]: new UnitsBreadcrumbStrategy(),
         [SearchType.Frameworks]: new FrameworksBreadcrumbStrategy(),
-        [SearchType.Standards]: new StandardsBreadcrumbStrategy()
+        [SearchType.Standards]: new StandardsBreadcrumbStrategy(),
+        [SearchType.TLevels]: new TLevelsBreadcrumbStrategy()
     };
 
     public setBreadcrumbStrategy(searchType: SearchType) {
