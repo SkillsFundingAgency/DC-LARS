@@ -89,9 +89,11 @@ stages:
       displayName: Run .net Core Unit Tests
       inputs:
         command: test
+        projects: |
+          '**/*Tests.csproj'
+          '!**/*Automation.Tests.csproj'
         arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
         nobuild: true
-        projects: '**/*Tests.csproj'
 
     - script: npm run test
       displayName:  Run JavaScript Unit Tests
