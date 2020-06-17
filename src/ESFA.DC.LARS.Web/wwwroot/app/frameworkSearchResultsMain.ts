@@ -20,11 +20,11 @@ class ResultsApp extends AbstractSearchResultsComponent {
 
     async getDataAsync() {
         return await frameworkSearchService.getResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm);
-    };
+    }
 
     getSearchType(): SearchType {
         return SearchType.Frameworks
     }
 }
 
-const vue = new ResultsApp();
+new ResultsApp();

@@ -1,14 +1,13 @@
 ﻿class AccordionService {
 
     public initialiseAccordion() : void {
-        const classScope = this;
         const button = document.getElementById('accordionButtonContainer');
         if (button) {
             button.removeAttribute("style");
         }
 
         document.querySelectorAll('.filter-box-button').forEach(button => {
-            classScope.toggleSection(button.id, true);
+            this.toggleSection(button.id, true);
         });
     }
 
@@ -80,7 +79,7 @@
     private allPanelsOpen(): boolean {
         const panels = document.querySelectorAll('.filter-box');
 
-        let allOpen: boolean = true;
+        let allOpen = true;
         panels.forEach(panel => {
             if (!panel.classList.contains('expanded')) {
                 allOpen = false;
@@ -93,7 +92,7 @@
     private allPanelsClosed(): boolean {
         const panels = document.querySelectorAll('.filter-box');
 
-        let allClosed: boolean = true;
+        let allClosed = true;
         panels.forEach(panel => {
             if (panel.classList.contains('expanded')) {
                 allClosed = false;

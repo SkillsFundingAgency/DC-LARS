@@ -1,6 +1,8 @@
 ﻿import { IFilterItem } from '../../app/Interfaces/IFilterItem';
 import StorageService from '../Services/storageService';
 import { constants } from '../constants';
+
+/* eslint-disable no-var */
 declare var serverFilters: IFilterItem[];
 
 export default class FilterHistoryService {

@@ -9,10 +9,10 @@ export class TLevelsBreadcrumbStrategy implements IBreadcrumbStrategy {
     public build(storageItem: IStorageItem): Array<IBreadcrumb> {
         const linkService = new LinkService();
 
-        let breadcrumbs: Array<IBreadcrumb> = [
+        const breadcrumbs: Array<IBreadcrumb> = [
             { text: "Home", link: "/", page: Page.Home },
             { text: "Search Results", link: linkService.getTLevelsSearchResultsLink(storageItem), page: Page.Results },
         ];
         return breadcrumbs;
-    };
+    }
 }

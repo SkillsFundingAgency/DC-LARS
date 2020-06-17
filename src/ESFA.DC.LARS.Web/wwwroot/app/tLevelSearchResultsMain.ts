@@ -20,12 +20,12 @@ class ResultsApp extends AbstractSearchResultsComponent {
 
     async getDataAsync() {
         return await tlevelSearchService.getResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm);
-    };
+    }
 
     getSearchType(): SearchType {
         return SearchType.TLevels;
     }
 }
 
-const vue = new ResultsApp();
+new ResultsApp();
 

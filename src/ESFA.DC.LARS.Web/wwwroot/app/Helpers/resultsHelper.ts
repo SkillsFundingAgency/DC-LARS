@@ -26,7 +26,7 @@ export class ResultsHelper {
 	}
 
 	public setValidationErrors(errors: Array<string>): void {
-		var html = errors.map(v => `<li class="govuk-error-message">${v}</li>`).join();
+		const html = errors.map(v => `<li class="govuk-error-message">${v}</li>`).join();
 		this.setInnerHtml(this.validationErrorContainer, html);
 	}
 

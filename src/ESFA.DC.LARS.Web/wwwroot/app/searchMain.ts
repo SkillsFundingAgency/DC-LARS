@@ -5,12 +5,12 @@ import StorageService from "./Services/storageService";
 import { constants } from './constants';
 import { FilterType } from './Enums/FilterType';
 
-const vue = new Vue({
+new Vue({
     el: "#homeApp",
     mounted() {
         const storageService = new StorageService(sessionStorage);
         storageService.clearAll();
-        (<any>window).GOVUKFrontend.initAll();
+        window.GOVUKFrontend.initAll();
     },
     methods: {
         updateFilters: function() {

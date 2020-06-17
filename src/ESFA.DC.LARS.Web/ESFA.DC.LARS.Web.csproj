@@ -46,10 +46,12 @@
     <Content Remove="wwwroot\app\Interfaces\IBreadcrumbStrategy.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFilterItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\IFrameworksSearchRequest.ts" />
+    <Content Remove="wwwroot\app\Interfaces\IGOVUKFrontend.ts" />
     <Content Remove="wwwroot\app\Interfaces\IQualificationsSearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\IStandardSearchRequest.ts" />
     <Content Remove="wwwroot\app\Interfaces\IStorageItem.ts" />
     <Content Remove="wwwroot\app\Interfaces\ITLevelSearchRequest.ts" />
+    <Content Remove="wwwroot\app\Interfaces\IWindow.ts" />
     <Content Remove="wwwroot\app\learningAimSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\search.vue" />
     <Content Remove="wwwroot\app\searchMain.ts" />
@@ -130,6 +132,8 @@
     <TypeScriptCompile Include="wwwroot\app\FilterStores\tlevelsFilterStoreStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\FilterStores\unitsFilterStoreStrategy.ts" />
     <TypeScriptCompile Include="wwwroot\app\FilterStores\qualificationsFilterStoreStrategy.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IGOVUKFrontend.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Interfaces\IWindow.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\ITLevelSearchRequest.ts" />
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IStandardSearchRequest.ts" />
     <TypeScriptCompile Include="wwwroot\app\abstractSearchResultsComponent.ts" />

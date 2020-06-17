@@ -21,12 +21,11 @@ class ResultsApp extends AbstractSearchResultsComponent {
     async getDataAsync() {
         const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
         return await learningAimSearchService.getUnitsResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm, teachingYears);
-    };
+    }
 
     getSearchType(): SearchType {
         return SearchType.Units;
     }
 }
-
-const vue = new ResultsApp();
+ new ResultsApp();
 
