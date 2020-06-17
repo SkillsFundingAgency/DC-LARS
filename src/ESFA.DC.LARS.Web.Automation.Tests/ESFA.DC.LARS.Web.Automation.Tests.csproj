@@ -18,10 +18,10 @@
     </PackageReference>
     <PackageReference Include="Selenium.Chrome.WebDriver" Version="83.0.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="SpecFlow" Version="3.1.97" />
+    <PackageReference Include="SpecFlow" Version="3.3.22-beta" />
     <PackageReference Include="SpecFlow.Assist.Dynamic" Version="1.4.2" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.1.97" />
-    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.1.97" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.3.22-beta" />
+    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.3.22-beta" />
     <PackageReference Include="xunit.assert" Version="2.4.1" />
   </ItemGroup>
 
