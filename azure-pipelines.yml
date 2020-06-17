@@ -19,8 +19,8 @@ stages:
     pool:
       name: DCT
       demands:
-      - IsBuildServer
-      #- TestBuildServer
+      - TestBuildServer
+      #- IsBuildServer
       
     steps:
     - task: NuGetToolInstaller@0
@@ -166,6 +166,14 @@ stages:
         rootFolderOrFile: '$(build.SourcesDirectory)\tmp'
         includeRootFolder: false
         archiveFile: '$(build.ArtifactStagingDirectory)\Web\WebJobs.zip'
+
+    ## Create Zip File of Automation Tests for Deployment     
+    - task: ArchiveFiles@2
+      displayName: 'Package Automation Tests'
+      inputs:
+        rootFolderOrFile: '$(build.SourcesDirectory)\src\ESFA.DC.LARS.Web.Automation.Tests\bin\$($(buildConfiguration))\netcoreapp3.1'
+        includeRootFolder: false
+        archiveFile: '$(build.ArtifactStagingDirectory)\AutomationTests\Automation.Tests.zip'
 
     ## Publish Web Artifacts
     - task: PublishBuildArtifacts@1
