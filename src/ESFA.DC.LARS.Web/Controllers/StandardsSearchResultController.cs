@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ESFA.DC.LARS.API.Models;
 using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Interfaces.Services;
 using ESFA.DC.LARS.Web.Models;

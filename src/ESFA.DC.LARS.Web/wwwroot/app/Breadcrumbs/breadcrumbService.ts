@@ -11,7 +11,9 @@ export class BreadcrumbService {
     public buildBreadcrumb(storageItem: IStorageItem): void {
         breadcrumbStrategyManager.setBreadcrumbStrategy(storageItem.searchType);
         const element = document.getElementById("breadCrumbs") as HTMLElement;
-        element.innerHTML = this.createHTML(breadcrumbStrategyManager.build(storageItem), storageItem.page);
+        if (element) {
+            element.innerHTML = this.createHTML(breadcrumbStrategyManager.build(storageItem), storageItem.page);
+        }
     }
 
     private createHTML(breadcrumbs: Array<IBreadcrumb>, page: Page): string {

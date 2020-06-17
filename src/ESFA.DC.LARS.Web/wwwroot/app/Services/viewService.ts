@@ -17,23 +17,27 @@ export class ViewService {
     }
 
     public setupQualificationsResultView(searchTerm: string, currentAcademicYear: string): void {
-        this.setupLearningAimsResultView(searchTerm, currentAcademicYear, SearchType.Qualifications);
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Qualifications, page: Page.Results }));
     }
 
     public setupUnitsResultView(searchTerm: string, currentAcademicYear: string): void {
-        this.setupLearningAimsResultView(searchTerm, currentAcademicYear, SearchType.Units);
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Units, page: Page.Results }));
     }
 
     public setupStandardsResultView(searchTerm: string): void {
-        this.removeFilterNonScriptTag();
-        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Standards, page: Page.Results });
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem);
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Standards, page: Page.Results }));
     }
 
-    private setupLearningAimsResultView(searchTerm: string, currentAcademicYear: string, searchType: SearchType) : void {
+    public setupTLevelsResultView(searchTerm: string): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.TLevels, page: Page.Results }));
+    }
+
+    public setupFrameworkSearchResultView(searchTerm: string): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results }));
+    }
+
+    private setupResultsView(storageItem: IStorageItem) : void {
         this.removeFilterNonScriptTag();
-        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType, page: Page.Results}); 
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
@@ -66,13 +70,6 @@ export class ViewService {
 
     private setupStandardView(standardCode: string, standardName: string, page: Page) : void {
         const storageItem = Object.assign(this.currentStorageItem, { standardCode, standardName, page});
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem);
-    }
-
-    public setupFrameworkSearchResultView(searchTerm: string): void {
-        this.removeFilterNonScriptTag();
-        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
