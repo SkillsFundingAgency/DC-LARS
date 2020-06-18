@@ -90,7 +90,7 @@ stages:
         projects: |
             **/*Tests.csproj
             !**/*.Automation.Tests.csproj
-        arguments: '--nobuild --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+        arguments: '--no-build --no-restore --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
     - script: npm run test
       displayName:  Run JavaScript Unit Tests
