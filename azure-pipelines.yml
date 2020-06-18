@@ -89,6 +89,7 @@ stages:
       displayName: Run .net Core Unit Tests
       inputs:
         command: test
+        configuration: $(BuildConfiguration) 
         projects: |
             **/*Tests.csproj
             !**/*.Automation.Tests.csproj
