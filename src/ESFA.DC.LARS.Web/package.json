@@ -40,6 +40,7 @@
   "scripts": {
     "watch": "webpack --watch",
     "build": "cross-env NODE_ENV=production webpack",
+    "build-dev": "cross-env NODE_ENV=development webpack",
     "test": "jest"
   },
   "jest": {
@@ -57,7 +58,7 @@
   "description": "",
   "-vs-binding": {
     "BeforeBuild": [
-      "build"
+      "build-dev"
     ],
     "ProjectOpened": [
       "watch"
