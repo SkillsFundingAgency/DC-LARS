@@ -89,7 +89,9 @@ stages:
       displayName: Run .net Core Unit Tests
       inputs:
         command: test
-        projects: '**/*Tests.csproj'
+        projects: |
+            **/*Tests.csproj
+            !**/*.Automation.Tests.csproj
         arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
         nobuild: true
 
@@ -167,6 +169,14 @@ stages:
         includeRootFolder: false
         archiveFile: '$(build.ArtifactStagingDirectory)\Web\WebJobs.zip'
 
+    ## Publish Web Artifacts
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: Web'
+      enabled: true
+      inputs:
+        ArtifactName: Web
+        PathtoPublish: '$(build.artifactstagingdirectory)\Web'
+
     ## Create Zip File of Automation Tests for Deployment     
     - task: ArchiveFiles@2
       displayName: 'Package Automation Tests'
@@ -177,8 +187,9 @@ stages:
 
     ## Publish Web Artifacts
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: Web'
+      displayName: 'Publish Artifact: AutomationTests'
       enabled: true
       inputs:
-        ArtifactName: Web
-        PathtoPublish: '$(build.artifactstagingdirectory)\Web'
+        ArtifactName: AutomationTests
+        PathtoPublish: '$(build.artifactstagingdirectory)\AutomationTests'
+
