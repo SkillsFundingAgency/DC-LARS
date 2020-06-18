@@ -59,6 +59,7 @@ stages:
       inputs:
         command: 'restore'
         projects: '**/*.csproj'
+        configuration: $(BuildConfiguration) 
         feedsToUse: 'select'
         vstsFeed: 'dct-pkg'
 
@@ -90,11 +91,11 @@ stages:
       inputs:
         command: test
         configuration: $(BuildConfiguration) 
+        nobuild: true
         projects: |
             **/*Tests.csproj
             !**/*.Automation.Tests.csproj
         arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-        nobuild: true
 
     - script: npm run test
       displayName:  Run JavaScript Unit Tests
