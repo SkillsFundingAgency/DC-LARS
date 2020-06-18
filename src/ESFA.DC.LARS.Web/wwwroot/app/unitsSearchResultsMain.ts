@@ -6,7 +6,6 @@ import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
 import { learningAimSearchService } from './Services/learningAimSearchService';
 
 @Component({
-    el: "#resultsApp",
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
@@ -27,5 +26,5 @@ class ResultsApp extends AbstractSearchResultsComponent {
         return SearchType.Units;
     }
 }
- new ResultsApp();
+new ResultsApp().$mount('#resultsApp');
 

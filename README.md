@@ -11,4 +11,9 @@ Need to run npm install from command prompt in web project folder (eg src/ESFA.D
 
 The currently installed version of all node packages can be found in src/ESFA.DC.LARS.Web/package.json
 
+## Typescript debugging in visual studio
+This is possible if the following conditions are met:
 
+1.  You enable script debugging in Visual Studio.
+2.  Webpack is run in development mode (use "cross-env NODE_ENV=development webpack", this is available through npm script build-dev and should be bound to visual studio build event by default).
+3.  You use internet explorer.

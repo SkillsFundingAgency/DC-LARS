@@ -6,7 +6,6 @@ import { SearchType } from './Enums/SearchType';
 import AbstractSearchResultsComponent from "./abstractSearchResultsComponent";
 
 @Component({
-    el: "#resultsApp",
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
@@ -27,4 +26,4 @@ class ResultsApp extends AbstractSearchResultsComponent {
     }
 }
 
-new ResultsApp();
+new ResultsApp().$mount('#resultsApp');
