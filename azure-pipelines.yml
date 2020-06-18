@@ -181,7 +181,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: 'Package Automation Tests'
       inputs:
-        rootFolderOrFile: '$(build.SourcesDirectory)\src\ESFA.DC.LARS.Web.Automation.Tests\bin\$($(buildConfiguration))\netcoreapp3.1'
+        rootFolderOrFile: '$(build.SourcesDirectory)\src\ESFA.DC.LARS.Web.Automation.Tests\bin\$(buildConfiguration)\netcoreapp3.1'
         includeRootFolder: false
         archiveFile: '$(build.ArtifactStagingDirectory)\AutomationTests\Automation.Tests.zip'
 
