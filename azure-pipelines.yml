@@ -92,7 +92,7 @@ stages:
         projects: |
             **/*Tests.csproj
             !**/*.Automation.Tests.csproj
-        arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+        arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/CodeCoverage/'
         nobuild: true
 
     - script: npm run test
