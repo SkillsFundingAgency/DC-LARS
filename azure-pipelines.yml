@@ -67,10 +67,8 @@ stages:
       displayName: 'Build Solution'
       inputs:
         command: 'build'
-        vstsFeed: 'dct-pkg'
         projects: '**/*.csproj'
-        configuration: $(BuildConfiguration) 
-        arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
+        arguments: '--configuration $(BuildConfiguration) --no-restore -p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)"'
   
     - script: npm run-script build
       displayName:  Run npm build
@@ -82,20 +80,17 @@ stages:
         command: 'build'
         vstsFeed: 'dct-pkg'
         projects: '**/ESFA.DC.LARS.AzureSearch/ESFA.DC.LARS.AzureSearch.csproj'
-        configuration: $(BuildConfiguration) 
-        arguments: '-p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)" --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
+        arguments: '--configuration $(BuildConfiguration) -p:version="$(GitVersion.AssemblySemVer)" -p:FileVersion="$(GitVersion.AssemblySemFileVer)" --output "$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
 
     # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
     - task: DotNetCoreCLI@2
       displayName: Run .net Core Unit Tests
       inputs:
         command: test
-        configuration: $(BuildConfiguration) 
-        nobuild: true
         projects: |
             **/*Tests.csproj
             !**/*.Automation.Tests.csproj
-        arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+        arguments: '--nobuild --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
     - script: npm run test
       displayName:  Run JavaScript Unit Tests
