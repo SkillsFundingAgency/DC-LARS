@@ -48,7 +48,7 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
     public search(event: Event): void {
         event.preventDefault();
         this.resultsHelper.setIsLoading();
-        this.refreshResultsAsync();
+        this.refreshResults();
         this.storageService.store(constants.storageKey, Object.assign(this.getStorageItem(), {searchTerm: this.searchTerm}));
     }
 
@@ -58,7 +58,7 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
     }
 
     private getFilterChangeCallback(): () => void {
-        const debouncedCallback = debounce(async () => { await this.refreshResultsAsync() }, constants.debounceTime);
+        const debouncedCallback = debounce(() => { this.refreshResults() }, constants.debounceTime);
 
         return() => {
             this.resultsHelper.setIsLoading();
@@ -70,7 +70,7 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
         return this.storageService.retrieve(constants.storageKey) as IStorageItem
     }
 
-    private async refreshResultsAsync() {
+    private refreshResults() {
         this.latestRequestId++;
 
         (async (requestId: number) => {

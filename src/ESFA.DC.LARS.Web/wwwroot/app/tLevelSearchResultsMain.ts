@@ -14,7 +14,7 @@ import { ISearchResults } from './Interfaces/ISearchResults';
 })
 class ResultsApp extends AbstractSearchResultsComponent {
 
-    mounted() {
+    mounted(): void {
         this.intialise();
     }
 
