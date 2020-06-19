@@ -4,6 +4,7 @@ import FilterFeedback from './Components/filterFeedback.vue';
 import { SearchType } from './Enums/SearchType';
 import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
 import { tlevelSearchService } from './Services/tlevelSearchService';
+import { ISearchResults } from './Interfaces/ISearchResults';
 
 @Component({
     components: {
@@ -17,7 +18,7 @@ class ResultsApp extends AbstractSearchResultsComponent {
         this.intialise();
     }
 
-    async getDataAsync() {
+    async getDataAsync(): Promise<ISearchResults> {
         return await tlevelSearchService.getResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm);
     }
 
