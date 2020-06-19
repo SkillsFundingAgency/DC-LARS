@@ -9,7 +9,7 @@ export class StandardsBreadcrumbStrategy implements IBreadcrumbStrategy {
     public build(storageItem: IStorageItem): Array<IBreadcrumb> {
         const linkService = new LinkService();
 
-        let breadcrumbs: Array<IBreadcrumb> = [
+        const breadcrumbs: Array<IBreadcrumb> = [
             { text: "Home", link: "/", page: Page.Home },
             { text: "Search Results", link: linkService.getStandardsSearchResultsLink(storageItem), page: Page.Results },
             { text: storageItem.standardName, link: linkService.getStandardsDetailsLink(storageItem), page: Page.Standard }
@@ -24,6 +24,6 @@ export class StandardsBreadcrumbStrategy implements IBreadcrumbStrategy {
         }
 
         return breadcrumbs;
-    };
+    }
 
 }

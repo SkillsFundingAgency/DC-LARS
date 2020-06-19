@@ -2,11 +2,10 @@
 import store from "../store"
 
 export abstract class AbstractFilterStoreStrategy {
-    watchFilters(callback: Function, immediate: boolean, deep: boolean): void {
-        const classScope = this;
+    watchFilters(callback: () => void, immediate: boolean, deep: boolean): void {
         store.watch(
-            function (state) {
-                return classScope.getSavedFilters();
+            () => {
+                return this.getSavedFilters();
             },
             function () {
                 callback();

@@ -122,5 +122,5 @@ export class ViewService {
 
     private get currentStorageItem(): IStorageItem {
         return this.storageService.retrieve(constants.storageKey) as IStorageItem;
-    };
+    }
 }

@@ -4,9 +4,9 @@ import FilterFeedback from './Components/filterFeedback.vue';
 import { SearchType } from './Enums/SearchType';
 import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
 import { learningAimSearchService } from './Services/learningAimSearchService';
+import { ISearchResults } from './Interfaces/ISearchResults';
 
 @Component({
-    el: "#resultsApp",
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
@@ -18,15 +18,14 @@ class ResultsApp extends AbstractSearchResultsComponent {
         this.intialise();
     }
 
-    async getDataAsync() {
+    async getDataAsync(): Promise<ISearchResults> {
         const teachingYears: Array<string> = new Array(`${(<HTMLSelectElement>document.getElementById("TeachingYears"))?.value}`);
         return await learningAimSearchService.getUnitsResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm, teachingYears);
-    };
+    }
 
     getSearchType(): SearchType {
         return SearchType.Units;
     }
 }
-
-const vue = new ResultsApp();
+new ResultsApp().$mount('#resultsApp');
 

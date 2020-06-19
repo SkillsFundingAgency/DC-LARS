@@ -4,9 +4,9 @@ import FilterFeedback from './Components/filterFeedback.vue';
 import { frameworkSearchService } from './Services/frameworkSearchService';
 import { SearchType } from './Enums/SearchType';
 import AbstractSearchResultsComponent from "./abstractSearchResultsComponent";
+import { ISearchResults } from './Interfaces/ISearchResults';
 
 @Component({
-    el: "#resultsApp",
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
@@ -18,13 +18,13 @@ class ResultsApp extends AbstractSearchResultsComponent {
         this.intialise();
     }
 
-    async getDataAsync() {
+    async getDataAsync(): Promise<ISearchResults> {
         return await frameworkSearchService.getResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm);
-    };
+    }
 
     getSearchType(): SearchType {
         return SearchType.Frameworks
     }
 }
 
-const vue = new ResultsApp();
+new ResultsApp().$mount('#resultsApp');
