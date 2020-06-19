@@ -16,24 +16,24 @@ export class ViewService {
         this.breadcrumbService = new BreadcrumbService();
     }
 
-    public setupQualificationsResultView(searchTerm: string, currentAcademicYear: string): void {
-        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Qualifications, page: Page.Results }));
+    public setupQualificationsResultView(searchTerm: string, currentAcademicYear: string, awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Qualifications, page: Page.Results, serverFilters: this.getLearningAimFilters(awardingBodies, levels, teachingYears, fundingStreams)}));
     }
 
-    public setupUnitsResultView(searchTerm: string, currentAcademicYear: string): void {
-        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Units, page: Page.Results }));
+    public setupUnitsResultView(searchTerm: string, currentAcademicYear: string, awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Units, page: Page.Results, serverFilters: this.getLearningAimFilters(awardingBodies, levels, teachingYears, fundingStreams) }));
     }
 
-    public setupStandardsResultView(searchTerm: string): void {
-        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Standards, page: Page.Results }));
+    public setupStandardsResultView(searchTerm: string, levels: string[], sectors: string[]): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Standards, page: Page.Results, serverFilters: this.getStandardsFilters(levels, sectors)}));
     }
 
     public setupTLevelsResultView(searchTerm: string): void {
         this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.TLevels, page: Page.Results }));
     }
 
-    public setupFrameworkSearchResultView(searchTerm: string): void {
-        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results }));
+    public setupFrameworkSearchResultView(searchTerm: string, frameworkTypes: string[], issuingAuthorities: string[]): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results, serverFilters: this.getFrameworkFilters(frameworkTypes, issuingAuthorities)}));
     }
 
     private setupResultsView(storageItem: IStorageItem) : void {
@@ -88,7 +88,7 @@ export class ViewService {
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
-    public getLearningAimFilters(awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): IFilterItem[] {
+    private getLearningAimFilters(awardingBodies: string[], levels: string[], teachingYears: string[], fundingStreams: string[]): IFilterItem[] {
         let filters: IFilterItem[] = [];
 
         filters = filters.concat(awardingBodies.map(f => ({ type: FilterType.AwardingBodies, key: f, value: '' } as IFilterItem)));
@@ -99,14 +99,14 @@ export class ViewService {
         return filters;
     }
 
-    public getFrameworkFilters(frameworkTypes: string[], issuingAuthorities: string[]): IFilterItem[] {
+    private getFrameworkFilters(frameworkTypes: string[], issuingAuthorities: string[]): IFilterItem[] {
         let filters: IFilterItem[] = [];
         filters = filters.concat(frameworkTypes.map(f => ({ type: FilterType.FrameworkTypes, key: f, value: '' } as IFilterItem)));
         filters = filters.concat(issuingAuthorities.map(f => ({ type: FilterType.IssuingAuthorities, key: f, value: '' } as IFilterItem)));
         return filters;
     }
 
-    public getStandardsFilters(levels: string[], sectors: string[]): IFilterItem[] {
+    private getStandardsFilters(levels: string[], sectors: string[]): IFilterItem[] {
         let filters: IFilterItem[] = [];
         filters = filters.concat(levels.map(f => ({ type: FilterType.Levels, key: f, value: '' } as IFilterItem)));
         filters = filters.concat(sectors.map(f => ({ type: FilterType.Sectors, key: f, value: '' } as IFilterItem)));

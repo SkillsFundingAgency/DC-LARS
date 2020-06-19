@@ -35,10 +35,7 @@
 
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupStandardsResultView("@Model.SearchModel.SearchTerm");
-
-        @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
-        serverFilters = viewService.getStandardsFilters(@Json.Serialize(Model.SearchModel.Levels), @Json.Serialize(Model.SearchModel.Sectors));
+        viewService.setupStandardsResultView("@Model.SearchModel.SearchTerm", (@Json.Serialize(Model.SearchModel.Levels), @Json.Serialize(Model.SearchModel.Sectors));
     </script>
 
     @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
