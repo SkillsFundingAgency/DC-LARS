@@ -43,6 +43,11 @@ namespace ESFA.DC.LARS.API.Modules
                 .As<IStandardIndexService>()
                 .SingleInstance();
 
+            builder
+              .Register(c => new TLevelClient(AzureSettings))
+              .As<ITLevelIndexService>()
+              .SingleInstance();
+
             builder.RegisterType<AzureLearningAimsService>().As<IAzureLearningAimsService>();
             builder.RegisterType<AzureUnitsService>().As<IAzureUnitsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();

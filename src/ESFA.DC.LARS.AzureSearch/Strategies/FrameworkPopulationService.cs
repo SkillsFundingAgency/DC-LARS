@@ -40,7 +40,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.FrameworkIndexName;
 
-        public async override Task PopulateIndexAsync()
+        public override async Task PopulateIndexAsync()
+        {
+            await PopulateIndexAsync(true);
+        }
+
+        public async Task PopulateIndexAsync(bool isFramework)
         {
             var indexClient = GetIndexClient();
 

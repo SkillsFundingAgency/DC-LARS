@@ -13,12 +13,15 @@ namespace ESFA.DC.LARS.Web.Controllers
     public class TLevelSearchResultController : AbstractResultsController<TLevelSearchModel, TLevelModel>
     {
         private const string ResultsTemplate = "_SearchResults";
+        private readonly ITLevelsAPIService _tlevelsApiService;
 
         public TLevelSearchResultController(
             ILookupApiService lookupApiService,
+            ITLevelsAPIService itLevelsApiService,
             IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies)
             : base(resultRouteStrategies, lookupApiService, ResultsTemplate, LearningType.TLevels)
         {
+            _tlevelsApiService = itLevelsApiService;
         }
 
         protected override TLevelSearchModel GetSearchModel(BasicSearchModel basicSearchModel)
