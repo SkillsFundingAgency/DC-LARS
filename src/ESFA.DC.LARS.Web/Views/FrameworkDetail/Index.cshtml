@@ -22,7 +22,7 @@
         </ul>
 
         <ul class="govuk-list">
-            <li>
+            <li render-if="Model.Framework.CommonComponents?.Count > 0">
                 <a asp-action="Index" asp-controller="FrameworkCommonComponent" asp-route-frameworkCode="@Model.Framework.FrameworkCode"
                    asp-route-programType="@Model.Framework.ProgramType" asp-route-pathwayCode="@Model.Framework.PathwayCode"
                    class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Common components</a>
@@ -34,7 +34,10 @@
             <p>@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>
         </div>
 
-        @await Html.PartialAsync("_RelatedLearningAims", Model.Framework.LearningAims)
+        @if (Model.Framework.LearningAims.Count > 0)
+        {
+            @await Html.PartialAsync("_RelatedLearningAims", Model.Framework.LearningAims)
+        }
     </div>
 </div>
 
