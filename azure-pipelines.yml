@@ -19,8 +19,8 @@ stages:
     pool:
       name: DCT
       demands:
-      - TestBuildServer
-      #- IsBuildServer
+      - IsBuildServer
+      #- TestBuildServer
       
     steps:
     - task: NuGetToolInstaller@0
