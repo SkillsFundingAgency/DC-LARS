@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.Web.Controllers
     [Route("FrameworkSearchResult")]
     public class FrameworkSearchResultController : AbstractResultsController<FrameworkSearchModel, FrameworkModel>
     {
-        private const string ResultsTemplate = "_SearchResults";
+        private const string ResultsTemplate = "_FrameworkSearchResults";
 
         private readonly IFrameworkApiService _frameworkApiService;
         private readonly ISearchModelFactory _searchModelFactory;

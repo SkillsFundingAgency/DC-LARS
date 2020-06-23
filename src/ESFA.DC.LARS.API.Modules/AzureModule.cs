@@ -53,6 +53,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<AzureFrameworkService>().As<IAzureFrameworkService>();
             builder.RegisterType<AzureStandardService>().As<IAzureStandardService>();
+            builder.RegisterType<AzureTLevelService>().As<IAzureTLevelService>();
 
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
             builder.RegisterType<AzureService>().As<IAzureService>();

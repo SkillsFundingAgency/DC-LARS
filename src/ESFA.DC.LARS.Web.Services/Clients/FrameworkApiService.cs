@@ -7,7 +7,7 @@ namespace ESFA.DC.LARS.Web.Services.Clients
 {
     public class FrameworkApiService : IFrameworkApiService
     {
-        private const string Url = "Framework";
+        protected string Url;
         private const string FrameworkCodeParameterName = "frameworkCode";
         private const string ProgramTypeParameterName = "programType";
         private const string PathwayCodeParameterName = "pathwayCode";
@@ -17,6 +17,7 @@ namespace ESFA.DC.LARS.Web.Services.Clients
         public FrameworkApiService(IClientService clientService)
         {
             _clientService = clientService;
+            Url = "Framework";
         }
 
         public async Task<FrameworkModel> GetFramework(int frameworkCode, int programType, int pathwayCode)

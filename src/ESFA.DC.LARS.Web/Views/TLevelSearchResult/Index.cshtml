@@ -1,4 +1,4 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<TLevelSearchModel, TLevelModel>
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
 @{
     Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
     ViewData["Title"] = "Index";
@@ -16,7 +16,7 @@
     </p>
 
     <div ref="Results">
-        @await Html.PartialAsync("_SearchResults", Model)
+        @await Html.PartialAsync("_FrameworkSearchResults", Model)
     </div>
 }
 

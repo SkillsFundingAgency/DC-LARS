@@ -12,6 +12,9 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
     public class FrameworkPopulationService : AbstractPopulationService<FrameworkModel>
     {
+        private const int TransitionProgType = 30;
+        private const int TLevelProgType = 31;
+
         private readonly ILarsContextFactory _contextFactory;
         private readonly IIssuingAuthorityService _issuingAuthorityService;
         private readonly IComponentTypeService _componentTypeService;
@@ -58,8 +61,20 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 var commonComponents = await _commonComponentService.GetFrameworkCommonComponents(context);
                 var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
                 var relatedLearningAims = await _relatedLearningAimsService.GetFrameworkRelatedLearningAims(context);
+                var tlevelProgTypes = new List<int> { TransitionProgType, TLevelProgType };
 
-                frameworks = await context.LarsFrameworks
+                var frameworksQueryable = context.LarsFrameworks.AsQueryable();
+
+                if (isFramework)
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => !tlevelProgTypes.Contains(f.ProgType));
+                }
+                else
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => tlevelProgTypes.Contains(f.ProgType));
+                }
+
+                frameworks = await frameworksQueryable
                     .Select(fr => new FrameworkModel
                     {
                         // azure search index must have 1 key field.  Please ensure pattern here is the same as used in common components
