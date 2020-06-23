@@ -176,7 +176,7 @@ stages:
 
     ## Create Zip File of Automation Tests for Deployment     
     - task: ArchiveFiles@2
-      enabled: false
+      enabled: true
       displayName: 'Package Automation Tests'
       inputs:
         rootFolderOrFile: '$(build.SourcesDirectory)\src\ESFA.DC.LARS.Web.Automation.Tests\bin\$(buildConfiguration)\netcoreapp3.1'
