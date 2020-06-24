@@ -16,15 +16,7 @@
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <filter-feedback search-type="Standards"></filter-feedback>
-
-    <div ref="Results">
-        @await Html.PartialAsync("_SearchResults", Model)
-    </div>
+    @await Html.PartialAsync("_SearchResults", Model)
 }
 
 @section PageScripts
@@ -35,7 +27,7 @@
 
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupStandardsResultView("@Model.SearchModel.SearchTerm", (@Json.Serialize(Model.SearchModel.Levels), @Json.Serialize(Model.SearchModel.Sectors));
+        viewService.setupStandardsResultView("@Model.SearchModel.SearchTerm", @Json.Serialize(Model.SearchModel.Levels), @Json.Serialize(Model.SearchModel.Sectors));
     </script>
 
     @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@

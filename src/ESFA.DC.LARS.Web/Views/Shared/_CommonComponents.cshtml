@@ -14,25 +14,20 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                @if (Model?.Any() == true)
-                {
-                    @foreach (var component in Model)
-                    {
-                        <tr class="govuk-table__row">
-                            <td class="govuk-table__cell">@component.CommonComponent</td>
-                            <td class="govuk-table__cell">@component.Description</td>
-                            <td class="govuk-table__cell">@component.MinLevel</td>
-                            <td class="govuk-table__cell">@component.EffectiveFrom.ToDateString()</td>
-                            <td class="govuk-table__cell">@component.EffectiveTo?.ToDateString()</td>
-                        </tr>
-                    }
-                }
-                else
+
+                @foreach (var component in Model)
                 {
                     <tr class="govuk-table__row">
-                        <td colspan="5" class="govuk-table__cell">No components found</td>
+                        <td class="govuk-table__cell">@component.CommonComponent</td>
+                        <td class="govuk-table__cell">@component.Description</td>
+                        <td class="govuk-table__cell">@component.MinLevel</td>
+                        <td class="govuk-table__cell">@component.EffectiveFrom.ToDateString()</td>
+                        <td class="govuk-table__cell">@component.EffectiveTo?.ToDateString()</td>
                     </tr>
                 }
+                <tr class="govuk-table__row" render-if="Model?.Any() != true">
+                    <td colspan="5" class="govuk-table__cell">No components found</td>
+                </tr>
             </tbody>
         </table>
     </div>

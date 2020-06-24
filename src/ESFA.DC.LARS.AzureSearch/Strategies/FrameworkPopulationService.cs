@@ -93,6 +93,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
                         IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
+                        IsTLevel = !isFramework
                     }).ToListAsync();
 
                 foreach (var framework in frameworks)

@@ -27,6 +27,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public string ProgramTypeName { get; set; }
 
+        public bool IsTLevel { get; set; }
+
         [IsFilterable]
         public string IssuingAuthority { get; set; }
 

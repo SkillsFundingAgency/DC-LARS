@@ -11,13 +11,7 @@
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <div ref="Results">
-        @await Html.PartialAsync("_FrameworkSearchResults", Model)
-    </div>
+    @await Html.PartialAsync("_FrameworkSearchResults", Model)
 }
 
 @section PageScripts

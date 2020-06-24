@@ -17,15 +17,7 @@
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <filter-feedback search-type="Units"></filter-feedback>
-
-    <div ref="Results">
-        @await Html.PartialAsync("_LearningAimsResults", Model)
-    </div>
+    @await Html.PartialAsync("_LearningAimsResults", Model)
 }
 
 @section PageScripts

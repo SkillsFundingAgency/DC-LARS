@@ -34,7 +34,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 IssuingAuthority = input.IssuingAuthority,
                 IssuingAuthorityDesc = input.IssuingAuthorityDesc,
                 LearningAims = input.LearningAims?.Select(aim => _frameworkAimMapper.Map(aim)).ToList(),
-                CommonComponents = input.CommonComponents?.Select(cc => _commonComponentMapper.Map(cc)).ToList()
+                CommonComponents = input.CommonComponents?.Select(cc => _commonComponentMapper.Map(cc)).ToList(),
+                IsTLevel = input.IsTLevel
             };
         }
     }

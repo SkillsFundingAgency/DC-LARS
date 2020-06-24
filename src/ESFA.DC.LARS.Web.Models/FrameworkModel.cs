@@ -32,5 +32,7 @@ namespace ESFA.DC.LARS.Web.Models
         public List<RelatedLearningAimModel> LearningAims { get; set; }
 
         public List<CommonComponentModel> CommonComponents { get; set; }
+
+        public bool IsTLevel { get; set; }
     }
 }

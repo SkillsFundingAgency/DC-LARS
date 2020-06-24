@@ -17,12 +17,6 @@
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <filter-feedback search-type="Frameworks"></filter-feedback>
-
     @await Html.PartialAsync("_FrameworkSearchResults", Model)
 }
 
