@@ -12,18 +12,27 @@ namespace ESFA.DC.LARS.Web.Controllers
     public class TLevelSearchResultController : AbstractResultsController<FrameworkSearchModel, FrameworkModel>
     {
         private const string ResultsTemplate = "_FrameworkSearchResults";
-        private readonly ITLevelsAPIService _tlevelsApiService;
+        private readonly ITLevelApiService _tlevelsApiService;
         private readonly ISearchModelFactory _searchModelFactory;
+        private readonly IClientValidationService _clientValidationService;
 
         public TLevelSearchResultController(
             ISearchModelFactory searchModelFactory,
             ILookupApiService lookupApiService,
-            ITLevelsAPIService itLevelsApiService,
-            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies)
+            ITLevelApiService itLevelsApiService,
+            IEnumerable<ISearchResultsRouteStrategy> resultRouteStrategies,
+            IClientValidationService clientValidationService)
             : base(resultRouteStrategies, lookupApiService, ResultsTemplate, LearningType.TLevels)
         {
             _tlevelsApiService = itLevelsApiService;
             _searchModelFactory = searchModelFactory;
+            _clientValidationService = clientValidationService;
+        }
+
+        [HttpGet("RedirectToDetails")]
+        public IActionResult RedirectToDetails(int frameworkCode, int programType, int pathwayCode)
+        {
+            return RedirectToAction("Index", "TLevelDetail", new { frameworkCode, programType, pathwayCode });
         }
 
         protected override FrameworkSearchModel GetSearchModel(BasicSearchModel basicSearchModel)
@@ -38,6 +47,11 @@ namespace ESFA.DC.LARS.Web.Controllers
 
         protected override void ValidateSearch(FrameworkSearchModel searchModel, SearchResultsViewModel<FrameworkSearchModel, FrameworkModel> viewModel)
         {
+            var searchTermError = _clientValidationService.SearchTermLengthValid(searchModel.SearchTerm);
+            if (!string.IsNullOrEmpty(searchTermError))
+            {
+                viewModel.ValidationErrors.Add(searchTermError);
+            }
         }
     }
 }

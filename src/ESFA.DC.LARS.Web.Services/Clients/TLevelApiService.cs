@@ -2,7 +2,7 @@
 
 namespace ESFA.DC.LARS.Web.Services.Clients
 {
-    public class TLevelApiService : FrameworkApiService, ITLevelsAPIService
+    public class TLevelApiService : FrameworkApiService, ITLevelApiService
     {
         public TLevelApiService(IClientService clientService)
             : base(clientService)

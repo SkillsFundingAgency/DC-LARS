@@ -1,0 +1,40 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            @Model.Framework.FrameworkTitle
+            <span class="govuk-caption-xl">@Model.Framework.FrameworkCode</span>
+        </h1>
+
+        <ul class="govuk-list">
+            <li>
+                <strong>Pathway:</strong> @Model.Framework.PathwayCode - @Model.Framework.PathwayName
+            </li>
+            <li>
+                <strong>Issuing authority:</strong> @Model.Framework.IssuingAuthority - @Model.Framework.IssuingAuthorityDesc
+            </li>
+            <li>
+                <strong>Effective from:</strong> @Model.Framework.EffectiveFrom?.ToDateString() to: @Model.Framework.EffectiveTo?.ToDateString()
+            </li>
+        </ul>
+
+        <ul class="govuk-list">
+            <li render-if="Model.Framework.CommonComponents?.Count > 0">
+                <a asp-action="Index" asp-controller="@Model.CommonComponentController" asp-route-frameworkCode="@Model.Framework.FrameworkCode"
+                   asp-route-programType="@Model.Framework.ProgramType" asp-route-pathwayCode="@Model.Framework.PathwayCode"
+                   class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Common components</a>
+            </li>
+        </ul>
+
+        <h2 class="govuk-heading-m ">Sector subject area</h2>
+        <div class="govuk-body">
+            <p>@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>
+        </div>
+
+        @if (Model.Framework.LearningAims.Count > 0)
+        {
+            @await Html.PartialAsync("_RelatedLearningAims", Model.Framework.LearningAims)
+        }
+    </div>
+</div>
