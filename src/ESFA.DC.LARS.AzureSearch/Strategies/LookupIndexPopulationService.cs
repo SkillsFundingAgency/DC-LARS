@@ -78,6 +78,14 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             EffectiveTo = fm.EffectiveTo
                         }).ToListAsync(),
                     FrameworkTypeLookups = await context.LarsProgTypeLookups
+                        .Where(ft => !_tlevelProgTypes.Contains(ft.ProgType))
+                        .Select(ft => new FrameworkTypeLookupModel
+                        {
+                            FrameworkType = ft.ProgType.ToString(),
+                            FrameworkTypeDesc = ft.ProgTypeDesc
+                        }).ToListAsync(),
+                    TLevelTypeLookups = await context.LarsProgTypeLookups
+                        .Where(ft => _tlevelProgTypes.Contains(ft.ProgType))
                         .Select(ft => new FrameworkTypeLookupModel
                         {
                             FrameworkType = ft.ProgType.ToString(),
