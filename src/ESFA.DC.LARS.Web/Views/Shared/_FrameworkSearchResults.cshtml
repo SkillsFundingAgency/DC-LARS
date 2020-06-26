@@ -16,7 +16,8 @@
             </div>
             <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
                 <span><strong>Framework type:</strong> @framework.ProgramTypeName</span>
-                <span><strong>@(framework.IsTLevel ? "T Level": "Issuing authority"):</strong> @framework.IssuingAuthorityDesc </span>
+                <span render-if="!framework.IsTLevel"><strong>Issuing authority:</strong> @framework.IssuingAuthorityDesc </span>
+                <span render-if="framework.IsTLevel"><strong>T Level:</strong> @framework.NasTitle </span>
             </div>
         </div>
         <div class="flex space-between">

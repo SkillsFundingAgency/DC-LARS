@@ -34,5 +34,7 @@ namespace ESFA.DC.LARS.Web.Models
         public List<CommonComponentModel> CommonComponents { get; set; }
 
         public bool IsTLevel { get; set; }
+
+        public string NasTitle { get; set; }
     }
 }
