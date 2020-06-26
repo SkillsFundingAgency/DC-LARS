@@ -36,11 +36,11 @@
                         <label class="govuk-label" for="searchType">
                             Type of learning
                         </label>
-                        <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType" asp-items="Html.GetEnumSelectList<LearningType>()">
+                        <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType" asp-items="Html.GetEnumSelectList<LearningType>()" onchange="learningTypeChanged();">
                         </select>
                     </div>
-                    <div id="academicYear" class="govuk-grid-column-one-third">
-                        <label class="govuk-label" for="searchType">
+                    <div id="academicYear" name="academicYear" class="govuk-grid-column-one-third">
+                        <label class="govuk-label" for="TeachingYear">
                             Academic Year
                         </label>
                         @if (Model?.Lookups?.AcademicYearLookups != null)
@@ -88,4 +88,16 @@
 @section PageScripts
 {
     <script src="/assets/dist/js/search.js" asp-append-version="true"></script>
+    <script>
+        function learningTypeChanged() {
+            var selected = document.getElementById('searchType').value;
+            var academicYear = document.getElementById('academicYear');
+            if (selected == 0 || selected == 2) {
+                // Hide the academic year dropdown the the learning type is not Qualification or Unit
+                academicYear.style.visibility = 'visible';
+            } else {
+                academicYear.style.visibility = 'hidden';
+            }
+        }
+    </script>
 }
