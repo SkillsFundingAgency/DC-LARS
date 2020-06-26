@@ -14,14 +14,18 @@ module.exports = {
     // Webpack needs to know where to start the bundling process,
     // so we define the Sass file under '/scss' directory
     // and the script file under '/js' directory
+
+
     entry: {
         './assets/dist/js/site': './wwwroot/assets/js/site.js',
-        './assets/dist/js/pollyfills' : ['babel-polyfill', './wwwroot/pollyfills.js'],
+        './assets/dist/js/pollyfills' : ['./wwwroot/pollyfills.js'],
         site : ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss'],
         './assets/dist/js/search': './wwwroot/app/searchMain.ts',
         './assets/dist/js/learningAimSearchResults': './wwwroot/app/learningAimSearchResultsMain.ts',
         './assets/dist/js/frameworkSearchResults': './wwwroot/app/frameworkSearchResultsMain.ts',
         './assets/dist/js/unitsSearchResults': './wwwroot/app/unitsSearchResultsMain.ts',
+        './assets/dist/js/standardSearchResults': './wwwroot/app/standardSearchResultsMain.ts',
+        './assets/dist/js/tLevelSearchResults': './wwwroot/app/tLevelSearchResultsMain.ts',
         './assets/dist/js/ESFA': './wwwroot/ESFAGlobals.ts'
     },
     // This is where we define the path where Webpack will place

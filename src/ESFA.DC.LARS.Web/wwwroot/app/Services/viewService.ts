@@ -17,53 +17,73 @@ export class ViewService {
     }
 
     public setupQualificationsResultView(searchTerm: string, currentAcademicYear: string): void {
-        this.setupLearningAimsResultView(searchTerm, currentAcademicYear, SearchType.Qualifications);
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Qualifications, page: Page.Results }));
     }
 
     public setupUnitsResultView(searchTerm: string, currentAcademicYear: string): void {
-        this.setupLearningAimsResultView(searchTerm, currentAcademicYear, SearchType.Units);
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType: SearchType.Units, page: Page.Results }));
     }
 
-    private setupLearningAimsResultView(searchTerm: string, currentAcademicYear: string, searchType: SearchType) : void {
+    public setupStandardsResultView(searchTerm: string): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Standards, page: Page.Results }));
+    }
+
+    public setupTLevelsResultView(searchTerm: string): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.TLevels, page: Page.Results }));
+    }
+
+    public setupFrameworkSearchResultView(searchTerm: string): void {
+        this.setupResultsView(Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results }));
+    }
+
+    private setupResultsView(storageItem: IStorageItem) : void {
         this.removeFilterNonScriptTag();
-        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, currentAcademicYear, searchType, page: Page.Results}); 
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupLearningAimDetailView(learnAimRef: string, learningAimTitle: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { learnAimRef, learningAimTitle, page: Page.LearningAimDetails}); 
+        this.setupLearingAimView(learnAimRef, learningAimTitle, Page.LearningAimDetails);
+    }
+
+    public setupLearningAimCategoryView(learnAimRef: string, learningAimTitle: string): void {
+        this.setupLearingAimView(learnAimRef, learningAimTitle, Page.Category );
+    }
+
+    private setupLearingAimView(learnAimRef: string, learningAimTitle: string, page: Page): void {
+        const storageItem = Object.assign(this.currentStorageItem, { learnAimRef, learningAimTitle, page: page });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
-
-    public setupFrameworkView(): void {
-        const storageItem = Object.assign(this.currentStorageItem, {page: Page.Pathway });
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
+  
+    public setupStandardDetailsView(standardCode: string, standardName: string): void {
+        this.setupStandardView(standardCode, standardName, Page.Standard);
     }
 
-    public setupLearningAimCategoryView(): void {
-        const storageItem = Object.assign(this.currentStorageItem, { page: Page.Category });
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(this.currentStorageItem);
+    public setupStandardCommonComponentView(standardCode: string, standardName: string): void {
+        this.setupStandardView(standardCode, standardName, Page.CommonComponent);
     }
 
-    public setupCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.CommonComponent }); 
-        this.storageService.store(constants.storageKey, storageItem);
-        this.breadcrumbService.buildBreadcrumb(storageItem);
+    public setupStandardLearningAimView(standardCode: string, standardName: string): void {
+        this.setupStandardView(standardCode, standardName, Page.RelatedLearningAims);
     }
 
-    public setupFrameworkSearchResultView(searchTerm: string): void {
-        this.removeFilterNonScriptTag();
-        const storageItem = Object.assign(this.currentStorageItem, { searchTerm, searchType: SearchType.Frameworks, page: Page.Results });
+    private setupStandardView(standardCode: string, standardName: string, page: Page) : void {
+        const storageItem = Object.assign(this.currentStorageItem, { standardCode, standardName, page});
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
 
     public setupFrameworkDetailView(frameworkCode: string, programType: string, pathwayCode: string): void {
-        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page: Page.Pathway });
+        this.setupFrameworkView(frameworkCode, programType, pathwayCode, Page.Pathway);
+    }
+
+    public setupFrameworkCommonComponentView(frameworkCode: string, programType: string, pathwayCode: string): void {
+        this.setupFrameworkView(frameworkCode, programType, pathwayCode, Page.CommonComponent);
+    }
+
+    public setupFrameworkView(frameworkCode: string, programType: string, pathwayCode: string, page:Page): void {
+        const storageItem = Object.assign(this.currentStorageItem, { frameworkCode, programType, pathwayCode, page });
         this.storageService.store(constants.storageKey, storageItem);
         this.breadcrumbService.buildBreadcrumb(storageItem);
     }
@@ -86,6 +106,13 @@ export class ViewService {
         return filters;
     }
 
+    public getStandardsFilters(levels: string[], sectors: string[]): IFilterItem[] {
+        let filters: IFilterItem[] = [];
+        filters = filters.concat(levels.map(f => ({ type: FilterType.Levels, key: f, value: '' } as IFilterItem)));
+        filters = filters.concat(sectors.map(f => ({ type: FilterType.Sectors, key: f, value: '' } as IFilterItem)));
+        return filters;
+    }
+
     private removeFilterNonScriptTag() {
         const element = document.getElementById("filtersNoScript") as HTMLElement;
         if (element && element.parentNode) {
@@ -95,5 +122,5 @@ export class ViewService {
 
     private get currentStorageItem(): IStorageItem {
         return this.storageService.retrieve(constants.storageKey) as IStorageItem;
-    };
+    }
 }

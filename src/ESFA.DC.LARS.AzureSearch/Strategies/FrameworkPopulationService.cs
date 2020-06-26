@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
+using ESFA.DC.LARS.AzureSearch.Extensions;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
-using ESFA.DC.ReferenceData.LARS.Model;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +16,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
         private readonly IIssuingAuthorityService _issuingAuthorityService;
         private readonly IComponentTypeService _componentTypeService;
         private readonly ICommonComponentLookupService _commonComponentLookupService;
+        private readonly ICommonComponentService _commonComponentService;
+        private readonly IRelatedLearningAimsService _relatedLearningAimsService;
 
         public FrameworkPopulationService(
             ISearchServiceClient searchServiceClient,
@@ -24,13 +25,17 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             ILarsContextFactory contextFactory,
             IIssuingAuthorityService issuingAuthorityService,
             IComponentTypeService componentTypeService,
-            ICommonComponentLookupService commonComponentLookupService)
+            ICommonComponentLookupService commonComponentLookupService,
+            ICommonComponentService commonComponentService,
+            IRelatedLearningAimsService relatedLearningAimsService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _issuingAuthorityService = issuingAuthorityService;
             _componentTypeService = componentTypeService;
             _commonComponentLookupService = commonComponentLookupService;
+            _commonComponentService = commonComponentService;
+            _relatedLearningAimsService = relatedLearningAimsService;
         }
 
         protected override string IndexName => _populationConfiguration.FrameworkIndexName;
@@ -45,13 +50,15 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 var issuingAuthorities = await _issuingAuthorityService.GetIssuingAuthoritiesAsync(context);
                 var componentTypes = await _componentTypeService.GetComponentTypesAsync(context);
-                var commonComponents = await GetFrameworkCommonComponents(context);
+                var commonComponents = await _commonComponentService.GetFrameworkCommonComponents(context);
                 var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
+                var relatedLearningAims = await _relatedLearningAimsService.GetFrameworkRelatedLearningAims(context);
 
                 frameworks = await context.LarsFrameworks
                     .Select(fr => new FrameworkModel
                     {
-                        // azure search index must have 1 key field.  Please ensure pattern here is the same as used in CreateFrameworkId
+                        // azure search index must have 1 key field.  Please ensure pattern here is the same as used in common components
+                        // and releated learning aim lookups.
                         Id = string.Concat(fr.FworkCode, "-", fr.ProgType, "-", fr.PwayCode),
                         FrameworkCode = fr.FworkCode,
                         ProgramType = fr.ProgType,
@@ -66,25 +73,15 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
                         IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
-                        LearningAims = fr.LarsFrameworkAims
-                            .Where(fa => fa.LearnAimRefNavigation.LearnAimRefType != UnitLearnAimRefType)
-                            .Select(fa => new FrameworkAimModel
-                            {
-                                LearnAimRef = fa.LearnAimRef,
-                                LearningAimTitle = fa.LearnAimRefNavigation.LearnAimRefTitle,
-                                AwardingBodyCode = fa.LearnAimRefNavigation.AwardOrgCode,
-                                Level = fa.LearnAimRefNavigation.NotionalNvqlevelv2,
-                                EffectiveFrom = fa.EffectiveFrom,
-                                EffectiveTo = fa.EffectiveTo,
-                                ComponentType = fa.FrameworkComponentType,
-                                ComponentTypeDesc = fa.FrameworkComponentType != null ? componentTypes[fa.FrameworkComponentType.Value] : null
-                            }).ToList()
                     }).ToListAsync();
 
                 foreach (var framework in frameworks)
                 {
                     framework.CommonComponents = commonComponents[framework.Id].ToList();
                     framework.CommonComponents.ForEach(c => c.Description = commonComponentLookups.GetValueOrDefault(c.CommonComponent)?.Description);
+
+                    framework.LearningAims = relatedLearningAims[framework.Id].ToList();
+                    framework.LearningAims.ForEach(l => l.ComponentTypeDesc = componentTypes.GetValueOrDefault(l.ComponentType.Value));
                 }
             }
 
@@ -96,23 +93,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 indexClient.Documents.Index(batch);
             }
-        }
-
-        private async Task<ILookup<string, FrameworkCommonComponentModel>> GetFrameworkCommonComponents(LarsContext context)
-        {
-            var results = await context.LarsFrameworkCmnComps.Select(c => new FrameworkCommonComponentModel
-            {
-                CommonComponent = c.CommonComponent,
-                FrameworkCode = c.FworkCode,
-                PathwayCode = c.PwayCode,
-                ProgramType = c.ProgType,
-                EffectiveFrom = c.EffectiveFrom,
-                EffectiveTo = c.EffectiveTo,
-                MinLevel = c.MinLevel
-            }).ToListAsync();
-
-            // Please note this must match the FrameworkID generated on initial population
-            return results.ToLookup(c => string.Concat(c.FrameworkCode, "-", c.ProgramType, "-", c.PathwayCode), c => c);
         }
     }
 }

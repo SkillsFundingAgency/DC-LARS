@@ -20,7 +20,7 @@
     import { Component, Vue, Prop } from 'vue-property-decorator';
     import { IFilterItem } from '../Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
-    import { filterStoreService } from '../Services/filterStoreService';
+    import { FilterStoreService } from '../Services/filterStoreService';
     import { SearchType } from '../enums/SearchType';
     import { FilterType } from '../enums/FilterType';
     import StorageService from '../Services/storageService';
@@ -30,9 +30,10 @@
     export default class FilterFeedback extends Vue {
         @Prop() public searchType!: SearchType;
         private storageService: StorageService;
+        private filterStoreService: FilterStoreService;
 
         get savedfilters(): Array<IFilterItem> {
-            return filterStoreService.getSavedFilters(this.searchType);
+            return this.filterStoreService.getSavedFilters();
         };
 
         private filters: Array<IFilterItem>;
@@ -41,15 +42,16 @@
             super();
             this.filters = [];
             this.storageService = new StorageService(sessionStorage);
+            this.filterStoreService = new FilterStoreService(this.searchType);
         }
 
         mounted() {
-            filterStoreService.watchFilters(this.searchType, this.refreshFilters, true, true);
+            this.filterStoreService.watchFilters(this.refreshFilters, true, true);
         }
 
         removeFilter(filter: IFilterItem): void {
             this.filters = filterService.removeFilterFromArray(this.savedfilters, filter);
-            filterStoreService.updateStore(this.searchType, this.filters);
+            this.filterStoreService.updateStore(this.filters);
             this.storageService.updateFilters(constants.storageKey, this.filters);
         }
 

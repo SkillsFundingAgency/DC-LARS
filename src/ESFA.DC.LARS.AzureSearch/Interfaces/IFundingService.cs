@@ -7,6 +7,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IFundingService
     {
-        Task<Dictionary<string, List<FundingModel>>> GetFundingsAsync(LarsContext context);
+        Task<IDictionary<string, List<FundingModel>>> GetFundingsAsync(LarsContext context);
     }
 }

@@ -22,7 +22,7 @@
         </ul>
 
         <ul class="govuk-list">
-            <li>
+            <li render-if="Model.Framework.CommonComponents?.Count > 0">
                 <a asp-action="Index" asp-controller="FrameworkCommonComponent" asp-route-frameworkCode="@Model.Framework.FrameworkCode"
                    asp-route-programType="@Model.Framework.ProgramType" asp-route-pathwayCode="@Model.Framework.PathwayCode"
                    class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Common components</a>
@@ -34,35 +34,9 @@
             <p>@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>
         </div>
 
-        <h2 class="govuk-heading-m ">Related learning aims</h2>
-        @foreach (var aim in Model.Framework.LearningAims)
+        @if (Model.Framework.LearningAims.Count > 0)
         {
-            <ul class="govuk-list">
-                <li>
-                    @Html.ActionLink(
-                        aim.LearningAimTitle,
-                        "Index",
-                        "LearningAimDetail",
-                        new { learnAimRef = aim.LearnAimRef },
-                        new { @class = "govuk-link govuk-!-font-weight-bold govuk-link--no-visited-state" })
-                </li>
-                <li>
-                    <strong>Reference:</strong> @aim.LearnAimRef
-                </li>
-                <li>
-                    <strong>Awarding body:</strong> @aim.AwardingBodyCode
-                </li>
-                <li>
-                    <strong>Level:</strong> @aim.Level
-                </li>
-                <li>
-                    <strong>Effective from:</strong> @aim.EffectiveFrom.ToDateString() to: @aim.EffectiveTo?.ToDateString()
-                </li>
-                <li>
-                    <strong>Component Type:</strong> @aim.ComponentType - @aim.ComponentTypeDesc
-                </li>
-            </ul>
-            <hr />
+            @await Html.PartialAsync("_RelatedLearningAims", Model.Framework.LearningAims)
         }
     </div>
 </div>

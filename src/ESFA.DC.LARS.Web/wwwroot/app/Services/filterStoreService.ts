@@ -1,57 +1,47 @@
 ﻿import { IFilterItem } from '../Interfaces/IFilterItem';
 import { SearchType } from '../Enums/SearchType';
-import store from "../store"
+import { filterStoreStrategyManager } from '../FilterStores/filterstoreStrategyManager';
+import { AbstractFilterStoreStrategy } from '../FilterStores/abstractFilterStoreStrategy';
+import { FilterType } from '../Enums/FilterType';
+import { IStorageItem } from '../Interfaces/IStorageItem';
 
- class FilterStoreService {
-    watchFilters(searchType: SearchType, callback: Function, immediate: boolean, deep: boolean ): void {
-        store.watch(
-            function (state) {
-                switch (searchType) {
-                    case SearchType.Qualifications:
-                        return state.qualificationFilters;
-                    case SearchType.Frameworks:
-                        return state.frameworkFilters;
-                    case SearchType.Units:
-                        return state.unitFilters;
-                    default:
-                        return [];
-                }
-            },
-            function () {
-                callback();
-            },
-            {
-                immediate: immediate,
-                deep: deep
-            });
-     }
+export class FilterStoreService {
 
-     updateStore(searchType: SearchType, filters: Array<IFilterItem>): void {
-         switch (searchType) {
-             case SearchType.Qualifications:
-                 store.commit('updateQualificationFilters', filters);
-                 break;
-             case SearchType.Frameworks:
-                 store.commit('updateFrameworkFilters', filters);
-                 break;
-             case SearchType.Units:
-                 store.commit('updateUnitFilters', filters);
-                 break;
-         }
-     }
+    private _filterStoreStrategy: AbstractFilterStoreStrategy;
+    
+    constructor(searchType: SearchType) {
+        this._filterStoreStrategy = filterStoreStrategyManager.getFilterStoreStrategy(searchType);
+    }
 
-     getSavedFilters(searchType: SearchType): Array<IFilterItem>{
-         switch (searchType) {
-             case SearchType.Qualifications:
-                 return store.state.qualificationFilters;
-             case SearchType.Frameworks:
-                 return store.state.frameworkFilters;
-             case SearchType.Units:
-                 return store.state.unitFilters;
-             default:
-                 return [];
-         }
-     }
+    public watchFilters(callback: () => void, immediate: boolean, deep: boolean): void {
+        this._filterStoreStrategy.watchFilters(callback, immediate, deep);
+    }
+
+    public updateStore(filters: Array<IFilterItem>): void {
+        this._filterStoreStrategy.updateStore(filters);
+    }
+
+    public getSavedFilters(): Array<IFilterItem>{
+        return this._filterStoreStrategy.getSavedFilters();
+    }
+
+    public getFiltersForNewSearch(newSearchType: SearchType, storageItem: IStorageItem): Array<IFilterItem> {
+        let updatedFilters: Array<IFilterItem> = [];
+        // If new search has teaching years then keep exisiting teaching year
+        // filter if present or use current academic year if not.
+        if (this.canHaveTeachingYearFilter(newSearchType)) {
+            const currentFilters = this.getSavedFilters();
+            if (currentFilters.some(f => f.type === FilterType.TeachingYears)) {
+                updatedFilters = currentFilters.filter(f => f.type === FilterType.TeachingYears);
+            } else {
+                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.currentAcademicYear, value: '' });
+            }
+        }
+        return updatedFilters;
+    }
+
+    private canHaveTeachingYearFilter(searchType: SearchType) {
+        return (searchType === SearchType.Qualifications || searchType === SearchType.Units);
+    } 
+
 }
-
-export const filterStoreService = new FilterStoreService();

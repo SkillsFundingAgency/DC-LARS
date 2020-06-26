@@ -33,7 +33,7 @@
                     <span class="govuk-!-font-weight-bold">Level 3 entitlement:</span>
                     @Model.LearningAimModel.AcademicYears.Where(ay => ay.AcademicYear == academicYear?.AcademicYear).Select(ay => ay.Level3Category).FirstOrDefault()
                 </li>
-                <li>
+                <li render-if="Model.LearningAimModel.Categories?.Count > 0">
                     @Html.ActionLink(
                         "View category information",
                         "Index",
@@ -41,17 +41,16 @@
                         new { @Model.LearningAimModel.LearnAimRef },
                         new { @class = "govuk-link govuk-link--no-visited-state" })
                 </li>
-                @if (Model.LearningAimModel.IsOFQUAL)
-                {
-                    <li>
-                        <a class="govuk-link govuk-link--no-visited-state" target="blank"
-                           href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
-                            View more information on OFQUAL
-                        </a>
-                    </li>
-                }
+
+                <li render-if="Model.LearningAimModel.IsOFQUAL">
+                    <a class="govuk-link govuk-link--no-visited-state" target="blank"
+                        href="https://register.ofqual.gov.uk/Search?category=Qualifications&amp;query=@Model.LearningAimModel.LearnAimRef">
+                        View more information on OFQUAL
+                    </a>
+                </li>
             </ul>
-            <div class="govuk-form-group">
+
+            <div class="govuk-form-group" render-if="Model.AcademicYearsForLearningAim.Any()">
                 <label class="govuk-label" for="academicYear">
                     Teaching year
                 </label>
@@ -76,77 +75,74 @@
                         <input type="submit" value="Update" class="govuk-!-margin-top-4 govuk-button" />
                     </noscript>
                 }
-            </div>
+                </div>
         </div>
     </div>
 </div>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @if (academicYear != null)
-        {
-            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
-                @foreach (var category in academicYear.Validities)
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections" render-if="academicYear != null">
+            @foreach (var category in academicYear.Validities)
+            {
+                var fundings = new List<FundingModel>();
+
+                var validityFundingCategory = Model.LookUpModel.ValidityFundingMappingLookups
+                    .Where(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                if (validityFundingCategory.Any())
                 {
-                    var fundings = new List<FundingModel>();
-
-                    var validityFundingCategory = Model.LookUpModel.ValidityFundingMappingLookups
-                        .Where(l => l.ValidityCategory.Equals(category.ValidityCategory, StringComparison.OrdinalIgnoreCase))
+                    fundings = academicYear.Fundings
+                        .Where(f =>
+                            validityFundingCategory.Any(vfc => f.FundingCategory.Equals(vfc.FundingCategory, StringComparison.OrdinalIgnoreCase)))
                         .ToList();
-                    if (validityFundingCategory.Any())
-                    {
-                        fundings = academicYear.Fundings
-                            .Where(f =>
-                                validityFundingCategory.Any(vfc => f.FundingCategory.Equals(vfc.FundingCategory, StringComparison.OrdinalIgnoreCase)))
-                            .ToList();
-                    }
+                }
 
-                    <div class="govuk-accordion__section">
-                        <div class="govuk-accordion__section-header">
-                            <h2 class="govuk-accordion__section-heading">
-                                <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-                                    @category.ValidityCategoryDescription
-                                </span>
-                            </h2>
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                @category.ValidityCategoryDescription
+                            </span>
+                        </h2>
 
-                            <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-2">
-                                <span>
-                                    <strong>Last date for new start:</strong> @category.LastNewStartDate?.ToDateString()
-                                </span>
-                            </div>
-                        </div>
-
-                        <div id="accordion-with-summary-sections-content-2" class="govuk-body govuk-accordion__section-content category-no-top-padding" aria-labelledby="accordion-with-summary-sections-heading-2">
-                            <p> <strong>Course validity:</strong> </p>
-                            <p> <strong> From:</strong> @category.StartDate.ToDateString() <strong>to</strong> @category.EndDate?.ToDateString()</p>
-
-                            @foreach (var funding in fundings)
-                            {
-                                <ul class="govuk-list">
-                                    <li>
-                                        <strong> Category:</strong> @funding.FundingCategory
-                                    </li>
-                                    <li>
-                                        <strong>Effective from:</strong> @funding.EffectiveFrom.ToDateString()
-                                    </li>
-                                    <li>
-                                        <strong>Effective to:</strong> @funding.EffectiveTo?.ToDateString()
-                                    </li>
-                                    <li>
-                                        <strong> Programme weighting:</strong> @funding.WeightingFactor
-                                    </li>
-                                    <li>
-                                        <strong>Weighted rate:</strong> £@($"{funding.RateWeighted:N2}")
-                                    </li>
-                                    <li>
-                                        <strong>Unweighted rate:</strong> £@($"{funding.RateUnWeighted:N2}")
-                                    </li>
-                                </ul>
-                            }
+                        <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-2">
+                            <span>
+                                <strong>Last date for new start:</strong> @category.LastNewStartDate?.ToDateString()
+                            </span>
                         </div>
                     </div>
-                }
-            </div>
-        }
+
+                    <div id="accordion-with-summary-sections-content-2" class="govuk-body govuk-accordion__section-content category-no-top-padding" aria-labelledby="accordion-with-summary-sections-heading-2">
+                        <p> <strong>Course validity:</strong> </p>
+                        <p> <strong> From:</strong> @category.StartDate.ToDateString() <strong>to</strong> @category.EndDate?.ToDateString()</p>
+
+                        @foreach (var funding in fundings)
+                        {
+                            <ul class="govuk-list">
+                                <li>
+                                    <strong> Category:</strong> @funding.FundingCategory
+                                </li>
+                                <li>
+                                    <strong>Effective from:</strong> @funding.EffectiveFrom.ToDateString()
+                                </li>
+                                <li>
+                                    <strong>Effective to:</strong> @funding.EffectiveTo?.ToDateString()
+                                </li>
+                                <li>
+                                    <strong> Programme weighting:</strong> @funding.WeightingFactor
+                                </li>
+                                <li>
+                                    <strong>Weighted rate:</strong> £@($"{funding.RateWeighted:N2}")
+                                </li>
+                                <li>
+                                    <strong>Unweighted rate:</strong> £@($"{funding.RateUnWeighted:N2}")
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>

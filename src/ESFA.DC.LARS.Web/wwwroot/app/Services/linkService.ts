@@ -1,56 +1,37 @@
 ﻿import { IStorageItem } from '../Interfaces/IStorageItem';
-import StorageService from './storageService';
 import { IFilterItem } from '../Interfaces/IFilterItem';
 import { FilterType } from '../Enums/FilterType';
-import { constants } from '../constants';
 import { SearchType } from '../Enums/SearchType';
-import { filterStoreService } from './filterStoreService';
-import { enumHelper } from '../Helpers/enumHelper';
 
 export default class LinkService {
-
-    private storageService: StorageService;
-
-    constructor() {
-        this.storageService = new StorageService(sessionStorage);
-    }
-
-    public redirectToResults(newSearchTypeAsServerEnum: string, exisitingSearchType: SearchType): void {
-        const clientSearchType = enumHelper.ConvertServerEnumValueToClientEnum(newSearchTypeAsServerEnum);
-
-        const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-        storageItem.filters = this.updateFiltersForNewSearch(clientSearchType, exisitingSearchType);
-
-        switch (clientSearchType) {
-            case SearchType.Frameworks:
-                window.location.href = this.getFrameworksSearchResultsLink(storageItem);
-                break;
-            case SearchType.Units:
-                window.location.href = this.getUnitsSearchResultsLink(storageItem);
-                break;
-            case SearchType.Qualifications:
-                window.location.href = this.getQualificationsSearchResultsLink(storageItem);
-                break;
-            case SearchType.Standards:
-                window.location.href = this.getStandardsSearchResultsLink(storageItem);
-                break;
-            default:
-                window.location.href = "/";
-        }
-
-        this.storageService.updateFilters(constants.storageKey, storageItem.filters);
-    }
-
+  
     public getQualificationsSearchResultsLink(storageItem: IStorageItem): string {
         return `/LearningAimSearchResult?SearchTerm=${storageItem.searchTerm}&TeachingYear=${this.getTeachingYear(storageItem)}${this.hasFiltersParam(storageItem.filters)}`;
+    }
+
+    public getResultsLinkForSearchType(searchType: SearchType, storageItem: IStorageItem ): string {
+
+        switch (searchType) {
+            case SearchType.Frameworks:
+                return this.getFrameworksSearchResultsLink(storageItem);
+            case SearchType.Units:
+                return this.getUnitsSearchResultsLink(storageItem);
+            case SearchType.Qualifications:
+               return this.getQualificationsSearchResultsLink(storageItem);
+            case SearchType.Standards:
+                return this.getStandardsSearchResultsLink(storageItem);
+            case SearchType.TLevels:
+                return this.getTLevelsSearchResultsLink(storageItem);
+            default:
+                return "/";
+        }
     }
 
     public getQualificationsDetailsLink(storageItem: IStorageItem): string {
         return `/LearningAimDetails/${storageItem.learnAimRef}?academicYear=${this.getTeachingYear(storageItem)}`;
     }
 
-    public getQualificationsDetailsLinkForFrameworks(storageItem: IStorageItem): string {
-        //TODO:  Please use getQualificationsDetailsLink above once teaching year filter added to Frameworks.
+    public getQualificationsDetailsLinkWithoutYear(storageItem: IStorageItem): string {
         return `/LearningAimDetails/${storageItem.learnAimRef}`;
     }
 
@@ -74,8 +55,20 @@ export default class LinkService {
         return `/StandardsSearchResult?SearchTerm=${storageItem.searchTerm}${this.hasFiltersParam(storageItem.filters)}`;
     }
 
+    public getStandardsDetailsLink(storageItem: IStorageItem): string {
+        return `/StandardDetails/${storageItem.standardCode}`;
+    }
+
+    public getStandardsRelatedAimsLink(storageItem: IStorageItem): string {
+        return `/StandardLearningAims/${storageItem.standardCode}`;
+    }
+
+    public getTLevelsSearchResultsLink(storageItem: IStorageItem): string {
+        return `/TLevelSearchResult?SearchTerm=${storageItem.searchTerm}`;
+    }
+
     public hasFilterQueryStringParam(url: string): boolean {
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(url);
         return Boolean(urlParams.get('hasFilters'));
     }
 
@@ -84,32 +77,10 @@ export default class LinkService {
         return teachingFilter ? teachingFilter.key : storageItem.currentAcademicYear;
     }
 
-    private hasTeachingYearFilter(searchType: SearchType) {
-        return (searchType === SearchType.Qualifications || searchType === SearchType.Units);
-    } 
-
     private hasFiltersParam(filters: IFilterItem[]): string {
         if (filters.some(f => f.type !== FilterType.TeachingYears)) {
             return "&hasFilters=true";
         }
         return '';
     }
-
-    private updateFiltersForNewSearch(newSearchType: SearchType, exisitingSearchType: SearchType): Array<IFilterItem> {
-        let updatedFilters: Array<IFilterItem> = [];
-
-        // If moving to a search that has teaching years then keep exisiting teaching year
-        // filter or use current academic year if that not present.
-        if (this.hasTeachingYearFilter(newSearchType)) {
-            const currentFilters = filterStoreService.getSavedFilters(exisitingSearchType);
-            if (currentFilters.some(f => f.type === FilterType.TeachingYears)) {
-                updatedFilters = currentFilters.filter(f => f.type === FilterType.TeachingYears);
-            } else {
-                const storageItem = this.storageService.retrieve(constants.storageKey) as IStorageItem;
-                updatedFilters.push({ type: FilterType.TeachingYears, key: storageItem.currentAcademicYear, value: '' });
-            }
-        }
-        return updatedFilters;
-    }
-
 }

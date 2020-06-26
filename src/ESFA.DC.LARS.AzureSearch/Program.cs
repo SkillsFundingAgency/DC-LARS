@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ESFA.DC.DateTimeProvider.Interface;
+using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Configuration;
 using ESFA.DC.LARS.AzureSearch.Extensions;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -111,6 +112,7 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<AcademicYearService>().As<IAcademicYearService>();
             containerBuilder.RegisterType<ComponentTypeService>().As<IComponentTypeService>();
             containerBuilder.RegisterType<IssuingAuthorityService>().As<IIssuingAuthorityService>();
+            containerBuilder.RegisterType<IssuingAuthoritySortingService>().As<ISortingService<IssuingAuthorityLookupModel>>();
             containerBuilder.RegisterType<LarsContextFactory>().As<ILarsContextFactory>();
 
             containerBuilder.RegisterType<FundingService>().As<IFundingService>();
@@ -121,6 +123,9 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<LearningDeliveryCategoryService>().As<ILearningDeliveryCategoryService>();
             containerBuilder.RegisterType<CommonComponentLookupService>().As<ICommonComponentLookupService>();
             containerBuilder.RegisterType<StandardSectorCodeService>().As<IStandardSectorCodeService>();
+            containerBuilder.RegisterType<CommonComponentService>().As<ICommonComponentService>();
+            containerBuilder.RegisterType<RelatedLearningAimsService>().As<IRelatedLearningAimsService>();
+            containerBuilder.RegisterType<NotionalNVQLevel2SortingService>().As<ISortingService<NotionalNVQLevel2LookupModel>>();
 
             return containerBuilder;
         }

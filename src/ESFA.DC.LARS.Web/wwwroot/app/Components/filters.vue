@@ -2,7 +2,7 @@
     import { Component, Vue, Prop } from 'vue-property-decorator';
     import { IFilterItem } from '../../app/Interfaces/IFilterItem';
     import { filterService } from '../Services/filterService';
-    import { filterStoreService } from '../Services/filterStoreService';
+    import { FilterStoreService } from '../Services/filterStoreService';
     import { accordionService } from '../Services/accordionService';
     import { SearchType } from '../enums/SearchType';
     import { FilterType } from '../enums/FilterType';
@@ -15,31 +15,32 @@
     })
     export default class Filters extends Vue {
         @Prop() public searchType!: SearchType;
-        @Prop() public setImmediateRefreshRequired!: Function;
 
         private currentDisplayFilters: Array<IFilterItem> = [];
         private storageService: StorageService;
         private filterHistoryService: FilterHistoryService;
+        private filterStoreService: FilterStoreService;
 
         constructor() {
             super();
             this.filterHistoryService = new FilterHistoryService();
             this.storageService = new StorageService(sessionStorage);
+            this.filterStoreService = new FilterStoreService(this.searchType);
         }
 
         mounted() {
             accordionService.initialiseAccordion();
             this.syncFiltersAndUpdateDisplay();
             this.currentDisplayFilters = this.savedfilters;
-            filterStoreService.watchFilters(this.searchType, () => this.updateDisplay(this.savedfilters, this.currentDisplayFilters), false, true);
+            this.filterStoreService.watchFilters(() => this.updateDisplay(this.savedfilters, this.currentDisplayFilters), false, true);
         }
 
         get savedfilters(): Array<IFilterItem> {
-            return [...filterStoreService.getSavedFilters(this.searchType)];
+            return [...this.filterStoreService.getSavedFilters()];
         };
 
         public clearFilters(): void {
-            filterStoreService.updateStore(this.searchType, []);
+            this.filterStoreService.updateStore([]);
             this.storageService.clearFilters(constants.storageKey);
             this.updateDisplay(this.savedfilters, this.currentDisplayFilters);
             this.currentDisplayFilters = [];
@@ -78,7 +79,7 @@
         }
 
         private updateStore(filters: Array<IFilterItem>) {
-            filterStoreService.updateStore(this.searchType, filters);
+            this.filterStoreService.updateStore(filters);
             this.currentDisplayFilters = this.savedfilters;
         }
 
@@ -126,21 +127,23 @@
         }
 
         private syncFiltersAndUpdateDisplay(): void {
-            const storageItemFilters = this.storageService.retrieve(constants.storageKey)?.filters || [];
+            const storageItem = this.storageService.retrieve(constants.storageKey);
 
             // Check if storage filters and filters used to render page are the same. 
             //  If not (can happen on f5 refresh) then refresh results.
-            if (this.filterHistoryService.hasMismatchedFilters()) {
-                this.setImmediateRefreshRequired(true);
-                this.updateDisplay(storageItemFilters, this.filterHistoryService.serverFilters);
+            storageItem.hasFilterMismatch = this.filterHistoryService.hasMismatchedFilters();
+
+            if (storageItem.hasFilterMismatch) {
+                this.updateDisplay(storageItem.filters, this.filterHistoryService.serverFilters);
             }
 
-            const distinctTypes = [...new Set(storageItemFilters.map(sf => sf.type))];
+            const distinctTypes = [...new Set(storageItem.filters.map(sf => sf.type))];
             for (let type of distinctTypes) {
                 this.updateAccordionByFilter(type);
             }
 
-            this.updateStore(storageItemFilters);
+            this.storageService.store(constants.storageKey, storageItem);
+            this.updateStore(storageItem.filters);
         }
 
         private updateAccordionByFilter(filterType: FilterType): void {

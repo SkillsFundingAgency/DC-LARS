@@ -21,6 +21,9 @@ namespace ESFA.DC.LARS.API.Services.Tests
             var frameworkFilterMock = new Mock<IFrameworkODataFilter>();
             var frameworkFilters = new List<IFrameworkODataFilter> { frameworkFilterMock.Object };
 
+            var standardsFilterMock = new Mock<IStandardODataFilter>();
+            var standardsFilters = new List<IStandardODataFilter> { standardsFilterMock.Object };
+
             var filterMock = new Mock<ILearningAimsODataFilter>();
             filterMock
                 .Setup(m => m.ApplyFilter(searchModel))
@@ -33,7 +36,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
 
             var parameters = new SearchParameters();
 
-            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters);
+            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters, standardsFilters);
 
             queryService.SetLearningAimFilters(searchModel, parameters);
 
@@ -56,6 +59,9 @@ namespace ESFA.DC.LARS.API.Services.Tests
             var frameworkFilterMock = new Mock<IFrameworkODataFilter>();
             var frameworkFilters = new List<IFrameworkODataFilter> { frameworkFilterMock.Object };
 
+            var standardsFilterMock = new Mock<IStandardODataFilter>();
+            var standardsFilters = new List<IStandardODataFilter> { standardsFilterMock.Object };
+
             var filterMock = new Mock<ILearningAimsODataFilter>();
             filterMock
                 .Setup(m => m.ApplyFilter(searchModel))
@@ -68,7 +74,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
 
             var parameters = new SearchParameters();
 
-            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters);
+            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters, standardsFilters);
 
             queryService.SetLearningAimFilters(searchModel, parameters);
 
@@ -93,6 +99,9 @@ namespace ESFA.DC.LARS.API.Services.Tests
             var frameworkFilterMock = new Mock<IFrameworkODataFilter>();
             var frameworkFilters = new List<IFrameworkODataFilter> { frameworkFilterMock.Object };
 
+            var standardsFilterMock = new Mock<IStandardODataFilter>();
+            var standardsFilters = new List<IStandardODataFilter> { standardsFilterMock.Object };
+
             var filterMock = new Mock<ILearningAimsODataFilter>();
             filterMock
                 .Setup(m => m.ApplyFilter(searchModel))
@@ -105,7 +114,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
 
             var parameters = new SearchParameters();
 
-            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters);
+            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters, standardsFilters);
 
             queryService.SetLearningAimFilters(searchModel, parameters);
 
@@ -134,6 +143,9 @@ namespace ESFA.DC.LARS.API.Services.Tests
             var frameworkFilterMock = new Mock<IFrameworkODataFilter>();
             var frameworkFilters = new List<IFrameworkODataFilter> { frameworkFilterMock.Object };
 
+            var standardsFilterMock = new Mock<IStandardODataFilter>();
+            var standardsFilters = new List<IStandardODataFilter> { standardsFilterMock.Object };
+
             var levelFilterMock = new Mock<ILearningAimsODataFilter>();
             levelFilterMock
                 .Setup(m => m.ApplyFilter(searchModel))
@@ -152,7 +164,7 @@ namespace ESFA.DC.LARS.API.Services.Tests
 
             var parameters = new SearchParameters();
 
-            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters);
+            var queryService = new ODataQueryService(oDataLevelFilters, frameworkFilters, standardsFilters);
 
             queryService.SetLearningAimFilters(searchModel, parameters);
 

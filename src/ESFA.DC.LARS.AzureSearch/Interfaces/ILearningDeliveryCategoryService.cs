@@ -7,6 +7,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface ILearningDeliveryCategoryService
     {
-        Task<Dictionary<string, List<CategoryModel>>> GetLearningDeliveryCategoriesAsync(LarsContext context);
+        Task<IDictionary<string, List<CategoryModel>>> GetLearningDeliveryCategoriesAsync(LarsContext context);
     }
 }

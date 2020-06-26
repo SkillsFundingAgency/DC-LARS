@@ -62,6 +62,9 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<FrameworkTypeODataFilter>().As<IFrameworkODataFilter>();
             builder.RegisterType<IssuingAuthorityODataFilter>().As<IFrameworkODataFilter>();
 
+            builder.RegisterType<StandardSectorCodeODataFilter>().As<IStandardODataFilter>();
+            builder.RegisterType<StandardLevelODataFilter>().As<IStandardODataFilter>();
+
             builder.RegisterType<AzureLearningAimsMapper>().As<IMapper<LearningAimModel, Models.LearningAimModel>>();
             builder.RegisterType<AzureLearningAimFrameworkMapper>().As<IMapper<LearningAimFrameworkModel, Models.LearningAimFrameworkModel>>();
             builder.RegisterType<AzureCategoryMapper>().As<IMapper<CategoryModel, Models.CategoryModel>>();
@@ -77,12 +80,15 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureValidityFundingMappingLookupMapper>().As<IMapper<ValidityFundingMappingLookupModel, Models.ValidityFundingMappingLookupModel>>();
             builder.RegisterType<AzureFrameworkTypeLookupMapper>().As<IMapper<FrameworkTypeLookupModel, Models.FrameworkTypeLookupModel>>();
             builder.RegisterType<AzureIssuingAuthorityLookupMapper>().As<IMapper<IssuingAuthorityLookupModel, Models.IssuingAuthorityLookupModel>>();
+            builder.RegisterType<AzureStandardSectorLookupMapper>().As<IMapper<StandardSectorLookupModel, Models.StandardSectorLookupModel>>();
 
             builder.RegisterType<AzureFrameworkMapper>().As<IMapper<FrameworkModel, Models.FrameworkModel>>();
-            builder.RegisterType<AzureFrameworkAimMapper>().As<IMapper<FrameworkAimModel, Models.FrameworkAimModel>>();
+            builder.RegisterType<AzureRelatedLearningAimMapper>().As<IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel>>();
 
             builder.RegisterType<AzureStandardMapper>().As<IMapper<StandardModel, Models.StandardModel>>();
-            builder.RegisterType<AzureCommonComponentMapper>().As<IMapper<FrameworkCommonComponentModel, Models.FrameworkCommonComponentModel>>();
+            builder.RegisterType<AzureStandardFundingModelMapper>().As<IMapper<StandardFundingModel, Models.StandardFundingModel>>();
+            builder.RegisterType<AzureStandardApprenticeshipFundingModelMapper>().As<IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel>>();
+            builder.RegisterType<AzureCommonComponentMapper>().As<IMapper<CommonComponentModel, Models.CommonComponentModel>>();
         }
     }
 }

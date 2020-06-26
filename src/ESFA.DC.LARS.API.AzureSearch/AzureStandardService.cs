@@ -39,6 +39,8 @@ namespace ESFA.DC.LARS.API.AzureSearch
         {
             var parameters = GetDefaultParameters();
 
+            SetFilters(searchModel, parameters);
+
             var searchTerm = string.Empty;
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
             {
@@ -72,6 +74,11 @@ namespace ESFA.DC.LARS.API.AzureSearch
                 .OrderBy(f => f.StandardName);
 
             return standards;
+        }
+
+        private void SetFilters(StandardSearchModel searchModel, SearchParameters parameters)
+        {
+            _oDataQueryService.SetStandardFilters(searchModel, parameters);
         }
     }
 }

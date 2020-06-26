@@ -17,5 +17,7 @@ namespace ESFA.DC.LARS.Web.Models
         public IEnumerable<FrameworkTypeLookupModel> FrameworkTypeLookups { get; set; }
 
         public IEnumerable<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
+
+        public IEnumerable<StandardSectorLookupModel> StandardSectorLookups { get; set; }
     }
 }

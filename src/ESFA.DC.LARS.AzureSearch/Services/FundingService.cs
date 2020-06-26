@@ -11,7 +11,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 {
     public class FundingService : IFundingService
     {
-        public async Task<Dictionary<string, List<FundingModel>>> GetFundingsAsync(LarsContext context)
+        public async Task<IDictionary<string, List<FundingModel>>> GetFundingsAsync(LarsContext context)
         {
             var fundingList = await context.LarsFundings
             .Select(lf => new FundingModel

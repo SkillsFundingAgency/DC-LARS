@@ -13,16 +13,22 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     {
         private readonly ILarsContextFactory _contextFactory;
         private readonly IAcademicYearService _academicYearService;
+        private readonly ISortingService<IssuingAuthorityLookupModel> _issuingAuthoritySortingService;
+        private readonly ISortingService<NotionalNVQLevel2LookupModel> _levelSortingService;
 
         public LookupIndexPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
             ILarsContextFactory contextFactory,
-            IAcademicYearService academicYearService)
+            IAcademicYearService academicYearService,
+            ISortingService<IssuingAuthorityLookupModel> issuingAuthoritySortingService,
+            ISortingService<NotionalNVQLevel2LookupModel> levelSortingService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
+            _issuingAuthoritySortingService = issuingAuthoritySortingService;
+            _levelSortingService = levelSortingService;
         }
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
@@ -82,9 +88,18 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         {
                             IssuingAuthority = ia.IssuingAuthority.ToString(),
                             IssuingAuthorityDesc = ia.IssuingAuthorityDesc
+                        }).ToListAsync(),
+                    StandardSectorLookups = await context.LarsStandardSectorCodeLookups
+                        .Select(sc => new StandardSectorLookupModel
+                        {
+                            StandardSectorCode = sc.StandardSectorCode,
+                            StandardSectorCodeDesc = sc.StandardSectorCodeDesc2
                         }).ToListAsync()
                 };
             }
+
+            lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups);
+            lookups.NotionalNvqLevel2Lookups = _levelSortingService.Sort(lookups.NotionalNvqLevel2Lookups);
 
             var indexActions = new List<IndexAction<LookUpModel>> { IndexAction.Upload(lookups) };
 

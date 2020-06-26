@@ -4,5 +4,7 @@
     LearningAimDetails = "LearningAimDetails",
     Pathway = "Pathway",
     Category = "Category",
-    CommonComponent = "CommonComponent"
+    CommonComponent = "CommonComponent",
+    Standard = "Standard",
+    RelatedLearningAims = "RelatedLearningAims"
 }

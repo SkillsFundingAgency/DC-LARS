@@ -7,6 +7,6 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IValidityService
     {
-        Task<Dictionary<string, List<ValidityModel>>> GetValiditiesAsync(LarsContext context);
+        Task<IDictionary<string, List<ValidityModel>>> GetValiditiesAsync(LarsContext context);
     }
 }

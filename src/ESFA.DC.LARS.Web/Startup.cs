@@ -94,6 +94,7 @@ namespace ESFA.DC.LARS.Web
             containerBuilder.RegisterType<QualificationResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
             containerBuilder.RegisterType<UnitResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
             containerBuilder.RegisterType<StandardsResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+            containerBuilder.RegisterType<TLevelResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
 
             containerBuilder.Populate(services);
             _applicationContainer = containerBuilder.Build();

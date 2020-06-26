@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ESFA.DC.LARS.Web.Models
 {
@@ -9,8 +7,14 @@ namespace ESFA.DC.LARS.Web.Models
         public StandardSearchModel()
         {
             SearchType = LearningType.Standards;
+            Levels = new List<string>();
+            Sectors = new List<string>();
         }
 
-      public override LearningType? SearchType { get; set; }
+        public override LearningType? SearchType { get; set; }
+
+        public List<string> Levels { get; set; }
+
+        public List<string> Sectors { get; set; }
     }
 }
