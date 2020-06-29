@@ -27,6 +27,8 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public string ProgramTypeName { get; set; }
 
+        public bool IsTLevel { get; set; }
+
         [IsFilterable]
         public string IssuingAuthority { get; set; }
 
@@ -46,5 +48,7 @@ namespace ESFA.DC.LARS.Azure.Models
         public List<RelatedLearningAimModel> LearningAims { get; set; }
 
         public List<CommonComponentModel> CommonComponents { get; set; }
+
+        public string NasTitle { get; set; }
     }
 }

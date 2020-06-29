@@ -129,12 +129,12 @@
         private syncFiltersAndUpdateDisplay(): void {
             const storageItem = this.storageService.retrieve(constants.storageKey);
 
-            // Check if storage filters and filters used to render page are the same. 
-            //  If not (can happen on f5 refresh) then refresh results.
+            // Check if current clientside filters and server filters used to render page are the same. 
+            // If not (can happen on f5 refresh) then refresh results with client filters.
             storageItem.hasFilterMismatch = this.filterHistoryService.hasMismatchedFilters();
 
             if (storageItem.hasFilterMismatch) {
-                this.updateDisplay(storageItem.filters, this.filterHistoryService.serverFilters);
+                this.updateDisplay(storageItem.filters, storageItem.serverFilters);
             }
 
             const distinctTypes = [...new Set(storageItem.filters.map(sf => sf.type))];

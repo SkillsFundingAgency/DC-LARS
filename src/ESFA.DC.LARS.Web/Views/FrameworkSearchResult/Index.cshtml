@@ -17,13 +17,7 @@
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <filter-feedback search-type="Frameworks"></filter-feedback>
-
-    @await Html.PartialAsync("_SearchResults", Model)
+    @await Html.PartialAsync("_FrameworkSearchResults", Model)
 }
 
 @section PageScripts
@@ -34,10 +28,9 @@
 
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm");
-
-        @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
-        serverFilters = viewService.getFrameworkFilters(@Json.Serialize(Model.SearchModel.FrameworkTypes), @Json.Serialize(Model.SearchModel.IssuingAuthorities));
+        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm",
+                                                    @Json.Serialize(Model.SearchModel.FrameworkTypes),
+                                                    @Json.Serialize(Model.SearchModel.IssuingAuthorities));
     </script>
 
     @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@

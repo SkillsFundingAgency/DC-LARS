@@ -67,6 +67,10 @@ export default class LinkService {
         return `/TLevelSearchResult?SearchTerm=${storageItem.searchTerm}`;
     }
 
+    public getTLevelsDetailsLink(storageItem: IStorageItem): string {
+        return `/TLevelDetails/${storageItem.frameworkCode}/${storageItem.programType}/${storageItem.pathwayCode}`;
+    }
+
     public hasFilterQueryStringParam(url: string): boolean {
         const urlParams = new URLSearchParams(url);
         return Boolean(urlParams.get('hasFilters'));

@@ -42,6 +42,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         public async override Task PopulateIndexAsync()
         {
+            await PopulateIndexAsync(true);
+        }
+
+        public async Task PopulateIndexAsync(bool isFramework)
+        {
             var indexClient = GetIndexClient();
 
             IEnumerable<FrameworkModel> frameworks;
@@ -54,7 +59,18 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
                 var relatedLearningAims = await _relatedLearningAimsService.GetFrameworkRelatedLearningAims(context);
 
-                frameworks = await context.LarsFrameworks
+                var frameworksQueryable = context.LarsFrameworks.AsQueryable();
+
+                if (isFramework)
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => !_tlevelProgTypes.Contains(f.ProgType));
+                }
+                else
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => _tlevelProgTypes.Contains(f.ProgType));
+                }
+
+                frameworks = await frameworksQueryable
                     .Select(fr => new FrameworkModel
                     {
                         // azure search index must have 1 key field.  Please ensure pattern here is the same as used in common components
@@ -73,6 +89,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
                         IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
+                        IsTLevel = !isFramework,
+                        NasTitle = fr.Nastitle
                     }).ToListAsync();
 
                 foreach (var framework in frameworks)

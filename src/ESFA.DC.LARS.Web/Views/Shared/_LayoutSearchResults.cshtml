@@ -59,10 +59,19 @@
             </div>
 
             <div class="govuk-grid-column-two-thirds">
-                <ul id="resultList" class="govuk-list">
+                <p class="govuk-body flex space-between">
+                    <span ref="ResultsCount" hide-if="Model.RequiresClientSideRefresh">@Model.ResultsCount results</span>
+                </p>
+
+                <filter-feedback search-type="@Model.SearchType.ToString()"></filter-feedback>
+                
+                <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                <ul id="resultList" class="govuk-list" ref="Results">
+                    <li render-if="Model.ResultsCount == 0 && !Model.RequiresClientSideRefresh">There are no results that match your search. Try changing the filters and searching again.</li>
                     @RenderSection("Results", required: true)
-                    @await Html.PartialAsync("_Loading", Model.RequiresClientSideRefresh)
                 </ul>
+                @await Html.PartialAsync("_Loading", Model.RequiresClientSideRefresh)
             </div>
         </div>
     </form>

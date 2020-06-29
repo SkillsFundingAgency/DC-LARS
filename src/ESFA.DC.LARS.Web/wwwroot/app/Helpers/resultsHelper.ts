@@ -23,6 +23,9 @@ export class ResultsHelper {
 
 	public setCount(count: number): void {
 		this.setInnerHtml(this.resultsCountContainer, `${count} results`);
+		if (this.resultsCountContainer?.style.visibility === "hidden") {
+			this.resultsCountContainer.style.visibility = "visible";
+		}
 	}
 
 	public setValidationErrors(errors: Array<string>): void {

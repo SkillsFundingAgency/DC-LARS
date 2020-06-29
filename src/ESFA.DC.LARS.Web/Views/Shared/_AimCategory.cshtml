@@ -1,5 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
-
+@{
+    bool hasCategories = Model?.LearningAimModel?.Categories?.Count > 0;
+}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -20,29 +22,21 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                @if (Model != null
-            && Model.LearningAimModel != null
-            && Model.LearningAimModel.Categories != null
-            && Model.LearningAimModel.Categories.Any())
-                {
-                    @foreach (var category in Model.LearningAimModel.Categories)
-                    {
-                        <tr class="govuk-table__row">
-                            <td class="govuk-table__cell">@category.Reference</td>
-                            <td class="govuk-table__cell">@category.Description</td>
-                            <td class="govuk-table__cell">@category.ParentReference</td>
-                            <td class="govuk-table__cell">@category.ParentDescription</td>
-                            <td class="govuk-table__cell">@category.EffectiveFrom?.ToDateString()</td>
-                            <td class="govuk-table__cell">@category.EffectiveTo?.ToDateString()</td>
-                        </tr>
-                    }
-                }
-                else
+                @foreach (var category in Model?.LearningAimModel?.Categories)
                 {
                     <tr class="govuk-table__row">
-                        <td colspan="6" class="govuk-table__cell">No categories found</td>
+                        <td class="govuk-table__cell">@category.Reference</td>
+                        <td class="govuk-table__cell">@category.Description</td>
+                        <td class="govuk-table__cell">@category.ParentReference</td>
+                        <td class="govuk-table__cell">@category.ParentDescription</td>
+                        <td class="govuk-table__cell">@category.EffectiveFrom?.ToDateString()</td>
+                        <td class="govuk-table__cell">@category.EffectiveTo?.ToDateString()</td>
                     </tr>
                 }
+
+                <tr class="govuk-table__row" render-if="!hasCategories">
+                    <td colspan="6" class="govuk-table__cell">No categories found</td>
+                </tr>
             </tbody>
         </table>
     </div>

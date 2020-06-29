@@ -1,9 +1,5 @@
-﻿import { IFilterItem } from '../../app/Interfaces/IFilterItem';
-import StorageService from '../Services/storageService';
+﻿import StorageService from '../Services/storageService';
 import { constants } from '../constants';
-
-/* eslint-disable no-var */
-declare var serverFilters: IFilterItem[];
 
 export default class FilterHistoryService {
 
@@ -13,12 +9,10 @@ export default class FilterHistoryService {
         this.storageService = new StorageService(sessionStorage);
     }
 
-    get serverFilters(): Array<IFilterItem> {
-        return [...serverFilters]; 
-    }
-
     public hasMismatchedFilters(): boolean {
-        const sessionFilters = this.storageService.retrieve(constants.storageKey)?.filters;
+        const storageItem = this.storageService.retrieve(constants.storageKey);
+        const sessionFilters = storageItem?.filters;
+        const serverFilters = storageItem?.serverFilters;
 
         if (sessionFilters && serverFilters) {
             const addedFilters = sessionFilters.filter(filter => !serverFilters.find(f => f.key === filter.key && f.type === filter.type));

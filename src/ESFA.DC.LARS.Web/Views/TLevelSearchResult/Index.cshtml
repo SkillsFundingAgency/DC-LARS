@@ -1,4 +1,4 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<TLevelSearchModel, TLevelModel>
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
 @{
     Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
     ViewData["Title"] = "Index";
@@ -11,13 +11,7 @@
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <div ref="Results">
-        @await Html.PartialAsync("_SearchResults", Model)
-    </div>
+    @await Html.PartialAsync("_FrameworkSearchResults", Model)
 }
 
 @section PageScripts
