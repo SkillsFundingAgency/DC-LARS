@@ -54,6 +54,11 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .Setup(m => m.Map(It.IsAny<StandardSectorLookupModel>()))
                 .Returns(new Models.StandardSectorLookupModel());
 
+            var sectorSubjectAreaTier1Mock = new Mock<IMapper<SectorSubjectAreaTier1LookupModel, Models.SectorSubjectAreaTier1LookupModel>>();
+            sectorSubjectAreaTier1Mock
+                .Setup(m => m.Map(It.IsAny<SectorSubjectAreaTier1LookupModel>()))
+                .Returns(new Models.SectorSubjectAreaTier1LookupModel());
+
             var model = new LookUpModel
             {
                 LookUpKey = "1",
@@ -88,6 +93,10 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 StandardSectorLookups = new List<StandardSectorLookupModel>
                 {
                     new StandardSectorLookupModel()
+                },
+                SectorSubjectAreaTier1Lookups = new List<SectorSubjectAreaTier1LookupModel>
+                {
+                    new SectorSubjectAreaTier1LookupModel()
                 }
             };
 
@@ -99,7 +108,9 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 awardingBodyMapperMock.Object,
                 frameworkTypeMapperMock.Object,
                 issuingAuthorityMapperMock.Object,
-                standardSectorCodeMapperMock.Object);
+                standardSectorCodeMapperMock.Object,
+                sectorSubjectAreaTier1Mock.Object);
+
             var result = mapper.Map(model);
 
             result.LookUpKey.Should().Be(model.LookUpKey);
