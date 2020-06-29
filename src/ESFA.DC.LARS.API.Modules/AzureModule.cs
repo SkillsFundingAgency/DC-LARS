@@ -67,6 +67,7 @@ namespace ESFA.DC.LARS.API.Modules
 
             builder.RegisterType<FrameworkTypeODataFilter>().As<IFrameworkODataFilter>();
             builder.RegisterType<IssuingAuthorityODataFilter>().As<IFrameworkODataFilter>();
+            builder.RegisterType<SectorSubjectAreaTier1Filter>().As<IFrameworkODataFilter>();
 
             builder.RegisterType<StandardSectorCodeODataFilter>().As<IStandardODataFilter>();
             builder.RegisterType<StandardLevelODataFilter>().As<IStandardODataFilter>();

@@ -10,6 +10,6 @@
         FrameworkTypes,
         IssuingAuthorities,
         Sectors,
-        SectorSubjectAreaTier1
+        SectorSubjectAreaTier1s
     }
 }

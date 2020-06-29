@@ -49,6 +49,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map).ToList(),
                 AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map).ToList(),
                 FrameworkTypeLookups = input.FrameworkTypeLookups?.Select(_frameworkTypeMapper.Map).ToList(),
+                TLevelTypeLookups = input.TLevelTypeLookups?.Select(_frameworkTypeMapper.Map).ToList(),
                 IssuingAuthorityLookups = input.IssuingAuthorityLookups?.Select(_issuingAuthorityMapper.Map).ToList(),
                 StandardSectorLookups = input.StandardSectorLookups?.Select(_standardSectorMapper.Map).OrderBy(sc => sc.StandardSectorCodeDesc).ToList(),
                 SectorSubjectAreaTier1Lookups = input.SectorSubjectAreaTier1Lookups?.Select(_sectorSubjectAreaTier1Mapper.Map).ToList()

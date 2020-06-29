@@ -7,6 +7,12 @@
 
 @section Filters
 {
+    <noscript id="filtersNoScript">
+        @await Html.PartialAsync("_SearchFilters", Model)
+        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+    </noscript>
+    <filters search-type="TLevels"></filters>
 }
 
 @section Results
@@ -16,6 +22,10 @@
 
 @section PageScripts
 {
+    <filter-template>
+        @await Html.PartialAsync("_SearchFilters", Model)
+    </filter-template>
+
     <script>
         var viewService = new ESFA.ViewService();
         viewService.setupTLevelsResultView("@Model.SearchModel.SearchTerm");

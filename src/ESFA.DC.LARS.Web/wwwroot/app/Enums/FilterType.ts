@@ -6,5 +6,5 @@
     FrameworkTypes = "FrameworkTypes",
     IssuingAuthorities = "IssuingAuthorities",
     Sectors = "Sectors",
-    SectorSubjectAreaTier1 = "SectorSubjectAreaTier1"
+    SectorSubjectAreaTier1s = "SectorSubjectAreaTier1s"
 }

@@ -23,5 +23,7 @@ namespace ESFA.DC.LARS.API.Models
         public IEnumerable<StandardSectorLookupModel> StandardSectorLookups { get; set; }
 
         public IEnumerable<SectorSubjectAreaTier1LookupModel> SectorSubjectAreaTier1Lookups { get; set; }
-    }
+
+        public IEnumerable<FrameworkTypeLookupModel> TLevelTypeLookups { get; set; }
+   }
 }
