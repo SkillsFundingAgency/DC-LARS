@@ -21,5 +21,7 @@ namespace ESFA.DC.LARS.API.Models
         public IEnumerable<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
 
         public IEnumerable<StandardSectorLookupModel> StandardSectorLookups { get; set; }
+
+        public IEnumerable<SectorSubjectAreaTier1LookupModel> SectorSubjectAreaTier1Lookups { get; set; }
     }
 }

@@ -102,6 +102,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         {
                             StandardSectorCode = sc.StandardSectorCode,
                             StandardSectorCodeDesc = sc.StandardSectorCodeDesc2
+                        }).ToListAsync(),
+                    SectorSubjectAreaTier1Lookups = await context.LarsSectorSubjectAreaTier1Lookups
+                        .Select(st => new SectorSubjectAreaTier1LookupModel
+                        {
+                            SectorSubjectAreaTier1 = st.SectorSubjectAreaTier1.ToString(),
+                            SectorSubjectAreaTier1Desc = st.SectorSubjectAreaTier1Desc
                         }).ToListAsync()
                 };
             }

@@ -13,7 +13,7 @@ namespace ESFA.DC.LARS.Web.Models
 
         public List<string> IssuingAuthorities { get; set; } = new List<string>();
 
-        public List<string> TLevelTypes { get; set; } = new List<string>();
+        public List<string> SectorSubjectAreaTier1s { get; set; } = new List<string>();
 
         public override LearningType? SearchType { get; set; }
     }

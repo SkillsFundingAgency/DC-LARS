@@ -25,6 +25,8 @@ namespace ESFA.DC.LARS.API.Models
 
         public DateTime? EffectiveTo { get; set; }
 
+        public string SectorSubjectAreaTier1 { get; set; }
+
         public string SectorSubjectAreaTier2 { get; set; }
 
         public string SectorSubjectAreaTier2Desc { get; set; }

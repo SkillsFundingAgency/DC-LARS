@@ -86,6 +86,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureRelatedLearningAimMapper>().As<IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel>>();
 
             builder.RegisterType<AzureStandardMapper>().As<IMapper<StandardModel, Models.StandardModel>>();
+            builder.RegisterType<AzureSectorSubjectAreaTier1LookupMapper>().As<IMapper<SectorSubjectAreaTier1LookupModel, Models.SectorSubjectAreaTier1LookupModel>>();
             builder.RegisterType<AzureStandardFundingModelMapper>().As<IMapper<StandardFundingModel, Models.StandardFundingModel>>();
             builder.RegisterType<AzureStandardApprenticeshipFundingModelMapper>().As<IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel>>();
             builder.RegisterType<AzureCommonComponentMapper>().As<IMapper<CommonComponentModel, Models.CommonComponentModel>>();
