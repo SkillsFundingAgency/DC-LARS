@@ -12,7 +12,7 @@ import { ISearchResults } from './Interfaces/ISearchResults';
         'filters': Filters
     }
 })
-class ResultsApp extends AbstractSearchResultsComponent {
+class QualificationSearchResults extends AbstractSearchResultsComponent {
     
     mounted(): void {
         this.intialise();
@@ -28,4 +28,4 @@ class ResultsApp extends AbstractSearchResultsComponent {
     }
 }
 
-new ResultsApp().$mount('#resultsApp');
+new QualificationSearchResults().$mount('#resultsApp');
