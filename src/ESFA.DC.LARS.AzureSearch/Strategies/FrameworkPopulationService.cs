@@ -54,7 +54,10 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
                 var relatedLearningAims = await _relatedLearningAimsService.GetFrameworkRelatedLearningAims(context);
 
-                frameworks = await context.LarsFrameworks
+                var frameworksQueryable = context.LarsFrameworks.AsQueryable();
+                frameworksQueryable = frameworksQueryable.Where(f => !_tlevelProgTypes.Contains(f.ProgType));
+
+                frameworks = await frameworksQueryable
                     .Select(fr => new FrameworkModel
                     {
                         // azure search index must have 1 key field.  Please ensure pattern here is the same as used in common components
