@@ -12,8 +12,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
         protected const int TransitionProgType = 30;
         protected const int TLevelProgType = 31;
 
-        protected readonly IPopulationConfiguration _populationConfiguration;
         protected readonly List<int> _tlevelProgTypes = new List<int> { TransitionProgType, TLevelProgType };
+        protected readonly IPopulationConfiguration _populationConfiguration;
         private readonly ISearchServiceClient _searchServiceClient;
 
         protected AbstractPopulationService(ISearchServiceClient searchServiceClient, IPopulationConfiguration populationConfiguration)
