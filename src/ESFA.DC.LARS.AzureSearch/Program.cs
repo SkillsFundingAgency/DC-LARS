@@ -127,6 +127,10 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<CommonComponentService>().As<ICommonComponentService>();
             containerBuilder.RegisterType<RelatedLearningAimsService>().As<IRelatedLearningAimsService>();
             containerBuilder.RegisterType<NotionalNVQLevel2SortingService>().As<ISortingService<NotionalNVQLevel2LookupModel>>();
+            containerBuilder.RegisterType<SectorSubjectAreaTier1SortingService>().As<ISortingService<SectorSubjectAreaTier1LookupModel>>();
+            containerBuilder.RegisterType<TLevelTypeSortingService>().As<ISortingService<FrameworkTypeLookupModel>>();
+            containerBuilder.RegisterType<AwardingBodySortingService>().As<ISortingService<AwardingBodyLookupModel>>();
+            containerBuilder.RegisterType<StandardSectorCodeSortingService>().As<ISortingService<StandardSectorLookupModel>>();
 
             return containerBuilder;
         }

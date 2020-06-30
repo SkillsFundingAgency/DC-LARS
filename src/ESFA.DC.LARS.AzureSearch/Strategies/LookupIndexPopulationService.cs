@@ -15,6 +15,10 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
         private readonly IAcademicYearService _academicYearService;
         private readonly ISortingService<IssuingAuthorityLookupModel> _issuingAuthoritySortingService;
         private readonly ISortingService<NotionalNVQLevel2LookupModel> _levelSortingService;
+        private readonly ISortingService<FrameworkTypeLookupModel> _tLevelTypeSortingService;
+        private readonly ISortingService<SectorSubjectAreaTier1LookupModel> _sectorSubjectAreaTier1SortingService;
+        private readonly ISortingService<StandardSectorLookupModel> _standardSectorCodeSortingService;
+        private readonly ISortingService<AwardingBodyLookupModel> _awardingBodySortingService;
 
         public LookupIndexPopulationService(
             ISearchServiceClient searchServiceClient,
@@ -22,13 +26,21 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             ILarsContextFactory contextFactory,
             IAcademicYearService academicYearService,
             ISortingService<IssuingAuthorityLookupModel> issuingAuthoritySortingService,
-            ISortingService<NotionalNVQLevel2LookupModel> levelSortingService)
+            ISortingService<NotionalNVQLevel2LookupModel> levelSortingService,
+            ISortingService<FrameworkTypeLookupModel> tLevelTypeSortingService,
+            ISortingService<SectorSubjectAreaTier1LookupModel> sectorSubjectAreaTier1SortingService,
+            ISortingService<StandardSectorLookupModel> standardSectorCodeSortingService,
+            ISortingService<AwardingBodyLookupModel> awardingBodySortingService)
             : base(searchServiceClient, populationConfiguration)
         {
             _contextFactory = contextFactory;
             _academicYearService = academicYearService;
             _issuingAuthoritySortingService = issuingAuthoritySortingService;
             _levelSortingService = levelSortingService;
+            _tLevelTypeSortingService = tLevelTypeSortingService;
+            _sectorSubjectAreaTier1SortingService = sectorSubjectAreaTier1SortingService;
+            _standardSectorCodeSortingService = standardSectorCodeSortingService;
+            _awardingBodySortingService = awardingBodySortingService;
         }
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
@@ -112,8 +124,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 };
             }
 
-            lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups);
-            lookups.NotionalNvqLevel2Lookups = _levelSortingService.Sort(lookups.NotionalNvqLevel2Lookups);
+            Sort(lookups);
 
             var indexActions = new List<IndexAction<LookUpModel>> { IndexAction.Upload(lookups) };
 
@@ -123,6 +134,16 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             {
                 indexClient.Documents.Index(batch);
             }
+        }
+
+        private void Sort(LookUpModel lookups)
+        {
+            lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups);
+            lookups.NotionalNvqLevel2Lookups = _levelSortingService.Sort(lookups.NotionalNvqLevel2Lookups);
+            lookups.TLevelTypeLookups = _tLevelTypeSortingService.Sort(lookups.TLevelTypeLookups);
+            lookups.SectorSubjectAreaTier1Lookups = _sectorSubjectAreaTier1SortingService.Sort(lookups.SectorSubjectAreaTier1Lookups);
+            lookups.StandardSectorLookups = _standardSectorCodeSortingService.Sort(lookups.StandardSectorLookups);
+            lookups.AwardingBodyLookups = _awardingBodySortingService.Sort(lookups.AwardingBodyLookups);
         }
     }
 }
