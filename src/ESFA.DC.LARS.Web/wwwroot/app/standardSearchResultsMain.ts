@@ -7,15 +7,14 @@ import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
 import { ISearchResults } from './Interfaces/ISearchResults';
 
 @Component({
-    el: "#resultsApp",
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
     }
 })
-class ResultsApp extends AbstractSearchResultsComponent {
+class StandardSearchResults extends AbstractSearchResultsComponent {
 
-    mounted() {
+    mounted(): void {
         this.intialise();
     }
 
@@ -28,4 +27,4 @@ class ResultsApp extends AbstractSearchResultsComponent {
     }
 }
 
-new ResultsApp();
+new StandardSearchResults().$mount('#resultsApp');

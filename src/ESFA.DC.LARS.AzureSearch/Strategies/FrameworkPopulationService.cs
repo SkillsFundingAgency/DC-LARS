@@ -42,6 +42,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         public async override Task PopulateIndexAsync()
         {
+            await PopulateIndexAsync(true);
+        }
+
+        public async Task PopulateIndexAsync(bool isFramework)
+        {
             var indexClient = GetIndexClient();
 
             IEnumerable<FrameworkModel> frameworks;
@@ -55,7 +60,15 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 var relatedLearningAims = await _relatedLearningAimsService.GetFrameworkRelatedLearningAims(context);
 
                 var frameworksQueryable = context.LarsFrameworks.AsQueryable();
-                frameworksQueryable = frameworksQueryable.Where(f => !_tlevelProgTypes.Contains(f.ProgType));
+
+                if (isFramework)
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => !_tlevelProgTypes.Contains(f.ProgType));
+                }
+                else
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => _tlevelProgTypes.Contains(f.ProgType));
+                }
 
                 frameworks = await frameworksQueryable
                     .Select(fr => new FrameworkModel
@@ -76,6 +89,8 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
                         IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
+                        IsTLevel = !isFramework,
+                        NasTitle = fr.Nastitle
                     }).ToListAsync();
 
                 foreach (var framework in frameworks)

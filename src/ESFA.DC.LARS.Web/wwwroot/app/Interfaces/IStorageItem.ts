@@ -14,6 +14,7 @@ export interface IStorageItem {
     programType: string;
     pathwayCode: string;
     filters: IFilterItem[];
+    serverFilters: IFilterItem[];
     page: Page;
     hasFilterMismatch: boolean
 }
@@ -21,6 +22,6 @@ export interface IStorageItem {
 export function emptyIStorageItem(): IStorageItem {
     return {
         searchTerm: '', learnAimRef: '', learningAimTitle: '', standardName: '', standardCode: '', page: Page.Home, hasFilterMismatch: false,
-        currentAcademicYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: []
+        currentAcademicYear: '', searchType: SearchType.Qualifications, frameworkCode: '', programType: '', pathwayCode: '', filters: [], serverFilters: []
     };
 }

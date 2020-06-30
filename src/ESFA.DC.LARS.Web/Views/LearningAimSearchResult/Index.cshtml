@@ -17,12 +17,6 @@
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <filter-feedback search-type="Qualifications"></filter-feedback>
-
     @await Html.PartialAsync("_LearningAimsResults", Model)
 }
 
@@ -34,12 +28,12 @@
 
     <script>
         var viewService = new ESFA.ViewService();
-        viewService.setupQualificationsResultView("@Model.SearchModel.SearchTerm", "@Model.CurrentAcademicYear");
-        @*This variable is used in typescript as an ambient declaration.  Please do not remove or change the name. *@
-        var serverFilters = viewService.getLearningAimFilters(@Json.Serialize(Model.SearchModel.AwardingBodies),
-                                                        @Json.Serialize(Model.SearchModel.Levels),
-                                                        @Json.Serialize(Model.SearchModel.TeachingYears),
-                                                        @Json.Serialize(Model.SearchModel.FundingStreams));
+        viewService.setupQualificationsResultView("@Model.SearchModel.SearchTerm",
+                                                    "@Model.CurrentAcademicYear",
+                                                    @Json.Serialize(Model.SearchModel.AwardingBodies),
+                                                    @Json.Serialize(Model.SearchModel.Levels),
+                                                    @Json.Serialize(Model.SearchModel.TeachingYears),
+                                                    @Json.Serialize(Model.SearchModel.FundingStreams));
     </script>
 
     @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@

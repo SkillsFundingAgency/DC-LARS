@@ -13,5 +13,7 @@
         string StandardIndexName { get; set; }
 
         string UnitIndexName { get; set; }
+
+        string TLevelIndexName { get; set; }
     }
 }

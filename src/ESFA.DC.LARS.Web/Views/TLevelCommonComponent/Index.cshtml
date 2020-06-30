@@ -1,0 +1,13 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkCommonComponentsViewModel
+
+@await Html.PartialAsync("_breadcrumbs")
+
+@await Html.PartialAsync("_CommonComponents", Model.Framework.CommonComponents)
+
+@section PageScripts
+{
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupFrameworkCommonComponentView("@Model.Framework.FrameworkCode", "@Model.Framework.ProgramType", "@Model.Framework.PathwayCode");
+    </script>
+}

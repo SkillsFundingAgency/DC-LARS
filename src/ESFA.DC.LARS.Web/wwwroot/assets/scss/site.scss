@@ -365,6 +365,11 @@ $govuk-global-styles: true;
     }
 }
 
+// Reserve breadcrumb space to stop content jumping.
+.govuk-breadcrumbs__list-item {
+    min-height:20px;
+}
+
 #high-level-info {
     .govuk-table__header, .govuk-table__cell {
         border-bottom: 0;
