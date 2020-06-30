@@ -18,7 +18,7 @@
                                 id="@($"{Model.Name}-{filterItem.Value}")" name="@Model.Name" type="checkbox" 
                                 value="@filterItem.Value" data-description="@filterItem.Description"
                                 checked="@Model?.SelectedFilters.Any(l => String.Equals(filterItem.Value, l, StringComparison.OrdinalIgnoreCase))" 
-                                v-on:change="updateCheckboxFilter('@filterItem.Value',  '@filterItem.Description', $event.target.checked, '@Model.Name')"
+                                v-on:change="updateCheckboxFilter('@filterItem.Value',  '@filterItem.Description', $event.target.checked, '@Model.FilterType.ToString()')"
                                />
                         <label class="govuk-label govuk-checkboxes__label" for="@($"{Model.Name}-{filterItem.Value}")">
                             @filterItem.Description
