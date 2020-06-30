@@ -16,7 +16,6 @@
         <div class="app-masthead-v2">
             <form asp-action="Index" asp-controller="Home" class="govuk-form-group" id="searchForm">
                 <div class="govuk-grid-row">
-                    <input id="TeachingYear" type="hidden" name="TeachingYear" value="@Model.Lookups.AcademicYearLookups.Single(y => y.IsCurrentAcademicYear).AcademicYear" />
                     <div class="govuk-grid-column-two-thirds">
                         <label class="govuk-label">Search by <strong>learning aim</strong> or <strong>reference number</strong></label>
                         <div id="tt-overlay" class="autocomplete-wrapper" aria-label="Search by name or reference number">
@@ -30,15 +29,39 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <br />
+                <div class="govuk-grid-row">
                     <div id="typeOfLearning" class="govuk-grid-column-one-third">
                         <label class="govuk-label" for="searchType">
                             Type of learning
                         </label>
-                        <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType" asp-items="Html.GetEnumSelectList<LearningType>()">
+                        <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType" asp-items="Html.GetEnumSelectList<LearningType>()" onchange="learningTypeChanged();">
                         </select>
                     </div>
+                    <div id="academicYear" name="academicYear" class="govuk-grid-column-one-third">
+                        <label class="govuk-label" for="TeachingYear">
+                            Academic Year
+                        </label>
+                        @if (Model?.Lookups?.AcademicYearLookups != null)
+                        {
+                            <select class="govuk-select" name="TeachingYear" id="TeachingYear">
+                                @foreach (var year in Model.Lookups.AcademicYearLookups)
+                                {
+                                    @if (year.IsCurrentAcademicYear)
+                                    {
+                                        <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                                    }
+                                }
+                            </select>
+                        }
+                    </div>
                 </div>
-                <br>
+                <br />
                 <button id="search" type="search" class="govuk-button govuk-button--start govuk-!-margin-bottom-0" v-on:click="updateFilters()">
                     Search <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
                         <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
@@ -65,4 +88,16 @@
 @section PageScripts
 {
     <script src="/assets/dist/js/search.js" asp-append-version="true"></script>
+    <script>
+        function learningTypeChanged() {
+            var selected = document.getElementById('searchType').value;
+            var academicYear = document.getElementById('academicYear');
+            if (selected == 0 || selected == 2) {
+                // Hide the academic year dropdown the the learning type is not Qualification or Unit
+                academicYear.style.visibility = 'visible';
+            } else {
+                academicYear.style.visibility = 'hidden';
+            }
+        }
+    </script>
 }
