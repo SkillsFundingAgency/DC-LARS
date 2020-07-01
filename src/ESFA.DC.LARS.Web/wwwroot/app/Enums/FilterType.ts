@@ -5,5 +5,6 @@
     TeachingYears = "TeachingYears",
     FrameworkTypes = "FrameworkTypes",
     IssuingAuthorities = "IssuingAuthorities",
-    Sectors = "Sectors"
+    Sectors = "Sectors",
+    SectorSubjectAreaTier1s = "SectorSubjectAreaTier1s"
 }

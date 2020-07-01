@@ -30,6 +30,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 EffectiveFrom = input.EffectiveFrom,
                 EffectiveTo = input.EffectiveTo,
                 SectorSubjectAreaTier2 = input.SectorSubjectAreaTier2,
+                SectorSubjectAreaTier1 = input.SectorSubjectAreaTier1,
                 SectorSubjectAreaTier2Desc = input.SectorSubjectAreaTier2Desc,
                 IssuingAuthority = input.IssuingAuthority,
                 IssuingAuthorityDesc = input.IssuingAuthorityDesc,

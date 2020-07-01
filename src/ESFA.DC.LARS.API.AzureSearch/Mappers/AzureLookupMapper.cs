@@ -14,6 +14,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
         private readonly IMapper<FrameworkTypeLookupModel, Models.FrameworkTypeLookupModel> _frameworkTypeMapper;
         private readonly IMapper<IssuingAuthorityLookupModel, Models.IssuingAuthorityLookupModel> _issuingAuthorityMapper;
         private readonly IMapper<StandardSectorLookupModel, Models.StandardSectorLookupModel> _standardSectorMapper;
+        private readonly IMapper<SectorSubjectAreaTier1LookupModel, Models.SectorSubjectAreaTier1LookupModel> _sectorSubjectAreaTier1Mapper;
 
         public AzureLookupMapper(
             IMapper<AcademicYearLookupModel, Models.AcademicYearLookupModel> yearMapper,
@@ -23,7 +24,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             IMapper<AwardingBodyLookupModel, Models.AwardingBodyLookupModel> awardingBodyMapper,
             IMapper<FrameworkTypeLookupModel, Models.FrameworkTypeLookupModel> frameworkTypeMapper,
             IMapper<IssuingAuthorityLookupModel, Models.IssuingAuthorityLookupModel> issuingAuthorityMapper,
-            IMapper<StandardSectorLookupModel, Models.StandardSectorLookupModel> standardSectorMapper)
+            IMapper<StandardSectorLookupModel, Models.StandardSectorLookupModel> standardSectorMapper,
+            IMapper<SectorSubjectAreaTier1LookupModel, Models.SectorSubjectAreaTier1LookupModel> sectorSubjectAreaTier1Mapper)
         {
             _yearMapper = yearMapper;
             _nvqMapper = nvqMapper;
@@ -33,6 +35,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
             _frameworkTypeMapper = frameworkTypeMapper;
             _issuingAuthorityMapper = issuingAuthorityMapper;
             _standardSectorMapper = standardSectorMapper;
+            _sectorSubjectAreaTier1Mapper = sectorSubjectAreaTier1Mapper;
         }
 
         public Models.LookUpModel Map(LookUpModel input)
@@ -46,8 +49,10 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 ValidityFundingMappingLookups = input.ValidityFundingMappingLookups?.Select(_mappingMapper.Map).ToList(),
                 AwardingBodyLookups = input.AwardingBodyLookups?.Select(_awardingBodyMapper.Map).ToList(),
                 FrameworkTypeLookups = input.FrameworkTypeLookups?.Select(_frameworkTypeMapper.Map).ToList(),
+                TLevelTypeLookups = input.TLevelTypeLookups?.Select(_frameworkTypeMapper.Map).ToList(),
                 IssuingAuthorityLookups = input.IssuingAuthorityLookups?.Select(_issuingAuthorityMapper.Map).ToList(),
-                StandardSectorLookups = input.StandardSectorLookups?.Select(_standardSectorMapper.Map).OrderBy(sc => sc.StandardSectorCodeDesc).ToList()
+                StandardSectorLookups = input.StandardSectorLookups?.Select(_standardSectorMapper.Map).ToList(),
+                SectorSubjectAreaTier1Lookups = input.SectorSubjectAreaTier1Lookups?.Select(_sectorSubjectAreaTier1Mapper.Map).ToList()
             };
         }
     }

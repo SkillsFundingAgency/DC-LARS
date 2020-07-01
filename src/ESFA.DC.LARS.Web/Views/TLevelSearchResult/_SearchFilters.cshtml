@@ -1,0 +1,28 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
+
+<span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
+
+<div id="allFilters" class="filter-container">
+
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.FrameworkTypes),
+            Description = "Framework Type",
+            FilterType = FilterType.FrameworkTypes,
+            SelectedFilters = Model.SearchModel.FrameworkTypes,
+            FilterItems = Model?.LookUpModel?.TLevelTypeLookups?.Select(f => new FilterItemModel { Value = f.FrameworkType, Description = f.FrameworkTypeDesc }).ToList()
+        })
+
+
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.SectorSubjectAreaTier1s),
+            Description = " Subject sector area",
+            FilterType = FilterType.SectorSubjectAreaTier1s,
+            SelectedFilters = Model.SearchModel.SectorSubjectAreaTier1s,
+            FilterItems = Model?.LookUpModel?.SectorSubjectAreaTier1Lookups?.Select(f => new FilterItemModel { Value = f.SectorSubjectAreaTier1, Description = f.SectorSubjectAreaTier1Desc }).ToList()
+        })
+
+</div>

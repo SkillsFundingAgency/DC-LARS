@@ -1,6 +1,6 @@
 ﻿@model  ESFA.DC.LARS.Web.Models.SearchFilterModel
 
-<section class="filter-section">
+<section class="filter-section" render-if="Model.FilterItems?.Count > 0">
     <h2 class="govuk-!-font-weight-regular">
         <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button" 
             id="@Model.Name-Button" v-on:click="updateAccordion($event)">
@@ -11,14 +11,14 @@
         <div class="govuk-form-group">
             <div class="govuk-checkboxes govuk-checkboxes--small" ref="@Model.FilterType">
 
-                @foreach (var filterItem in Model?.FilterItems)
+                @foreach (var filterItem in Model.FilterItems)
                 {
                     <div class="govuk-checkboxes__item left-margin">
                         <input class="govuk-checkboxes__input"
                                 id="@($"{Model.Name}-{filterItem.Value}")" name="@Model.Name" type="checkbox" 
                                 value="@filterItem.Value" data-description="@filterItem.Description"
                                 checked="@Model?.SelectedFilters.Any(l => String.Equals(filterItem.Value, l, StringComparison.OrdinalIgnoreCase))" 
-                                v-on:change="updateCheckboxFilter('@filterItem.Value',  '@filterItem.Description', $event.target.checked, '@Model.Name')"
+                                v-on:change="updateCheckboxFilter('@filterItem.Value',  '@filterItem.Description', $event.target.checked, '@Model.FilterType.ToString()')"
                                />
                         <label class="govuk-label govuk-checkboxes__label" for="@($"{Model.Name}-{filterItem.Value}")">
                             @filterItem.Description

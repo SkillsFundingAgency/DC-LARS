@@ -38,6 +38,9 @@ namespace ESFA.DC.LARS.Azure.Models
 
         public DateTime? EffectiveTo { get; set; }
 
+        [IsFilterable]
+        public string SectorSubjectAreaTier1 { get; set; }
+
         public string SectorSubjectAreaTier2 { get; set; }
 
         public string SectorSubjectAreaTier2Desc { get; set; }
