@@ -16,14 +16,14 @@ namespace ESFA.DC.LARS.API.Models
 
         public List<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
 
-        public IEnumerable<FrameworkTypeLookupModel> FrameworkTypeLookups { get; set; }
+        public List<FrameworkTypeLookupModel> FrameworkTypeLookups { get; set; }
 
-        public IEnumerable<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
+        public List<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
 
-        public IEnumerable<StandardSectorLookupModel> StandardSectorLookups { get; set; }
+        public List<StandardSectorLookupModel> StandardSectorLookups { get; set; }
 
-        public IEnumerable<SectorSubjectAreaTier1LookupModel> SectorSubjectAreaTier1Lookups { get; set; }
+        public List<SectorSubjectAreaTier1LookupModel> SectorSubjectAreaTier1Lookups { get; set; }
 
-        public IEnumerable<FrameworkTypeLookupModel> TLevelTypeLookups { get; set; }
+        public List<FrameworkTypeLookupModel> TLevelTypeLookups { get; set; }
    }
 }

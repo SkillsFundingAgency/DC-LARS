@@ -10,24 +10,24 @@ namespace ESFA.DC.LARS.Azure.Models
         [IsSearchable]
         public string LookUpKey { get; set; }
 
-        public IEnumerable<NotionalNVQLevel2LookupModel> NotionalNvqLevel2Lookups { get; set; }
+        public List<NotionalNVQLevel2LookupModel> NotionalNvqLevel2Lookups { get; set; }
 
-        public IEnumerable<AcademicYearLookupModel> AcademicYearLookups { get; set; }
+        public List<AcademicYearLookupModel> AcademicYearLookups { get; set; }
 
-        public IEnumerable<AwardingBodyLookupModel> AwardingBodyLookups { get; set; }
+        public List<AwardingBodyLookupModel> AwardingBodyLookups { get; set; }
 
-        public IEnumerable<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
+        public List<ValidityCategoryLookupModel> ValidityCategoryLookups { get; set; }
 
-        public IEnumerable<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
+        public List<ValidityFundingMappingLookupModel> ValidityFundingMappingLookups { get; set; }
 
-        public IEnumerable<FrameworkTypeLookupModel> FrameworkTypeLookups { get; set; }
+        public List<FrameworkTypeLookupModel> FrameworkTypeLookups { get; set; }
 
-        public IEnumerable<FrameworkTypeLookupModel> TLevelTypeLookups { get; set; }
+        public List<FrameworkTypeLookupModel> TLevelTypeLookups { get; set; }
 
-        public IEnumerable<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
+        public List<IssuingAuthorityLookupModel> IssuingAuthorityLookups { get; set; }
 
-        public IEnumerable<StandardSectorLookupModel> StandardSectorLookups { get; set; }
+        public List<StandardSectorLookupModel> StandardSectorLookups { get; set; }
 
-        public IEnumerable<SectorSubjectAreaTier1LookupModel> SectorSubjectAreaTier1Lookups { get; set; }
+        public List<SectorSubjectAreaTier1LookupModel> SectorSubjectAreaTier1Lookups { get; set; }
     }
 }

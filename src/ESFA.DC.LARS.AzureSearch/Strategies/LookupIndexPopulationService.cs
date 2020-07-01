@@ -138,12 +138,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         private void Sort(LookUpModel lookups)
         {
-            lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups);
-            lookups.NotionalNvqLevel2Lookups = _levelSortingService.Sort(lookups.NotionalNvqLevel2Lookups);
-            lookups.TLevelTypeLookups = _tLevelTypeSortingService.Sort(lookups.TLevelTypeLookups);
-            lookups.SectorSubjectAreaTier1Lookups = _sectorSubjectAreaTier1SortingService.Sort(lookups.SectorSubjectAreaTier1Lookups);
-            lookups.StandardSectorLookups = _standardSectorCodeSortingService.Sort(lookups.StandardSectorLookups);
-            lookups.AwardingBodyLookups = _awardingBodySortingService.Sort(lookups.AwardingBodyLookups);
+            lookups.IssuingAuthorityLookups = _issuingAuthoritySortingService.Sort(lookups.IssuingAuthorityLookups).ToList();
+            lookups.NotionalNvqLevel2Lookups = _levelSortingService.Sort(lookups.NotionalNvqLevel2Lookups).ToList();
+            lookups.TLevelTypeLookups = _tLevelTypeSortingService.Sort(lookups.TLevelTypeLookups).ToList();
+            lookups.SectorSubjectAreaTier1Lookups = _sectorSubjectAreaTier1SortingService.Sort(lookups.SectorSubjectAreaTier1Lookups).ToList();
+            lookups.StandardSectorLookups = _standardSectorCodeSortingService.Sort(lookups.StandardSectorLookups).ToList();
+            lookups.AwardingBodyLookups = _awardingBodySortingService.Sort(lookups.AwardingBodyLookups).ToList();
         }
     }
 }
