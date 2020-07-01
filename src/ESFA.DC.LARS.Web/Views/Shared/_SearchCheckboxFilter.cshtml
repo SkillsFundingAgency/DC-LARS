@@ -1,6 +1,6 @@
 ﻿@model  ESFA.DC.LARS.Web.Models.SearchFilterModel
 
-<section class="filter-section" render-if="Model.FilterItems != null">
+<section class="filter-section" render-if="Model.FilterItems?.Count > 0">
     <h2 class="govuk-!-font-weight-regular">
         <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button" 
             id="@Model.Name-Button" v-on:click="updateAccordion($event)">
