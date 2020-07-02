@@ -16,6 +16,8 @@ namespace ESFA.DC.LARS.Web.Mappers
                 FrameworkTitle = input.FrameworkTitle,
                 EffectiveFrom = input.EffectiveFrom,
                 EffectiveTo = input.EffectiveTo,
+                SectorSubjectAreaTier1 = input.SectorSubjectAreaTier1,
+                SectorSubjectAreaTier1Desc = input.SectorSubjectAreaTier1Desc,
                 SectorSubjectAreaTier2 = input.SectorSubjectAreaTier2,
                 SectorSubjectAreaTier2Desc = input.SectorSubjectAreaTier2Desc,
                 IssuingAuthority = input.IssuingAuthority,

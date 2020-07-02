@@ -27,9 +27,10 @@
             </li>
         </ul>
 
-        <h2 class="govuk-heading-m ">Sector subject area</h2>
+        <h2 class="govuk-heading-m">Sector subject area</h2>
         <div class="govuk-body">
-            <p>@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>
+            <p render-if="Model.Framework.IsTLevel">@Model.Framework.SectorSubjectAreaTier1 - @Model.Framework.SectorSubjectAreaTier1Desc</p>
+            <p render-if="!Model.Framework.IsTLevel">@Model.Framework.SectorSubjectAreaTier2 - @Model.Framework.SectorSubjectAreaTier2Desc</p>
         </div>
 
         @if (Model.Framework.LearningAims.Count > 0)
