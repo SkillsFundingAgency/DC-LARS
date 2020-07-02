@@ -86,6 +86,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         EffectiveFrom = fr.EffectiveFrom,
                         EffectiveTo = fr.EffectiveTo,
                         SectorSubjectAreaTier1 = fr.SectorSubjectAreaTier1.ToString(), // decimal not supported by azure
+                        SectorSubjectAreaTier1Desc = fr.SectorSubjectAreaTier1Navigation.SectorSubjectAreaTier1Desc,
                         SectorSubjectAreaTier2 = fr.SectorSubjectAreaTier2.ToString(), // decimal not supported by azure
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
