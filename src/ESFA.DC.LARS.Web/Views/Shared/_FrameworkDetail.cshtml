@@ -15,7 +15,10 @@
                 <strong>Issuing authority:</strong> @Model.Framework.IssuingAuthority - @Model.Framework.IssuingAuthorityDesc
             </li>
             <li>
-                <strong>Effective from:</strong> @Model.Framework.EffectiveFrom?.ToDateString() to: @Model.Framework.EffectiveTo?.ToDateString()
+                <strong>Effective from:</strong> @Model.Framework.EffectiveFrom?.ToDateString()
+            </li>
+            <li>
+                <strong>Effective to:</strong> @Model.Framework.EffectiveTo?.ToDateString()
             </li>
         </ul>
 
