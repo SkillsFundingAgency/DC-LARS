@@ -19,7 +19,7 @@
         new SearchFilterModel
         {
             Name = nameof(Model.SearchModel.SectorSubjectAreaTier1s),
-            Description = " Subject sector area",
+            Description = " Sector Subject Area",
             FilterType = FilterType.SectorSubjectAreaTier1s,
             SelectedFilters = Model.SearchModel.SectorSubjectAreaTier1s,
             FilterItems = Model?.LookUpModel?.SectorSubjectAreaTier1Lookups?.Select(f => new FilterItemModel { Value = f.SectorSubjectAreaTier1, Description = f.SectorSubjectAreaTier1Desc }).ToList()
