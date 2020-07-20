@@ -14,6 +14,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
             {
                 new DownloadDetailsModel
                 {
+                    Id = "1",
                     Version = "7",
                     Type = "CSV",
                     ApplicableFrom = new DateTime(2020, 8, 1),
