@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -41,7 +42,7 @@ namespace ESFA.DC.LARS.AzureSearch
 
                 var indexService = container.Resolve<IIndexService>();
 
-                await indexService.UpdateIndexesAsync();
+                await indexService.UpdateIndexesAsync(CancellationToken.None);
 
                 var end = DateTime.Now;
                 Console.WriteLine($"Starting {end}");

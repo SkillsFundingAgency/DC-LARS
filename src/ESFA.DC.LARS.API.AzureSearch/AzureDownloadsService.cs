@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.API.Interfaces;
@@ -28,7 +29,13 @@ namespace ESFA.DC.LARS.API.AzureSearch
         {
             var result = new List<Models.DownloadDetailsModel>();
 
-            var allDownloads = (await _azureService.GetAsync<IEnumerable<DownloadDetailsModel>>(_downloadsIndexService, key)).ToList();
+            var parameters = GetDefaultParameters();
+
+            var allDownloads =
+                (await _azureService.SearchIndexAsync<DownloadDetailsModel>(_downloadsIndexService, key, parameters))
+                .Results
+                .Select(r => r.Document);
+
             var downloadsForLastTwoVersions = allDownloads
                 .Select(d => _mapper.Map(d))
                 .GroupBy(d => d.Version, d => d)

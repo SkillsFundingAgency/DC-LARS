@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
     public interface IIndexService
     {
-        Task UpdateIndexesAsync();
+        Task UpdateIndexesAsync(CancellationToken cancellationToken);
     }
 }

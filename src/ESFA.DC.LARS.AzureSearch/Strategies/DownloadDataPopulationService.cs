@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -22,11 +23,11 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.DownloadDataIndexName;
 
-        public async override Task PopulateIndexAsync()
+        public async override Task PopulateIndexAsync(CancellationToken cancellationToken)
         {
             var indexClient = GetIndexClient();
 
-            var downloadData = await _dowloadDataProviderService.GetDownloadDetails();
+            var downloadData = await _dowloadDataProviderService.GetDownloadDetails(cancellationToken);
 
             var indexActions = downloadData.Select(IndexAction.Upload);
 
