@@ -4,7 +4,7 @@ using ESFA.DC.LARS.Azure.Models;
 
 namespace ESFA.DC.LARS.AzureSearch.Interfaces
 {
-    public interface IDowloadDataProviderService
+    public interface IDownloadDataProviderService
     {
         Task<IEnumerable<DownloadDetailsModel>> GetDownloadDetails();
     }

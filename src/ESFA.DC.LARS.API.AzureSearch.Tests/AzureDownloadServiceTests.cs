@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.API.AzureSearch.Mappers;
-using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
 using ESFA.DC.LARS.Azure.Models;
@@ -46,7 +45,7 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         private static IEnumerable<DownloadDetailsModel> PopulateDownloadsData()
         {
             var applicableFrom = DateTime.Now;
-            var downloadLink = "larsdownload/2020/07 Jul/09/Learning Delivery/20200709_105838_LearningDelivery_V007_CSV.Zip";
+            var downloadLink = "larsdownloads/published/007/LearningDelivery_V007_CSV.Zip";
 
             var csvs = new List<DownloadDetailsModel>
             {
