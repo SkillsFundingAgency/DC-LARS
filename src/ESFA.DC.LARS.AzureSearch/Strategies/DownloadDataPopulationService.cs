@@ -9,12 +9,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 {
     public class DownloadDataPopulationService : AbstractPopulationService<DownloadDetailsModel>
     {
-        private readonly IDowloadDataProviderService _dowloadDataProviderService;
+        private readonly IDownloadDataProviderService _dowloadDataProviderService;
 
         public DownloadDataPopulationService(
             ISearchServiceClient searchServiceClient,
             IPopulationConfiguration populationConfiguration,
-            IDowloadDataProviderService dowloadDataProviderService)
+            IDownloadDataProviderService dowloadDataProviderService)
             : base(searchServiceClient, populationConfiguration)
         {
             _dowloadDataProviderService = dowloadDataProviderService;
