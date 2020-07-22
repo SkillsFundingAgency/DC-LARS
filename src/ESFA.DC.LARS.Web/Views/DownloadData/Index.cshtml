@@ -1,0 +1,34 @@
+﻿@model IEnumerable<DownloadDetailsModel>
+
+<div class="govuk-grid-column-full">
+    @foreach (var version in Model)
+    {
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-!-font-size-27">Version @version.Version</caption>
+
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Code</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                    <th scope="col" class="govuk-table__header">Level</th>
+                    <th scope="col" class="govuk-table__header">Effective from</th>
+                    <th scope="col" class="govuk-table__header">Effective to</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+
+
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">@version.Version</td>
+                    <td class="govuk-table__cell">@version.ApplicableFrom</td>
+                    <td class="govuk-table__cell">@version.DateUploaded</td>
+                    <td class="govuk-table__cell">@version.DownloadLink</td>
+                </tr>
+
+                <tr class="govuk-table__row" render-if="Model?.Any() != true">
+                    <td colspan="5" class="govuk-table__cell">No components found</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>
