@@ -60,7 +60,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 Type = type,
                 ApplicableFrom = version.ActivationDate,
                 DateUploaded = version.ActivationDate, // TODO replace with new date when schema updated
-                DownloadLink = $"{_configuration.DownloadDataBlobStorageFolder}/published/{formattedVersion}/LearningDelivery_V{formattedVersion}_{type}.Zip"
+                DownloadLink = $"published/{formattedVersion}/LearningDelivery_V{formattedVersion}_{type}.Zip"
             };
             return csv;
         }

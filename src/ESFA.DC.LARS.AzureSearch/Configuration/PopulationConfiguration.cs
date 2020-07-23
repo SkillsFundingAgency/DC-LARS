@@ -25,7 +25,5 @@ namespace ESFA.DC.LARS.AzureSearch.Configuration
         public string TLevelIndexName { get; set; }
 
         public string DownloadDataIndexName { get; set; }
-
-        public string DownloadDataBlobStorageFolder { get; set; }
     }
 }

@@ -1,34 +1,27 @@
 ﻿@model IEnumerable<DownloadDetailsModel>
 
+@{
+    var latestVersion = Model?.Where(m => m.Version == Model.Max(mm => mm.Version)).ToList();
+    var olderVersion = Model?.Where(m => m.Version == Model.Min(mm => mm.Version)).ToList();
+}
+
 <div class="govuk-grid-column-full">
-    @foreach (var version in Model)
-    {
-        <table class="govuk-table">
-            <caption class="govuk-table__caption govuk-!-font-size-27">Version @version.Version</caption>
-
-            <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header">Code</th>
-                    <th scope="col" class="govuk-table__header">Description</th>
-                    <th scope="col" class="govuk-table__header">Level</th>
-                    <th scope="col" class="govuk-table__header">Effective from</th>
-                    <th scope="col" class="govuk-table__header">Effective to</th>
-                </tr>
-            </thead>
-            <tbody class="govuk-table__body">
+    <div class="govuk-breadcrumbs">
+        <ol id="breadCrumbs" class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="/">Home</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">Downloads</li>
+        </ol>
+    </div>
 
 
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">@version.Version</td>
-                    <td class="govuk-table__cell">@version.ApplicableFrom</td>
-                    <td class="govuk-table__cell">@version.DateUploaded</td>
-                    <td class="govuk-table__cell">@version.DownloadLink</td>
-                </tr>
+    <h1 class="govuk-heading-xl">
+        Downloads
+    </h1>
 
-                <tr class="govuk-table__row" render-if="Model?.Any() != true">
-                    <td colspan="5" class="govuk-table__cell">No components found</td>
-                </tr>
-            </tbody>
-        </table>
-    }
+    @await Html.PartialAsync("_DataDownload", latestVersion)
+
+    @await Html.PartialAsync("_DataDownload", olderVersion)
+
 </div>
