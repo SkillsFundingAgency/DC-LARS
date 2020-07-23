@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,10 +15,14 @@ namespace ESFA.DC.LARS.AzureSearch.Services
         private const string PSVTypeName = "PSV";
         private const string MDBTypeName = "MDB";
 
+        private readonly IPopulationConfiguration _configuration;
         private readonly ILarsContextFactory _contextFactory;
 
-        public DowloadDataProviderService(ILarsContextFactory contextFactory)
+        public DowloadDataProviderService(
+            IPopulationConfiguration configuration,
+            ILarsContextFactory contextFactory)
         {
+            _configuration = configuration;
             _contextFactory = contextFactory;
         }
 
@@ -47,7 +50,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
             return result;
         }
 
-        private static DownloadDetailsModel CreateDownloadDetailsModel(LarsVersion version, string type, ref int id)
+        private DownloadDetailsModel CreateDownloadDetailsModel(LarsVersion version, string type, ref int id)
         {
             var formattedVersion = version.MajorNumber.ToString().PadLeft(3, '0');
             var csv = new DownloadDetailsModel
@@ -57,7 +60,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 Type = type,
                 ApplicableFrom = version.ActivationDate,
                 DateUploaded = version.ActivationDate, // TODO replace with new date when schema updated
-                DownloadLink = $"larsdownloads/published/{formattedVersion}/LearningDelivery_V{formattedVersion}_{type}.Zip"
+                DownloadLink = $"{_configuration.DownloadDataBlobStorageFolder}/published/{formattedVersion}/LearningDelivery_V{formattedVersion}_{type}.Zip"
             };
             return csv;
         }

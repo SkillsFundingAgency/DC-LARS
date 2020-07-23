@@ -17,5 +17,7 @@
         string TLevelIndexName { get; set; }
 
         string DownloadDataIndexName { get; set; }
+
+        string DownloadDataBlobStorageFolder { get; set; }
     }
 }
