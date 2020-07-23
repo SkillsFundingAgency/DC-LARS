@@ -13,5 +13,7 @@ namespace ESFA.DC.LARS.Web.Models
         public List<FilterItemModel> FilterItems { get; set; } = new List<FilterItemModel>();
 
         public List<string> SelectedFilters { get; set; } = new List<string>();
+
+        public bool IsTextFilterEnabled { get; set; }
     }
 }

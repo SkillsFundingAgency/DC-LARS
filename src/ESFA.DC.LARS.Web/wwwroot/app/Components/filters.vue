@@ -9,6 +9,7 @@
     import StorageService from '../Services/storageService';
     import FilterHistoryService from '../Services/filterHistoryService';
     import { constants } from '../constants';
+    import { debounce } from 'vue-debounce';
 
     @Component({
         template: "#filtersTemplate"
@@ -32,6 +33,7 @@
             accordionService.initialiseAccordion();
             this.syncFiltersAndUpdateDisplay();
             this.currentDisplayFilters = this.savedfilters;
+            this.setFilterTextVisible();
             this.filterStoreService.watchFilters(() => this.updateDisplay(this.savedfilters, this.currentDisplayFilters), false, true);
         }
 
@@ -44,6 +46,29 @@
             this.storageService.clearFilters(constants.storageKey);
             this.updateDisplay(this.savedfilters, this.currentDisplayFilters);
             this.currentDisplayFilters = [];
+        }
+
+        public filterItems(event: Event): void {
+            debounce(() => { 
+                const target = event.target as HTMLInputElement;
+                const container = target.closest(".filter-section");
+                const filterItems = container?.getElementsByClassName("filter-item");
+
+                if (filterItems) {
+                    const textToFilterBy = target?.value.toUpperCase();
+
+                    for (let i = 0; i < filterItems.length; i++) {
+                        const label = filterItems[i].getElementsByTagName("label")[0];
+
+                        if (label.innerText.toUpperCase().indexOf(textToFilterBy) > -1) {
+                            (filterItems[i] as HTMLElement).style.display = '';
+                        } else {
+                            (filterItems[i] as HTMLElement).style.display = "none";
+                        }
+                    }
+                }
+            }, "100ms")();
+
         }
 
         public updateCheckboxFilter(key: string, value: string, isChecked: boolean, type: FilterType): void {
@@ -88,6 +113,13 @@
             const removedFilters = oldFilters.filter(filter => !newFilters.find(f => f.key === filter.key && f.type === filter.type));
             this.setFilterDisplay(addedFilters, true);
             this.setFilterDisplay(removedFilters, false);
+        }
+
+        private setFilterTextVisible(): void {
+            var filterTextContainers = document.getElementsByClassName("filter-text-container");
+            for (let i = 0; i < filterTextContainers.length; i++) {
+                (filterTextContainers[i] as HTMLElement).style.display = '';
+            }
         }
 
         private setFilterDisplay(filters: Array<IFilterItem> = [], isAdded: boolean): void {
