@@ -18,7 +18,8 @@
             Description = "Awarding body",
             FilterType = FilterType.AwardingBodies,
             SelectedFilters = Model.SearchModel.AwardingBodies,
-            FilterItems = Model.LookUpModel?.AwardingBodyLookups.Select(f => new FilterItemModel { Value = f.AwardingBodyCode, Description = f.AwardingBodyName }).ToList()
+            FilterItems = Model.LookUpModel?.AwardingBodyLookups.Select(f => new FilterItemModel { Value = f.AwardingBodyCode, Description = f.AwardingBodyName }).ToList(),
+            IsTextFilterEnabled = true
         })
 
     @await Html.PartialAsync("_SearchCheckboxFilter",
