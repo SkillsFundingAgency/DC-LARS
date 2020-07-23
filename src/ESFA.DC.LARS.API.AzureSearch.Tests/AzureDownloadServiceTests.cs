@@ -7,6 +7,7 @@ using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
 using ESFA.DC.LARS.Azure.Models;
 using FluentAssertions;
+using Microsoft.Azure.Search.Models;
 using Moq;
 using Xunit;
 
@@ -19,14 +20,19 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         {
             var key = "*";
 
-            var downloadData = PopulateDownloadsData();
+            var searchResult = new DocumentSearchResult<DownloadDetailsModel>(
+                PopulateDownloadsData(),
+                1,
+                0,
+                null,
+                SearchContinuationToken.CreateTestToken("foo"));
 
             var clientMock = new Mock<IDownloadsIndexService>();
 
             var azureServiceMock = new Mock<IAzureService>();
             azureServiceMock
-                .Setup(m => m.GetAsync<IEnumerable<DownloadDetailsModel>>(clientMock.Object, key))
-                .ReturnsAsync(downloadData);
+                .Setup(m => m.SearchIndexAsync<DownloadDetailsModel>(clientMock.Object, key, It.IsAny<SearchParameters>()))
+                .ReturnsAsync(searchResult);
 
             var mapper = new AzureDownloadDataMapper();
             var service = new AzureDownloadsService(azureServiceMock.Object, mapper, clientMock.Object);
@@ -42,14 +48,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result[5].Id.Should().Be("10");
         }
 
-        private static IEnumerable<DownloadDetailsModel> PopulateDownloadsData()
+        private static List<SearchResult<DownloadDetailsModel>> PopulateDownloadsData()
         {
             var applicableFrom = DateTime.Now;
             var downloadLink = "larsdownloads/published/007/LearningDelivery_V007_CSV.Zip";
 
-            var csvs = new List<DownloadDetailsModel>
+            var csvs = new List<SearchResult<DownloadDetailsModel>>
             {
-                new DownloadDetailsModel
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "1",
                     Version = "007",
@@ -57,8 +63,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 3, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "2",
                     Version = "006",
@@ -66,8 +72,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 4, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "3",
                     Version = "007",
@@ -75,8 +81,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 5, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "4",
                     Version = "007",
@@ -84,12 +90,12 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 5, 5),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                }
+                })
             };
 
-            var mdbs = new List<DownloadDetailsModel>
+            var mdbs = new List<SearchResult<DownloadDetailsModel>>
             {
-                new DownloadDetailsModel
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "5",
                     Version = "006",
@@ -97,8 +103,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 3, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "6",
                     Version = "006",
@@ -106,8 +112,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 4, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "7",
                     Version = "007",
@@ -115,8 +121,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 4, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "8",
                     Version = "007",
@@ -124,12 +130,12 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 5, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                }
+                })
             };
 
-            var psvs = new List<DownloadDetailsModel>
+            var psvs = new List<SearchResult<DownloadDetailsModel>>
             {
-                new DownloadDetailsModel
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "9",
                     Version = "006",
@@ -137,8 +143,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 3, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "10",
                     Version = "006",
@@ -146,8 +152,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 4, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "11",
                     Version = "007",
@@ -155,8 +161,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 4, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                },
-                new DownloadDetailsModel
+                }),
+                new SearchResult<DownloadDetailsModel>(new DownloadDetailsModel
                 {
                     Id = "12",
                     Version = "007",
@@ -164,10 +170,10 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                     DateUploaded = new DateTime(2020, 5, 1),
                     ApplicableFrom = applicableFrom,
                     DownloadLink = downloadLink
-                }
+                })
             };
 
-            var result = new List<DownloadDetailsModel>();
+            var result = new List<SearchResult<DownloadDetailsModel>>();
             result.AddRange(csvs);
             result.AddRange(mdbs);
             result.AddRange(psvs);
