@@ -67,7 +67,7 @@
                         }
                     }
                 }
-            }, "100ms")();
+            }, constants.filterDebounceTime)();
 
         }
 
