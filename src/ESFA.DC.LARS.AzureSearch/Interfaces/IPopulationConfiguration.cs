@@ -15,5 +15,7 @@
         string UnitIndexName { get; set; }
 
         string TLevelIndexName { get; set; }
+
+        string DownloadDataIndexName { get; set; }
     }
 }

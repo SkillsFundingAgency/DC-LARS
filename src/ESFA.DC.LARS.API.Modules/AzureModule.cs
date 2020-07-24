@@ -48,12 +48,18 @@ namespace ESFA.DC.LARS.API.Modules
               .As<ITLevelIndexService>()
               .SingleInstance();
 
+            builder
+                .Register(c => new DownloadsClient(AzureSettings))
+                .As<IDownloadsIndexService>()
+                .SingleInstance();
+
             builder.RegisterType<AzureLearningAimsService>().As<IAzureLearningAimsService>();
             builder.RegisterType<AzureUnitsService>().As<IAzureUnitsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<AzureFrameworkService>().As<IAzureFrameworkService>();
             builder.RegisterType<AzureStandardService>().As<IAzureStandardService>();
             builder.RegisterType<AzureTLevelService>().As<IAzureTLevelService>();
+            builder.RegisterType<AzureDownloadsService>().As<IAzureDownloadsService>();
 
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
             builder.RegisterType<AzureService>().As<IAzureService>();
@@ -97,6 +103,8 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureStandardFundingModelMapper>().As<IMapper<StandardFundingModel, Models.StandardFundingModel>>();
             builder.RegisterType<AzureStandardApprenticeshipFundingModelMapper>().As<IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel>>();
             builder.RegisterType<AzureCommonComponentMapper>().As<IMapper<CommonComponentModel, Models.CommonComponentModel>>();
+
+            builder.RegisterType<AzureDownloadDataMapper>().As<IMapper<DownloadDetailsModel, Models.DownloadDetailsModel>>();
         }
     }
 }

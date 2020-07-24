@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -41,7 +42,7 @@ namespace ESFA.DC.LARS.AzureSearch
 
                 var indexService = container.Resolve<IIndexService>();
 
-                await indexService.UpdateIndexesAsync();
+                await indexService.UpdateIndexesAsync(CancellationToken.None);
 
                 var end = DateTime.Now;
                 Console.WriteLine($"Starting {end}");
@@ -98,6 +99,8 @@ namespace ESFA.DC.LARS.AzureSearch
                 .As<ISearchServiceClient>()
                 .SingleInstance();
 
+            containerBuilder.RegisterType<LarsContextFactory>().As<ILarsContextFactory>();
+
             containerBuilder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>();
 
             containerBuilder.Register(cb => populationConfiguration).As<IPopulationConfiguration>();
@@ -108,14 +111,13 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<FrameworkPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<StandardsPopulationService>().As<IIndexPopulationService>();
             containerBuilder.RegisterType<TLevelPopulationService>().As<IIndexPopulationService>();
+            containerBuilder.RegisterType<DownloadDataPopulationService>().As<IIndexPopulationService>();
 
             containerBuilder.RegisterType<IndexService>().As<IIndexService>();
+
             containerBuilder.RegisterType<AcademicYearService>().As<IAcademicYearService>();
             containerBuilder.RegisterType<ComponentTypeService>().As<IComponentTypeService>();
             containerBuilder.RegisterType<IssuingAuthorityService>().As<IIssuingAuthorityService>();
-            containerBuilder.RegisterType<IssuingAuthoritySortingService>().As<ISortingService<IssuingAuthorityLookupModel>>();
-            containerBuilder.RegisterType<LarsContextFactory>().As<ILarsContextFactory>();
-
             containerBuilder.RegisterType<FundingService>().As<IFundingService>();
             containerBuilder.RegisterType<AwardOrgService>().As<IAwardOrgService>();
             containerBuilder.RegisterType<ValidityService>().As<IValidityService>();
@@ -126,11 +128,14 @@ namespace ESFA.DC.LARS.AzureSearch
             containerBuilder.RegisterType<StandardSectorCodeService>().As<IStandardSectorCodeService>();
             containerBuilder.RegisterType<CommonComponentService>().As<ICommonComponentService>();
             containerBuilder.RegisterType<RelatedLearningAimsService>().As<IRelatedLearningAimsService>();
+            containerBuilder.RegisterType<DowloadDataProviderService>().As<IDownloadDataProviderService>();
+
             containerBuilder.RegisterType<NotionalNVQLevel2SortingService>().As<ISortingService<NotionalNVQLevel2LookupModel>>();
             containerBuilder.RegisterType<SectorSubjectAreaTier1SortingService>().As<ISortingService<SectorSubjectAreaTier1LookupModel>>();
             containerBuilder.RegisterType<TLevelTypeSortingService>().As<ISortingService<FrameworkTypeLookupModel>>();
             containerBuilder.RegisterType<AwardingBodySortingService>().As<ISortingService<AwardingBodyLookupModel>>();
             containerBuilder.RegisterType<StandardSectorCodeSortingService>().As<ISortingService<StandardSectorLookupModel>>();
+            containerBuilder.RegisterType<IssuingAuthoritySortingService>().As<ISortingService<IssuingAuthorityLookupModel>>();
 
             return containerBuilder;
         }

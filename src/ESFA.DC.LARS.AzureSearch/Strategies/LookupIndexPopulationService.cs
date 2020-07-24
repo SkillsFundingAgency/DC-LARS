@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
@@ -45,7 +46,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.LookupsIndexName;
 
-        public async override Task PopulateIndexAsync()
+        public async override Task PopulateIndexAsync(CancellationToken cancellationToken)
         {
             var indexClient = GetIndexClient();
 
@@ -61,7 +62,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         {
                             NotionalNVQLevelV2 = lvl.NotionalNvqlevelV2,
                             NotionalNVQLevelV2Desc = lvl.NotionalNvqlevelV2desc
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     AcademicYearLookups = _academicYearService.GetAcademicYears(context)
                         .Select(ay => new AcademicYearLookupModel
                         {
@@ -74,13 +75,13 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         {
                             AwardingBodyCode = ab.AwardOrgCode,
                             AwardingBodyName = ab.AwardOrgName
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     ValidityCategoryLookups = await context.LarsValidityCategoryLookups
                         .Select(vc => new ValidityCategoryLookupModel
                         {
                             ValidityCategory = vc.ValidityCategory,
                             ValidityCategoryDescription = vc.ValidityCategoryDesc2
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     ValidityFundingMappingLookups = await context.LarsValidityFundingMappings
                         .Select(fm => new ValidityFundingMappingLookupModel
                         {
@@ -88,39 +89,39 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                             FundingCategory = fm.FundingCategory,
                             EffectiveFrom = fm.EffectiveFrom,
                             EffectiveTo = fm.EffectiveTo
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     FrameworkTypeLookups = await context.LarsProgTypeLookups
                         .Where(ft => !_tlevelProgTypes.Contains(ft.ProgType))
                         .Select(ft => new FrameworkTypeLookupModel
                         {
                             FrameworkType = ft.ProgType.ToString(),
                             FrameworkTypeDesc = ft.ProgTypeDesc
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     TLevelTypeLookups = await context.LarsProgTypeLookups
                         .Where(ft => _tlevelProgTypes.Contains(ft.ProgType))
                         .Select(ft => new FrameworkTypeLookupModel
                         {
                             FrameworkType = ft.ProgType.ToString(),
                             FrameworkTypeDesc = ft.ProgTypeDesc
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     IssuingAuthorityLookups = await context.LarsIssuingAuthorityLookups
                         .Select(ia => new IssuingAuthorityLookupModel
                         {
                             IssuingAuthority = ia.IssuingAuthority.ToString(),
                             IssuingAuthorityDesc = ia.IssuingAuthorityDesc
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     StandardSectorLookups = await context.LarsStandardSectorCodeLookups
                         .Select(sc => new StandardSectorLookupModel
                         {
                             StandardSectorCode = sc.StandardSectorCode,
                             StandardSectorCodeDesc = sc.StandardSectorCodeDesc2
-                        }).ToListAsync(),
+                        }).ToListAsync(cancellationToken),
                     SectorSubjectAreaTier1Lookups = await context.LarsSectorSubjectAreaTier1Lookups
                         .Select(st => new SectorSubjectAreaTier1LookupModel
                         {
                             SectorSubjectAreaTier1 = st.SectorSubjectAreaTier1.ToString(),
                             SectorSubjectAreaTier1Desc = st.SectorSubjectAreaTier1Desc
-                        }).ToListAsync()
+                        }).ToListAsync(cancellationToken)
                 };
             }
 
