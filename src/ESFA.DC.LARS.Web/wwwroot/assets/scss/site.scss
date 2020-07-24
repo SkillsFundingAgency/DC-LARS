@@ -187,6 +187,10 @@ $govuk-global-styles: true;
     width: 33%;
 }
 
+.full-width {
+    width : 100%;
+}
+
 @include govuk-media-query($from: tablet) {
     .flex {
         flex-direction: row;
@@ -205,6 +209,14 @@ $govuk-global-styles: true;
     display: none !important;
 }
 
+.no-padding {
+    padding: 0;
+}
+
+#typeOfLearning {
+    margin-right: 20px;
+}
+
 .filter-section {
     border-bottom: 1px solid govuk-colour("mid-grey");
     padding-top: 20px;
@@ -215,7 +227,7 @@ $govuk-global-styles: true;
     h2 {
         padding-left: 15px;
         padding-bottom: 5px;
-        margin:0px
+        margin: 0px
     }
 
     .filter-box-button {
@@ -374,6 +386,19 @@ $govuk-global-styles: true;
     }
 
     padding-bottom: 10px;
+}
+
+@include govuk-media-query($from: tablet) {
+
+    .white-side-bar {
+        background-color: white;
+        margin-top: -300px;
+        padding: 15px;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
 }
 
 .filter-text-input::-ms-clear {

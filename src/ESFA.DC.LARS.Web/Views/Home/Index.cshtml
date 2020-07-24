@@ -1,54 +1,58 @@
-﻿@using ESFA.DC.LARS.Web.Controllers;
-@model ESFA.DC.LARS.Web.Models.ViewModels.HomeViewModel
-
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 
+@section PageHeader
+{
+    <div class="app-masthead">
+        <div class="govuk-width-container">
+            <div class="govuk-grid-column-two-thirds no-padding">
+                <h1 class="govuk-heading-xl white-text">
+                    Find a learning aim
+                </h1>
+                <p class="govuk-body-l white-text">Find the latest information on available Qualifications, Standards, Apprenticeships, T Levels and Units.</p>
+                <p class="govuk-body white-text">Standards will show you information on funding, dates and common components. Qualifications and Units show you funding streams for courses and the last date learners can start. Apprenticeships and T Levels show you pathways, dates, and common components.</p>
+            </div>
+        </div>
+    </div>
+}
+
 <div class="govuk-grid-row" id="homeApp">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">
-            Find a learning aim
-        </h1>
-        <p class="govuk-body-l">Find the latest information on available qualifications, apprenticeship frameworks, and funding for further education providers.</p>
-        <p class="govuk-body">Qualifications will show you funding streams for courses and the last date learners can start. Frameworks will show you pathways, dates, and the issuing authority. You can also download datasets used in the funding information system (FIS).</p>
-
-        <div class="app-masthead-v2">
-            <form asp-action="Index" asp-controller="Home" class="govuk-form-group" id="searchForm">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
-                        <label class="govuk-label">Search by <strong>learning aim</strong> or <strong>reference number</strong></label>
-                        <span class="govuk-hint">
-                            For wildcard searches use the * symbol
-                        </span>
-                        <div id="tt-overlay" class="autocomplete-wrapper" aria-label="Search by name or reference number">
-                            <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
-                                <div aria-atomic="true" aria-live="polite" role="status" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
-                                    No search results.<span>,,</span>
-                                </div>
-                                <input aria-owns="autocomplete-overlay__listbox" autocomplete="off" class="govuk-input" id="autocomplete-overlay" name="searchTerm" placeholder="" type="text" role="textbox">
-                                <ul class="autocomplete__menu autocomplete__menu--overlay autocomplete__menu--hidden" id="autocomplete-overlay__listbox" role="listbox">
-                                </ul>
-                            </div>
+        <form asp-action="Index" asp-controller="Home" class="govuk-form-group" id="searchForm">
+            <label class="govuk-label">Search by <strong>learning aim</strong> or <strong>reference number</strong></label>
+                <span class="govuk-hint">
+                    For wildcard searches use the * symbol
+                </span>
+                <div id="tt-overlay" class="autocomplete-wrapper" aria-label="Search by name or reference number">
+                    <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                        <div aria-atomic="true" aria-live="polite" role="status" style="border: 0; clip: rect(0, 0, 0, 0); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0; position: absolute; white-space: nowrap; width: 1px;">
+                            No search results.<span>,,</span>
                         </div>
+                        <input aria-owns="autocomplete-overlay__listbox" autocomplete="off" class="govuk-input" id="autocomplete-overlay" name="searchTerm" placeholder="" type="text" role="textbox">
+                        <ul class="autocomplete__menu autocomplete__menu--overlay autocomplete__menu--hidden" id="autocomplete-overlay__listbox" role="listbox">
+                        </ul>
                     </div>
                 </div>
+
                 <br />
-                <div class="govuk-grid-row">
-                    <div id="typeOfLearning" class="govuk-grid-column-one-third">
+
+                <div class="flex space-between">
+                    <div id="typeOfLearning" class="govuk-form-group flex-1">
                         <label class="govuk-label" for="searchType">
                             Type of learning
                         </label>
-                        <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType" asp-items="Html.GetEnumSelectList<LearningType>()" onchange="learningTypeChanged();">
+                        <select class="govuk-select full-width" id="searchType" name="searchType" asp-for="@Model.SearchType" asp-items="Html.GetEnumSelectList<LearningType>()" onchange="learningTypeChanged();">
                         </select>
                     </div>
-                    <div id="academicYear" name="academicYear" class="govuk-grid-column-one-third">
+                    <div class="govuk-form-group flex-1">
                         <label class="govuk-label" for="TeachingYear">
                             Academic Year
                         </label>
                         @if (Model?.Lookups?.AcademicYearLookups != null)
                         {
-                            <select class="govuk-select" name="TeachingYear" id="TeachingYear">
+                            <select class="govuk-select full-width" name="TeachingYear" id="TeachingYear">
                                 @foreach (var year in Model.Lookups.AcademicYearLookups)
                                 {
                                     @if (year.IsCurrentAcademicYear)
@@ -64,13 +68,31 @@
                         }
                     </div>
                 </div>
-                <br />
-                <button id="search" type="search" class="govuk-button govuk-button--start govuk-!-margin-bottom-0" v-on:click="updateFilters()">
-                    Search <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
-                        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
-                    </svg>
-                </button>
-            </form>
+
+            <br/>
+            <button id="search" type="search" class="govuk-button govuk-button--start govuk-!-margin-bottom-0" v-on:click="updateFilters()">
+                Search
+                <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
+                    <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
+                </svg>
+            </button>
+        </form>
+        </div>
+    
+    <div class="govuk-grid-column-one-third">
+        <div class="white-side-bar">
+            <h2 class="govuk-heading-s" id="subsection-title">
+                Tools and support
+            </h2>
+            <nav role="navigation" aria-labelledby="subsection-title">
+                <ul class="govuk-list govuk-!-font-size-16">
+                    <li>
+                        <a class="govuk-link govuk-link govuk-link--no-visited-state" asp-controller="DownloadData" asp-action="Index">
+                            View current downloads
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
     <div class="govuk-grid-column-one-third">&nbsp;</div>
@@ -90,7 +112,7 @@
         function learningTypeChanged() {
             var selected = document.getElementById('searchType').value;
             var academicYear = document.getElementById('academicYear');
-            if (selected == 0 || selected == 2) {
+            if (selected === 0 || selected === 2) {
                 // Hide the academic year dropdown the the learning type is not Qualification or Unit
                 academicYear.style.visibility = 'visible';
             } else {
