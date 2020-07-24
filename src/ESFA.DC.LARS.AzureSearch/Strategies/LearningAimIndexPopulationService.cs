@@ -58,7 +58,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.LearningAimsIndexName;
 
-        public override async Task PopulateIndexAsync()
+        public override async Task PopulateIndexAsync(CancellationToken cancellationToken)
         {
             await PopulateIndexAsync(false);
         }

@@ -23,5 +23,7 @@ namespace ESFA.DC.LARS.AzureSearch.Configuration
         public string UnitIndexName { get; set; }
 
         public string TLevelIndexName { get; set; }
+
+        public string DownloadDataIndexName { get; set; }
     }
 }

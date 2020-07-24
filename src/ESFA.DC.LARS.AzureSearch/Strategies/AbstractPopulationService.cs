@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
@@ -24,7 +25,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected abstract string IndexName { get; }
 
-        public abstract Task PopulateIndexAsync();
+        public abstract Task PopulateIndexAsync(CancellationToken cancellationToken);
 
         public void CreateIndex()
         {

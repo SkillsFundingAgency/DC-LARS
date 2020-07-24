@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Extensions;
@@ -40,7 +41,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.StandardIndexName;
 
-        public async override Task PopulateIndexAsync()
+        public async override Task PopulateIndexAsync(CancellationToken cancellationToken)
         {
             var indexClient = GetIndexClient();
             IEnumerable<StandardModel> standards;
@@ -72,7 +73,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         IntegratedDegreeStandard = st.IntegratedDegreeStandard,
                         OtherBodyApprovalRequired = st.OtherBodyApprovalRequired,
                         StandardFundingModels = st.LarsStandardFundings
-                            .Select(sf => new StandardFundingModel()
+                            .Select(sf => new StandardFundingModel
                             {
                                 FundingCategoryDescription = sf.FundingCategoryNavigation.FundingCategoryDesc2,
                                 BandNumber = sf.BandNumber,
@@ -84,7 +85,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                 AchievementIncentive = sf.AchievementIncentive.ToString()
                             }).ToList(),
                         StandardApprenticeshipFundingModels = st.LarsApprenticeshipStdFundings
-                            .Select(saf => new StandardApprenticeshipFundingModel()
+                            .Select(saf => new StandardApprenticeshipFundingModel
                             {
                                 FundingCategoryDescription = saf.FundingCategoryNavigation.FundingCategoryDesc2,
                                 BandNumber = saf.BandNumber,
@@ -98,7 +99,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                                 MaxEmployerLevyCap = saf.MaxEmployerLevyCap.ToString(),
                                 FundableWithoutEmployer = saf.FundableWithoutEmployer
                             }).ToList()
-                    }).ToListAsync();
+                    }).ToListAsync(cancellationToken);
 
                 foreach (var standard in standards)
                 {

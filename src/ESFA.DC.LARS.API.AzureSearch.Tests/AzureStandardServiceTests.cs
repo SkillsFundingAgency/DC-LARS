@@ -4,7 +4,6 @@ using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.Azure.Models;
-using ESFA.DC.Telemetry.Interfaces;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -36,8 +35,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var mapperMock = new Mock<IMapper<StandardModel, Models.StandardModel>>();
             mapperMock.Setup(m => m.Map(azureStandard)).Returns(apiStandard);
 
-            var telemetryMock = new Mock<ITelemetry>();
-
             var indexServiceMock = new Mock<IStandardIndexService>();
 
             var azureServiceMock = new Mock<IAzureService>();
@@ -48,7 +45,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var queryServiceMock = new Mock<IODataQueryService>();
 
             var service = new AzureStandardService(
-                telemetryMock.Object,
                 indexServiceMock.Object,
                 mapperMock.Object,
                 azureServiceMock.Object,

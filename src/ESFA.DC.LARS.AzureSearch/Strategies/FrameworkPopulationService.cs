@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Extensions;
@@ -40,7 +41,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.FrameworkIndexName;
 
-        public async override Task PopulateIndexAsync()
+        public async override Task PopulateIndexAsync(CancellationToken cancellationToken)
         {
             await PopulateIndexAsync(true);
         }
