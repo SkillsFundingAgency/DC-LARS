@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 
@@ -14,7 +15,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
             _populationServices = populationServices;
         }
 
-        public async Task UpdateIndexesAsync()
+        public async Task UpdateIndexesAsync(CancellationToken cancellationToken)
         {
             foreach (var populationService in _populationServices)
             {
@@ -25,7 +26,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 populationService.CreateIndex();
 
                 Console.WriteLine("{0}", "Uploading search documents...\n");
-                await populationService.PopulateIndexAsync();
+                await populationService.PopulateIndexAsync(cancellationToken);
             }
         }
     }

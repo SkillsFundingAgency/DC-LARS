@@ -5,7 +5,7 @@ import { Page } from "../Enums/Page";
 
 describe('Path specfic breadcrumbs should ignore pages from other paths', () => {
 
-    let storageItem = Object.assign(emptyIStorageItem(), { searchType: SearchType.Standards});
+    const storageItem = Object.assign(emptyIStorageItem(), { searchType: SearchType.Standards});
 
     const sut = new StandardsBreadcrumbStrategy();
 

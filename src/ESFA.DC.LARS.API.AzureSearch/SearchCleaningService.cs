@@ -9,7 +9,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
     {
         private const string SearchEscapeCharacter = @"\";
 
-        private readonly IEnumerable<char> _luceneSpecialCharacters = new HashSet<char> { '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', ';', '/', '`', '<', '>', '#', '%', '@', '=', '\\' };
+        private readonly IEnumerable<char> _luceneSpecialCharacters = new HashSet<char> { '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '?', ':', ';', '/', '`', '<', '>', '#', '%', '@', '=', '\\' };
 
         public string EscapeSearchSpecialCharacters(string term)
         {

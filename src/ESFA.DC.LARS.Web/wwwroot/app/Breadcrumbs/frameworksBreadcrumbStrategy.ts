@@ -9,7 +9,7 @@ export class FrameworksBreadcrumbStrategy implements IBreadcrumbStrategy {
     public build(storageItem: IStorageItem): Array<IBreadcrumb> {
         const linkService = new LinkService();
 
-        let breadcrumbs: Array<IBreadcrumb> = [
+        const breadcrumbs: Array<IBreadcrumb> = [
             { text: "Home", link: "/", page: Page.Home },
             { text: "Search Results", link: linkService.getFrameworksSearchResultsLink(storageItem), page: Page.Results },
             { text: 'Pathways', link: linkService.getFrameworksDetailsLink(storageItem), page: Page.Pathway }
@@ -23,5 +23,5 @@ export class FrameworksBreadcrumbStrategy implements IBreadcrumbStrategy {
         }
 
         return breadcrumbs;
-    };
+    }
 }

@@ -5,8 +5,8 @@ import { breadcrumbStrategyManager } from './breadcrumbStrategyManager';
 
 export class BreadcrumbService {
 
-    private linkTemplate: string = "<li class='govuk-breadcrumbs__list-item'><a class='govuk-breadcrumbs__link' href='{{link}}'>{{title}}</a></li>";
-    private textTemplate: string = "<li class='govuk-breadcrumbs__list-item'>{{title}}</li>";
+    private linkTemplate = "<li class='govuk-breadcrumbs__list-item'><a class='govuk-breadcrumbs__link' href='{{link}}'>{{title}}</a></li>";
+    private textTemplate = "<li class='govuk-breadcrumbs__list-item'>{{title}}</li>";
 
     public buildBreadcrumb(storageItem: IStorageItem): void {
         breadcrumbStrategyManager.setBreadcrumbStrategy(storageItem.searchType);

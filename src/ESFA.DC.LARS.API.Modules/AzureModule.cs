@@ -43,11 +43,23 @@ namespace ESFA.DC.LARS.API.Modules
                 .As<IStandardIndexService>()
                 .SingleInstance();
 
+            builder
+              .Register(c => new TLevelClient(AzureSettings))
+              .As<ITLevelIndexService>()
+              .SingleInstance();
+
+            builder
+                .Register(c => new DownloadsClient(AzureSettings))
+                .As<IDownloadsIndexService>()
+                .SingleInstance();
+
             builder.RegisterType<AzureLearningAimsService>().As<IAzureLearningAimsService>();
             builder.RegisterType<AzureUnitsService>().As<IAzureUnitsService>();
             builder.RegisterType<AzureLookupService>().As<IAzureLookupService>();
             builder.RegisterType<AzureFrameworkService>().As<IAzureFrameworkService>();
             builder.RegisterType<AzureStandardService>().As<IAzureStandardService>();
+            builder.RegisterType<AzureTLevelService>().As<IAzureTLevelService>();
+            builder.RegisterType<AzureDownloadsService>().As<IAzureDownloadsService>();
 
             builder.RegisterType<ODataQueryService>().As<IODataQueryService>();
             builder.RegisterType<AzureService>().As<IAzureService>();
@@ -61,6 +73,7 @@ namespace ESFA.DC.LARS.API.Modules
 
             builder.RegisterType<FrameworkTypeODataFilter>().As<IFrameworkODataFilter>();
             builder.RegisterType<IssuingAuthorityODataFilter>().As<IFrameworkODataFilter>();
+            builder.RegisterType<SectorSubjectAreaTier1Filter>().As<IFrameworkODataFilter>();
 
             builder.RegisterType<StandardSectorCodeODataFilter>().As<IStandardODataFilter>();
             builder.RegisterType<StandardLevelODataFilter>().As<IStandardODataFilter>();
@@ -86,9 +99,12 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureRelatedLearningAimMapper>().As<IMapper<RelatedLearningAimModel, Models.RelatedLearningAimModel>>();
 
             builder.RegisterType<AzureStandardMapper>().As<IMapper<StandardModel, Models.StandardModel>>();
+            builder.RegisterType<AzureSectorSubjectAreaTier1LookupMapper>().As<IMapper<SectorSubjectAreaTier1LookupModel, Models.SectorSubjectAreaTier1LookupModel>>();
             builder.RegisterType<AzureStandardFundingModelMapper>().As<IMapper<StandardFundingModel, Models.StandardFundingModel>>();
             builder.RegisterType<AzureStandardApprenticeshipFundingModelMapper>().As<IMapper<StandardApprenticeshipFundingModel, Models.StandardApprenticeshipFundingModel>>();
             builder.RegisterType<AzureCommonComponentMapper>().As<IMapper<CommonComponentModel, Models.CommonComponentModel>>();
+
+            builder.RegisterType<AzureDownloadDataMapper>().As<IMapper<DownloadDetailsModel, Models.DownloadDetailsModel>>();
         }
     }
 }

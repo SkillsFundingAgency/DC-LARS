@@ -1,43 +1,30 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<StandardSearchModel, StandardModel>
 
-@{
-    var resultsFound = Model?.Results != null && Model.Results.Any();
-}
-
-<hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-@if (!resultsFound)
+@foreach (var standard in Model?.Results)
 {
-    <li>There are no results that match your search. Try changing the filters and searching again.</li>
-}
-else
-{
-    @foreach (var standard in Model.Results)
-    {
-        <li>
-            <h3 class="govuk-!-margin-0">
-                @Html.ActionLink(
-                    standard.StandardName,
-                    "RedirectToDetails",
-                    new { standardCode = standard.StandardCode },
-                    new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19" })
-            </h3>
-            <div class="flex space-between">
-                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                    <span><strong>Code:</strong> @standard.StandardCode</span>
-                    <span><strong>Sector:</strong> @standard.StandardSectorCode - @standard.StandardSectorCodeDesc2</span>
-                </div>
-                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                    <span><strong>Level:</strong> @standard.NotionalEndLevel</span>
-                    <span><strong>Last date for new starts:</strong> @standard.LastDateStarts?.ToDateString()</span>
-                </div>
+    <li>
+        <h3 class="govuk-!-margin-0">
+            @Html.ActionLink(
+                standard.StandardName,
+                "RedirectToDetails",
+                new { standardCode = standard.StandardCode },
+                new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19" })
+        </h3>
+        <div class="flex space-between">
+            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                <span><strong>Code:</strong> @standard.StandardCode</span>
+                <span><strong>Sector:</strong> @standard.StandardSectorCode - @standard.StandardSectorCodeDesc2</span>
             </div>
-            <div class="flex space-between">
-                <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
-                    <span><strong>Effective from:</strong> @standard.EffectiveFrom?.ToDateString()</span>
-                    <span><strong>Effective to:</strong> @standard.EffectiveTo?.ToDateString()</span>
-                </div>
+            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                <span><strong>Level:</strong> @standard.NotionalEndLevel</span>
+                <span><strong>Last date for new starts:</strong> @standard.LastDateStarts?.ToDateString()</span>
             </div>
-        </li>
-    }
+        </div>
+        <div class="flex space-between">
+            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                <span><strong>Effective from:</strong> @standard.EffectiveFrom?.ToDateString()</span>
+                <span><strong>Effective to:</strong> @standard.EffectiveTo?.ToDateString()</span>
+            </div>
+        </div>
+    </li>
 }

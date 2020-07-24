@@ -6,10 +6,10 @@ import { Page } from '../Enums/Page';
 export class DefaultBreadcrumbStrategy implements IBreadcrumbStrategy {
 
     public build(storageItem: IStorageItem): Array<IBreadcrumb> {
-        let breadcrumbs: Array<IBreadcrumb> = [
+        const breadcrumbs: Array<IBreadcrumb> = [
             { text: "Start a new search", link: "/", page: Page.Home },
         ];
 
         return breadcrumbs;
-    };
+    }
 }

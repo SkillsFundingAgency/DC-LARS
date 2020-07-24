@@ -29,12 +29,16 @@ namespace ESFA.DC.LARS.API.AzureSearch.Mappers
                 FrameworkTitle = input.FrameworkTitle,
                 EffectiveFrom = input.EffectiveFrom,
                 EffectiveTo = input.EffectiveTo,
+                SectorSubjectAreaTier1 = input.SectorSubjectAreaTier1,
+                SectorSubjectAreaTier1Desc = input.SectorSubjectAreaTier1Desc,
                 SectorSubjectAreaTier2 = input.SectorSubjectAreaTier2,
                 SectorSubjectAreaTier2Desc = input.SectorSubjectAreaTier2Desc,
                 IssuingAuthority = input.IssuingAuthority,
                 IssuingAuthorityDesc = input.IssuingAuthorityDesc,
                 LearningAims = input.LearningAims?.Select(aim => _frameworkAimMapper.Map(aim)).ToList(),
-                CommonComponents = input.CommonComponents?.Select(cc => _commonComponentMapper.Map(cc)).ToList()
+                CommonComponents = input.CommonComponents?.Select(cc => _commonComponentMapper.Map(cc)).ToList(),
+                IsTLevel = input.IsTLevel,
+                NasTitle = input.NasTitle
             };
         }
     }

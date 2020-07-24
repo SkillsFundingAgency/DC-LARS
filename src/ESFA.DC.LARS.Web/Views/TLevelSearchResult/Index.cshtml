@@ -1,4 +1,4 @@
-﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<TLevelSearchModel, TLevelModel>
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
 @{
     Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
     ViewData["Title"] = "Index";
@@ -7,21 +7,25 @@
 
 @section Filters
 {
+    <noscript id="filtersNoScript">
+        @await Html.PartialAsync("_SearchFilters", Model)
+        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+    </noscript>
+    <filters search-type="TLevels"></filters>
 }
 
 @section Results
 {
-    <p class="govuk-body flex space-between">
-        <span ref="ResultsCount">@Model.Results.Count() results</span>
-    </p>
-
-    <div ref="Results">
-        @await Html.PartialAsync("_SearchResults", Model)
-    </div>
+    @await Html.PartialAsync("_FrameworkSearchResults", Model)
 }
 
 @section PageScripts
 {
+    <filter-template>
+        @await Html.PartialAsync("_SearchFilters", Model)
+    </filter-template>
+
     <script>
         var viewService = new ESFA.ViewService();
         viewService.setupTLevelsResultView("@Model.SearchModel.SearchTerm");

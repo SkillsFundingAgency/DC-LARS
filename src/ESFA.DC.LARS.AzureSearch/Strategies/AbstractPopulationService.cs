@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using ESFA.DC.LARS.AzureSearch.Interfaces;
 using Microsoft.Azure.Search;
 using Index = Microsoft.Azure.Search.Models.Index;
@@ -8,7 +10,10 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
     public abstract class AbstractPopulationService<T> : IIndexPopulationService
     {
         protected const string UnitLearnAimRefType = "1448";
+        protected const int TransitionProgType = 30;
+        protected const int TLevelProgType = 31;
 
+        protected readonly List<int> _tlevelProgTypes = new List<int> { TransitionProgType, TLevelProgType };
         protected readonly IPopulationConfiguration _populationConfiguration;
         private readonly ISearchServiceClient _searchServiceClient;
 
@@ -20,7 +25,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected abstract string IndexName { get; }
 
-        public abstract Task PopulateIndexAsync();
+        public abstract Task PopulateIndexAsync(CancellationToken cancellationToken);
 
         public void CreateIndex()
         {

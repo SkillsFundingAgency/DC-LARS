@@ -13,7 +13,7 @@ export class FilterStoreService {
         this._filterStoreStrategy = filterStoreStrategyManager.getFilterStoreStrategy(searchType);
     }
 
-    public watchFilters(callback: Function, immediate: boolean, deep: boolean): void {
+    public watchFilters(callback: () => void, immediate: boolean, deep: boolean): void {
         this._filterStoreStrategy.watchFilters(callback, immediate, deep);
     }
 

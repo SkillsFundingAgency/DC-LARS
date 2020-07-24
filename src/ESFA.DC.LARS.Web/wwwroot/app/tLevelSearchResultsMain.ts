@@ -4,28 +4,28 @@ import FilterFeedback from './Components/filterFeedback.vue';
 import { SearchType } from './Enums/SearchType';
 import AbstractSearchResultsComponent from './abstractSearchResultsComponent';
 import { tlevelSearchService } from './Services/tlevelSearchService';
+import { ISearchResults } from './Interfaces/ISearchResults';
 
 @Component({
-    el: "#resultsApp",
     components: {
         'filter-feedback': FilterFeedback,
         'filters': Filters
     }
 })
-class ResultsApp extends AbstractSearchResultsComponent {
+class TLevelSearchResults extends AbstractSearchResultsComponent {
 
-    mounted() {
+    mounted(): void {
         this.intialise();
     }
 
-    async getDataAsync() {
+    async getDataAsync(): Promise<ISearchResults> {
         return await tlevelSearchService.getResultsAsync(this.filterStoreService.getSavedFilters(), this.searchTerm);
-    };
+    }
 
     getSearchType(): SearchType {
         return SearchType.TLevels;
     }
 }
 
-const vue = new ResultsApp();
+new TLevelSearchResults().$mount('#resultsApp');
 

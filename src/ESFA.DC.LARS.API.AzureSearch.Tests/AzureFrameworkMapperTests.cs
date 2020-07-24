@@ -22,8 +22,10 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 FrameworkTitle = "testtitle",
                 EffectiveFrom = new DateTime(2020, 1, 1),
                 EffectiveTo = new DateTime(2022, 1, 1),
-                SectorSubjectAreaTier2 = "-1",
-                SectorSubjectAreaTier2Desc = "testdesc",
+                SectorSubjectAreaTier1 = "-1",
+                SectorSubjectAreaTier1Desc = "testdesc1",
+                SectorSubjectAreaTier2 = "-2",
+                SectorSubjectAreaTier2Desc = "testdesc2",
                 IssuingAuthority = "1",
                 IssuingAuthorityDesc = "testauthdesc"
             };
@@ -41,6 +43,8 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             result.FrameworkTitle.Should().Be(model.FrameworkTitle);
             result.EffectiveFrom.Should().Be(model.EffectiveFrom);
             result.EffectiveTo.Should().Be(model.EffectiveTo);
+            result.SectorSubjectAreaTier1.Should().Be(model.SectorSubjectAreaTier1);
+            result.SectorSubjectAreaTier1Desc.Should().Be(model.SectorSubjectAreaTier1Desc);
             result.SectorSubjectAreaTier2.Should().Be(model.SectorSubjectAreaTier2);
             result.SectorSubjectAreaTier2Desc.Should().Be(model.SectorSubjectAreaTier2Desc);
             result.IssuingAuthority.Should().Be(model.IssuingAuthority);

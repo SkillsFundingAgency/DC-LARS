@@ -9,6 +9,7 @@
     import StorageService from '../Services/storageService';
     import FilterHistoryService from '../Services/filterHistoryService';
     import { constants } from '../constants';
+    import { debounce } from 'vue-debounce';
 
     @Component({
         template: "#filtersTemplate"
@@ -32,6 +33,7 @@
             accordionService.initialiseAccordion();
             this.syncFiltersAndUpdateDisplay();
             this.currentDisplayFilters = this.savedfilters;
+            this.setFilterTextVisible();
             this.filterStoreService.watchFilters(() => this.updateDisplay(this.savedfilters, this.currentDisplayFilters), false, true);
         }
 
@@ -44,6 +46,29 @@
             this.storageService.clearFilters(constants.storageKey);
             this.updateDisplay(this.savedfilters, this.currentDisplayFilters);
             this.currentDisplayFilters = [];
+        }
+
+        public filterItems(event: Event): void {
+            debounce(() => { 
+                const target = event.target as HTMLInputElement;
+                const container = target.closest(".filter-section");
+                const filterItems = container?.getElementsByClassName("filter-item");
+
+                if (filterItems) {
+                    const textToFilterBy = target?.value.toUpperCase();
+
+                    for (let i = 0; i < filterItems.length; i++) {
+                        const label = filterItems[i].getElementsByTagName("label")[0];
+
+                        if (label.innerText.toUpperCase().indexOf(textToFilterBy) > -1) {
+                            (filterItems[i] as HTMLElement).style.display = '';
+                        } else {
+                            (filterItems[i] as HTMLElement).style.display = "none";
+                        }
+                    }
+                }
+            }, constants.filterDebounceTime)();
+
         }
 
         public updateCheckboxFilter(key: string, value: string, isChecked: boolean, type: FilterType): void {
@@ -90,6 +115,13 @@
             this.setFilterDisplay(removedFilters, false);
         }
 
+        private setFilterTextVisible(): void {
+            var filterTextContainers = document.getElementsByClassName("filter-text-container");
+            for (let i = 0; i < filterTextContainers.length; i++) {
+                (filterTextContainers[i] as HTMLElement).style.display = '';
+            }
+        }
+
         private setFilterDisplay(filters: Array<IFilterItem> = [], isAdded: boolean): void {
             const classScope = this;
 
@@ -129,12 +161,12 @@
         private syncFiltersAndUpdateDisplay(): void {
             const storageItem = this.storageService.retrieve(constants.storageKey);
 
-            // Check if storage filters and filters used to render page are the same. 
-            //  If not (can happen on f5 refresh) then refresh results.
+            // Check if current clientside filters and server filters used to render page are the same. 
+            // If not (can happen on f5 refresh) then refresh results with client filters.
             storageItem.hasFilterMismatch = this.filterHistoryService.hasMismatchedFilters();
 
             if (storageItem.hasFilterMismatch) {
-                this.updateDisplay(storageItem.filters, this.filterHistoryService.serverFilters);
+                this.updateDisplay(storageItem.filters, storageItem.serverFilters);
             }
 
             const distinctTypes = [...new Set(storageItem.filters.map(sf => sf.type))];

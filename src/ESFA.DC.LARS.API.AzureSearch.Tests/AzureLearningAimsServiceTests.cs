@@ -6,7 +6,6 @@ using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
 using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.API.Models;
-using ESFA.DC.Telemetry.Interfaces;
 using FluentAssertions;
 using Microsoft.Azure.Search.Models;
 using Moq;
@@ -45,8 +44,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 null,
                 SearchContinuationToken.CreateTestToken("foo"));
 
-            var telemetryMock = new Mock<ITelemetry>();
-
             var mapperMock = new Mock<IMapper<LearningAimModel, Models.LearningAimModel>>();
             mapperMock.Setup(m => m.Map(azureLearningAim)).Returns(apiLearningAim);
 
@@ -60,13 +57,12 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var queryServiceMock = new Mock<IODataQueryService>();
 
             var service = new AzureLearningAimsService(
-                telemetryMock.Object,
                 mapperMock.Object,
                 indexServiceMock.Object,
                 queryServiceMock.Object,
                 azureServiceMock.Object);
 
-            var result = await service.GetLarsLearningDeliveries(searchModel);
+            var result = (await service.GetLarsLearningDeliveries(searchModel)).ToList();
 
             azureServiceMock.Verify(m => m.SearchIndexAsync<LearningAimModel>(indexServiceMock.Object, learnAimRef, It.IsAny<SearchParameters>()), Times.Once);
 
@@ -82,8 +78,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var azureLearningAim = new LearningAimModel();
             var apiLearningAim = new Models.LearningAimModel();
 
-            var telemetryMock = new Mock<ITelemetry>();
-
             var mapperMock = new Mock<IMapper<LearningAimModel, Models.LearningAimModel>>();
             mapperMock.Setup(m => m.Map(azureLearningAim)).Returns(apiLearningAim);
 
@@ -97,7 +91,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var queryServiceMock = new Mock<IODataQueryService>();
 
             var service = new AzureLearningAimsService(
-                telemetryMock.Object,
                 mapperMock.Object,
                 indexServiceMock.Object,
                 queryServiceMock.Object,

@@ -2,7 +2,6 @@
 import { SearchType } from './Enums/SearchType';
 import { ResultsHelper } from './Helpers/resultsHelper';
 import LinkService from './Services/LinkService';
-import { IFilterItem } from "./Interfaces/IFilterItem";
 import { ISearchResults } from "./Interfaces/ISearchResults";
 import { FilterStoreService } from "./Services/filterStoreService";
 import { constants } from './constants';
@@ -12,14 +11,14 @@ import { IStorageItem } from "./Interfaces/IStorageItem";
 
 export default abstract class AbstractSearchResultsComponent extends Vue {
 
-    abstract async getDataAsync(filters: Array<IFilterItem>): Promise<ISearchResults>;
+    abstract async getDataAsync(): Promise<ISearchResults>;
     abstract getSearchType(): SearchType;
 
     private linkService: LinkService;
     private storageService: StorageService;
     protected filterStoreService: FilterStoreService;
     private resultsHelper!: ResultsHelper;
-    private latestRequestId: number = 0;
+    private latestRequestId = 0;
 
     constructor() {
         super();
@@ -35,7 +34,7 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
 
     public get searchTerm(): string {
         return (<HTMLInputElement>document.getElementById("autocomplete-overlay"))?.value;
-    };
+    }
 
     public learningTypeChanged(searchType: SearchType): void {
         const storageItem = this.getStorageItem();
@@ -49,7 +48,7 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
     public search(event: Event): void {
         event.preventDefault();
         this.resultsHelper.setIsLoading();
-        this.refreshResultsAsync(this.getDataAsync);
+        this.refreshResults();
         this.storageService.store(constants.storageKey, Object.assign(this.getStorageItem(), {searchTerm: this.searchTerm}));
     }
 
@@ -58,30 +57,28 @@ export default abstract class AbstractSearchResultsComponent extends Vue {
         this.filterStoreService.watchFilters(this.getFilterChangeCallback(), needsClientSideRefresh, true);
     }
 
-    private getFilterChangeCallback(): Function {
-        const debouncedCallback = debounce(async () => { await this.refreshResultsAsync(this.getDataAsync) }, constants.debounceTime);
-        const classScope = this;
+    private getFilterChangeCallback(): () => void {
+        const debouncedCallback = debounce(() => { this.refreshResults() }, constants.debounceTime);
 
-        return function () {
-            classScope.resultsHelper.setIsLoading();
+        return() => {
+            this.resultsHelper.setIsLoading();
             debouncedCallback();
         }
     }
 
     private getStorageItem(): IStorageItem  {
         return this.storageService.retrieve(constants.storageKey) as IStorageItem
-    };
+    }
 
-    private async refreshResultsAsync(getDataAsync: Function) {
+    private refreshResults() {
         this.latestRequestId++;
-        const classScope = this;
-        const getResults = async function (requestId: number) {
-            const response = await getDataAsync();
+
+        (async (requestId: number) => {
+            const response = await this.getDataAsync();
             // Only update results if no subsequent requests have been made.
-            if (requestId === classScope.latestRequestId) {
-                classScope.resultsHelper.updateForResponse(response);
+            if (requestId === this.latestRequestId) {
+                this.resultsHelper.updateForResponse(response);
             }
-        };
-        await getResults(this.latestRequestId);
+        })(this.latestRequestId);
     }
 }

@@ -25,6 +25,10 @@ namespace ESFA.DC.LARS.Web.Models
 
         public DateTime? EffectiveTo { get; set; }
 
+        public string SectorSubjectAreaTier1 { get; set; }
+
+        public string SectorSubjectAreaTier1Desc { get; set; }
+
         public string SectorSubjectAreaTier2 { get; set; }
 
         public string SectorSubjectAreaTier2Desc { get; set; }
@@ -32,5 +36,9 @@ namespace ESFA.DC.LARS.Web.Models
         public List<RelatedLearningAimModel> LearningAims { get; set; }
 
         public List<CommonComponentModel> CommonComponents { get; set; }
+
+        public bool IsTLevel { get; set; }
+
+        public string NasTitle { get; set; }
     }
 }

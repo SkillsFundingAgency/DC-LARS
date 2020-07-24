@@ -3,6 +3,8 @@ import qs from 'qs';
 import { IFilterItem } from '../Interfaces/IFilterItem';
 import { ISearchResults } from '../Interfaces/ISearchResults';
 import { ITLevelSearchRequest } from '../Interfaces/ITLevelSearchRequest';
+import { filterService } from '../Services/filterService';
+import { FilterType } from '../Enums/FilterType';
 
 class TLevelSearchService {
 
@@ -16,6 +18,8 @@ class TLevelSearchService {
 	private createRequest(filters: Array<IFilterItem>, searchTerm: string): ITLevelSearchRequest {
 		const request: ITLevelSearchRequest = {
 			searchTerm: searchTerm,
+			frameworkTypes: filterService.filterValuesForType(filters, FilterType.FrameworkTypes),
+			sectorSubjectAreaTier1s: filterService.filterValuesForType(filters, FilterType.SectorSubjectAreaTier1s)
 		};
 
 		return request;

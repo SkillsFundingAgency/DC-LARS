@@ -20,7 +20,6 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
         [InlineData('^')]
         [InlineData('"')]
         [InlineData('~')]
-        [InlineData('*')]
         [InlineData('?')]
         [InlineData(':')]
         [InlineData(';')]

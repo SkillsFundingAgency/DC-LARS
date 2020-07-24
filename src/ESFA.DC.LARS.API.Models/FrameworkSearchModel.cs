@@ -9,5 +9,7 @@ namespace ESFA.DC.LARS.API.Models
         public List<string> FrameworkTypes { get; set; }
 
         public List<string> IssuingAuthorities { get; set; }
+
+        public List<string> SectorSubjectAreaTier1s { get; set; }
     }
 }

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<DownloadDetailsModel>
+
+@{
+    var latestVersion = Model?.Where(m => m.Version == Model.Max(mm => mm.Version)).ToList();
+    var olderVersion = Model?.Where(m => m.Version == Model.Min(mm => mm.Version)).ToList();
+}
+
+<div class="govuk-grid-column-full">
+    <div class="govuk-breadcrumbs">
+        <ol id="breadCrumbs" class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="/">Home</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">Downloads</li>
+        </ol>
+    </div>
+
+
+    <h1 class="govuk-heading-xl">
+        Downloads
+    </h1>
+
+    @await Html.PartialAsync("_DataDownload", latestVersion)
+
+    @await Html.PartialAsync("_DataDownload", olderVersion)
+
+</div>

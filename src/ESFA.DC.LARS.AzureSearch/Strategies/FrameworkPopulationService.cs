@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.LARS.Azure.Models;
 using ESFA.DC.LARS.AzureSearch.Extensions;
@@ -40,7 +41,12 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
 
         protected override string IndexName => _populationConfiguration.FrameworkIndexName;
 
-        public async override Task PopulateIndexAsync()
+        public async override Task PopulateIndexAsync(CancellationToken cancellationToken)
+        {
+            await PopulateIndexAsync(true);
+        }
+
+        public async Task PopulateIndexAsync(bool isFramework)
         {
             var indexClient = GetIndexClient();
 
@@ -54,7 +60,18 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                 var commonComponentLookups = await _commonComponentLookupService.GetCommonComponentLookupsAsync(context);
                 var relatedLearningAims = await _relatedLearningAimsService.GetFrameworkRelatedLearningAims(context);
 
-                frameworks = await context.LarsFrameworks
+                var frameworksQueryable = context.LarsFrameworks.AsQueryable();
+
+                if (isFramework)
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => !_tlevelProgTypes.Contains(f.ProgType));
+                }
+                else
+                {
+                    frameworksQueryable = frameworksQueryable.Where(f => _tlevelProgTypes.Contains(f.ProgType));
+                }
+
+                frameworks = await frameworksQueryable
                     .Select(fr => new FrameworkModel
                     {
                         // azure search index must have 1 key field.  Please ensure pattern here is the same as used in common components
@@ -69,10 +86,14 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         FrameworkTitle = fr.IssuingAuthorityTitle,
                         EffectiveFrom = fr.EffectiveFrom,
                         EffectiveTo = fr.EffectiveTo,
+                        SectorSubjectAreaTier1 = fr.SectorSubjectAreaTier1.ToString(), // decimal not supported by azure
+                        SectorSubjectAreaTier1Desc = fr.SectorSubjectAreaTier1Navigation.SectorSubjectAreaTier1Desc,
                         SectorSubjectAreaTier2 = fr.SectorSubjectAreaTier2.ToString(), // decimal not supported by azure
                         SectorSubjectAreaTier2Desc = fr.SectorSubjectAreaTier2Navigation.SectorSubjectAreaTier2Desc,
                         IssuingAuthority = fr.IssuingAuthority,
                         IssuingAuthorityDesc = issuingAuthorities[fr.IssuingAuthority],
+                        IsTLevel = !isFramework,
+                        NasTitle = fr.Nastitle
                     }).ToListAsync();
 
                 foreach (var framework in frameworks)
