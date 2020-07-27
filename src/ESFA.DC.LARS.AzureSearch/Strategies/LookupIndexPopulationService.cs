@@ -68,7 +68,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                         {
                             IsCurrentAcademicYear = _academicYearService.IsCurrentAcademicYear(ay),
                             AcademicYear = ay.AcademicYear,
-                            AcademicYearDesc = ay.AcademicYearDesc
+                            AcademicYearDesc = _academicYearService.FormatDescription(ay.AcademicYearDesc)
                         }).ToList(),
                     AwardingBodyLookups = await context.LarsAwardOrgCodeLookups
                         .Select(ab => new AwardingBodyLookupModel

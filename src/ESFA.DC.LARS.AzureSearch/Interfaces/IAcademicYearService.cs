@@ -8,5 +8,7 @@ namespace ESFA.DC.LARS.AzureSearch.Interfaces
         bool IsCurrentAcademicYear(LarsAcademicYearLookup year);
 
         IEnumerable<LarsAcademicYearLookup> GetAcademicYears(LarsContext larsContext);
+
+        string FormatDescription(string description);
     }
 }
