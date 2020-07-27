@@ -9,6 +9,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
     public class AcademicYearService : IAcademicYearService
     {
         private const int FirstYear = 1516;
+        private const string YearSeperator = " to ";
 
         private readonly IDateTimeProvider _dateTimeProvider;
 
@@ -49,5 +50,16 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 
             return currentDate >= year.StartDate && currentDate <= year.EndDate;
         }
-    }
+
+        public string FormatDescription(string description)
+        {
+            if (!string.IsNullOrWhiteSpace(description)
+                && description.Contains("/"))
+            {
+                return description.Replace("/", YearSeperator);
+            }
+
+            return description;
+        }
+   }
 }
