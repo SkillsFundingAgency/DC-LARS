@@ -22,13 +22,13 @@ namespace ESFA.DC.LARS.AzureSearch.Tests
         [InlineData("19-20", "19-20")]
         [InlineData(null, null)]
         [InlineData("", "")]
-        public void FormatDescription_ShouldFormatDatesWithSlashes(string description, string formatedDescription) 
+        public void FormatDescription_ShouldFormatDatesWithSlashes(string description, string formattedDescription) 
         {
             // Act
             var result = _sut.FormatDescription(description);
 
             //Assert
-            Assert.Equal(formatedDescription, result);
+            Assert.Equal(formattedDescription, result);
         }
     }
 }
