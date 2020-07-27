@@ -13,8 +13,12 @@
     @await Html.PartialAsync("_Header")
 
     <div class="govuk-width-container">
-
         @await Html.PartialAsync("_Banner")
+    </div>
+
+    @await RenderSectionAsync("PageHeader", false)
+
+    <div class="govuk-width-container">
 
         <main class="govuk-main-wrapper" id="content" role="main">
             @*@await Html.PartialAsync("_Navigation")*@
@@ -45,6 +49,6 @@
         window.GOVUKFrontend.initAll()
     </script>
 
-    @RenderSection("PageScripts", required: false)
+    @await RenderSectionAsync("PageScripts", required: false)
 </body>
 </html>
