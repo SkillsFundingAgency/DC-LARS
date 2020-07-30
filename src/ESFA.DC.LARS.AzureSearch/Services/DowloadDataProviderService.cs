@@ -59,7 +59,7 @@ namespace ESFA.DC.LARS.AzureSearch.Services
                 Version = version.MajorNumber.ToString(),
                 Type = type,
                 ApplicableFrom = version.ActivationDate,
-                DateUploaded = version.ActivationDate, // TODO replace with new date when schema updated
+                DateUploaded = version.DateUploaded,
                 DownloadLink = $"published/{formattedVersion}/LearningDelivery_V{formattedVersion}_{type}.Zip"
             };
             return csv;
