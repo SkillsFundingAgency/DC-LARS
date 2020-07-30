@@ -12,7 +12,7 @@ namespace ESFA.DC.LARS.API.Models
 
         public DateTime ApplicableFrom { get; set; }
 
-        public DateTime DateUploaded { get; set; }
+        public DateTime? DateUploaded { get; set; }
 
         public string DownloadLink { get; set; }
     }
