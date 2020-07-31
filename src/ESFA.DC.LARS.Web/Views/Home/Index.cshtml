@@ -46,7 +46,7 @@
                         <select class="govuk-select full-width" id="searchType" name="searchType" asp-for="@Model.SearchType" asp-items="Html.GetEnumSelectList<LearningType>()" onchange="learningTypeChanged();">
                         </select>
                     </div>
-                    <div class="govuk-form-group flex-1">
+                    <div class="govuk-form-group flex-1" id="academicYear">
                         <label class="govuk-label" for="TeachingYear">
                             Academic Year
                         </label>
@@ -98,7 +98,6 @@
     <div class="govuk-grid-column-one-third">&nbsp;</div>
 </div>
 
-
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <validation-errors errors="@Model.ValidationErrors"></validation-errors>
@@ -112,7 +111,7 @@
         function learningTypeChanged() {
             var selected = document.getElementById('searchType').value;
             var academicYear = document.getElementById('academicYear');
-            if (selected === 0 || selected === 2) {
+            if (selected === "0" || selected === "2") {
                 // Hide the academic year dropdown the the learning type is not Qualification or Unit
                 academicYear.style.visibility = 'visible';
             } else {
