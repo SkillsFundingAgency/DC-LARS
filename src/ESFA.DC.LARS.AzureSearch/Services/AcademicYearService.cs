@@ -22,8 +22,8 @@ namespace ESFA.DC.LARS.AzureSearch.Services
         {
             var academicYears = larsContext.LarsAcademicYearLookups.ToList();
 
-            var nextYear = _dateTimeProvider.GetNowUtc().AddYears(1);
-            var nextAcademicYear = academicYears.Single(ay => ay.StartDate <= nextYear && ay.EndDate >= nextYear);
+            var nextYear = _dateTimeProvider.GetNowUtc().AddYears(1).Date;
+            var nextAcademicYear = academicYears.Single(ay => ay.StartDate.Date <= nextYear && ay.EndDate.Date >= nextYear);
 
             return academicYears
                 .Where(ay =>
@@ -46,9 +46,9 @@ namespace ESFA.DC.LARS.AzureSearch.Services
 
         public bool IsCurrentAcademicYear(LarsAcademicYearLookup year)
         {
-            var currentDate = _dateTimeProvider.GetNowUtc();
+            var currentDate = _dateTimeProvider.GetNowUtc().Date;
 
-            return currentDate >= year.StartDate && currentDate <= year.EndDate;
+            return currentDate >= year.StartDate.Date && currentDate <= year.EndDate.Date;
         }
 
         public string FormatDescription(string description)
