@@ -41,6 +41,12 @@
                     </div>
                 }
             </div>
-        }
+
+            <div render-if="validities.Count() > 1 || (validities.Count() == 1 && validities.First().LastNewStartDate.HasValue)"
+                 class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                <span><strong>Last date for new start:</strong> @(validities.Count() == 1 ? validities.First().LastNewStartDate?.ToDateString() : "Varies - see listing for dates")</span>
+            </div>
+            
+         }
     </li>
 }

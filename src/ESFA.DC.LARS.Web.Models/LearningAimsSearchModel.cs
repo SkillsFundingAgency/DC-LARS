@@ -21,8 +21,6 @@ namespace ESFA.DC.LARS.Web.Models
 
         public List<string> FundingStreams { get; set; }
 
-        public DateTime? LastDataForNewStarters { get; set; }
-
         public override LearningType? SearchType { get; set; }
 
         //////Used by Application Insight Customer Filter to capture values passed in.
