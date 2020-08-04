@@ -17,8 +17,6 @@ namespace ESFA.DC.LARS.API.Models
 
         public List<string> FundingStreams { get; set; }
 
-        public DateTime? LastDataForNewStarters { get; set; }
-
         //////Used by Application Insight Customer Filter to capture values passed in.
         public override string ToString()
         {
