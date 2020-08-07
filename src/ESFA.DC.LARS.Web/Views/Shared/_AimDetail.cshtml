@@ -52,7 +52,7 @@
 
             <div class="govuk-form-group" render-if="Model.AcademicYearsForLearningAim.Any()">
                 <label class="govuk-label" for="academicYear">
-                    Teaching year
+                    Academic year
                 </label>
                 @using (Html.BeginForm("ChangeAcademicYear", Model.FormController, FormMethod.Post, new { @id = "academicYearForm", @class = "govuk-form-group" }))
                 {
