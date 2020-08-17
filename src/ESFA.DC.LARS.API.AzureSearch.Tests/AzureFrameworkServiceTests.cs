@@ -48,13 +48,15 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .ReturnsAsync(azureFramework);
 
             var queryServiceMock = new Mock<IODataQueryService>();
+            var searchTermFormattingServiceMock = new Mock<ISearchTermFormattingService>();
 
             var service = new AzureFrameworkService(
                 telemetryMock.Object,
                 indexServiceMock.Object,
                 mapperMock.Object,
                 azureServiceMock.Object,
-                queryServiceMock.Object);
+                queryServiceMock.Object,
+                searchTermFormattingServiceMock.Object);
 
             var result = await service.GetFramework(frameworkCode, programType, pathwayCode);
 

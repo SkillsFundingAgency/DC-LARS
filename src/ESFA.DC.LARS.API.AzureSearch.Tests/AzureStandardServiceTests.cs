@@ -43,12 +43,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .ReturnsAsync(azureStandard);
 
             var queryServiceMock = new Mock<IODataQueryService>();
+            var searchTermFormattingServiceMock = new Mock<ISearchTermFormattingService>();
 
             var service = new AzureStandardService(
                 indexServiceMock.Object,
                 mapperMock.Object,
                 azureServiceMock.Object,
-                queryServiceMock.Object);
+                queryServiceMock.Object,
+                searchTermFormattingServiceMock.Object);
 
             var result = await service.GetStandard(standardCode);
 

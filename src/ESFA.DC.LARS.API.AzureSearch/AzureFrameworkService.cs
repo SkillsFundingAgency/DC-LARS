@@ -25,7 +25,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IFrameworkIndexService frameworkIndexService,
             IMapper<FrameworkModel, Models.FrameworkModel> mapper,
             IAzureService azureService,
-            IODataQueryService oDataQueryService)
+            IODataQueryService oDataQueryService,
+            ISearchTermFormattingService searchTermFormattingService)
+            : base(searchTermFormattingService)
         {
             _telemetry = telemetry;
             _frameworkIndexService = frameworkIndexService;
@@ -40,11 +42,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
             SetFilters(searchModel, parameters);
 
-            var searchTerm = string.Empty;
-            if (!string.IsNullOrEmpty(searchModel.SearchTerm))
-            {
-                searchTerm = $"{searchModel.SearchTerm}";
-            }
+            var searchTerm = FormatSearchTerm(searchModel.SearchTerm);
 
             IEnumerable<Models.FrameworkModel> frameworks;
             frameworks = await SearchIndex(searchTerm, parameters);

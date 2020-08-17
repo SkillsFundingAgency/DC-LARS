@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ESFA.DC.LARS.API.Interfaces;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using DownloadDetailsModel = ESFA.DC.LARS.Azure.Models.DownloadDetailsModel;
 
 namespace ESFA.DC.LARS.API.AzureSearch
@@ -18,7 +19,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
         public AzureDownloadsService(
             IAzureService azureService,
             IMapper<DownloadDetailsModel, Models.DownloadDetailsModel> mapper,
-            IDownloadsIndexService downloadsIndexService)
+            IDownloadsIndexService downloadsIndexService,
+            ISearchTermFormattingService searchTermFormattingService)
+            : base(searchTermFormattingService)
         {
             _azureService = azureService;
             _mapper = mapper;
