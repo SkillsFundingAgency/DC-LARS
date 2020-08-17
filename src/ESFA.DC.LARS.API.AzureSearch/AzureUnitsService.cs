@@ -12,8 +12,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IMapper<LearningAimModel, Models.LearningAimModel> mapper,
             IUnitIndexService unitIndex,
             IODataQueryService oDataQueryService,
-            IAzureService azureService)
-            : base(mapper, unitIndex, oDataQueryService, azureService)
+            IAzureService azureService,
+            ISearchTermFormattingService searchTermFormattingService)
+            : base(mapper, unitIndex, oDataQueryService, azureService, searchTermFormattingService)
         {
         }
     }

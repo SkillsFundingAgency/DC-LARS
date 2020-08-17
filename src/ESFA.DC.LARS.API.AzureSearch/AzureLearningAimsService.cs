@@ -22,7 +22,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IMapper<LearningAimModel, Models.LearningAimModel> mapper,
             ILearningDeliveryIndexService learningDeliveryIndex,
             IODataQueryService oDataQueryService,
-            IAzureService azureService)
+            IAzureService azureService,
+            ISearchTermFormattingService searchTermFormattingService)
+            : base(searchTermFormattingService)
         {
             _mapper = mapper;
             _learningDeliveryIndex = learningDeliveryIndex;
@@ -36,11 +38,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
             SetFilters(searchModel, parameters);
 
-            var searchTerm = string.Empty;
-            if (!string.IsNullOrEmpty(searchModel.SearchTerm))
-            {
-                searchTerm = $"{searchModel.SearchTerm}";
-            }
+            var searchTerm = FormatSearchTerm(searchModel.SearchTerm);
 
             IEnumerable<Models.LearningAimModel> learningAims;
 

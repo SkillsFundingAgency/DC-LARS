@@ -22,7 +22,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IStandardIndexService standardIndexService,
             IMapper<StandardModel, Models.StandardModel> mapper,
             IAzureService azureService,
-            IODataQueryService oDataQueryService)
+            IODataQueryService oDataQueryService,
+            ISearchTermFormattingService searchTermFormattingService)
+            : base(searchTermFormattingService)
         {
             _standardIndexService = standardIndexService;
             _mapper = mapper;
@@ -36,11 +38,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
 
             SetFilters(searchModel, parameters);
 
-            var searchTerm = string.Empty;
-            if (!string.IsNullOrEmpty(searchModel.SearchTerm))
-            {
-                searchTerm = $"{searchModel.SearchTerm}";
-            }
+            var searchTerm = FormatSearchTerm(searchModel.SearchTerm);
 
             IEnumerable<Models.StandardModel> standards;
             standards = await SearchIndex(searchTerm, parameters);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ESFA.DC.LARS.API.AzureSearch.Mappers;
 using ESFA.DC.LARS.API.Interfaces.AzureSearch;
 using ESFA.DC.LARS.API.Interfaces.IndexServices;
+using ESFA.DC.LARS.API.Interfaces.Services;
 using ESFA.DC.LARS.Azure.Models;
 using FluentAssertions;
 using Microsoft.Azure.Search.Models;
@@ -30,12 +31,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var clientMock = new Mock<IDownloadsIndexService>();
 
             var azureServiceMock = new Mock<IAzureService>();
+            var searchTermFormattingServiceMock = new Mock<ISearchTermFormattingService>();
+
             azureServiceMock
                 .Setup(m => m.SearchIndexAsync<DownloadDetailsModel>(clientMock.Object, key, It.IsAny<SearchParameters>()))
                 .ReturnsAsync(searchResult);
 
             var mapper = new AzureDownloadDataMapper();
-            var service = new AzureDownloadsService(azureServiceMock.Object, mapper, clientMock.Object);
+            var service = new AzureDownloadsService(azureServiceMock.Object, mapper, clientMock.Object, searchTermFormattingServiceMock.Object);
 
             var result = (await service.GetDownloadDetails(key)).ToList();
 

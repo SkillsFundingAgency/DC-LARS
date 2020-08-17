@@ -55,12 +55,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .ReturnsAsync(searchResult);
 
             var queryServiceMock = new Mock<IODataQueryService>();
+            var searchTermFormattingServiceMock = new Mock<ISearchTermFormattingService>();
 
             var service = new AzureLearningAimsService(
                 mapperMock.Object,
                 indexServiceMock.Object,
                 queryServiceMock.Object,
-                azureServiceMock.Object);
+                azureServiceMock.Object,
+                searchTermFormattingServiceMock.Object);
 
             var result = (await service.GetLarsLearningDeliveries(searchModel)).ToList();
 
@@ -89,12 +91,14 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
                 .ReturnsAsync(azureLearningAim);
 
             var queryServiceMock = new Mock<IODataQueryService>();
+            var searchTermFormattingServiceMock = new Mock<ISearchTermFormattingService>();
 
             var service = new AzureLearningAimsService(
                 mapperMock.Object,
                 indexServiceMock.Object,
                 queryServiceMock.Object,
-                azureServiceMock.Object);
+                azureServiceMock.Object,
+                searchTermFormattingServiceMock.Object);
 
             var result = await service.GetLarsLearningAim(learnAimRef);
 

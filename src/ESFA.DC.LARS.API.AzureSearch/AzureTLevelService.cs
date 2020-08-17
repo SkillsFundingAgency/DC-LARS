@@ -14,8 +14,9 @@ namespace ESFA.DC.LARS.API.AzureSearch
             IMapper<FrameworkModel, Models.FrameworkModel> mapper,
             ITLevelIndexService tlevelIndex,
             IODataQueryService oDataQueryService,
-            IAzureService azureService)
-            : base(telemetryClient, tlevelIndex, mapper, azureService, oDataQueryService)
+            IAzureService azureService,
+            ISearchTermFormattingService searchTermFormattingService)
+            : base(telemetryClient, tlevelIndex, mapper, azureService, oDataQueryService, searchTermFormattingService)
         {
         }
     }

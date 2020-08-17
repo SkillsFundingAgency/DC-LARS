@@ -65,6 +65,7 @@ namespace ESFA.DC.LARS.API.Modules
             builder.RegisterType<AzureService>().As<IAzureService>();
 
             builder.RegisterType<SearchCleaningService>().As<ISearchCleaningService>();
+            builder.RegisterType<AzureSearchTermFormattingService>().As<ISearchTermFormattingService>();
 
             builder.RegisterType<LevelODataFilter>().As<ILearningAimsODataFilter>();
             builder.RegisterType<AwardingBodyODataFilter>().As<ILearningAimsODataFilter>();
