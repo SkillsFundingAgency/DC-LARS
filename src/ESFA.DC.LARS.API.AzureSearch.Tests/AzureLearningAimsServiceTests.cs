@@ -57,6 +57,10 @@ namespace ESFA.DC.LARS.API.AzureSearch.Tests
             var queryServiceMock = new Mock<IODataQueryService>();
             var searchTermFormattingServiceMock = new Mock<ISearchTermFormattingService>();
 
+            searchTermFormattingServiceMock
+                    .Setup(f => f.FormatSearchTerm(learnAimRef))
+                    .Returns(learnAimRef);
+
             var service = new AzureLearningAimsService(
                 mapperMock.Object,
                 indexServiceMock.Object,
