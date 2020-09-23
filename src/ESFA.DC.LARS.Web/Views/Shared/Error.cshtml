@@ -1,22 +1,20 @@
-﻿@model ESFA.DC.LARS.Web.Models.ErrorViewModel
-@{
-    ViewData["Title"] = "Error";
-}
-
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
-
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>Development environment should not be enabled in deployed applications</strong>, as it can result in sensitive information from exceptions being displayed to end users. For local debugging, development environment can be enabled by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>, and restarting the application.
-</p>
+﻿<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Sorry, there’s a problem with the service</h1>
+        <p class="govuk-body">Try again later.</p>
+        <p class="govuk-body">If you continue to have problems, contact the ESFA Service Desk for help and support.</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <aside class="app-related-items" role="complementary">
+            <h2 class="govuk-heading-m" id="subsection-title">
+                Help and support
+            </h2>
+            <h3 class="govuk-heading-s">ESFA support desk</h3>
+            <p class="govuk-body">
+                Telephone: 0370 267 0001<br />
+                Monday to Thursday, 9am to 5pm<br />
+                Friday, 9am to 4pm<br />
+            <p class="govuk-body">Log queries on the <a target="blank" href="https://form.education.gov.uk/en/AchieveForms/?form_uri=sandbox-publish://AF-Process-f9f4f5a1-936f-448b-bbeb-9dcdd595f468/AF-Stage-8aa41278-3cdd-45a3-ad87-80cbffb8b992/definition.json&redirectlink=%2Fen&cancelRedirectLink=%2Fen&consentMessage=yes">enquiry form</a></p>
+        </aside>
+    </div>
+</div>
