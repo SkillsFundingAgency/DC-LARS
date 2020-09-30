@@ -19,6 +19,7 @@
         {
             Name = nameof(Model.SearchModel.IssuingAuthorities),
             Description = "Issuing authority",
+            IsTextFilterEnabled = true,
             FilterType = FilterType.IssuingAuthorities,
             SelectedFilters = Model.SearchModel.IssuingAuthorities,
             FilterItems = Model.LookUpModel.IssuingAuthorityLookups.Select(f => new FilterItemModel { Value = f.IssuingAuthority, Description = f.IssuingAuthorityDesc }).ToList()
