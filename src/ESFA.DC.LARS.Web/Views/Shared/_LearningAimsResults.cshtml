@@ -4,6 +4,10 @@
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
+<li render-if="Model.ResultsCount == 0 && !Model.RequiresClientSideRefresh">
+    <strong>There are no results that match your search.</strong> <p>Try changing the academic year or any of the filters and search again</p>
+</li>
+
 @foreach (var learningAim in Model?.Results)
 {
     <li>
@@ -46,7 +50,7 @@
                  class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
                 <span><strong>Last date for new start:</strong> @(validities.Count() == 1 ? validities.First().LastNewStartDate?.ToDateString() : "Varies - see listing for dates")</span>
             </div>
-            
-         }
+
+        }
     </li>
 }

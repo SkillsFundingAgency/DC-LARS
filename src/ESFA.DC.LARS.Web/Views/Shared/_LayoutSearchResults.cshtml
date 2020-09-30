@@ -68,7 +68,6 @@
                 <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
                 <ul id="resultList" class="govuk-list" ref="Results">
-                    <li render-if="Model.ResultsCount == 0 && !Model.RequiresClientSideRefresh">There are no results that match your search. Try changing the filters and searching again.</li>
                     @RenderSection("Results", required: true)
                 </ul>
                 @await Html.PartialAsync("_Loading", Model.RequiresClientSideRefresh)

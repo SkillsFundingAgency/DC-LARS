@@ -1,5 +1,9 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
 
+<li render-if="Model.ResultsCount == 0 && !Model.RequiresClientSideRefresh">
+    <strong>There are no results that match your search.</strong> <p>Try changing the filters and searching again.</p>
+</li>
+
 @foreach (var framework in Model?.Results)
 {
     <li>
