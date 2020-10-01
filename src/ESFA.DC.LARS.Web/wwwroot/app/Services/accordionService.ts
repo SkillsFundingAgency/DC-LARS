@@ -79,7 +79,7 @@
     }
 
     private toggleStringBoolean(value: string | null) : string {
-        if (value?.toLocaleLowerCase() === 'true') {
+        if (value?.toLowerCase() === 'true') {
             return "false";
         }
         return "true";
