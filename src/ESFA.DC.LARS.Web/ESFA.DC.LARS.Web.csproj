@@ -71,6 +71,7 @@
     <Content Remove="wwwroot\app\Services\viewService.ts" />
     <Content Remove="wwwroot\app\standardSearchResultsMain.ts" />
     <Content Remove="wwwroot\app\store.ts" />
+    <Content Remove="wwwroot\app\Tests\accordionService.test.ts" />
     <Content Remove="wwwroot\app\Tests\filterService.test.ts" />
     <Content Remove="wwwroot\app\Tests\frameworksBreadcrumbStrategy.test.ts" />
     <Content Remove="wwwroot\app\Tests\linkService.test.ts" />
@@ -144,6 +145,7 @@
     <TypeScriptCompile Include="wwwroot\app\Interfaces\IBreadcrumb.ts" />
     <TypeScriptCompile Include="wwwroot\app\constants.ts" />
     <TypeScriptCompile Include="wwwroot\app\Breadcrumbs\breadcrumbService.ts" />
+    <TypeScriptCompile Include="wwwroot\app\Tests\accordionService.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\resultsHelper.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\standardsBreadcrumbStrategy.test.ts" />
     <TypeScriptCompile Include="wwwroot\app\Tests\linkService.test.ts" />

@@ -24,6 +24,7 @@
 
                 panelButtons.forEach(panelButton => {
                     panelButton.classList.remove('rotate');
+                    panelButton.setAttribute("aria-expanded", "false");
                 });
 
                 button.innerHTML = 'Open all';
@@ -34,6 +35,7 @@
 
                 panelButtons.forEach(panelButton => {
                     panelButton.classList.add('rotate');
+                    panelButton.setAttribute("aria-expanded", "true");
                 });
 
                 button.innerHTML = 'Close all';
@@ -47,14 +49,14 @@
         const button = document.getElementById(id);
         const accordionButton = document.getElementById('accordionButton');
         
-        if (button) {
+        if (button) {          
             const panel = <HTMLElement>button.parentElement?.nextElementSibling;
 
             if (panel) {
                 if (!init) {
                     button.classList.toggle('rotate');
+                    button.setAttribute("aria-expanded", this.toggleStringBoolean(button.getAttribute("aria-expanded")));
                 }
-
                 panel.classList.toggle('expanded');
             }
         }
@@ -74,6 +76,13 @@
                 accordionButton.innerHTML = 'Open all';
             }
         }
+    }
+
+    private toggleStringBoolean(value: string | null) : string {
+        if (value?.toLowerCase() === 'true') {
+            return "false";
+        }
+        return "true";
     }
 
     private allPanelsOpen(): boolean {
