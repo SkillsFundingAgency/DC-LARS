@@ -7,7 +7,7 @@
             @Model.Description
         </a>
     </h2>
-    <div class="filter-box expanded">
+    <div class="filter-box expanded @(Model.IsTextFilterEnabled ? "text-filter" : "")">
         
         @if (Model.IsTextFilterEnabled)
         {
