@@ -280,7 +280,6 @@ $govuk-global-styles: true;
 
     .filter-box {
         display: none;
-        overflow-y: hidden;
         margin-bottom: 5px;
         max-height: 0;
         transition: max-height 0.2s ease-in-out;
@@ -323,10 +322,13 @@ $govuk-global-styles: true;
 
         &.expanded {
             display: inline-block;
-            overflow-y: hidden;
             max-height: 200px;
             transition: max-height 0.2s ease-in-out;
             padding-bottom: 10px;
+        }
+
+        &.text-filter {
+            max-height: 250px;
         }
     }
 
