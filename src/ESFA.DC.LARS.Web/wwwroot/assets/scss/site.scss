@@ -427,3 +427,9 @@ $govuk-global-styles: true;
     float: right;
     margin-top: 8px;
 }
+
+#qualificationDetails {
+    dt, dd {
+        border-bottom: 0;
+    }
+}
