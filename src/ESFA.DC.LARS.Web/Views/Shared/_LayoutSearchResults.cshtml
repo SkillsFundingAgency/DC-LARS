@@ -7,21 +7,14 @@
 
 <div id="resultsApp">
     <form id="filterForm" asp-action="Search" method="post" class="govuk-form-group">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">@ViewData["SearchTitle"]</h1>
 
-            </div>
-            <div class="govuk-grid-column-one-third">
-                <label id="searchTypeLabel" class="govuk-label" for="searchType">
-                    Type of learning
-                </label>
-            </div>
-        </div>
+        <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">@ViewData["SearchTitle"]</h1>
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <div class="standard-search">
+                    <label for="autocomplete-overlay" class="govuk-label">Search by <strong>keyword</strong> or <strong>reference number</strong></label>
+            
                     <div class="govuk-form-group">
                         <div id="tt-overlay" class="autocomplete-wrapper second">
                             <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
@@ -39,7 +32,9 @@
 
             <div class="govuk-grid-column-one-third">
                 <div class="govuk-form-group flex-col">
-
+                    <label class="govuk-label" for="searchType">
+                        Type of learning
+                    </label>
                     <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType"
                             asp-items="Html.GetEnumValueSelectList<LearningType>()" v-on:change="learningTypeChanged($event.target.value)">
                     </select>
