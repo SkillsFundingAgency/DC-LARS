@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DownloadDetailsModel>
+
+<table class="govuk-table">
+    <caption class="govuk-table__caption govuk-!-font-size-27">
+        Version @if (Model != null)
+        {
+            @Model.First().Version;
+
+        }
+    </caption>
+
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Type</th>
+            <th scope="col" class="govuk-table__header">Applicable from</th>
+            <th scope="col" class="govuk-table__header">Date uploaded</th>
+            <th scope="col" class="govuk-table__header">Download link</th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        @if (Model != null)
+        {
+            foreach (var version in Model)
+            {
+                var linkText = string.Concat("Download ", version.Type);
+                var dateUploaded = version.DateUploaded?.ToDateString() ?? string.Empty;
+
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">@version.Type</td>
+                    <td class="govuk-table__cell">@version.ApplicableFrom.ToDateString()</td>
+                    <td class="govuk-table__cell">@dateUploaded</td>
+                    <td class="govuk-table__cell">
+                        
+                        <a asp-action="GetDownloadFileAsync" asp-route-fileName="@version.DownloadLink">@linkText</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

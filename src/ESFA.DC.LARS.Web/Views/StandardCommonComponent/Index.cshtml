@@ -1,0 +1,13 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.StandardCommonComponentsViewModel
+
+@await Html.PartialAsync("_breadcrumbs")
+
+@await Html.PartialAsync("_CommonComponents", Model.Standard.CommonComponents)
+
+@section PageScripts
+{
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupStandardCommonComponentView("@Model.Standard.StandardCode", "@Model.Standard.StandardName");
+    </script>
+}

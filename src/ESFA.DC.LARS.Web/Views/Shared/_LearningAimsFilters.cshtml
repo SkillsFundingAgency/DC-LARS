@@ -1,0 +1,75 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<LearningAimsSearchModel, LearningAimModel>
+
+<span class="govuk-heading-s govuk-!-margin-bottom-0">Filter results</span>
+
+<div class="govuk-accordion__controls" style="display: none;" id="accordionButtonContainer">
+    <button type="button" class="govuk-accordion__open-all" aria-expanded="false" id="accordionButton"
+            v-on:click="updateAccordionAll()">
+        Open all
+    </button>
+</div>
+
+<div id="allFilters" class="filter-container">
+
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.AwardingBodies),
+            Description = "Awarding body",
+            FilterType = FilterType.AwardingBodies,
+            SelectedFilters = Model.SearchModel.AwardingBodies,
+            FilterItems = Model.LookUpModel?.AwardingBodyLookups.Select(f => new FilterItemModel { Value = f.AwardingBodyCode, Description = f.AwardingBodyName }).ToList(),
+            IsTextFilterEnabled = true
+        })
+
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.Levels),
+            Description = "Level",
+            FilterType = FilterType.Levels,
+            SelectedFilters = Model.SearchModel.Levels,
+            FilterItems = Model.LookUpModel?.NotionalNvqLevel2Lookups.Select(f => new FilterItemModel { Value = f.NotionalNVQLevelV2, Description = f.NotionalNVQLevelV2Desc }).ToList()
+        })
+
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.FundingStreams),
+            Description = "Funding stream",
+            FilterType = FilterType.FundingStreams,
+            SelectedFilters = Model.SearchModel.FundingStreams,
+            FilterItems = Model.LookUpModel?.ValidityCategoryLookups.Select(f => new FilterItemModel { Value = f.ValidityCategory, Description = f.ValidityCategoryDescription }).ToList()
+        })
+
+    <section id="level" class="filter-section">
+        <h2 class="govuk-!-font-weight-regular">
+            <a href="#" class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19 filter-box-button"
+               v-on:click="updateAccordion($event)" id="TeachingYearsButton">
+                Academic year
+            </a>
+        </h2>
+        <div class="filter-box expanded">
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes govuk-checkboxes--small" ref="TeachingYears">
+                    @if (Model?.LookUpModel?.AcademicYearLookups != null)
+                    {
+                        <select v-on:change="updateSelectFilter($event.target.value, $event.target.options[$event.target.options.selectedIndex].text, 'TeachingYears')" class="govuk-select-filter" name="TeachingYears" id="TeachingYears">
+                            @foreach (var year in Model.LookUpModel.AcademicYearLookups)
+                            {
+                                @if (Model.SearchModel.TeachingYears.Any(t => t.Equals(year.AcademicYear, StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    <option value="@year.AcademicYear" selected>@year.AcademicYearDesc</option>
+                                }
+                                else
+                                {
+                                    <option value="@year.AcademicYear">@year.AcademicYearDesc</option>
+                                }
+                            }
+                        </select>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

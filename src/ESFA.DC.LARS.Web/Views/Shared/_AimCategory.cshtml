@@ -1,0 +1,43 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
+@{
+    bool hasCategories = Model?.LearningAimModel?.Categories?.Count > 0;
+}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+            @Model.LearningAimModel.LearningAimTitle
+            <span class="govuk-caption-xl">@Model.LearningAimModel.LearnAimRef</span>
+        </h1>
+
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-!-font-size-27">Category</caption>
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Reference</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                    <th scope="col" class="govuk-table__header">Parent Reference</th>
+                    <th scope="col" class="govuk-table__header">Parent Description</th>
+                    <th scope="col" class="govuk-table__header">Effective from</th>
+                    <th scope="col" class="govuk-table__header">Effective to</th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                @foreach (var category in Model?.LearningAimModel?.Categories)
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">@category.Reference</td>
+                        <td class="govuk-table__cell">@category.Description</td>
+                        <td class="govuk-table__cell">@category.ParentReference</td>
+                        <td class="govuk-table__cell">@category.ParentDescription</td>
+                        <td class="govuk-table__cell">@category.EffectiveFrom?.ToDateString()</td>
+                        <td class="govuk-table__cell">@category.EffectiveTo?.ToDateString()</td>
+                    </tr>
+                }
+
+                <tr class="govuk-table__row" render-if="!hasCategories">
+                    <td colspan="6" class="govuk-table__cell">No categories found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

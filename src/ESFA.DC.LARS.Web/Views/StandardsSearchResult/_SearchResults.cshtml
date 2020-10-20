@@ -1,0 +1,34 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<StandardSearchModel, StandardModel>
+
+<li render-if="Model.ResultsCount == 0 && !Model.RequiresClientSideRefresh">
+    <strong>There are no results that match your search.</strong> <p>Try changing the filters and searching again.</p>
+</li>
+
+@foreach (var standard in Model?.Results)
+{
+    <li>
+        <h3 class="govuk-!-margin-0">
+            @Html.ActionLink(
+                standard.StandardName,
+                "RedirectToDetails",
+                new { standardCode = standard.StandardCode },
+                new { @class = "govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19" })
+        </h3>
+        <div class="flex space-between">
+            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                <span><strong>Code:</strong> @standard.StandardCode</span>
+                <span><strong>Sector:</strong> @standard.StandardSectorCode - @standard.StandardSectorCodeDesc2</span>
+            </div>
+            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                <span><strong>Level:</strong> @standard.NotionalEndLevel</span>
+                <span><strong>Last date for new starts:</strong> @standard.LastDateStarts?.ToDateString()</span>
+            </div>
+        </div>
+        <div class="flex space-between">
+            <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
+                <span><strong>Effective from:</strong> @standard.EffectiveFrom?.ToDateString()</span>
+                <span><strong>Effective to:</strong> @standard.EffectiveTo?.ToDateString()</span>
+            </div>
+        </div>
+    </li>
+}

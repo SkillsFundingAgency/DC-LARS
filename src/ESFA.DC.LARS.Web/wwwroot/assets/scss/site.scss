@@ -1,13 +1,26 @@
 ﻿@import "node_modules/govuk-frontend/govuk/all.scss";
+// global styles for <a> and <p> tags
+$govuk-global-styles: true;
 
+// Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 .white-text {
     color: govuk-colour("white");
+}
+
+#resultsContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 #resultList {
 
     li {
         margin-bottom: 50px;
+
+        ul.funding-stream-list li {
+            margin-bottom: 10px;
+        }
     }
 
     .no-underline {
@@ -19,14 +32,391 @@
     }
 }
 
+#resultList ul.custom {
+    li {
+        margin-bottom: 0px;
+    }
+}
+
+#searchTypeLabel {
+    margin-top: 44px;
+}
+
 .flex {
     display: flex;
+    flex-direction: column
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1
+}
+
+
+.flex-4 {
+    flex: 0.4;
+}
+
+.flex-6 {
+    flex: 0.6;
+}
+
+.flex-7 {
+    flex: 0.7;
+}
+
+.flex-09 {
+    flex: 0.9;
 }
 
 .space-between {
     justify-content: space-between;
 }
 
+
 .colour-black {
     color: black;
+}
+
+.results-number-container {
+    background-color: #f8f8f8;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 5px;
+}
+
+.results-elements {
+    color: black !important;
+    border: 1px solid black;
+    padding: 7px;
+    border-radius: 6px;
+    position: relative;
+    padding-left: 30px;
+    margin-right: 10px;
+    text-decoration: none;
+    background-color: #f8f8f8;
+
+    &:visited {
+        color: black;
+    }
+
+    .close {
+        position: absolute;
+    }
+
+    .close:before, .close:after {
+        position: absolute;
+        left: -15px;
+        top: 2px;
+        content: ' ';
+        height: 17px;
+        width: 2px;
+        background-color: #333;
+    }
+
+    .close:before {
+        transform: rotate(45deg);
+    }
+
+    .close:after {
+        transform: rotate(-45deg);
+    }
+}
+
+.filter-feedback-container {
+    @extend .results-number-container;
+    padding-top: 0px;
+    display: none;
+}
+
+.filter-feedback {
+    @extend .results-elements;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.visually-hidden, .visually-hidden2, .visually-hidden3 {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: space-around;
+}
+
+.custom-width-280 {
+    width: 280px;
+}
+
+.aims-list {
+    span {
+        margin-bottom: 10px;
+    }
+
+    margin-bottom: 0;
+}
+
+.left-margin {
+    margin-left: 15px;
+}
+
+.home-black-border {
+    border: 2px solid #0b0c0c !important;
+}
+
+.home-control-left-margin {
+    margin-left: 5px;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-third {
+    flex-grow: 1;
+    width: 33%;
+}
+
+.full-width {
+    width : 100%;
+}
+
+@include govuk-media-query($from: tablet) {
+    .flex {
+        flex-direction: row;
+    }
+
+    #resultsContainer {
+        margin-top: 0;
+    }
+}
+
+.category-no-top-padding {
+    padding-top: 0 !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+#typeOfLearning {
+    margin-right: 20px;
+}
+
+.filter-section {
+    border-bottom: 1px solid govuk-colour("mid-grey");
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    padding-left: 0;
+
+    h2 {
+        padding-left: 15px;
+        margin: 0px
+    }
+
+    .filter-box-button {
+        padding-left: 15px;
+        padding-bottom: 5px;
+        display: block;
+        margin-top: 0;
+        margin-bottom: 0;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .selected-text {
+        margin-left: 35px;
+        margin-top: -4px;
+        margin-bottom: 0;
+        display: block;
+        display: none;
+    }
+
+    .govuk-checkboxes__item {
+        margin-left: 15px;
+    }
+
+    .filter-box-button {
+        display: flex;
+    }
+
+    .filter-box-button:before {
+        content: "";
+        box-sizing: border-box;
+        height: 12px;
+        width: 12px;
+        margin-top: 4px;
+        border-style: solid;
+        border-color: black;
+        border-width: 0px 3px 3px 0px;
+        transform: rotate(45deg);
+        transition: border-width 150ms ease-in-out;
+        margin-right: 10px;
+        transform: rotate(45deg);
+    }
+
+    .filter-box-button.rotate:before {
+        margin-top: 9px;
+        transform: rotate(225deg);
+    }
+
+    .filter-box {
+        display: none;
+        overflow-y: hidden;
+        margin-bottom: 5px;
+        max-height: 0;
+        transition: max-height 0.2s ease-in-out;
+
+        .input-container {
+            margin-left: 15px;
+            margin-top: 10px;
+            width: 90%;
+            // padding-bottom: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: white;
+            // display: none;
+            input {
+                padding-left: 35px;
+            }
+
+            .search-icon {
+                svg {
+                    position: absolute;
+                    width: 20px;
+                    padding: 10px;
+                    left: 0px;
+                    display: block;
+                    height: auto;
+                }
+            }
+        }
+
+        .govuk-form-group {
+            position: relative;
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background-color: #ffffff;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        &.expanded {
+            display: inline-block;
+            overflow-y: hidden;
+            max-height: 200px;
+            transition: max-height 0.2s ease-in-out;
+            padding-bottom: 10px;
+        }
+    }
+
+    .filter-box.hidden {
+        display: none;
+    }
+}
+
+#custom-box {
+    margin-left: 12px;
+    max-height: fit-content;
+}
+
+.govuk-select-filter {
+    margin-left: 15px;
+    margin-bottom: 10px;
+
+    @include govuk-font($size: 19, $line-height: 1.25);
+    box-sizing: border-box; // should this be global?
+    max-width: 100%;
+    height: 40px;
+
+    @if $govuk-typography-use-rem {
+        height: govuk-px-to-rem(40px);
+    }
+
+    padding: govuk-spacing(1); // was 5px 4px 4px - size of it should be adjusted to match other form elements
+    border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+
+    &:focus {
+        outline: $govuk-focus-width solid $govuk-focus-colour;
+        // Ensure outline appears outside of the element
+        outline-offset: 0;
+        // Double the border by adding its width again. Use `box-shadow` to do
+        // this instead of changing `border-width` (which changes element size) and
+        // since `outline` is already used for the yellow focus state.
+        box-shadow: inset 0 0 0 $govuk-border-width-form-element;
+
+        @include govuk-if-ie8 {
+            // IE8 doesn't support `box-shadow` so double the border with
+            // `border-width`.
+            border-width: $govuk-border-width-form-element * 2;
+        }
+    }
+}
+
+// Reserve breadcrumb space to stop content jumping.
+.govuk-breadcrumbs__list-item {
+    min-height:20px;
+}
+
+#high-level-info {
+    .govuk-table__header, .govuk-table__cell {
+        border-bottom: 0;
+        padding-bottom: 5px;
+    }
+
+    padding-bottom: 10px;
+}
+
+@include govuk-media-query($from: tablet) {
+
+    .white-side-bar {
+        background-color: white;
+        margin-top: -300px;
+        padding: 15px;
+
+        li {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.filter-text-input::-ms-clear {
+    display: none;
+}
+
+.filter-heading {
+    padding-bottom: 20px;
+}
+
+.filter-heading-top {
+    border-top: 1px solid #b1b4b6;
+}
+
+.govuk-accordion__controls {
+    border-bottom: 1px solid #b1b4b6;
+}
+
+.app-related-items {
+    border-top: 10px solid #1d70b8;
+    padding-top: 10px;
 }

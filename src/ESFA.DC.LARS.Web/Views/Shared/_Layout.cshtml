@@ -13,8 +13,12 @@
     @await Html.PartialAsync("_Header")
 
     <div class="govuk-width-container">
-
         @await Html.PartialAsync("_Banner")
+    </div>
+
+    @await RenderSectionAsync("PageHeader", false)
+
+    <div class="govuk-width-container">
 
         <main class="govuk-main-wrapper" id="content" role="main">
             @*@await Html.PartialAsync("_Navigation")*@
@@ -30,23 +34,21 @@
     </div>
 
     @await Html.PartialAsync("_Footer")
-    
-<environment include="Development">
-    <script src="~/assets/dist/govuk/js/all.js" asp-append-version="true"></script>
-</environment>
-<environment exclude="Development">
-    <script src="~/assets/dist/minified/govuk/all.min.js" asp-append-version="true"></script>
-</environment>
+
+    <script src="~/assets/dist/js/pollyfills.js" asp-append-version="true"></script>
+    <script src="~/assets/dist/js/esfa.js" asp-append-version="true"></script>
+
+    <environment include="Development">
+        <script src="~/assets/dist/govuk/js/all.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/assets/dist/minified/govuk/all.min.js" asp-append-version="true"></script>
+    </environment>
+
     <script>
         window.GOVUKFrontend.initAll()
     </script>
 
-    @RenderSection("PageScripts", required: false)
-
-    <script>
-        if (typeof window.GOVUK === 'undefined')
-            document.body.className = document.body.className.replace('js-enabled', '');
-    </script>
-
+    @await RenderSectionAsync("PageScripts", required: false)
 </body>
 </html>

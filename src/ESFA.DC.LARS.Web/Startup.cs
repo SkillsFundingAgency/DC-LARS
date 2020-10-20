@@ -1,7 +1,13 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using ESFA.DC.LARS.Web.Configuration;
+using ESFA.DC.LARS.Web.CustomFilters;
+using ESFA.DC.LARS.Web.Extensions;
+using ESFA.DC.LARS.Web.Interfaces;
 using ESFA.DC.LARS.Web.Modules;
+using ESFA.DC.LARS.Web.Strategies;
+using Flurl.Http;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace ESFA.DC.LARS.Web
 {
@@ -33,23 +40,26 @@ namespace ESFA.DC.LARS.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+                            {
+                                options.Filters.Add(typeof(TelemetryActionFilter));
+                            })
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            var insightOptions = new ApplicationInsightsServiceOptions
+            services.AddApplicationInsightsTelemetry();
+
+            services.AddSingleton<Models.IAppVersionService, AppVersionService>();
+
+            FlurlHttp.Configure(settings =>
             {
-                // Disables adaptive sampling.
-                EnableAdaptiveSampling = false,
-
-                // Disables QuickPulse (Live Metrics stream).
-                EnableQuickPulseMetricStream = false
-            };
-            services.AddApplicationInsightsTelemetry(insightOptions);
+                settings.HttpClientFactory = new PollyHttpClientFactory();
+            });
 
             return ConfigureAutofac(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -61,13 +71,11 @@ namespace ESFA.DC.LARS.Web
             }
 
             app.UseStaticFiles();
+            app.UseRouting();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
 
@@ -75,10 +83,20 @@ namespace ESFA.DC.LARS.Web
         {
             var containerBuilder = new ContainerBuilder();
 
-            containerBuilder.Populate(services);
-
+            containerBuilder.RegisterModule<LoggingModule>();
             containerBuilder.RegisterModule<WebServicesModule>();
 
+            containerBuilder.Register(c =>
+                    Configuration.GetConfigSection<ApiSettings>())
+                .As<IApiSettings>().SingleInstance();
+
+            containerBuilder.RegisterType<FrameworkResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+            containerBuilder.RegisterType<QualificationResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+            containerBuilder.RegisterType<UnitResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+            containerBuilder.RegisterType<StandardsResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+            containerBuilder.RegisterType<TLevelResultsRouteStrategy>().As<ISearchResultsRouteStrategy>();
+
+            containerBuilder.Populate(services);
             _applicationContainer = containerBuilder.Build();
 
             return new AutofacServiceProvider(_applicationContainer);

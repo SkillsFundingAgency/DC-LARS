@@ -1,0 +1,35 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<StandardSearchModel, StandardModel>
+@{
+    Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
+    ViewData["Title"] = "Index";
+    ViewData["SearchTitle"] = "Search Standards";
+}
+@section Filters
+{
+    <noscript id="filtersNoScript">
+        @await Html.PartialAsync("_SearchFilters", Model)
+        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+    </noscript>
+    <filters search-type="Standards"></filters>
+}
+
+@section Results
+{
+    @await Html.PartialAsync("_SearchResults", Model)
+}
+
+@section PageScripts
+{
+    <filter-template>
+        @await Html.PartialAsync("_SearchFilters", Model)
+    </filter-template>
+
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupStandardsResultView("@Model.SearchModel.SearchTerm", @Json.Serialize(Model.SearchModel.Levels), @Json.Serialize(Model.SearchModel.Sectors));
+    </script>
+
+    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
+    <script src="/assets/dist/js/standardSearchResults.js" asp-append-version="true"></script>
+}

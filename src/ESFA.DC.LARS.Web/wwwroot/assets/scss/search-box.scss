@@ -2,20 +2,29 @@
 
 .app-masthead {
     padding: 20px;
-    // padding-top: 40px;
     color: govuk-colour("white");
     background-color: govuk-colour("blue");
-    margin-bottom: 30px;
+    display: block;
+    overflow: hidden;
 
     .govuk-input {
         border: 0;
     }
 
     #changeUrl.govuk-form-group {
-        display: flex;
+        // display: flex;
         margin-bottom: 0;
 
-        .govuk-button {
+        .govuk-button.govuk-button--start {
+            background-color: govuk-colour("light-grey");
+            color: $govuk-link-colour;
+
+            &:hover {
+                background-color: #e8f1f8;
+            }
+        }
+
+        .govuk-button.icon {
             height: 41px;
             width: 40px;
             background-color: govuk-colour("black");
@@ -70,6 +79,7 @@
         display: flex;
         margin-bottom: 0;
 
+
         .govuk-button {
             height: 40px;
             width: 40px;
@@ -77,7 +87,7 @@
             display: block;
             background-repeat: no-repeat;
             margin-bottom: 0;
-
+            box-shadow: none;
             img {
                 position: absolute;
                 clip: rect(23px, 26px, 44px, 8px);

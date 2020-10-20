@@ -1,0 +1,83 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.AbstractSearchResultsViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_breadcrumbs")
+
+<div id="resultsApp">
+    <form id="filterForm" asp-action="Search" method="post" class="govuk-form-group">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">@ViewData["SearchTitle"]</h1>
+
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <label id="searchTypeLabel" class="govuk-label" for="searchType">
+                    Type of learning
+                </label>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="standard-search">
+                    <div class="govuk-form-group">
+                        <div id="tt-overlay" class="autocomplete-wrapper second">
+                            <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                                <input class="govuk-input" id="autocomplete-overlay" name="SearchTerm"
+                                       placeholder="e.g Maths or 40010740" type="text" value="@Model.SearchTerm" maxlength="200" />
+                            </div>
+                        </div>
+                        <button id="searchProviders" type="submit" class="govuk-button standard-search" v-on:click="search($event)" aria-label="Search button">
+                            <img src="https://assets.publishing.service.gov.uk/frontend/govuk_publishing_components/search-button-ca89b2a79f944909ceb7370d3f0b78811d32b96e883348fcd8886f63dd619585.png" alt="magnifying glass"/>
+                        </button>
+                    </div>
+                </div>
+                <validation-errors errors="@Model.ValidationErrors" ref="ValidationErrors"></validation-errors>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group flex-col">
+
+                    <select class="govuk-select" id="searchType" name="searchType" asp-for="@Model.SearchType"
+                            asp-items="Html.GetEnumValueSelectList<LearningType>()" v-on:change="learningTypeChanged($event.target.value)">
+                    </select>
+                    <noscript>
+                        <button class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" type="submit">
+                            Apply
+                        </button>
+                    </noscript>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-margin-top-6">
+            <div class="govuk-grid-column-one-third">
+                @RenderSection("Filters", required: true)
+                <br />
+            </div>
+
+            <div class="govuk-grid-column-two-thirds">
+                <p class="govuk-body flex space-between">
+                    <span ref="ResultsCount" hide-if="Model.RequiresClientSideRefresh">@Model.ResultsCount results</span>
+                </p>
+
+                <filter-feedback search-type="@Model.SearchType.ToString()"></filter-feedback>
+                
+                <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+                <ul id="resultList" class="govuk-list" ref="Results">
+                    @RenderSection("Results", required: true)
+                </ul>
+                @await Html.PartialAsync("_Loading", Model.RequiresClientSideRefresh)
+            </div>
+        </div>
+    </form>
+</div>
+
+@section PageScripts{
+    <script src="/assets/dist/js/esfa.js" asp-append-version="true"></script>
+    @RenderSection("PageScripts", required: true)
+}
+

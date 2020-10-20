@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -14,10 +14,20 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="ESFA.DC.Telemetry" Version="0.1.8-beta0001" />
+    <PackageReference Include="ESFA.DC.Telemetry.Interfaces" Version="0.1.8-beta0001" />
+    <PackageReference Include="Microsoft.Azure.Search" Version="10.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.LARS.API.AzureSearch\ESFA.DC.LARS.API.AzureSearch.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Interfaces\ESFA.DC.LARS.API.Interfaces.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Models\ESFA.DC.LARS.API.Models.csproj" />
+    <ProjectReference Include="..\ESFA.DC.LARS.API.Services\ESFA.DC.LARS.API.Services.csproj" />
   </ItemGroup>
 
 </Project>

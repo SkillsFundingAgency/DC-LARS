@@ -1,0 +1,25 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<StandardSearchModel, StandardModel>
+
+<span class="govuk-heading-s govuk-!-margin-bottom-0 filter-heading">Filter results</span>
+
+<div id="allFilters" class="filter-container filter-heading-top">
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.Sectors),
+            Description = "Sector",
+            FilterType = FilterType.Sectors,
+            SelectedFilters = Model.SearchModel.Sectors,
+            FilterItems = Model.LookUpModel?.StandardSectorLookups.Select(f => new FilterItemModel { Value = f.StandardSectorCode, Description = f.StandardSectorCodeDesc }).ToList()
+        })
+
+    @await Html.PartialAsync("_SearchCheckboxFilter",
+        new SearchFilterModel
+        {
+            Name = nameof(Model.SearchModel.Levels),
+            Description = "Level",
+            FilterType = FilterType.Levels,
+            SelectedFilters = Model.SearchModel.Levels,
+            FilterItems = Model.LookUpModel?.NotionalNvqLevel2Lookups.Select(f => new FilterItemModel { Value = f.NotionalNVQLevelV2, Description = f.NotionalNVQLevelV2Desc }).ToList()
+        })
+</div>

@@ -1,0 +1,13 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
+
+@await Html.PartialAsync("_breadcrumbs")
+
+@await Html.PartialAsync("_frameworkDetail")
+
+@section PageScripts
+{
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupFrameworkDetailView("@Model.Framework.FrameworkCode", "@Model.Framework.ProgramType", "@Model.Framework.PathwayCode")
+    </script>
+}

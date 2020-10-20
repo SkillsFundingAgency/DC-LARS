@@ -1,0 +1,38 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.SearchResultsViewModel<FrameworkSearchModel, FrameworkModel>
+@{
+    Layout = "~/Views/Shared/_LayoutSearchResults.cshtml";
+    ViewData["Title"] = "Index";
+    ViewData["SearchTitle"] = "Search frameworks";
+}
+
+@section Filters
+{
+    <noscript id="filtersNoScript">
+        @await Html.PartialAsync("_SearchFilters", Model)
+        <input type="submit" value="Update results" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary" />
+        <a asp-action="ClearFilters" asp-route-searchTerm="@Model.SearchModel.SearchTerm" class="govuk-!-margin-top-4 govuk-button govuk-button--secondary">Clear filters</a>
+    </noscript>
+    <filters search-type="Frameworks"></filters>
+}
+
+@section Results
+{
+    @await Html.PartialAsync("_FrameworkSearchResults", Model)
+}
+
+@section PageScripts
+{
+    <filter-template>
+        @await Html.PartialAsync("_SearchFilters", Model)
+    </filter-template>
+
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupFrameworkSearchResultView("@Model.SearchModel.SearchTerm",
+                                                    @Json.Serialize(Model.SearchModel.FrameworkTypes),
+                                                    @Json.Serialize(Model.SearchModel.IssuingAuthorities));
+    </script>
+
+    @* Ensure this include is after the filterNoScript tag removal, if not some DOM selectors may not work as expected*@
+    <script src="/assets/dist/js/frameworkSearchResults.js" asp-append-version="true"></script>
+}

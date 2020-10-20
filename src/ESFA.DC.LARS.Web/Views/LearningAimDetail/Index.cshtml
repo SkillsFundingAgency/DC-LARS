@@ -1,0 +1,13 @@
+﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimDetailsViewModel
+
+@await Html.PartialAsync("_breadcrumbs")
+
+@await Html.PartialAsync("_aimDetail", Model)
+
+@section PageScripts
+{
+    <script>
+        var viewService = new ESFA.ViewService();
+        viewService.setupLearningAimDetailView("@Model.LearningAimModel.LearnAimRef", "@Model.LearningAimModel.LearningAimTitle");
+    </script>
+}
