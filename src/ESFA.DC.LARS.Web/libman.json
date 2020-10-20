@@ -1,5 +1,18 @@
 {
   "version": "1.0",
-  "defaultProvider": "cdnjs",
-  "libraries": []
+  "defaultProvider": "filesystem",
+  "libraries": [
+    {
+      "library": "node_modules/govuk-frontend/govuk/",
+      "destination": "wwwroot/lib/govuk-frontend/"
+    },
+    {
+      "library": "node_modules/govuk-frontend/govuk/assets/fonts/",
+      "destination": "wwwroot/lib/govuk-frontend/assets/fonts"
+    },
+    {
+      "library": "node_modules/govuk-frontend/govuk/assets/images/",
+      "destination": "wwwroot/lib/govuk-frontend/assets/images"
+    }
+  ]
 }
