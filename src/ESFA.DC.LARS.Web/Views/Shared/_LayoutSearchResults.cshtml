@@ -62,9 +62,8 @@
                 
                 <hr class="colour-black govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-                <ul id="resultList" class="govuk-list" ref="Results">
-                    @RenderSection("Results", required: true)
-                </ul>
+                @RenderSection("Results", required: true)
+
                 @await Html.PartialAsync("_Loading", Model.RequiresClientSideRefresh)
             </div>
         </div>
