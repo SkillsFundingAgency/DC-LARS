@@ -1,4 +1,7 @@
-﻿@import "node_modules/govuk-frontend/govuk/all.scss";
+﻿$govuk-assets-path: '/lib/govuk-frontend/assets/';
+@import "node_modules/govuk-frontend/govuk/all.scss";
+@import "search-box.scss";
+
 // global styles for <a> and <p> tags
 $govuk-global-styles: true;
 

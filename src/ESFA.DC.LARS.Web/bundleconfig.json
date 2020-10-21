@@ -1,8 +1,8 @@
 [
   {
-    "outputFileName": "wwwroot/assets/dist/minified/govuk/all.min.js",
+    "outputFileName": "wwwroot/lib/govuk-frontend/all.min.js",
     "inputFiles": [
-      "wwwroot/assets/dist/govuk/js/all.js"
+      "wwwroot/lib/govuk-frontend/all.js"
     ],
     "minify": {
       "enabled": true,

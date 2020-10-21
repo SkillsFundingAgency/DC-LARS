@@ -19,7 +19,7 @@ module.exports = {
     entry: {
         './assets/dist/js/site': './wwwroot/assets/js/site.js',
         './assets/dist/js/pollyfills' : ['./wwwroot/pollyfills.js'],
-        site : ['./wwwroot/assets/scss/search-box.scss', './wwwroot/assets/scss/site.scss'],
+        site : ['./wwwroot/assets/scss/site.scss'],
         './assets/dist/js/search': './wwwroot/app/searchMain.ts',
         './assets/dist/js/learningAimSearchResults': './wwwroot/app/learningAimSearchResultsMain.ts',
         './assets/dist/js/frameworkSearchResults': './wwwroot/app/frameworkSearchResultsMain.ts',
