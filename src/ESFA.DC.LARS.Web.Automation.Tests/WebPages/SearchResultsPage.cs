@@ -12,11 +12,11 @@ namespace ESFA.DC.LARS.Web.Automation.Tests.WebPages
             _driverConfig = driverConfig;
         }
 
-        private IWebElement SearchBtn => _driverConfig.WebDriver.FindElement(By.XPath("//h1[text()='Search qualifications']"));
+        private IWebElement SearchTxt => _driverConfig.WebDriver.FindElement(By.Id("autocomplete-overlay"));
 
         public bool IsPageLoaded()
         {
-            return SearchBtn.Displayed;
+            return SearchTxt.Displayed;
         }
     }
 }
