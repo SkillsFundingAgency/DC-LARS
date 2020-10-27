@@ -4,79 +4,82 @@
     var academicYear = Model.SearchModel.TeachingYears.FirstOrDefault();
 }
 
-<div render-if="Model.ResultsCount == 0 && !Model.RequiresClientSideRefresh">
-    <strong>There are no results that match your search.</strong> <p>Try changing the academic year or any of the filters and search again</p>
-</div>
+<div id="resultList" class="govuk-list" ref="Results">
 
-@foreach (var learningAim in Model?.Results)
-{
-<div class="search-item">
-    <h3 class="govuk-!-margin-0">
-        <a asp-action="RedirectToDetails" asp-route-learnAimRef="@learningAim.LearnAimRef" asp-route-academicYear="@academicYear" 
-           class ="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">@learningAim.LearningAimTitle</a> 
-    </h3>
+    <div render-if="Model.ResultsCount == 0 && !Model.RequiresClientSideRefresh">
+        <strong>There are no results that match your search.</strong> <p>Try changing the academic year or any of the filters and search again</p>
+    </div>
 
-    <dl class="govuk-summary-list govuk-!-margin-bottom-0 govuk-summary-list--no-border">
-        <div class="govuk-summary-list__row govuk-!-font-size-16">
-            <dt class="govuk-summary-list__key">
-                Reference
-            </dt>
-            <dd class="govuk-summary-list__value">
-                @learningAim.LearnAimRef
-            </dd>
-            <dt class="govuk-summary-list__key">
-                Level
-            </dt>
-            <dd class="govuk-summary-list__value">
-                @learningAim.Level
-            </dd>
-        </div>
-        <div class="govuk-summary-list__row govuk-!-font-size-16">
-            <dt class="govuk-summary-list__key">
-                Awarding body
-            </dt>
-            <dd class="govuk-summary-list__value">
-                @learningAim.AwardingBodyCode
-            </dd>
-            <dt class="govuk-summary-list__key">
-                Guided learning hours
-            </dt>
-            <dd class="govuk-summary-list__value">
-                @learningAim.GuidedLearningHours
-            </dd>
-        </div>
-    </dl>
-
-    @if (!string.IsNullOrEmpty(academicYear) && academicYear.Trim().Length == 4)
+    @foreach (var learningAim in Model?.Results)
     {
-        var validities = learningAim.AcademicYears.Where(ay => ay.AcademicYear.Equals(academicYear)).SelectMany(p => p.Validities);
+        <div class="search-item">
+            <h3 class="govuk-!-margin-0">
+                <a asp-action="RedirectToDetails" asp-route-learnAimRef="@learningAim.LearnAimRef" asp-route-academicYear="@academicYear"
+                   class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">@learningAim.LearningAimTitle</a>
+            </h3>
 
-        <h4 class="govuk-heading-s govuk-!-font-size-16 govuk-!-margin-bottom-0 govuk-!-margin-top-2">Available funding streams for academic year @($"20{academicYear.Substring(0, 2)} to 20{academicYear.Substring(2, 2)}:")</h4>
-
-        <dl class="govuk-summary-list govuk-!-margin-bottom-0 govuk-summary-list--no-border">
-            @for (var i = 0; i < validities.Count(); i += 3)
-            {
-                <div class="govuk-summary-list__row custom-row govuk-!-font-size-16">
-                    @foreach (var validity in validities.Skip(i).Take(3))
-                    {
-                        <dd class="govuk-summary-list__value custom">
-                            @validity.ValidityCategoryDescription
-                        </dd>
-                    }
+            <dl class="govuk-summary-list govuk-!-margin-bottom-0 govuk-summary-list--no-border">
+                <div class="govuk-summary-list__row govuk-!-font-size-16">
+                    <dt class="govuk-summary-list__key">
+                        Reference
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @learningAim.LearnAimRef
+                    </dd>
+                    <dt class="govuk-summary-list__key">
+                        Level
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @learningAim.Level
+                    </dd>
                 </div>
-            }
-        </dl>
+                <div class="govuk-summary-list__row govuk-!-font-size-16">
+                    <dt class="govuk-summary-list__key">
+                        Awarding body
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @learningAim.AwardingBodyCode
+                    </dd>
+                    <dt class="govuk-summary-list__key">
+                        Guided learning hours
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        @learningAim.GuidedLearningHours
+                    </dd>
+                </div>
+            </dl>
 
-        <dl class="govuk-summary-list govuk-!-margin-bottom-0" render-if="validities.Count() > 1 || (validities.Count() == 1 && validities.First().LastNewStartDate.HasValue)">
-            <div class="govuk-summary-list__row govuk-!-font-size-16">
-                <dt class="govuk-summary-list__key govuk-!-width-one-half">
-                    Last date for new start
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @(validities.Count() == 1 ? validities.First().LastNewStartDate?.ToDateString() : "Varies - see listing for dates")
-                </dd>
-             </div>
-        </dl>
-      }
+            @if (!string.IsNullOrEmpty(academicYear) && academicYear.Trim().Length == 4)
+            {
+                var validities = learningAim.AcademicYears.Where(ay => ay.AcademicYear.Equals(academicYear)).SelectMany(p => p.Validities);
+
+                <h4 class="govuk-heading-s govuk-!-font-size-16 govuk-!-margin-bottom-0 govuk-!-margin-top-2">Available funding streams for academic year @($"20{academicYear.Substring(0, 2)} to 20{academicYear.Substring(2, 2)}:")</h4>
+
+                <dl class="govuk-summary-list govuk-!-margin-bottom-0 govuk-summary-list--no-border">
+                    @for (var i = 0; i < validities.Count(); i += 3)
+                    {
+                        <div class="govuk-summary-list__row custom-row govuk-!-font-size-16">
+                            @foreach (var validity in validities.Skip(i).Take(3))
+                            {
+                                <dd class="govuk-summary-list__value custom">
+                                    @validity.ValidityCategoryDescription
+                                </dd>
+                            }
+                        </div>
+                    }
+                </dl>
+
+                <dl class="govuk-summary-list govuk-!-margin-bottom-0" render-if="validities.Count() > 1 || (validities.Count() == 1 && validities.First().LastNewStartDate.HasValue)">
+                    <div class="govuk-summary-list__row govuk-!-font-size-16">
+                        <dt class="govuk-summary-list__key govuk-!-width-one-half">
+                            Last date for new start
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            @(validities.Count() == 1 ? validities.First().LastNewStartDate?.ToDateString() : "Varies - see listing for dates")
+                        </dd>
+                    </div>
+                </dl>
+            }
+        </div>
+    }
 </div>
-}
