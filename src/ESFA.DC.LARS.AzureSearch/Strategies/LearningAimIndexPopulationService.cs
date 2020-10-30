@@ -128,7 +128,6 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                     {
                         PopulateFrameworks(learningDelivery, frameworkAims, issuingAuthorities, componentTypes);
                         PopulateCategories(learningDelivery, categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>()));
-                        learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>());
                         learningDelivery.AwardingBodyName = awardBodyCodes.GetValueOrDefault(learningDelivery.AwardingBodyCode);
                         learningDelivery.GuidedLearningHours = GetGuidedLearningHours(learningDelivery.GuidedLearningHours);
 
