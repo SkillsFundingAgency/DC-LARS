@@ -1,4 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimDetailsViewModel
+@{
+    ViewData["Title"] = Model.LearningAimModel.LearningAimTitle;
+}
 
 @await Html.PartialAsync("_breadcrumbs")
 

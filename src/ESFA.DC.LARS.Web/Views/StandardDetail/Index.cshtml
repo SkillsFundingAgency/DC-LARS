@@ -1,4 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.StandardDetailViewModel
+@{
+    ViewData["Title"] = Model.Standard.StandardName;
+}
 
 @await Html.PartialAsync("_breadcrumbs")
 
@@ -51,7 +54,7 @@
                 </tr>
             </tbody>
         </table>
-        
+
         <ul class="govuk-list">
             <li render-if="Model.Standard.CommonComponents?.Count > 0">
                 <a asp-action="Index" asp-controller="StandardCommonComponent" asp-route-standardCode="@Model.Standard.StandardCode"
@@ -60,7 +63,7 @@
 
             <li render-if="Model.Standard.LearningAims?.Count > 0">
                 <a asp-action="Index" asp-controller="StandardLearningAim" asp-route-standardCode="@Model.Standard.StandardCode"
-                    class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Related learning aims</a>
+                   class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold no-underline govuk-!-font-size-19">Related learning aims</a>
             </li>
         </ul>
 
@@ -82,7 +85,7 @@
             </tbody>
         </table>
 
-       <partial name="_StandardFundingModel" model="Model"/>
+        <partial name="_StandardFundingModel" model="Model" />
     </div>
 </div>
 
