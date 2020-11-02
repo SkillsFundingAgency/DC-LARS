@@ -1,4 +1,7 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.FrameworkDetailViewModel
+@{
+    ViewData["Title"] = Model.Framework.FrameworkTitle;
+}
 
 @await Html.PartialAsync("_breadcrumbs")
 

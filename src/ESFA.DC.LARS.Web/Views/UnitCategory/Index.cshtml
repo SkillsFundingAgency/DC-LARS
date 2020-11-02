@@ -1,6 +1,10 @@
 ﻿@model ESFA.DC.LARS.Web.Models.ViewModels.LearningAimsCategoryViewModel
+@{
+    ViewData["Title"] = "Unit category";
+}
 
 @await Html.PartialAsync("_breadcrumbs")
+
 @await Html.PartialAsync("_aimCategory", Model)
 
 @section PageScripts
