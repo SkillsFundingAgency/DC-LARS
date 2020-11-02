@@ -134,14 +134,14 @@
 
                         <div class="govuk-accordion__section-summary govuk-body">
                             <span>
-                                <strong>Last date for new start:</strong> @category.LastNewStartDate?.ToDateString()
+                                <strong>Last date for new start:</strong> @category.LastNewStartDate.ToDateStringOrDefault("not set")
                             </span>
                         </div>
                     </div>
 
                     <div class="govuk-body govuk-accordion__section-content category-no-top-padding" aria-labelledby="category-heading-@categoryIndex">
-                        <p> <strong>Course validity:</strong> </p>
-                        <p> <strong> From:</strong> @category.StartDate.ToDateString() <strong>to</strong> @category.EndDate?.ToDateString()</p>
+                        <h3>Course validity</h3>
+                        <p> <strong> From:</strong> @category.StartDate.ToDateString() <strong>to</strong> @category.EndDate.ToDateStringOrDefault("open")</p>
 
                         @foreach (var funding in fundings)
                         {
