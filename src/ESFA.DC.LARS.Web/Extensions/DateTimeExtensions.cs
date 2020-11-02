@@ -13,12 +13,7 @@ namespace ESFA.DC.LARS.Web.Extensions
 
         public static string ToDateStringOrDefault(this DateTime? dateTime, string defaultValue)
         {
-            if (dateTime.HasValue)
-            {
-                return dateTime.Value.ToString(DateTimeStringFormat);
-            }
-
-            return defaultValue;
+            return dateTime.HasValue ? dateTime.Value.ToDateString() : defaultValue;
         }
     }
 }
