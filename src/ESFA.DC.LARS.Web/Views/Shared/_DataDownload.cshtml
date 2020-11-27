@@ -30,8 +30,7 @@
                     <td class="govuk-table__cell">@version.ApplicableFrom.ToDateString()</td>
                     <td class="govuk-table__cell">@dateUploaded</td>
                     <td class="govuk-table__cell">
-                        
-                        <a asp-action="GetDownloadFileAsync" asp-route-fileName="@version.DownloadLink">@linkText</a>
+                        <a asp-action="GetDownloadFileAsync" asp-route-fileName="@version.DownloadLink" class="govuk-link">@linkText <span class="govuk-visually-hidden">version @version.Version</span></a>
                     </td>
                 </tr>
             }

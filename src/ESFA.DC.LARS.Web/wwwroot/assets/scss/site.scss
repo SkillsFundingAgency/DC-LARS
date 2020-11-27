@@ -1,10 +1,29 @@
-﻿@import "node_modules/govuk-frontend/govuk/all.scss";
+﻿$govuk-assets-path: '/lib/govuk-frontend/assets/';
+@import "node_modules/govuk-frontend/govuk/all.scss";
+@import "search-box.scss";
+
 // global styles for <a> and <p> tags
 $govuk-global-styles: true;
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 .white-text {
     color: govuk-colour("white");
+}
+
+.search-item {
+    margin-bottom: 50px;
+
+    .govuk-summary-list__row, dt, dd {
+        border-bottom: 0;
+    }
+
+    .govuk-summary-list__key {
+        width: 80%;
+    }
+
+    .govuk-summary-list__key, .govuk-summary-list__value {
+        padding-bottom: 0;
+    }
 }
 
 #resultsContainer {
@@ -32,14 +51,11 @@ $govuk-global-styles: true;
     }
 }
 
+
 #resultList ul.custom {
     li {
         margin-bottom: 0px;
     }
-}
-
-#searchTypeLabel {
-    margin-top: 44px;
 }
 
 .flex {
@@ -280,7 +296,6 @@ $govuk-global-styles: true;
 
     .filter-box {
         display: none;
-        overflow-y: hidden;
         margin-bottom: 5px;
         max-height: 0;
         transition: max-height 0.2s ease-in-out;
@@ -323,10 +338,13 @@ $govuk-global-styles: true;
 
         &.expanded {
             display: inline-block;
-            overflow-y: hidden;
             max-height: 200px;
             transition: max-height 0.2s ease-in-out;
             padding-bottom: 10px;
+        }
+
+        &.text-filter {
+            max-height: 250px;
         }
     }
 
@@ -419,4 +437,9 @@ $govuk-global-styles: true;
 .app-related-items {
     border-top: 10px solid #1d70b8;
     padding-top: 10px;
+}
+
+.academic-year-wrapper {
+    float: right;
+    margin-top: 8px;
 }

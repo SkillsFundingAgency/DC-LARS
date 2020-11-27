@@ -145,7 +145,7 @@ stages:
         scriptType: inlineScript
         workingFolder: '"$(build.SourcesDirectory)\tmp\app_Data\Jobs\Triggered\ESFA.DC.LARS.AzureSearch"'
         inlineScript: |
-         $cmdCommand='{"schedule": "0 0 07 * * 1-5"}'
+         $cmdCommand='{"schedule": "0 47 07 * * 1-5"}'
          $cmdCommand| Out-File -FilePath settings.job -Encoding ascii
          
     - task: PowerShell@1

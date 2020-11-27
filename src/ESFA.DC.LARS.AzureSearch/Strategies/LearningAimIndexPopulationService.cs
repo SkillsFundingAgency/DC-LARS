@@ -127,7 +127,7 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
                     foreach (var learningDelivery in learningAims)
                     {
                         PopulateFrameworks(learningDelivery, frameworkAims, issuingAuthorities, componentTypes);
-                        learningDelivery.Categories = categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>());
+                        PopulateCategories(learningDelivery, categories.GetValueOrDefault(learningDelivery.LearnAimRef, new List<CategoryModel>()));
                         learningDelivery.AwardingBodyName = awardBodyCodes.GetValueOrDefault(learningDelivery.AwardingBodyCode);
                         learningDelivery.GuidedLearningHours = GetGuidedLearningHours(learningDelivery.GuidedLearningHours);
 
@@ -171,7 +171,17 @@ namespace ESFA.DC.LARS.AzureSearch.Strategies
             Thread.Sleep(2000);
         }
 
-        public string GetGuidedLearningHours(string guidedLearningHours)
+        private void PopulateCategories(LearningAimModel learningAim, List<CategoryModel> categories)
+        {
+            learningAim.Categories = categories;
+
+            foreach (var category in learningAim.Categories.Where(c => string.IsNullOrWhiteSpace(c.ParentDescription)))
+            {
+                category.ParentDescription = "N/A";
+            }
+        }
+
+        private string GetGuidedLearningHours(string guidedLearningHours)
         {
             if (string.IsNullOrWhiteSpace(guidedLearningHours))
             {

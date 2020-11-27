@@ -46,7 +46,7 @@ namespace ESFA.DC.LARS.API.AzureSearch
         {
             if (searchWord.StartsWith("*"))
             {
-                return $"/.*{searchWord.Replace("*", string.Empty)}*./";
+                return $"/{searchWord.Replace("*", ".*")}/";
             }
 
             return searchWord;

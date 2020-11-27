@@ -4,7 +4,7 @@
             <strong>Showing </strong>
             <span id="firstFilter">
                 <template v-for="filter in filters">
-                    <a href="#" class="filter-feedback" v-on:click="removeFilter(filter)">
+                    <a href="#" class="filter-feedback govuk-link" v-on:click="removeFilter(filter)">
                         <span class="filter-name">
                             <span class="close" v-bind:id="filter.key"></span>
                             <span v-html="filter.value"></span>
