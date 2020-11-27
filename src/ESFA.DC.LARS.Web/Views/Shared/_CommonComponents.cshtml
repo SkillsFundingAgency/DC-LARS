@@ -22,7 +22,7 @@
                         <td class="govuk-table__cell">@component.Description</td>
                         <td class="govuk-table__cell">@component.MinLevel</td>
                         <td class="govuk-table__cell">@component.EffectiveFrom.ToDateString()</td>
-                        <td class="govuk-table__cell">@component.EffectiveTo?.ToDateString()</td>
+                        <td class="govuk-table__cell">@component.EffectiveTo.ToDateStringOrDefault("Open")</td>
                     </tr>
                 }
                 <tr class="govuk-table__row" render-if="Model?.Any() != true">
