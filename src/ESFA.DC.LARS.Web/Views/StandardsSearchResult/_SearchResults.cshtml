@@ -23,13 +23,13 @@
                 </div>
                 <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
                     <span><strong>Level:</strong> @standard.NotionalEndLevel</span>
-                    <span><strong>Last date for new starts:</strong> @standard.LastDateStarts?.ToDateString()</span>
+                    <span><strong>Last date for new starts:</strong> @standard.LastDateStarts.ToDateStringOrDefault("Not set")</span>
                 </div>
             </div>
             <div class="flex space-between">
                 <div class="aims-list govuk-body govuk-!-font-size-16 govuk-!-margin-top-2 flex-col flex-1">
                     <span><strong>Effective from:</strong> @standard.EffectiveFrom?.ToDateString()</span>
-                    <span><strong>Effective to:</strong> @standard.EffectiveTo?.ToDateString()</span>
+                    <span><strong>Effective to:</strong> @standard.EffectiveTo.ToDateStringOrDefault("Open")</span>
                 </div>
             </div>
         </li>
